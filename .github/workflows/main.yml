@@ -17,7 +17,7 @@ jobs:
       - name: Pull Repo on Server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.ZURI_MAIN_HOST }}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           password: ${{ secrets.PORT }}
