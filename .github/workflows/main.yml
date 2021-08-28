@@ -14,13 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: executing remote ssh commands using password
+      - name: Pull Repo on Server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.ZURI_MAIN_HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
           script: |
-            whoami
-            pwd
+            cd /var/www/zc_plugin_noticeboard
+            git pull
+            cd /var/www/zc_plugin_noticeboard/frontend
+            npm update
+            npm run build
