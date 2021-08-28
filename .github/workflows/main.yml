@@ -20,7 +20,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          password: ${{ secrets.PORT }}
+          port: ${{ secrets.PORT }}
           script: |
             cd /var/www/zc_plugin_noticeboard
             git pull
