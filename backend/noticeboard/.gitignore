@@ -1,14 +1,12 @@
 # created by virtualenv automatically
 
 # sqlite
-db.sqlite3
 *.sqlite3
-*.sqlite
 
 # virtualenv
-Lib/
-Scripts/
+/Lib/
+/Scripts/
 pyvenv.cfg
 
 # __pycache__ files
-__pycache__/
+/__pycache__/
