@@ -1,7 +1,7 @@
 import './App.css';
-import Header from './components/Header/Header';
-import NoticeBoard from './components/NoticeBoard/NoticeBoard';
-import Sidebar from './components/Sidebar/Sidebar';
+import Header from './Header/Header';
+import NoticeBoard from './NoticeBoard/NoticeBoard';
+import Sidebar from './Sidebar/Sidebar';
 
 function App() {
   return (
