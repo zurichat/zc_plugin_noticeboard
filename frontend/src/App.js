@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/Header/Header';
-import NoticeBoardHeader from './components/NoticeBoard/NoticeBoardHeader';
+import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
         <Sidebar />
         <span className="app__bodyFlex">
           <Header />  
-          <NoticeBoardHeader />
+          <NoticeBoard />
         </span>
         
       </div>
