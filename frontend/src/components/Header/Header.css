@@ -1,0 +1,6 @@
+.header {
+  flex: 1;
+  border-bottom: 1px solid #cecece;
+  border-top: 1px solid #cecece;
+  height: 60px;
+}
