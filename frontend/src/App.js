@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/Header/Header';
-import Notice from './components/NoticeBoard/Notice';
+import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
 
 function App() {
@@ -8,9 +8,14 @@ function App() {
     <div className="App">
       <div className="app__body">
         <Sidebar />
-        <Header />
+        <span className="app__bodyFlex">
+          <Header />  
+          <NoticeBoard />
+        </span>
         
       </div>
+      
+      
    </div>
   );
 }
