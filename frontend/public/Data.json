@@ -1,0 +1,48 @@
+{
+  "people": [
+    {
+      "id": 1,
+      "image": "",
+      "username": "Bruce Wayne",
+      "date": "24 Hours ago",
+      "timestamp": "3 Hours ago",
+      "views": "21",
+      "likes": "12",
+      "title": "App Testing  Event",
+      "info": ""
+    },
+    {
+      "id": 2,
+      "image": "4",
+      "username": "Clark Kent",
+      "date": "24 days ago",
+      "timestamp": "3 Hours ago",
+      "views": "21",
+      "likes": "12",
+      "title": "App Testing  Event",
+      "info": ""
+    },
+    {
+      "id": 3,
+      "image": "4",
+      "username": "Berry Allen",
+      "date": "24 days ago",
+      "timestamp": "3 Hours ago",
+      "views": "21",
+      "likes": "120",
+      "title": "App Testing  Event",
+      "info": ""
+    },
+    {
+      "id": 3,
+      "image": "4",
+      "username": "Berry Allen",
+      "date": "24 days ago",
+      "timestamp": "3 Hours ago",
+      "views": "21",
+      "likes": "120",
+      "title": "App Testing  Event",
+      "info": ""
+    }
+  ]
+}
