@@ -39,8 +39,8 @@ const Modal = () => {
         </div>
 
         <div className="btns">
-        <ModalBtn innerText="Cancel" backgroundColor="#f6f6f6" width="110px" color="black" fontWeight="normal" marginRight="20px"/>
-        <ModalBtn innerText="Schedule Notice" backgroundColor="#00B87C" />
+        <ModalBtn innerText="Cancel" backgroundColor="#f6f6f6" width="110px" color="#3A3A3A" fontWeight="normal" marginRight="20px"/>
+        <ModalBtn innerText="Schedule Notice" backgroundColor="#00B87C" color="white"/>
         </div>
       </section>
     </>
