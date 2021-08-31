@@ -1,11 +1,24 @@
 import React from 'react'
+
 import "./Header.css"
 
-function Header() {
+const Header = () => {
     return (
-        <div className="header">
-            
-        </div>
+        <header claassName='header'>
+            <div className='header__left-container'>
+                <form className='header__form'>
+                    <input className='header__form-input' type='text' placeholder='Search your workspace' />
+                </form>
+            </div>
+            <div className='header__right-container'>
+                <div className='header__settings'>
+                    <img className='header__setiings-icon' src='' />
+                </div>
+                <div className='header__profile'>
+                    <img className='header__profile-image' src='' />
+                </div>  
+            </div>
+        </header>
     )
 }
 
