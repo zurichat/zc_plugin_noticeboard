@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/', include('notice.urls')),
-
+    
 ]

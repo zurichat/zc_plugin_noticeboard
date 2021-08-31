@@ -6,6 +6,15 @@ from django.http import JsonResponse
 def home(request):
     pass
 
+def endpoints(request):
+    data = {
+        "viewNotice": "http://localhost:8000/api/viewNotice/",
+        "sendNotice": "http://localhost:8000/api/sendNotice/",
+        "editTimsestamp": "http://localhost:8000/api/setNoticeTimestamp/",
+        "endpoints": "http://localhost:8000/api/endpoints/",
+    }
+
+    return JsonResponse(data, status=200)
 
 def viewNotice(request):
     data = {
