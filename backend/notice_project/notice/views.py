@@ -18,12 +18,14 @@ def endpoints(request):
 
 def viewNotice(request):
     data = {
-        "username": "Daniel",
-        "title": "Displaying A Static JSON Data",
-        "timestamp": "21-08-31 00:00:00",
-        "noOfLikes": 2,
-        "noOfViews": 156,
-        "imgUrl": ""
+        "id": 1,
+        "username": "Bruce Wayne",
+        "date":"24 Hours ago",
+        "timestamp": "3 Hours ago",
+        "views": "21",
+        "likes": "12",
+        "title": "App Testing Event",
+        "info": ""
     }
 
     return JsonResponse(data, status=200)
@@ -42,7 +44,7 @@ def sendNotice(request):
 
 def setNoticeTimestamp(request):
     data = {
-        "timestamp": "21-09-01 11:30:00"
+        "timestamp": "3 Hours ago"
     }
     
     return JsonResponse(data, status=200)
