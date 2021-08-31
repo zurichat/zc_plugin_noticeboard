@@ -80,7 +80,7 @@ section {
 }
 
 section .card {
-    border: 1px solid lightgrey;
+    border: 1px solid hsl(0, 0%, 95%);
     width: 22.438rem;
     height: 13.657rem;
     border-radius: 8px;
