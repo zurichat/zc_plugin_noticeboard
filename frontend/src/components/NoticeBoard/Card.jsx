@@ -4,7 +4,7 @@ import like from '../../assets/Like.svg'
 import see from '../../assets/Seen.svg'
 import info from '../../assets/info.svg'
 import dot from '../../assets/Ellipse135.svg'
-import imgProfile from '../../assets/Ellipse.png'
+
 import { Button } from '@material-ui/core'
 
 const Card = ({ person }) => {
@@ -13,7 +13,13 @@ const Card = ({ person }) => {
       <article className='card'>
         <div className='card-header'>
           <div className='profile'>
-            <img src={imgProfile} alt='' />
+            <div className='img-profile-container'>
+              <img
+                className='profile-pic'
+                src={person.userImage}
+                alt='profile-pic'
+              />
+            </div>
             <div className='identity'>
               <h6 className='name'>{person.username}</h6>
               <p className='time-date'>
@@ -30,11 +36,7 @@ const Card = ({ person }) => {
         {/* body of card */}
         <div className='card-body'>
           <h5 className='card-title'>{person.title}</h5>
-          <p className='card-info'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio
-            malesuada consequat, donec consectetur egestas arcu, ligula.Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
+          <p className='card-info'>{person.info.substring(0, 150)}...</p>
         </div>
         {/* icons tray */}
         <div className='icon-button-tray'>

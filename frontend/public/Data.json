@@ -1,48 +1,37 @@
 {
-  "people": [
+  "user": [
     {
       "id": 1,
-      "image": "",
+      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883334/person-1_rfzshl.jpg",
       "username": "Bruce Wayne",
       "date": "24 Hours ago",
       "timestamp": "3 Hours ago",
-      "views": "21",
-      "likes": "12",
-      "title": "App Testing  Event",
-      "info": ""
+      "views": "20",
+      "likes": "2",
+      "title": "Summon Robin",
+      "info": "For going off duty, Robin has been summoned before the Hall of Justice, and his verdict will be rendered tonight."
     },
     {
       "id": 2,
-      "image": "4",
+      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883409/person-2_np9x5l.jpg",
       "username": "Clark Kent",
-      "date": "24 days ago",
-      "timestamp": "3 Hours ago",
+      "date": "2 days ago",
+      "timestamp": "7 Hours ago",
       "views": "21",
       "likes": "12",
-      "title": "App Testing  Event",
-      "info": ""
+      "title": "The Antidote has been created",
+      "info": "The antidote to the scarecrow carcinogen has been discovered by Batman, and mass production may now begin immediately."
     },
     {
       "id": 3,
-      "image": "4",
+      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883417/person-3_ipa0mj.jpg",
       "username": "Berry Allen",
-      "date": "24 days ago",
-      "timestamp": "3 Hours ago",
+      "date": "17 days ago",
+      "timestamp": "6 Hours ago",
       "views": "21",
       "likes": "120",
-      "title": "App Testing  Event",
-      "info": ""
-    },
-    {
-      "id": 3,
-      "image": "4",
-      "username": "Berry Allen",
-      "date": "24 days ago",
-      "timestamp": "3 Hours ago",
-      "views": "21",
-      "likes": "120",
-      "title": "App Testing  Event",
-      "info": ""
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible."
     }
   ]
 }

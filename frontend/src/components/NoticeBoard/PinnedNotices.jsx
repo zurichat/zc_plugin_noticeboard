@@ -6,6 +6,14 @@ import { Button } from '@material-ui/core'
 
 const PinnedNotices = () => {
   const [people, setPeople] = useState([])
+  const [loading, isLoading] = useState(true)
+
+  //   const getData = async () => {
+  //     const response = await fetch(`/Data.json`)
+  //     const data = await response.json()
+  //     console.log(data);
+  //     setPeople(data)
+  //   }
 
   useEffect(() => {
     fetch(`/Data.json`)
@@ -13,12 +21,23 @@ const PinnedNotices = () => {
         return res.json() //return back a data
       })
       .then((data) => {
-        const people = data.people
+        const people = data.user
         console.log(people)
-
         setPeople(people)
+        isLoading(false)
       })
+    // getData()
   }, [])
+
+  if (loading) {
+    return (
+      <div className='preloader'>
+        <h1 className='isLoading'>Loading...</h1>
+        <i class='fas fa-spinner fa-spin'></i>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className='pinned-button-container'>
