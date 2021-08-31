@@ -4,7 +4,6 @@ import "./NoticeBoard.css"
 function NoticeBoard() {
     return (
         <div className="notice">
-            
         </div>
     )
 }

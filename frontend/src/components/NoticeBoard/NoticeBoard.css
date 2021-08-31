@@ -1,6 +1,137 @@
-.notice {
-    flex: 0.7;
-    flex-grow: 1;
-    padding-bottom: 150px;
-    
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+.notice {
+  flex: 0.7;
+  flex-grow: 1;
+  padding-bottom: 150px;
+}
+
+/* Modal start */
+/* Modal typography */
+:root {
+  --dark-grey: #aca8a8;
+  --light-grey: #f6f6f6;
+}
+/* Modal typography */
+
+.modal-container {
+  width: 65%;
+  display: block;
+  margin: auto;
+  /* border: 2px solid red; */
+  margin-top: 10%;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.modal-btn {
+  width: 220px;
+  padding: 12px;
+  border: none;
+  outline: none;
+  color: white;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.modal-title-two {
+  font-size: small;
+  color: var(--dark-grey);
+  font-weight: bold;
+  padding-top: 5px;
+}
+
+.flexed,
+.flexed-input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  margin-right: 10px;
+  font-size: 13.5px;
+  font-weight: bolder;
+}
+
+.time-zone {
+  border: none;
+  outline: none;
+  background: var(--light-grey);
+  padding: 10px ;
+  border-radius: 8px;
+}
+
+.flexed-input-container {
+    position: relative;
+}
+
+.date-input,
+.time-input {
+    margin-top: 30px;
+    border: 1px solid var(--dark-grey);
+    outline: none;
+    height: 40px;
+    border-radius: 8px;
+    padding-left: 38px;
+    color: var(--dark-grey);
+}
+
+.date-input {
+    width: 50%;
+}
+
+.time-input {
+    width: 43%;
+}
+
+.fa-calendar-alt,
+.fa-clock {
+    color: var(--dark-grey);
+}
+
+.fa-calendar-alt {
+    position: absolute;
+    top: 39px;
+    left: 13px;
+    font-size: 20px;
+}
+
+.fa-clock {
+    position: absolute;
+    top: 39.5px;
+    left: 382px;
+    font-size: 20px;
+}
+
+.btns {
+    display: flex;
+    justify-content: right;
+}
+
+@media (max-width: 1440px) {
+    .fa-clock {
+        position: absolute;
+        top: 39.5px;
+        left: 430px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1300px){
+    .fa-clock {
+        position: absolute;
+        top: 39.5px;
+        left: 382px;
+        font-size: 20px;
+    }
+}
+
+/* Modal End */
