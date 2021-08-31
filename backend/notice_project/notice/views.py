@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -46,3 +47,6 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
+
+def google(response):
+    return HttpResponse('<a href="https://www.google.com/" target="_blank">Ask Google</a>')
