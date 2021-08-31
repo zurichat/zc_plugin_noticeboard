@@ -1,25 +1,29 @@
-import React from 'react'
+import React from "react";
 
-import "./Header.css"
+import "./Header.css";
 
 const Header = () => {
     return (
-        <header claassName='header'>
-            <div className='header__left-container'>
-                <form className='header__form'>
-                    <input className='header__form-input' type='text' placeholder='Search your workspace' />
-                </form>
-            </div>
-            <div className='header__right-container'>
-                <div className='header__settings'>
-                    <img className='header__setiings-icon' src='' />
-                </div>
-                <div className='header__profile'>
-                    <img className='header__profile-image' src='' />
-                </div>  
+        <header className="header">
+            <div className="header__wraps">
+                    <form className="header__form">
+                        <input
+                            className="header__form-input"
+                            type="text"
+                            placeholder="Search here"
+                        />
+                        <p className="header__search-icon">a</p>
+                    </form>
+                    <div className="header__settings">
+                        <p>aa</p>
+                        {/* <img className="header__setiings-icon" src="" /> */}
+                    </div>
+                    <div className="header__profile">
+                        {/* <img className="header__profile-image" src="" /> */}
+                    </div>
             </div>
         </header>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
