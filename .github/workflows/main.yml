@@ -25,5 +25,4 @@ jobs:
             cd /var/www/zc_plugin_noticeboard
             git pull
             cd /var/www/zc_plugin_noticeboard/frontend
-            npm update
-            npm run build
+            yarn build
