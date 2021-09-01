@@ -26,7 +26,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/zc_plugin_noticeboard
-            git checkout develop
+            git checkout development
             git pull
             cd /var/www/zc_plugin_noticeboard/frontend
             yarn install
