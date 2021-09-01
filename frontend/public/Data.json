@@ -2,7 +2,7 @@
   "user": [
     {
       "id": 1,
-      "userImage": "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526536/hng/1Rectangle_400_f5ds9u.svg",
       "userName": "Tiwa Suleiman",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
@@ -13,7 +13,7 @@
     },
     {
       "id": 2,
-      "userImage": "https://images.unsplash.com/photo-1512849934327-1cf5bf8a5ccc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526536/hng/Rectangle_400-4_rt3ise.svg",
       "userName": "Bessie Cooper",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "userImage": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526536/hng/Rectangle_400-3_i2sbkm.svg",
       "userName": "Berry Allen",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
@@ -35,7 +35,7 @@
     },
     {
       "id": 4,
-      "userImage": "https://images.unsplash.com/photo-1546456073-92b9f0a8d413?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526534/hng/Rectangle_400-1_fzdw1e.svg",
       "userName": "Arlene McCoy",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
@@ -46,7 +46,7 @@
     },
     {
       "id": 5,
-      "userImage": "https://images.unsplash.com/photo-1606459431839-90b942dc3754?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzJ8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526534/hng/Rectangle_400-2_kjcybs.svg",
       "userName": "Robert Fox",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
@@ -57,7 +57,7 @@
     },
     {
       "id": 6,
-      "userImage": "https://images.unsplash.com/photo-1569243478735-8fcf29052262?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "userImage": "https://res.cloudinary.com/kingsleysolomon/image/upload/v1630526534/hng/Rectangle_400_wmt3r0.svg",
       "userName": "Leslie Alexander",
       "date": "17 days ago",
       "timeStamp": "6 Hours ago",
