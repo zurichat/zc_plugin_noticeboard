@@ -48,3 +48,11 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
+
+def reactNotice(request):
+    data = {
+        "reactions": "five",
+        "message": "five people reacted to this"
+    }
+
+    return JsonResponse(data, status=200)
