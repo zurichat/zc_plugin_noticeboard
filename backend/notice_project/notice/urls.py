@@ -4,8 +4,7 @@ from .views import (
     viewNotice, 
     setNoticeTimestamp, 
     endpoints,
-    UserListView,
-    GroupListView
+    DestroyNoticeReaction
 )
 
 #add url routes here
@@ -20,8 +19,8 @@ urlpatterns = [
     
     path("endpoints/", endpoints, name="endpoints"),
 
-    #end point for the serializer api which will return the users
-    path('user/', UserListView.as_view()),
-    path('group/', GroupListView.as_view()),
+    #end point for the serializer api which will show the reaction to be deleted
+    path('destroy-notice/<int:pk>/', DestroyNoticeReaction.as_view()),
+    
     
 ]
