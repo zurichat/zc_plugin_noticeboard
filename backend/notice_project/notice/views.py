@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from rest_framework import generics
+from django.contrib.auth.models import User, Group
+#importing serializers
+from .serializers import UserSerializer, GroupSerializer
+
 # Create your views here.
 
 def home(request):
@@ -12,6 +17,12 @@ def endpoints(request):
         "sendNotice": "http://localhost:8000/api/sendNotice/",
         "editTimsestamp": "http://localhost:8000/api/setNoticeTimestamp/",
         "endpoints": "http://localhost:8000/api/endpoints/",
+
+        #for the users and groups
+        #now a user can now add other users to a group
+        #and u can also add other groups or users.
+        "user": "http://localhost:8000/api/user/",
+        "group": "http://localhost:8000/api/group/",
     }
 
     return JsonResponse(data, status=200)
@@ -48,3 +59,13 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
+
+
+#serializers class based views
+class UserListView(generics.ListCreateAPIView):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class GroupListView(generics.ListCreateAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

@@ -22,4 +22,7 @@ urlpatterns = [
 
     path('api/', include('notice.urls')),
     
+    #rest framework api url
+    path('api-auth', include('rest_framework.urls')),
+    
 ]
