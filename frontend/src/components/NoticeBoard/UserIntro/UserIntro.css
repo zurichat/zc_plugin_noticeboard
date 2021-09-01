@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+.notice {
+    flex: 0.7;
+    flex-grow: 1;
+    padding-bottom: 150px;
+}
+.userBody{
+  font-family: 'Lato', sans-serif;
+}
+.userBodyImg{
+  margin: 0;
+  position: fixed;
+  top: 55%;
+  left: 55%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.userBodyImg span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
