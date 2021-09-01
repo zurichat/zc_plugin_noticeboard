@@ -1,8 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework import views
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import CreateNoticeSerializer
+
 
 # Create your views here.
+class CreateNoticeView(views.APIView):
 
+    def post(self, request):
+        serializer = CreateNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+ 
+    
 def home(request):
     pass
 
