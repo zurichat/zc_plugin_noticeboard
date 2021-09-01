@@ -14,6 +14,5 @@ urlpatterns = [
     path("endpoints/", endpoints, name="endpoints"),
 
     path('notices/', CreateNoticeView.as_view()),
-    path('notices/<int:pk>/', CreateNoticeView.as_view()),
     
 ]
