@@ -1,10 +1,11 @@
-from rest_framework import serializers
 from django.utils import timezone
+
+from rest_framework import serializers
 # import uuid
 from .models import Notice
 
 
-class CreateNoticeSerializer(serializers.Serializer):
+class NoticeSerializer(serializers.Serializer):
     
     title = serializers.CharField(max_length=100)
     text = serializers.CharField(max_length=250)

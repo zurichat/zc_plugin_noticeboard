@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     #installed apps
     'notice',
+    #DRF
     'rest_framework',
 ]
 
