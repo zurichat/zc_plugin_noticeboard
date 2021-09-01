@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import pin from '../../assets/pin.svg'
+import notice from '../../assets/createNotice.svg'
 import './PinnedNotices.css'
 import Card from './Card'
 import { Button } from '@material-ui/core'
@@ -22,18 +22,18 @@ const PinnedNotices = () => {
       })
       .then((data) => {
         const people = data.user
-        console.log(people)
         setPeople(people)
         isLoading(false)
       })
     // getData()
   }, [])
 
+
   if (loading) {
     return (
       <div className='preloader'>
         <h1 className='isLoading'>Loading...</h1>
-        <i class='fas fa-spinner fa-spin'></i>
+        <i className='fas fa-spinner fa-spin'></i>
       </div>
     )
   }
@@ -42,11 +42,10 @@ const PinnedNotices = () => {
     <div>
       <div className='pinned-button-container'>
         <div className='pin-text'>
-          <img src={pin} alt='pin' />
-          <p className='text'>Pinned Notices</p>
+          <p className='text'>Notices</p>
         </div>
         <Button className='header-button' variant='contained'>
-          View All
+          Create Notice <img src={notice} alt='create notice' />
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
@@ -60,3 +59,6 @@ const PinnedNotices = () => {
 }
 
 export default PinnedNotices
+
+
+// !for some strange reason, the "userImage" path in the json data is not connecting

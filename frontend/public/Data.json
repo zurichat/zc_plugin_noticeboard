@@ -2,36 +2,69 @@
   "user": [
     {
       "id": 1,
-      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883334/person-1_rfzshl.jpg",
-      "username": "Bruce Wayne",
-      "date": "24 Hours ago",
-      "timestamp": "3 Hours ago",
-      "views": "20",
-      "likes": "2",
-      "title": "Summon Robin",
-      "info": "For going off duty, Robin has been summoned before the Hall of Justice, and his verdict will be rendered tonight"
+      "userImage": "../src/assets/rectangle 400-1.svg",
+      "userName": "Tiwa Suleiman",
+      "date": "17 days ago",
+      "timeStamp": "6 Hours ago",
+      "views": "321",
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
     },
     {
       "id": 2,
-      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883409/person-2_np9x5l.jpg",
-      "username": "Clark Kent",
-      "date": "2 days ago",
-      "timestamp": "7 Hours ago",
-      "views": "21",
-      "likes": "12",
-      "title": "The Antidote has been created",
-      "info": "The antidote to the scarecrow carcinogen has been discovered by Batman, and mass production may now begin immediately"
+      "userImage": "zc_plugin_noticeboard\frontendsrcassetsRectangle 400-2.svg",
+      "userName": "Bessie Cooper",
+      "date": "17 days ago",
+      "timeStamp": "6 Hours ago",
+      "views": "212",
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
     },
     {
       "id": 3,
-      "userImage": "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883417/person-3_ipa0mj.jpg",
-      "username": "Berry Allen",
+      "userImage": "../src/assets/rectangle 400-1.svg",
+      "userName": "Berry Allen",
       "date": "17 days ago",
-      "timestamp": "6 Hours ago",
-      "views": "21",
-      "likes": "120",
+      "timeStamp": "6 Hours ago",
+      "views": "403",
       "title": "Meet up at the hall of Justice",
-      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible"
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
+    },
+    {
+      "id": 4,
+      "userImage": "../src/assets/rectangle 400-1.svg",
+      "userName": "Arlene McCoy",
+      "date": "17 days ago",
+      "timeStamp": "6 Hours ago",
+      "views": "21",
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
+    },
+    {
+      "id": 5,
+      "userImage": "../src/assets/rectangle 400-1.svg",
+      "userName": "Robert Fox",
+      "date": "17 days ago",
+      "timeStamp": "6 Hours ago",
+      "views": "32",
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
+    },
+    {
+      "id": 6,
+      "userImage": "../src/assets/Rectangle400.jpg",
+      "userName": "Leslie Alexander",
+      "date": "17 days ago",
+      "timeStamp": "6 Hours ago",
+      "views": "1",
+      "title": "Meet up at the hall of Justice",
+      "info": "All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible",
+      "attachedImage": null
     }
   ]
 }
