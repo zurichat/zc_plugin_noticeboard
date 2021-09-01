@@ -21,13 +21,29 @@ class CommentReactionAPIView(views.APIView):
         serializer = CommentReactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your hreaction could not be updated"
+            })
 
 
     def patch(self, request):
         serializer = CommentReactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your hreaction could not be updated"
+            })
