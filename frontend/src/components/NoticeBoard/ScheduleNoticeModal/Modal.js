@@ -1,6 +1,6 @@
 import React from "react";
 import ModalBtn from "./ModalBtn";
-import './Modal.css'
+import "./Modal.css";
 
 const Modal = () => {
   return (
@@ -39,8 +39,19 @@ const Modal = () => {
         </div>
 
         <div className="btns">
-        <ModalBtn innerText="Cancel" backgroundColor="#f6f6f6" width="110px" color="#3A3A3A" fontWeight="normal" marginRight="20px"/>
-        <ModalBtn innerText="Schedule Notice" backgroundColor="#00B87C" color="white"/>
+          <ModalBtn
+            innerText="Cancel"
+            backgroundColor="#f6f6f6"
+            width="110px"
+            color="#3A3A3A"
+            fontWeight="normal"
+            marginRight="20px"
+          />
+          <ModalBtn
+            innerText="Schedule Notice"
+            backgroundColor="#00B87C"
+            color="white"
+          />
         </div>
       </section>
     </>

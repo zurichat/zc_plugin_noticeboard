@@ -1,11 +1,8 @@
-import React from 'react'
-import "./NoticeBoard.css"
+import React from "react";
+import "./NoticeBoard.css";
 
 function NoticeBoard() {
-    return (
-        <div className="notice">
-        </div>
-    )
+  return <div className="notice"></div>;
 }
 
-export default NoticeBoard
+export default NoticeBoard;
