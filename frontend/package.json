@@ -2,7 +2,7 @@
   "name": "notice-board-plugin",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://207.154.216.100:8080/",
+  "proxy": "http://207.154.216.100:8800/",
   "dependencies": {
     "axios": "^0.21.1",
     "cra-template": "1.1.2",
