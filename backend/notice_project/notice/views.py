@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.shortcuts import render
 from django.http import JsonResponse
 
@@ -7,12 +6,10 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from .serializers import NoticeSerializer
-=======
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer
->>>>>>> 9bc4aa8094d840c568ef418162b341f8b166c997
 
 
 # Create your views here.
