@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
+<<<<<<< HEAD
 from .serializers import CreateNoticeSerializer
 import requests
+=======
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer
+>>>>>>> bb9624e84e3d99bf93504a13a6866924ed9151b5
 
 
 # Create your views here.
@@ -31,51 +33,37 @@ class CreateNoticeView(views.APIView):
             # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-  
- 
-    
-def home(request):
-    pass
-
-def endpoints(request):
-    data = {
-        "viewNotice": "http://localhost:8000/api/viewNotice/",
-        "sendNotice": "http://localhost:8000/api/sendNotice/",
-        "editTimsestamp": "http://localhost:8000/api/setNoticeTimestamp/",
-        "endpoints": "http://localhost:8000/api/endpoints/",
-    }
-
-    return JsonResponse(data, status=200)
-
-def viewNotice(request):
-    data = {
-        "id": 1,
-        "username": "Bruce Wayne",
-        "date":"24 Hours ago",
-        "timestamp": "3 Hours ago",
-        "views": "21",
-        "likes": "12",
-        "title": "App Testing Event",
-        "info": ""
-    }
-
-    return JsonResponse(data, status=200)
 
 
-def sendNotice(request):
-    data = {
-        "username": "Daniel",
-        "recipient": "ZetsuArmy",
-        "title": "Does It Work?",
-        "fileUploaded": "",
-        "message": "Yes, It Works!!!"
-    }
+class CommentReactionAPIView(views.APIView):
 
-    return JsonResponse(data, status=200)
+    def put(self, request):
+        serializer = CommentReactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your reaction could not be updated"
+            })
 
-def setNoticeTimestamp(request):
-    data = {
-        "timestamp": "3 Hours ago"
-    }
-    
-    return JsonResponse(data, status=200)
+
+    def patch(self, request):
+        serializer = CommentReactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your reaction could not be updated"
+            })
