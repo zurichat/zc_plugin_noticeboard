@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     #installed apps
     'notice',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
