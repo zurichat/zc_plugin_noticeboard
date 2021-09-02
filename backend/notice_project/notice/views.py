@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import render
 from django.http import JsonResponse
 
@@ -6,6 +7,12 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from .serializers import NoticeSerializer
+=======
+from rest_framework import views
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer
+>>>>>>> 9bc4aa8094d840c568ef418162b341f8b166c997
 
 
 # Create your views here.
@@ -57,6 +64,7 @@ class CreateNoticeView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+<<<<<<< HEAD
   
  
 
@@ -115,3 +123,39 @@ class CreateNoticeView(APIView):
 #     }
     
 #     return JsonResponse(data, status=200)
+=======
+
+
+class CommentReactionAPIView(views.APIView):
+
+    def put(self, request):
+        serializer = CommentReactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your hreaction could not be updated"
+            })
+
+
+    def patch(self, request):
+        serializer = CommentReactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your reaction could not be updated"
+            })
+>>>>>>> 9bc4aa8094d840c568ef418162b341f8b166c997
