@@ -2,7 +2,7 @@ from django.utils import timezone
 
 from rest_framework import serializers
 # import uuid
-from .models import Notice
+from .models import Notice, CommentReaction
 
 
 class NoticeSerializer(serializers.Serializer):
@@ -21,3 +21,12 @@ class NoticeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Notice(**validated_data)
+
+
+class CommentReactionSerializer(serializers.Serializer):
+
+    comment_id = serializers.IntegerField()
+    reaction = serializers.CharField(max_length=5)
+
+    def create(self, validated_data):
+        return CommentReaction(**validated_data)
