@@ -1,15 +1,9 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-<<<<<<< HEAD
-from .serializers import CreateNoticeSerializer
 import requests
-=======
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer
->>>>>>> bb9624e84e3d99bf93504a13a6866924ed9151b5
 
-
-# Create your views here.
 class CreateNoticeView(views.APIView):
 
     def post(self, request):

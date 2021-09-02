@@ -22,11 +22,9 @@ class CreateNoticeSerializer(serializers.Serializer):
     
 
     def create(self, validated_data):
-<<<<<<< HEAD
 
         return Notice(**validated_data)
-=======
-        return Notice(**validated_data)
+        # return Notice(**validated_data)
 
 
 class CommentReactionSerializer(serializers.Serializer):
@@ -36,4 +34,3 @@ class CommentReactionSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return CommentReaction(**validated_data)
->>>>>>> bb9624e84e3d99bf93504a13a6866924ed9151b5
