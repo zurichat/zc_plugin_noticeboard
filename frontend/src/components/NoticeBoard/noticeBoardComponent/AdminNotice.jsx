@@ -3,20 +3,17 @@ import notice from '../../../assets/createNotice.svg'
 import '../noticeBoardComponent/AdminNotice.css'
 import Card from '../noticeBoardComponent/Card'
 import { Button } from '@material-ui/core'
+import axios from 'axios'
 
 const PinnedNotices = () => {
   const [people, setPeople] = useState([])
   const [loading, isLoading] = useState(true)
 
-  const getData = async () => {
-    const response = await fetch(`/Data.json`)
-    const data = await response.json()
-    setPeople(data.user)
-    isLoading(false)
-  }
-
   useEffect(() => {
-    getData()
+    axios.get('/Data.json').then((response) => {
+      setPeople(response.data.user)
+      isLoading(false)
+    })
   }, [])
 
   if (loading) {
