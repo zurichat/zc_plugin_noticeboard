@@ -29,7 +29,7 @@ class CommentReactionAPIView(views.APIView):
         return Response({
                 "success": False,
                 "data": serializer.data,
-                "message": "Your hreaction could not be updated"
+                "message": "Your reaction could not be updated"
             })
 
 
