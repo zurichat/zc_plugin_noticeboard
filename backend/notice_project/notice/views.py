@@ -12,6 +12,7 @@ def endpoints(request):
         "sendNotice": "http://localhost:8000/api/sendNotice/",
         "editTimsestamp": "http://localhost:8000/api/setNoticeTimestamp/",
         "endpoints": "http://localhost:8000/api/endpoints/",
+        "delete": "http://localhost:8000/api/delete"
     }
 
     return JsonResponse(data, status=200)
