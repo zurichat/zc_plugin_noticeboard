@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ViewNoticeModal from '../ViewNoticeCardModal/ViewNoticeModal'
 
 import see from '../../../assets/Seen.svg'
 import active from '../../../assets/active.svg'
@@ -7,7 +8,7 @@ import dot from '../../../assets/Ellipse135.svg'
 import { Button } from '@material-ui/core'
 
 const Card = ({ person }) => {
-  // console.log(person)
+  const [openModal, setOpenModal] = useState(false)
 
   return (
     <div>
@@ -47,11 +48,13 @@ const Card = ({ person }) => {
               <p className='number'>{person.views}</p>
             </div>
           </div>
-          <Button className='card-button' variant='outlined' color='primary'>
+          <Button className='card-button' variant='outlined' color='primary' onClick={() => {setOpenModal(true)}}>
             View Notice
           </Button>
         </div>
       </article>
+
+      {openModal && <ViewNoticeModal/>}
     </div>
   )
 }
