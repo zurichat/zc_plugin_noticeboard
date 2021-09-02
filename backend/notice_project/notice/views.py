@@ -48,3 +48,7 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
+
+def delete(request):
+    data = {"message": "Your comment has been successfully deleted."}
+    return JsonResponse(data, status=200)
