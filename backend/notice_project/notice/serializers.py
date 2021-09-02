@@ -18,5 +18,9 @@ class CreateNoticeSerializer(serializers.Serializer):
     # parent = serializers.UUIDField(default=uuid.uuid1())
     
 
+    
+    
+
     def create(self, validated_data):
+
         return Notice(**validated_data)
