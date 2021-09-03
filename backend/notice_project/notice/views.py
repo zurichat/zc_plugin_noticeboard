@@ -90,3 +90,7 @@ class CommentReactionAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
+
+def delete(request):
+    data = {"message": "Your comment has been successfully deleted."}
+    return JsonResponse(data, status=200)
