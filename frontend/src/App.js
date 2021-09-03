@@ -4,6 +4,8 @@ import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
+
+
 function App() {
   return (
     <Router>
