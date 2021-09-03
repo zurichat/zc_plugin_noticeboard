@@ -4,7 +4,7 @@ import "./Header.css"
 
 const Header = () => {
     return (
-        <header claassName='header'>
+        <header className='header'>
             <div className='header__left-container'>
                 <form className='header__form'>
                     <input className='header__form-input' type='text' placeholder='Search your workspace' />
