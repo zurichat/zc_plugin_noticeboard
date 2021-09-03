@@ -1,18 +1,19 @@
-import React from "react";
-import "./NoticeBoard.css";
-import NoticeBoardHeader from "./NoticeBoardHeader";
-import AdminNotice from "../NoticeBoard/noticeBoardComponent/AdminNotice";
+import React from 'react'
+import './NoticeBoard.css'
+import NoticeBoardHeader from './NoticeBoardHeader'
+import AdminNotice from '../NoticeBoard/noticeBoardComponent/AdminNotice'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import CreateNotice from './noticeBoardComponent/CreateNotice'
 
 function NoticeBoard() {
   return (
     <div className="notice">
       <NoticeBoardHeader />
       <Switch>
-        {/* <Route path="/create-notice">
-          this component should be created in the NoticeBoard/noticeBoard folder <CreateNotice />
-        </Route> */}
+        <Route path="/create-notice">
+          <CreateNotice />
+        </Route>
         <Route path="/admin-notice">
           <AdminNotice />
         </Route>
