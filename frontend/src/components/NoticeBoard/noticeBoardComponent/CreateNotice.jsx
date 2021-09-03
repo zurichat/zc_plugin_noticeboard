@@ -18,7 +18,7 @@ function CreateNotice() {
   const [title, setTitle] = useState('');
   const [recipient, setRecipient] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
-  const [activeOption, setActiveOption] = useState('text-transform');
+  const [activeOption, setActiveOption] = useState('');
   const noticeContentRef = useRef();
 
   function handleSubmit() {
