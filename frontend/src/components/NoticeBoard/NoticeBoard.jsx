@@ -16,7 +16,7 @@ function NoticeBoard() {
         <AdminNotice />
         </Route>
         {/* <Route path="/">
-          this component should be created in the NoticeBoard/noticeBoard folder <UserNotice /> remember to create a link for the View Notice Button that routes to admin-notice above
+          this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
         </Route> */}
       </Switch>
     </div>
