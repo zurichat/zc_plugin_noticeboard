@@ -3,25 +3,24 @@ import notice from '../../../assets/createNotice.svg'
 import '../noticeBoardComponent/AdminNotice.css'
 import Card from '../noticeBoardComponent/Card'
 import { Button } from '@material-ui/core'
+import data from './Data'
+import logo from "../../../assets/svg/logo.svg"
+import { withRouter } from 'react-router-dom'
+// import axios from 'axios'
 
-const PinnedNotices = () => {
+const PinnedNotices = props => {
   const [people, setPeople] = useState([])
   const [loading, isLoading] = useState(true)
 
-  const getData = async () => {
-    const response = await fetch(`/Data.json`)
-    const data = await response.json()
-    setPeople(data.user)
-    isLoading(false)
-  }
-
   useEffect(() => {
-    getData()
+    setPeople(data)
+    isLoading(false)
   }, [])
 
   if (loading) {
     return (
       <div className='preloader'>
+        <img className="logo" src={logo} alt="logo" />
         <h1 className='isLoading'>Loading...</h1>
         <i className='fas fa-spinner fa-spin'></i>
       </div>
@@ -30,11 +29,14 @@ const PinnedNotices = () => {
 
   return (
     <div>
+      
       <div className='pinned-button-container'>
         <div className='pin-text'>
           <p className='text'>Notices</p>
+          
         </div>
-        <Button className='header-button' variant='contained'>
+        <Button className='header-button' 
+          onClick={() => props.history.push('/create-notice')} variant='contained'>
           Create Notice <img src={notice} alt='create notice' />
         </Button>
       </div>
@@ -48,6 +50,6 @@ const PinnedNotices = () => {
   )
 }
 
-export default PinnedNotices
+export default withRouter(PinnedNotices)
 
 // !for some strange reason, the "userImage" path in the json data is not connecting
