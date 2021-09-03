@@ -29,3 +29,13 @@ class CommentReactionSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return CommentReaction(**validated_data)
+
+
+class EditNoticeSerializer(serializers.Serializer):
+    
+    title = serializers.CharField(max_length=100)
+    text = serializers.CharField(max_length=250)
+    photo_url =  serializers.CharField(max_length=50)
+    video_url =  serializers.CharField(max_length=50)
+    audio_url = serializers.CharField(max_length=50)
+
