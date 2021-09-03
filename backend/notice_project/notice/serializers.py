@@ -30,9 +30,9 @@ class CommentReactionSerializer(serializers.Serializer):
     def create(self, validated_data):
         return CommentReaction(**validated_data)
 
-class EditCommentSerializer(serializers.Serializer):
+class EditNoticeSerializer(serializers.Serializer):
 
-    comment_id = serializers.IntegerField()
+    notice_id = serializers.IntegerField()
     text = serializers.CharField(max_length=5)
 
     def create(self, validated_data):
