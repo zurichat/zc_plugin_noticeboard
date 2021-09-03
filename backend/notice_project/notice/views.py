@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import generics
-from .models import NoticeReaction
-from .serializers import ReactionSerializer
+
 # Create your views here.
 
 def home(request):
@@ -14,13 +12,6 @@ def endpoints(request):
         "sendNotice": "http://localhost:8000/api/sendNotice/",
         "editTimsestamp": "http://localhost:8000/api/setNoticeTimestamp/",
         "endpoints": "http://localhost:8000/api/endpoints/",
-
-        #for the users and groups
-        #now a user can now add other users to a group
-        #and u can also add other groups or users.
-        #postman should be used or it should be view in api format
-        "delete reaction": "http://localhost:8000/api/destroy-notice/(put in the id of the reaction to delete here)/",
-        "eg":"http://localhost:8000/api/destroy-notice/5/"
     }
 
     return JsonResponse(data, status=200)
@@ -57,9 +48,3 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
-
-
-#serializers class based views
-class DestroyNoticeReaction(generics.RetrieveDestroyAPIView):
-    queryset = NoticeReaction.objects.all()
-    serializer_class =  ReactionSerializer
