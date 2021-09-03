@@ -33,6 +33,7 @@ import AdminNotice from '../NoticeBoard/noticeBoardComponent/AdminNotice'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
 import CreateNotice from './noticeBoardComponent/CreateNotice'
+import AdminEntryPage from './NoticeBoard/noticeBoardComponent/AdminEntryPage'
 
 function NoticeBoard() {
   return (
@@ -50,9 +51,9 @@ function NoticeBoard() {
           <UserNotice />
         </Route>
 
-        {/* <Route path="/">
-          this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
-        </Route> */}
+        <Route path="/">
+          <AdminEntryPage />
+        </Route>
       </Switch>
     </div>
   );
