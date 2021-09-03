@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer
 import requests
+from django.http import JsonResponse
 
 class AllNoticesView(views.APIView):
 
