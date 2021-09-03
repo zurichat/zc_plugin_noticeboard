@@ -1,7 +1,7 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer
 import requests
 from django.http import JsonResponse
 
@@ -101,3 +101,36 @@ def deleteNotice(request):
 
     return JsonResponse(Message, status=200)
 
+
+class EditNoticeAPIView(views.APIView):
+
+    def put(self, request):
+        serializer = EditNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your reaction could not be updated"
+            })
+
+
+    def patch(self, request):
+        serializer = EditNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Your have successfully updated your reaction"
+            })
+        return Response({
+                "success": False,
+                "data": serializer.data,
+                "message": "Your reaction could not be updated"
+            })
