@@ -6,6 +6,34 @@ import requests
 
 class CreateNoticeView(views.APIView):
 
+    """GET request to display/retrieve all existing notices"""
+    def get(self, request):
+        data= [
+        {"title":"Management meeting",
+        "text":"Management has updated the design scedule",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null"},
+
+        {"title":"Stage 5",
+        "text":"Complete a ticket to move to stage 5",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null",
+        "published":"True"},
+
+        {"title":"Individual work",
+        "text":"Each intern is expected to complete at least one ticket individually",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null"},
+        ]
+        
+        results = CreateNoticeSerializer(data, many=True).data
+        return Response(results, status=status.HTTP_200_OK)
+
+
+    """POST request to create a new notice"""
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
