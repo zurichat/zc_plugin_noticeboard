@@ -35,6 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
