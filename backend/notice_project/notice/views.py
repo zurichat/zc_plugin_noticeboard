@@ -3,6 +3,36 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer
 import requests
+from django.http import JsonResponse
+
+class AllNoticesView(views.APIView):
+
+    """GET request to display/retrieve all existing notices"""
+    def get(self, request):
+        data= [
+        {"title":"Management meeting",
+        "text":"Management has updated the design scedule",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null"},
+
+        {"title":"Stage 5",
+        "text":"Complete a ticket to move to stage 5",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null",
+        "published":"True"},
+
+        {"title":"Individual work",
+        "text":"Each intern is expected to complete at least one ticket individually",
+        "photo_url":"null",
+        "video_url":"null",
+        "audio_url":"null"},
+        ]
+        
+        results = CreateNoticeSerializer(data, many=True).data
+        return Response(results, status=status.HTTP_200_OK)
+
 
 class CreateNoticeView(views.APIView):
 
@@ -61,3 +91,7 @@ class CommentReactionAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
+
+def delete(request):
+    data = {"message": "Your comment has been successfully deleted."}
+    return JsonResponse(data, status=200)
