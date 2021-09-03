@@ -5,9 +5,10 @@ import Card from '../noticeBoardComponent/Card'
 import { Button } from '@material-ui/core'
 import data from './Data'
 import logo from "../../../assets/svg/logo.svg"
+import { withRouter } from 'react-router-dom'
 // import axios from 'axios'
 
-const PinnedNotices = () => {
+const PinnedNotices = props => {
   const [people, setPeople] = useState([])
   const [loading, isLoading] = useState(true)
 
@@ -34,7 +35,8 @@ const PinnedNotices = () => {
           <p className='text'>Notices</p>
           
         </div>
-        <Button className='header-button' variant='contained'>
+        <Button className='header-button' 
+          onClick={() => props.history.push('/create-notice')} variant='contained'>
           Create Notice <img src={notice} alt='create notice' />
         </Button>
       </div>
@@ -48,6 +50,6 @@ const PinnedNotices = () => {
   )
 }
 
-export default PinnedNotices
+export default withRouter(PinnedNotices)
 
 // !for some strange reason, the "userImage" path in the json data is not connecting
