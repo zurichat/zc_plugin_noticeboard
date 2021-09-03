@@ -4,8 +4,7 @@ import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
-
-function App () {
+function App() {
   return (
     <Router>
     <div className="App">
@@ -22,4 +21,4 @@ function App () {
   );
 }
 
-export default App
+export default App;
