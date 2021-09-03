@@ -9,15 +9,15 @@ function NoticeBoard() {
     <div className='notice'>
       <NoticeBoardHeader />
       <Switch>
-        <Route path="/create-notice">
-          {/* this component should be created in the NoticeBoard/noticeBoard folder <CreateNotice /> */}
-        </Route>
+        {/* <Route path="/create-notice">
+          this component should be created in the NoticeBoard/noticeBoard folder <CreateNotice />
+        </Route> */}
         <Route path="/admin-notice">
         <AdminNotice />
         </Route>
-        <Route path="/">
-          {/* this component should be created in the NoticeBoard/noticeBoard folder <UserNotice /> remember to create a link for the View Notice Button that routes to admin-notice above */}
-        </Route>
+        {/* <Route path="/">
+          this component should be created in the NoticeBoard/noticeBoard folder <UserNotice /> remember to create a link for the View Notice Button that routes to admin-notice above
+        </Route> */}
       </Switch>
     </div>
   )
