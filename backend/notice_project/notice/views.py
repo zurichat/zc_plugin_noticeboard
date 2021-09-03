@@ -24,8 +24,7 @@ class CreateNoticeView(views.APIView):
             
             res = requests.post(external_api_url, payload)
             return Response({"post_data":payload, "server_response":res.json()}, status=status.HTTP_201_CREATED)
-            # return Response(res.json(), status=status.HTTP_201_CREATED)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
