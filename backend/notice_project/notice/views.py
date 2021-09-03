@@ -1,33 +1,9 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer,EditNoticeSerializer
-from django.http.response import JsonResponse
-from django.shortcuts import render
-from rest_framework.decorators import api_view
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer
 import requests
-
-
-# Create your views here.
-
-notices = [
-    {
-        'id': 1,
-        'title': "Test",
-        'text': "Basis test", 
-        'photo_url': "cdn.zuri.chat",
-        'video_url':"cdn2.zuri.chat",
-        'audio_url':"cdn3.zuri.chat",
-    },
-    {
-        'id': 2,
-        'title': "Test2",
-        'text': "Basis test", 
-        'photo_url': "cdn.zuri.chat",
-        'video_url':"cdn2.zuri.chat",
-        'audio_url':"cdn3.zuri.chat",
-    }
-]
+from django.http import JsonResponse
 
 class AllNoticesView(views.APIView):
 
@@ -125,20 +101,3 @@ def deleteNotice(request):
 
     return JsonResponse(Message, status=200)
 
-
-@api_view(['PUT'])
-def update_notice(request, notice_id):
-    notice = None
-    for tk in notices:
-        if(tk['id'] == notice_id):
-            notice = tk
-    if(notice != None): 
-        if(request.method == 'PUT'):
-            serialiser = EditNoticeSerializer(notice, data=request.data)
-            if(serialiser.is_valid()):
-                notices.remove(notice)
-                notices.append(request.data)
-            return Response(request.data, status=status.HTTP_200_OK)
-    else:
-        return Response({'message': 'Notice not found'}, status=status.HTTP_404_NOT_FOUND)
-            })
