@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer
 import requests
 
-class CreateNoticeView(views.APIView):
+class AllNoticesView(views.APIView):
 
     """GET request to display/retrieve all existing notices"""
     def get(self, request):
@@ -33,7 +33,8 @@ class CreateNoticeView(views.APIView):
         return Response(results, status=status.HTTP_200_OK)
 
 
-    """POST request to create a new notice"""
+class CreateNoticeView(views.APIView):
+
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
