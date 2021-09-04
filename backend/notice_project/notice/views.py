@@ -49,9 +49,8 @@ def deleteNotice(request):
         "title": "App Testing Event",
         "info": ""
     }
-    data.delete()
-    context ={'object':'This user has been deleted.'}
-    return Response(context)
+    data.clear()
+    return JsonResponse(data, status=200)
 
 
 def sendNotice(request):
