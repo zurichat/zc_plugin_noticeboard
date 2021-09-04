@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('all-notices', AllNoticesView.as_view()),
 
-    path('user-notices', UserNoticesView.as_view()),
+    path('user-notices<int:user_id>/', UserNoticesView.as_view()),
 
     path('comment/reaction/update', CommentReactionAPIView.as_view()),
     
