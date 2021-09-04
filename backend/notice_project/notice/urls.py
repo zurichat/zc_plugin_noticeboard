@@ -5,9 +5,9 @@ from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, Com
 
 urlpatterns = [
 
-    path("sendNotice/", sendNotice, name="send-notice"),
+    path('notices/', CreateNoticeView.as_view()),
 
-    path("viewNotice/", viewNotice, name="view-notice"),
+    path('all-notices', AllNoticesView.as_view()),
 
     path('comment/reaction/update', CommentReactionAPIView.as_view()),
     
