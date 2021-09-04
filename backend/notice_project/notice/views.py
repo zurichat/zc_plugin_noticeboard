@@ -157,3 +157,8 @@ class CommentCreateView(views.APIView):
             return Response(results, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class NoticeDeleteAPIView(views.APIView):
+    def delete(self, pk):
+        return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
