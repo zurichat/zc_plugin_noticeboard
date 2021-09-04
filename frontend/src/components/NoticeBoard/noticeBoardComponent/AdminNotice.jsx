@@ -28,11 +28,11 @@ const PinnedNotices = () => {
 
   return (
     <div>
-      
+
       <div className='pinned-button-container'>
         <div className='pin-text'>
           <p className='text'>Notices</p>
-          
+
         </div>
         <Button className='header-button' variant='contained'>
           Create Notice <img src={notice} alt='create notice' />

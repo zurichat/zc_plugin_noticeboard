@@ -11,10 +11,10 @@ function App() {
       <div className="app__body">
         <Sidebar />
         <span className="app__bodyFlex">
-        <Header />  
+        <Header />
         <NoticeBoard />
       </span>
-        
+
       </div>
     </div>
    </Router>
