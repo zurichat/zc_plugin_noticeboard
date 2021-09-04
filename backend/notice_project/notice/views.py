@@ -2,7 +2,7 @@ from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, \
-    CommentCreateSerializer
+    CommentCreateSerializer,CreateReactionSerializer
 import requests
 
 
@@ -177,3 +177,23 @@ class CommentDeleteAPIView(views.APIView):
 class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
+
+
+
+
+# The reaction API view
+class CreateReactionAPIView(views.APIView):
+    def post(self, request):
+        serializer = CreateReactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "success": True,
+                "data": serializer.data,
+                "message": "Reaction Posted!!!"
+            })
+        return Response({
+            "success": False,
+            "data": serializer.data,
+            "message": "Reaction could not be posted"
+        })
