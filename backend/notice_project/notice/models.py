@@ -18,6 +18,7 @@ class Notice:
         self.last_modified = last_modified
         # self.parent = parent
 
+
 class CommentReaction:
     def __init__(self,user, comment_id, reaction):
         self.comment_id = comment_id
