@@ -20,7 +20,7 @@ html {
 .header__wraps {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  grid-column-gap: 30px;
+  grid-column-gap: 50px;
   align-items: center;
 }
 
@@ -73,6 +73,15 @@ html {
   border-radius: 50%;
   border: 1px solid transparent;
 }
+<<<<<<< HEAD
+.header__settings{
+ color: #999999
+}
+
+.header__search-icon{
+  color: #E6E6E6;
+}
+=======
 
 .header__profile-image {
   height: 100%;
@@ -113,3 +122,4 @@ html {
 .MuiSvgIcon-root {
   color: #cecece !important;
 }
+>>>>>>> f8a34e3fb11b6670a24b3b6648863578f4037f16
