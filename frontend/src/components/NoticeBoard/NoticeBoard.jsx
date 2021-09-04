@@ -19,14 +19,9 @@ function NoticeBoard() {
         <Route exact path="/admin-notice">
           <AdminNotice />
         </Route>
-
-
-
-        <Route path="/user-notice">
+        <Route exact path="/user-notice">
           <UserNotice />
         </Route>
-
-
         <Route exact path="/">
           <UserIntro />
         </Route>
