@@ -37,12 +37,13 @@ class EditNoticeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EditNotice(**validated_data)
-    
-    
-class CommentCreateSerializer(serializers.Serializer):
-    """Your data serializer, define your fields here."""
-    comment = serializers.CharField(max_length=500)
-    date_added = serializers.DateTimeField(default=timezone.now())
+        
 
-    def create(self, validated_data):
-        return CommentCreate(**validated_data)
+class CommentCreateSerializer(serializers.Serializer):
+
+    comment = serializers.CharField(max_length=500)
+    date_added = serializers.DateTimeField(default=timezone.now())
+
+
+    def create(self, validated_data):
+        return CommentCreate(**validated_data)
