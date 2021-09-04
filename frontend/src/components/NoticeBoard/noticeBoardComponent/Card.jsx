@@ -25,32 +25,32 @@ const Card = ({ person }) => {
 								<span>
 									<img src={dot} alt="" />
 								</span>{" "}
-                            {person.timeStamp}
-                        </p>
-                    </div>
-                </div>
-                <AdminMenu />
-            </div>
-            {/* body of card */}
-            <div className="card-body">
-                <h5 className="card-title">{person.title}</h5>
-                <p className="card-info">{person.info.substring(0, 150)}...</p>
-            </div>
-            {/* icons tray */}
-            <div className="icon-button-tray">
-                <div className="icon-tray">
-                    <div>
-                        <img src={see} alt="" />
-                        <p className="number">{person.views}</p>
-                    </div>
-                </div>
-                <Button className="card-button" variant="outlined" color="primary">
-                    View Notice
-                </Button>
-            </div>
-        </article>
-    </div>
+								{person.timeStamp}
+							</p>
+						</div>
+					</div>
+					<AdminMenu />
+				</div>
+				{/* body of card */}
+				<div className="card-body">
+					<h5 className="card-title">{person.title}</h5>
+					<p className="card-info">{person.info.substring(0, 150)}...</p>
+				</div>
+				{/* icons tray */}
+				<div className="icon-button-tray">
+					<div className="icon-tray">
+						<div>
+							<img src={see} alt="" />
+							<p className="number">{person.views}</p>
+						</div>
+					</div>
+					<Button className="card-button" variant="outlined" color="primary">
+						View Notice
+					</Button>
+				</div>
+			</article>
+		</div>
 	);
 };
 
-export default Card
+export default Card;
