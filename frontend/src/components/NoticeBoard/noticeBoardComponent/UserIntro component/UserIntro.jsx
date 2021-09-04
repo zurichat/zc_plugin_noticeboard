@@ -15,8 +15,6 @@ const UserIntro = () => {
         <span>notices to help everyone identify them</span>
         <Link to="/admin-notice"><Button label="View Notice" className="IntroButton" variant="contained">View Notice</Button></Link>
      </div>
-      
-      
     </div>
   )
 }

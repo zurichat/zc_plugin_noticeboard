@@ -2,7 +2,7 @@ import React from 'react'
 import './NoticeBoard.css'
 import NoticeBoardHeader from './NoticeBoardHeader'
 import AdminNotice from '../NoticeBoard/noticeBoardComponent/AdminNotice'
-import { BrowserRouter as  Switch, Route } from "react-router-dom"
+import { BrowserRouter as Switch, Route } from "react-router-dom"
 // import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
 import CreateNotice from './noticeBoardComponent/CreateNotice'
 import UserIntro from "../NoticeBoard/noticeBoardComponent/UserIntro component/UserIntro"
@@ -13,18 +13,21 @@ function NoticeBoard() {
     <div className="notice">
       <NoticeBoardHeader />
       <Switch>
-        <Route path="/create-notice">
+        <Route exact path="/create-notice">
           <CreateNotice />
         </Route>
-        <Route path="/admin-notice">
+        <Route exact path="/admin-notice">
           <AdminNotice />
         </Route>
+
+
 
         <Route path="/user-notice">
           <UserNotice />
         </Route>
 
-        <Route path="/">
+
+        <Route exact path="/">
           <UserIntro />
         </Route>
 
