@@ -9,11 +9,7 @@ urlpatterns = [
 
     path('all-notices', AllNoticesView.as_view()),
 
-<<<<<<< HEAD
-    path('user-notices/<int:user_id>/', UserNoticesView.as_view()),
-=======
     path('user-notices/<int:user_id>', UserNoticesView.as_view()),
->>>>>>> 928c16d4b4745ce334c0ca0b18bc2c7b4439616d
 
     path('comment/reaction/update', CommentReactionAPIView.as_view()),
     
