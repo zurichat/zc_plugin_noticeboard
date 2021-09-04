@@ -10,7 +10,7 @@ const Card = ({ person }) => {
   // console.log(person)
 
   return (
-    <div>
+    <div className="card-row">
       <article className='card'>
         <div className='card-header'>
           <div className='profile'>
