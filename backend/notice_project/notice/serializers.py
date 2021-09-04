@@ -37,3 +37,15 @@ class EditNoticeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EditNotice(**validated_data)
+
+
+class DictConverter(object):
+    def __init__(self, reactions):
+        self.reactions = reactions 
+
+
+class ReactionSerializer(serializers.Serializer):
+    reactions = serializers.DictField(
+        child = serializers.CharField()
+    )
+

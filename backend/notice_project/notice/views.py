@@ -1,7 +1,16 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer
+from .serializers import (
+    CreateNoticeSerializer, 
+    CommentReactionSerializer, 
+    EditNoticeSerializer,
+    DictConverter, 
+    ReactionSerializer
+)
+
+from django.http import Http404
+from rest_framework.views import APIView
 import requests
 from django.http import JsonResponse
 
@@ -159,21 +168,8 @@ class EditNoticeAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
-    
-class CommentCreateView(views.APIView):
 
-    def post(self, request):
-        serializer = CommentCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            # fields = {
-            #     "comment": "comment",
-            #     "date": "date_added"
-            # }
-            results = serializer.data
-            return Response(results, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentDeleteAPIView(views.APIView):
 
@@ -183,3 +179,35 @@ class CommentDeleteAPIView(views.APIView):
 class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
+
+
+content = { 
+            1:{'id':1, 'user':2, 'noticeid':1, 'reaction':'my reaction is here'}, 2:{'id':2, 'user':1, 'noticeid':3, 'reaction':'my reaction is here'}, 3:{'id':3, 'user':3, 'noticeid':2, 'reaction':'my reaction is here'}, 
+            4:{'id':4, 'user':2, 'noticeid':3, 'reaction':'my reaction is here'}, 5:{'id':5, 'user':3, 'noticeid':5, 'reaction':'my reaction is here'}, 6:{'id':6, 'user':5, 'noticeid':3, 'reaction':'my reaction is here'},
+            7:{'id':7, 'user':1, 'noticeid':3, 'reaction':'my reaction is here'}, 8:{'id':8, 'user':2, 'noticeid':2, 'reaction':'my reaction is here'}, 9:{'id':9, 'user':2, 'noticeid':5, 'reaction':'my reaction is here'} 
+            }
+		
+
+
+class ReactionList(APIView):
+	def get(self, request, format=None):
+		global content
+		obj = DictConverter(content)
+		print(obj)
+		serializer = ReactionSerializer(obj)
+		return Response(serializer.data)
+	
+
+class ReactionDetail(APIView):
+	def get(self, request, pk, format=None):
+		global content
+		obj = DictConverter(content[pk])
+		serializer = ReactionSerializer(obj)
+		return Response(serializer.data)
+
+	def delete(self, request, pk, format=None):
+		global content
+		obj = DictConverter(content.pop(pk))
+		#print(obj)
+		
+		return Response(status=status.HTTP_204_NO_CONTENT)
