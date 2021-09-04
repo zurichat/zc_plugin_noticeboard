@@ -1,4 +1,4 @@
-from django.db import models
+# from django.db import models
 
 class Notice:
     def __init__(self, title,
