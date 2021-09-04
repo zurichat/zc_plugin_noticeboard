@@ -159,6 +159,21 @@ class EditNoticeAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
+    
+class CommentCreateView(views.APIView):
+
+    def post(self, request):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            # fields = {
+            #     "comment": "comment",
+            #     "date": "date_added"
+            # }
+            results = serializer.data
+            return Response(results, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentDeleteAPIView(views.APIView):
 
