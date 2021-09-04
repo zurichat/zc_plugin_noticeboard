@@ -10,7 +10,11 @@ const Card = ({ person }) => {
   // console.log(person)
 
   return (
+<<<<<<< HEAD
     <div>
+=======
+    <div className="card-row">
+>>>>>>> f8a34e3fb11b6670a24b3b6648863578f4037f16
       <article className='card'>
         <div className='card-header'>
           <div className='profile'>

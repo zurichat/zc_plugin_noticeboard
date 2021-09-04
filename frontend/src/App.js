@@ -2,6 +2,10 @@ import './App.css';
 import Header from './components/Header/Header';
 import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
+<<<<<<< HEAD
+=======
+import { BrowserRouter as Router} from "react-router-dom"
+>>>>>>> f8a34e3fb11b6670a24b3b6648863578f4037f16
 
 
 
