@@ -6,9 +6,13 @@
     "date": "5 Hours ago",
     "timestamp": "3 Hours ago",
     "views": "678",
-    "title": "App Testing  Event",
+    "title": "App Testing Event",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
   },
   {
     "id": 2,
@@ -19,8 +23,12 @@
     "views": "210",
     "title": "Beta App Testing",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
-  }, 
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
+  },
   {
     "id": 3,
     "image": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
@@ -30,7 +38,11 @@
     "views": "139",
     "title": "Holiday Planning",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
   },
   {
     "id": 4,
@@ -41,7 +53,11 @@
     "views": "705",
     "title": "Health is Wealth Serminar",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
   },
   {
     "id": 5,
@@ -52,7 +68,11 @@
     "views": "560",
     "title": "Time Loop Conference",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
   },
   {
     "id": 6,
@@ -63,6 +83,10 @@
     "views": "600",
     "title": "Social Media",
     "info": "We are having our app test(reminder app) on Friday, 12 noon. All team leads, designers and developers should report at the executive launch for final briefing.",
-    "moreInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ametconsectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    "moreInfo": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet",
+      "consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In odio malesuada consequat, donec consectetur egestas arcu, ligula.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor si"
+    ]
   }
 ]

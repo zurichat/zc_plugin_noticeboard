@@ -6,7 +6,7 @@ import UserMenu from "./UserMenu/UserMenu";
 const CardNotice = ({ user, modal, displayModal }) => {
   const id = String(user.id);
 
-  const ToggleModal = () => {
+  const OpenModal = () => {
     document.getElementById("1").style.display = "block";
   };
 
@@ -35,14 +35,13 @@ const CardNotice = ({ user, modal, displayModal }) => {
 
       <div className="card-body">
         <div className="notice-title">{user.title}</div>
-
         <div className="notice-message">{user.info.substring(0, 120)}...</div>
       </div>
 
       <div className="card-buttons-grp">
         <div className="view-icon-grp">
           <div>
-            <img src={viewIcon} alt="" />
+            <img src={viewIcon} alt="user-image" />
           </div>
 
           <div className="views-num">{user.views}</div>
@@ -52,7 +51,7 @@ const CardNotice = ({ user, modal, displayModal }) => {
           <Button
             className="view-btn MuiButtonBase-root"
             variant="outlined"
-            onClick={ToggleModal}
+            onClick={OpenModal}
           >
             View notice
           </Button>
