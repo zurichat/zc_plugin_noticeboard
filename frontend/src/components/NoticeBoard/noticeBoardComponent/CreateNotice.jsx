@@ -15,7 +15,7 @@ import cancel_icon from '../../../assets/cancel.svg';
 import { Button } from '@material-ui/core'
 
 function CreateNotice() {
-  const [title, setTitle] = useState('');
+  const [setTitle] = useState('');
   const [recipient, setRecipient] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
   const [activeOption, setActiveOption] = useState('');
@@ -84,7 +84,7 @@ function CreateNotice() {
             onClick={() => setActiveOption('pin')}><img src={file_link_icon} alt="pin" /></span>
           <div className="text-formaters-sm" 
             style={{display: `${activeOption === 'text-transform' ? 'flex' : 'none'}`}}>
-            <p className="toggler" onClick={() => setActiveOption('')}><img src={cancel_icon} /></p>
+            <p className="toggler" onClick={() => setActiveOption('')}><img src={cancel_icon}  alt=""/></p>
             <img src={bold_icon} alt="bold" />
             <img src={italic_icon} alt="italic" />
             <img src={line_through_icon} alt="unknown" />
