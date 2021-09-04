@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import viewIcon from "../../../assets/Seen.svg";
-import Button from "@material-ui/core/Button";
-import UserMenu from "./UserMenu/UserMenu";
+import React from 'react'
+// import viewIcon from '../../../assets/svg/Seen.svg'
+import Button from '@material-ui/core/Button'
+import UserMenu from './UserMenu/UserMenu'
 
 const CardNotice = ({ user }) => {
   const id = String(user.id);
@@ -41,7 +41,7 @@ const CardNotice = ({ user }) => {
       <div className="card-buttons-grp">
         <div className="view-icon-grp">
           <div>
-            <img src={viewIcon} alt="user-image" />
+            {/* <img src={viewIcon} alt='' /> */}
           </div>
 
           <div className="views-num">{user.views}</div>
