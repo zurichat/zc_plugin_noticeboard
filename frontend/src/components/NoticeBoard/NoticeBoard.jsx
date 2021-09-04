@@ -2,9 +2,10 @@ import React from 'react'
 import './NoticeBoard.css'
 import NoticeBoardHeader from './NoticeBoardHeader'
 import AdminNotice from '../NoticeBoard/noticeBoardComponent/AdminNotice'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
+import { BrowserRouter as  Switch, Route } from "react-router-dom"
+// import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
 import CreateNotice from './noticeBoardComponent/CreateNotice'
+import UserIntro from "../NoticeBoard/noticeBoardComponent/UserIntro component/UserIntro"
 
 function NoticeBoard() {
   return (
@@ -19,7 +20,7 @@ function NoticeBoard() {
         </Route>
 
         <Route path="/">
-          <UserNotice />
+          <UserIntro />
         </Route>
 
         {/* <Route path="/">
