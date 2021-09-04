@@ -1,0 +1,91 @@
+.userNoticeModal {
+  display: none;
+  background: rgba(16, 13, 32, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.userNoticeModal-container {
+  position: relative;
+  height: 100vh;
+  z-index: 1;
+}
+
+.userNoticeModal-innerContainer {
+  position: absolute;
+  width: 49.65%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #999;
+  padding: 2em;
+  border-radius: 3px;
+}
+
+.userNoticeModal-userInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.userNoticeModal-imageAndText {
+  display: flex;
+}
+.userNoticeModal-username {
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.userNoticeModal-imageContainer {
+  border: 2px solid #f7f7f7;
+  width: 4.4em;
+  height: 4.4em;
+}
+
+.userNoticeModal-image {
+  width: 100%;
+  height: 100%;
+}
+
+.userNoticeModal-textContainer {
+  margin-left: 0.5em;
+}
+
+.userNoticeModal-timeStamp,
+.userNoticeModal-timeStamp span {
+  color: #999999 !important;
+}
+
+.userNoticeModal-timeStamp span {
+  font-size: 14px !important;
+  margin: 0 3px;
+}
+
+.userNoticeModal-title {
+  font-size: 1.5em;
+  margin: 0.5em 0;
+}
+
+.userNoticeModal-paragraph {
+  margin: 1.5em 0;
+  color: #999999;
+}
+
+.closeModalButton-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closeModalButton {
+  text-transform: capitalize !important;
+  padding: 0.5em 2em !important;
+  font-weight: 700 !important;
+  background: #f7f7f7 !important;
+}
+
+.closeModalButton span {
+  color: #00bb7c !important;
+}

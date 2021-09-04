@@ -32,6 +32,11 @@ h6 {
   flex-direction: column;
 }
 
+.adminnotice {
+  margin-top: 50px;
+  padding: 40px;
+}
+
 .fa-spinner {
   margin: 5rem 0 !important;
 }
