@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('comment/delete', CommentDeleteAPIView.as_view()),
     
-    path('comment/delete', NoticeDeleteAPIView.as_view()),
+    path('notice/delete', NoticeDeleteAPIView.as_view()),
     
 ]
 
