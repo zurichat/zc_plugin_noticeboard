@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import "./Text-editor.css";
-import PropTypes from 'prop-types';
-import { EditorState, Modifier } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import imageIcon from "./icons/attachment.svg";
