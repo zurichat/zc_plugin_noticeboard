@@ -1,6 +1,6 @@
 .notice {
     flex: 0.7;
     flex-grow: 1;
-    padding: 24px;
     padding-bottom: 150px;
+    text-align: center;
 }
