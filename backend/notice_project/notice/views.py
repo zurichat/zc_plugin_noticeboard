@@ -166,24 +166,3 @@ class CommentDeleteAPIView(views.APIView):
 class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
-
-class CommentReactionDeleteAPIView(views.APIView):
-    
-    def delete(self,request,pk=None):
-        data=[
-        {'reaction': 'cool'},
-
-        {'reaction': 'Done'},
-
-        {'reaction': 'soon'},
-        ]
-
-        try:
-            reaction = data[pk-1]
-        except KeyError:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        except ValueError:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        data.pop(pk-1)
-        return Response({"message": "You have successfully deleted your reaction"}, status=status.HTTP_200_OK)
