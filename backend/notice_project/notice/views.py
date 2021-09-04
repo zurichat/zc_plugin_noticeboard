@@ -1,9 +1,8 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer
 import requests
-from django.http import JsonResponse
 
 class AllNoticesView(views.APIView):
 
@@ -125,12 +124,6 @@ class CommentReactionAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
-
-def deleteNotice(request):
-    Message = {"output":"Your notice has been successfully deleted."}
-
-    return JsonResponse(Message, status=200)
-
 
 class EditNoticeAPIView(views.APIView):
 
