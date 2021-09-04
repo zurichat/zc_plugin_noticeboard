@@ -21,7 +21,7 @@ function UserNoticeModal({ user }) {
                 <img
                   className="userNoticeModal-image"
                   src={user.image}
-                  alt="user-image"
+                  alt="user"
                 />
               </div>
               <div className="userNoticeModal-textContainer">
