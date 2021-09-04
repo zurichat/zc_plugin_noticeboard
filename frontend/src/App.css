@@ -1,4 +1,5 @@
 .app__body {
+  position: relative;
   display: flex;
   height: 100vh;
   width: 100%;
