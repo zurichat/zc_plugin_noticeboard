@@ -33,6 +33,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env('SECRET_KEY')
 
 
+print(BASE_DIR)
 
 # Application definition
 
@@ -47,10 +48,7 @@ INSTALLED_APPS = [
     #installed apps
     'notice',
     'rest_framework',
-<<<<<<< HEAD
-=======
 
->>>>>>> f8a34e3fb11b6670a24b3b6648863578f4037f16
 ]
 
 MIDDLEWARE = [
@@ -70,10 +68,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, "../../../frontend/build")
-<<<<<<< HEAD
-            
-=======
->>>>>>> f8a34e3fb11b6670a24b3b6648863578f4037f16
         ],
         'APP_DIRS': True,
         'OPTIONS': {
