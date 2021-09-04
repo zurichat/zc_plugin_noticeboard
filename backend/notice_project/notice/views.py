@@ -1,5 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    DestroyAPIView,
+    RetrieveAPIView,
+    ListCreateAPIView,
+    UpdateAPIView
+    )
 
 # Create your views here.
 
@@ -29,6 +37,21 @@ def viewNotice(request):
     }
 
     return JsonResponse(data, status=200)
+
+def deleteNotice(request):
+    data = {
+        "id": 1,
+        "username": "Bruce Wayne",
+        "date":"24 Hours ago",
+        "timestamp": "3 Hours ago",
+        "views": "21",
+        "likes": "12",
+        "title": "App Testing Event",
+        "info": ""
+    }
+    data.delete()
+    context ={'object':'This user has been deleted.'}
+    return Response(context)
 
 
 def sendNotice(request):

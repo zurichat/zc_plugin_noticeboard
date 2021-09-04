@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import sendNotice, viewNotice, setNoticeTimestamp, endpoints
+from .views import sendNotice, viewNotice, setNoticeTimestamp, endpoints, deleteNotice
 
 #add url routes here
 
@@ -8,6 +8,8 @@ urlpatterns = [
     path("sendNotice/", sendNotice, name="send-notice"),
 
     path("viewNotice/", viewNotice, name="view-notice"),
+
+    path("deleteNotice/", deleteNotice, name="delete-notice"),
 
     path("setNoticeTimestamp/", setNoticeTimestamp, name="set-notice"),
     
