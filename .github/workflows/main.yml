@@ -26,7 +26,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/zc_plugin_noticeboard
-            git stash
             git checkout development
             git pull
             cd /var/www/zc_plugin_noticeboard/frontend
