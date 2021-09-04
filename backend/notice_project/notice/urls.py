@@ -19,7 +19,7 @@ urlpatterns = [
 
     path('comment/get', RetrieveNoticeCommentsView.as_view()),
     
-    path('comment/create', CommentCreateView.as_view())
+    path('comment/create', CommentCreateView.as_view()),
     
 ]
 
