@@ -22,3 +22,8 @@ class CommentReaction:
     def __init__(self, comment_id, reaction):
         self.comment_id = comment_id
         self.reaction = reaction
+
+class EditNotice:
+    def __init__(self, notice_id, text):
+        self.notice_id = notice_id
+        self.text = text

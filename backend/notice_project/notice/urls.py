@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, delete
+from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, CommentDeleteAPIView, NoticeDeleteAPIView
 
 #add url routes here
 
@@ -10,7 +10,10 @@ urlpatterns = [
     path('all-notices', AllNoticesView.as_view()),
 
     path('comment/reaction/update', CommentReactionAPIView.as_view()),
+
+    path('comment/delete', CommentDeleteAPIView.as_view()),
     
-    path('delete/', delete, name="delete"),
+    path('notice/delete', NoticeDeleteAPIView.as_view()),
+    
 ]
 
