@@ -17,7 +17,7 @@ urlpatterns = [
     
     path('notice/delete', NoticeDeleteAPIView.as_view()),
 
-    path(r'comment/get/', RetrieveNoticeCommentsView.as_view()),
+    path('comment/get', RetrieveNoticeCommentsView.as_view()),
     
 ]
 
