@@ -1,19 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
-*{
-  font-family: "Lato", sans-serif;;
+* {
+  font-family: "Lato", sans-serif;
 }
-.UserIntro{
-  position: fixed;
-  top: 20%;
-  left: 40%;
+.UserIntro {
+  display: grid;
+  place-items: center;
+  height: 20px;
+  margin-left: -100px;
 }
-.UserIntro p{
+
+.Img {
+  height: 350px;
+  margin-top: 50px;
+}
+.UserIntro p {
   line-height: 1.5;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
+
 @media only screen and (max-width: 500px){
   .IntroImg{
     width: fit-content;
@@ -34,3 +41,16 @@
     opacity: .7;
   }
 }
+
+.IntroButton {
+  background: var(--accent-color) !important;
+  color: var(--white-color) !important;
+  font-weight: bold;
+  padding: 10px, 24px;
+  width: 187px;
+  height: 44px;
+  text-transform: capitalize;
+  font-size: 16px;
+  margin-top: 40px !important;
+}
+

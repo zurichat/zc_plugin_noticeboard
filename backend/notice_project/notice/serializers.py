@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 # import uuid
-from .models import Notice, CommentReaction, EditNotice
+from .models import Notice, CommentReaction, EditNotice, CommentCreate,CreateReaction
 
 
 class CreateNoticeSerializer(serializers.Serializer):
@@ -37,3 +37,20 @@ class EditNoticeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EditNotice(**validated_data)
+        
+
+class CommentCreateSerializer(serializers.Serializer):
+
+    comment = serializers.CharField(max_length=500)
+    date_added = serializers.DateTimeField(default=timezone.now())
+
+
+    def create(self, validated_data):
+        return CommentCreate(**validated_data)
+
+class CreateReactionSerializer(serializers.Serializer):
+    comment_id = serializers.IntegerField()
+    reaction = serializers.CharField(max_length=400)
+
+    def create(self, validated_data):
+        return CreateReaction(**validated_data)
