@@ -36,12 +36,15 @@ class AllNoticesView(views.APIView):
 
 
 class RetrieveNoticeCommentsView(views.APIView):
-    payload=[{
+   
+    
+    def get(self, request,  *args, **kwargs):
+        payload=[{
             "Title": "You have been promoted to admin",
             "Time": "3 hours ago",
             "Comment": "Thanks received",
             "text":"Management has updated the design scedule",
-    },{
+        },{
             "Title": "You have been promoted to admin",
             "Time": "6 hours ago",
             "Comment": "Each intern is expected to complete at least one ticket individually",
@@ -53,8 +56,6 @@ class RetrieveNoticeCommentsView(views.APIView):
             "text": "I updated the design scedule",
     }
     ]
-    
-    def get(self, request,  *args, **kwargs):
         return Response({
             "plugin_id": "612a3a914acf115e685df8e3",
             "organization_id": "id",
@@ -62,7 +63,7 @@ class RetrieveNoticeCommentsView(views.APIView):
             "bulk_write": False,
             "filter": {},
             "Has Comment": True,
-            "data": self.payload,
+            "data": payload,
             "Comment_id": "1"
         },status=status.HTTP_200_OK)
 
