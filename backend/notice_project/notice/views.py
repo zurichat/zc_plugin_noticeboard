@@ -126,11 +126,6 @@ class CommentReactionAPIView(views.APIView):
                 "message": "Your reaction could not be updated"
             })
 
-def deleteNotice(request):
-    Message = {"output":"Your notice has been successfully deleted."}
-
-    return JsonResponse(Message, status=200)
-
 
 class EditNoticeAPIView(views.APIView):
 
