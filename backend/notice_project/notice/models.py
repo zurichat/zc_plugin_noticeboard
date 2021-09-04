@@ -27,3 +27,8 @@ class EditNotice:
     def __init__(self, notice_id, text):
         self.notice_id = notice_id
         self.text = text
+        
+class CommentCreate:
+    def _init_(self, comment, date_added):
+        self.comment = comment
+        self.date_added = date_added
