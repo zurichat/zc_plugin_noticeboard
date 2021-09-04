@@ -34,6 +34,40 @@ class AllNoticesView(views.APIView):
         return Response(results, status=status.HTTP_200_OK)
 
 
+
+class RetrieveNoticeCommentsView(views.APIView):
+   
+    
+    def get(self, request,  *args, **kwargs):
+        payload=[{
+            "Title": "You have been promoted to admin",
+            "Time": "3 hours ago",
+            "Comment": "Thanks received",
+            "text":"Management has updated the design scedule",
+        },{
+            "Title": "You have been promoted to admin",
+            "Time": "6 hours ago",
+            "Comment": "Each intern is expected to complete at least one ticket individually",
+            "text":"Project Got update by bill",
+    },{
+            "Title": "Complete a ticket to move to stage 5",
+            "Time": "1 day ago",
+            "Comment": "Thanks received",
+            "text": "I updated the design scedule",
+    }
+    ]
+        return Response({
+            "plugin_id": "612a3a914acf115e685df8e3",
+            "organization_id": "id",
+            "collection_name": "mycollection",
+            "bulk_write": False,
+            "filter": {},
+            "Has Comment": True,
+            "data": payload,
+            "Comment_id": "1"
+        },status=status.HTTP_200_OK)
+
+
 class CreateNoticeView(views.APIView):
 
     def post(self, request):
