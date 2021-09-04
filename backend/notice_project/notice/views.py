@@ -1,7 +1,7 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, CommentCreateSerializer
 import requests
 from django.http import JsonResponse
 
@@ -32,6 +32,40 @@ class AllNoticesView(views.APIView):
         
         results = CreateNoticeSerializer(data, many=True).data
         return Response(results, status=status.HTTP_200_OK)
+
+
+
+class RetrieveNoticeCommentsView(views.APIView):
+   
+    
+    def get(self, request,  *args, **kwargs):
+        payload=[{
+            "Title": "You have been promoted to admin",
+            "Time": "3 hours ago",
+            "Comment": "Thanks received",
+            "text":"Management has updated the design scedule",
+        },{
+            "Title": "You have been promoted to admin",
+            "Time": "6 hours ago",
+            "Comment": "Each intern is expected to complete at least one ticket individually",
+            "text":"Project Got update by bill",
+    },{
+            "Title": "Complete a ticket to move to stage 5",
+            "Time": "1 day ago",
+            "Comment": "Thanks received",
+            "text": "I updated the design scedule",
+    }
+    ]
+        return Response({
+            "plugin_id": "612a3a914acf115e685df8e3",
+            "organization_id": "id",
+            "collection_name": "mycollection",
+            "bulk_write": False,
+            "filter": {},
+            "Has Comment": True,
+            "data": payload,
+            "Comment_id": "1"
+        },status=status.HTTP_200_OK)
 
 
 class CreateNoticeView(views.APIView):
@@ -92,11 +126,6 @@ class CommentReactionAPIView(views.APIView):
                 "message": "Your reaction could not be updated"
             })
 
-def deleteNotice(request):
-    Message = {"output":"Your notice has been successfully deleted."}
-
-    return JsonResponse(Message, status=200)
-
 
 class EditNoticeAPIView(views.APIView):
 
@@ -130,6 +159,17 @@ class EditNoticeAPIView(views.APIView):
                 "data": serializer.data,
                 "message": "Your reaction could not be updated"
             })
+
+class CommentCreateAPIView(views.APIView):
+
+    def post(self, request):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            results = serializer.data
+            return Response(results, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CommentDeleteAPIView(views.APIView):
 
