@@ -48,6 +48,7 @@ def setNoticeTimestamp(request):
     }
     
     return JsonResponse(data, status=200)
+
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
@@ -189,3 +190,24 @@ class CommentDeleteAPIView(views.APIView):
 class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
+
+class CommentReactionDeleteAPIView(views.APIView):
+    
+    def delete(self,request,pk=None):
+        data=[
+        {'reaction': 'cool'},
+
+        {'reaction': 'Done'},
+
+        {'reaction': 'soon'},
+        ]
+
+        try:
+            reaction = data[pk]
+        except KeyError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except ValueError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        del reaction
+        return Response({"message": "You have successfully deleted your reaction"}, status=status.HTTP_200_OK)
