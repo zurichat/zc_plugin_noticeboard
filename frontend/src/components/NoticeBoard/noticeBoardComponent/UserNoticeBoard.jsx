@@ -7,7 +7,6 @@ import UserNoticeModal from "./UserNoticeModal";
 
 const UserNotice = () => {
   const [users] = useState(NoticeData);
-  const [modal, setModal] = useState(false);
 
   return (
     <div className="user-notice" id="user-notice">
@@ -18,7 +17,7 @@ const UserNotice = () => {
       <div className="user-notice-post">
         {users.map((user) => (
           <div key={user.id}>
-            <CardNotice user={user} modal={modal} displayModal={setModal} />
+            <CardNotice user={user} />
             <UserNoticeModal user={user} />
           </div>
         ))}

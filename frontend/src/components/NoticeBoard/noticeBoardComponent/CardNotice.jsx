@@ -3,7 +3,7 @@ import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 
-const CardNotice = ({ user, modal, displayModal }) => {
+const CardNotice = ({ user }) => {
   const id = String(user.id);
 
   const OpenModal = () => {
