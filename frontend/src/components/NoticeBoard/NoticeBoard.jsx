@@ -2,7 +2,7 @@ import React from 'react'
 import './NoticeBoard.css'
 import NoticeBoardHeader from './NoticeBoardHeader'
 import AdminNotice from '../NoticeBoard/noticeBoardComponent/AdminNotice'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Switch, Route } from "react-router-dom"
 import UserNotice from "../NoticeBoard/noticeBoardComponent/UserNoticeBoard";
 import CreateNotice from './noticeBoardComponent/CreateNotice'
 
@@ -21,7 +21,7 @@ function NoticeBoard() {
         <Route path="/user-notice">
           <UserNotice />
         </Route>
-
+        
         
 
         {/* <Route path="/">

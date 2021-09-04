@@ -1,0 +1,44 @@
+.userNoticeModal {
+  display: none;
+  background: rgba(16, 13, 32, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.userNoticeModal-container {
+  position: relative;
+  height: 100vh;
+  z-index: 1;
+}
+
+.userNoticeModal-innerContainer {
+  position: absolute;
+  width: 28.95%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #999;
+  padding: 1.5em;
+  border-radius: 3px;
+}
+
+.userNoticeModal-username {
+  font-size: 2em;
+  color: black;
+}
+
+.userNoticeModal-userInfo {
+  display: flex;
+}
+
+.userNoticeModal-image {
+  display: block;
+  width: 4.4em;
+  height: 4.4em;
+}
+
+
