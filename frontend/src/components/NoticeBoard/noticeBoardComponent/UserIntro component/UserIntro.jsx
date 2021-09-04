@@ -8,8 +8,7 @@ const UserIntro = () => {
         <div className="IntroImg">
           <img src={require("../../../../assets/Illustration.svg").default} />
         </div>
-        <p>Hey your notice board is empty. notices would</p>
-        <span>appear here when published.</span>
+        <p>Hey your notice board is empty. notices would <br /> appear here when published.</p>
       </div>
       
     </div>
