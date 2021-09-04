@@ -135,3 +135,7 @@ class CommentDeleteAPIView(views.APIView):
 
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your comment"}, status=status.HTTP_200_OK)
+
+class NoticeDeleteAPIView(views.APIView):
+    def delete(self, pk):
+        return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
