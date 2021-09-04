@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, CommentDeleteAPIView, NoticeDeleteAPIView
+from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, CommentDeleteAPIView, NoticeDeleteAPIView,  RetrieveNoticeCommentsView
 
 #add url routes here
 
@@ -14,6 +14,8 @@ urlpatterns = [
     path('comment/delete', CommentDeleteAPIView.as_view()),
     
     path('notice/delete', NoticeDeleteAPIView.as_view()),
+
+    path(r'comment/get/', RetrieveNoticeCommentsView.as_view()),
     
 ]
 
