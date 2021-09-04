@@ -1,0 +1,312 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+* {
+  font-family: "Lato";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-style: normal;
+  color: var(--text-color);
+}
+
+:root {
+  --button-bg: #00bb7c;
+  --button-hover-bg: #01b478;
+  --text-color: #333333;
+  --button-color: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.35);
+  --border-hover-color: rgba(0, 0, 0, 0.95);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.dashboard-container {
+  padding: 25px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.dashboard-container header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.dashboard-container h3.heading {
+  font-size: 19px;
+  font-weight: 600;
+  font-style: normal;
+}
+
+body .dashboard-container button {
+  width: 185px;
+  height: 60px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background-color: var(--button-bg) !important;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-transform: none;
+  font-weight: 600;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.dashboard-container .active {
+  background-color: rgb(235, 235, 235);
+}
+
+.dashboard-container .settings-container .content-formaters span:hover {
+  background: rgb(235, 235, 235);
+}
+
+.dashboard-container button span {
+  color: var(--button-color);
+}
+
+.dashboard-container button:hover {
+  background-color: var(--button-hover-bg) !important;
+}
+
+.dashboard-container form > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dashboard-container form div .input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: left;
+  width: 100%;
+}
+
+.dashboard-container form div span:first-of-type {
+  margin-right: 20px;
+}
+
+.dashboard-container form {
+  width: 100%;
+  position: relative;
+}
+
+.dashboard-container input,
+.dashboard-container select,
+.dashboard-container textarea {
+  width: 542px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  margin: 10px 0px 25px 0px;
+  outline: none;
+}
+
+.dashboard-container label {
+  font-weight: 600;
+}
+
+.dashboard-container input:focus,
+.dashboard-container textarea:focus {
+  border-color: var(--border-hover-color);
+  outline: none;
+}
+
+.dashboard-container .input-group input,
+.dashboard-container form .input-group select {
+  width: 100%;
+  height: 50px;
+}
+
+.dashboard-container form select {
+  cursor: pointer;
+}
+
+.dashboard-container form .input-group:first-of-type input {
+  margin-right: 20px;
+}
+
+.dashboard-container form textarea {
+  height: 495px;
+  width: 100%;
+  resize: none;
+  padding-bottom: 75px;
+}
+
+.settings-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 52px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  position: absolute;
+  bottom: 10%;
+  width: 87%;
+  margin: auto;
+}
+
+.settings-container .text-formaters {
+  padding: 7px;
+}
+
+.settings-container .content-formaters {
+  height: 100%;
+}
+
+.toggler {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.settings-container .content-formaters span {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.settings-container .text-formaters-sm {
+  position: absolute;
+  z-index: 5;
+  background: rgb(250, 250, 250);
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  overflow-y: hidden;
+}
+
+.settings-container .text-formaters-sm > img {
+  margin: 0px 13.5px 0px 5px;
+}
+
+.settings-container div {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.settings-container div img {
+  margin: 0px 7px;
+  padding: 5px;
+}
+
+.settings-container select {
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+  margin: 0px 20px 0px 0px;
+  padding: 5px;
+}
+
+@media screen and (max-width: 830px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .dashboard-container form div {
+    flex-direction: column;
+  }
+
+  .dashboard-container form div .input-group:first-of-type {
+    margin-right: 0px;
+  }
+
+  .settings-container .text-formaters {
+    display: none;
+  }
+
+  .dashboard-container .settings-container {
+    bottom: 6%;
+  }
+
+  .settings-container .content-formaters {
+    width: 100%;
+  }
+
+  .dashboard-container label {
+    font-size: 15px;
+  }
+
+  .dashboard-container input,
+  .dashboard-container select,
+  .dashboard-container textarea {
+    font-size: 14.35px;
+  }
+
+  .dashboard-container button {
+    font-size: 14.355px;
+    width: 150px;
+  }
+
+  .settings-container span {
+    margin: 0px 15px 0px 5px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dashboard-container {
+    padding: 0px;
+  }
+  .dashboard-container header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-container .heading {
+    margin: 15px 0px;
+  }
+
+  .settings-container select {
+    margin-right: 8.5px;
+  }
+
+  .settings-container .toggler {
+    display: flex;
+  }
+
+  .settings-container div img {
+    padding: 0px 4px;
+    margin: 0px 2px;
+  }
+
+  body .dashboard-container .settings-container {
+    width: 88%;
+    bottom: 5%;
+  }
+
+  .dashboard-container .text-formaters-sm {
+    overflow-x: scroll;
+  }
+
+  .dashboard-container header button {
+    width: 150px;
+  }
+
+  body .notice {
+    padding: 20px 12px;
+  }
+}
+
+@media screen and (min-width: 830px) {
+  .dashboard-container .settings-container .text-formaters-sm {
+    display: none !important;
+  }
+}
