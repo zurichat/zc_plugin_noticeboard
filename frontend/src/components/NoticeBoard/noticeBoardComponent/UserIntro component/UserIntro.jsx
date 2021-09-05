@@ -1,5 +1,7 @@
+import { Button } from '@material-ui/core'
 import React from 'react'
 import './UserIntro.css'
+import { Link } from 'react-router-dom'
 import defaultEdit from './default.svg'
 
 const UserIntro = () => {
