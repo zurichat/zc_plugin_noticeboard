@@ -304,6 +304,6 @@ body .dashboard-container button {
   }
 
   .TextEditor-wrapper{
-    width: 75vmax;
+    width: 100%;
   }
 }
