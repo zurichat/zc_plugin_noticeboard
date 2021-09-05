@@ -1,4 +1,4 @@
-# from django.db import models
+from django.db import models
 
 class Notice:
     def __init__(self, title,
@@ -19,6 +19,24 @@ class Notice:
         # self.parent = parent
 
 class CommentReaction:
+    def __init__(self, comment_id, reaction):
+        self.comment_id = comment_id
+        self.reaction = reaction
+
+class EditNotice:
+    def __init__(self, notice_id, text):
+        self.notice_id = notice_id
+        self.text = text
+
+class CommentCreate:
+
+    def __init__(self, comment, date_added):
+        self.comment = comment
+        self.date_added = date_added
+
+
+
+class CreateReaction:
     def __init__(self, comment_id, reaction):
         self.comment_id = comment_id
         self.reaction = reaction
