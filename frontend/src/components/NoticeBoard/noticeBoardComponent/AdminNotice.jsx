@@ -29,13 +29,13 @@ const PinnedNotices = props => {
 
   return (
     <div className="adminnotice">
-      
+
       <div className='pinned-button-container'>
         <div className='pin-text'>
           <p className='text'>Notices</p>
-          
+
         </div>
-        <Button className='header-button' 
+        <Button className='header-button'
           onClick={() => props.history.push('/create-notice')} variant='contained'>
           Create Notice <img src={notice} alt='create notice' />
         </Button>
