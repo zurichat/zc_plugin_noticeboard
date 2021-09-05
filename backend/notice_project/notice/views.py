@@ -233,3 +233,27 @@ class UserNoticesView(views.APIView):
         
         results = CreateNoticeSerializer(data, many=True).data
         return Response(results, status=status.HTTP_200_OK)
+	
+class ViewersListView(views.APIView):
+
+    """GET request to display/retrieve all existing notices"""
+    def get(self, request, notice_id):
+        data = [
+            {"notice_id": 1,
+             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul" ]},
+
+            {"notice_id": 2,
+             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "adams"]},
+
+            {"notice_id": 3,
+             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "tobi", "jones"]},
+        ]
+        views = data
+        datalist = []
+        viewerscount = len((data[notice_id + 1]["viewed_by"]))
+        for viewerslist in views:
+            if viewerslist['notice_id'] == notice_id:
+                datalist.append(viewerslist)
+
+        results = CreateNoticeSerializer(datalist, many=True).data
+        return Response(results, status=status.HTTP_200_OK)
