@@ -63,3 +63,13 @@
 .sub-new-notice input:focus{
     border: 2px solid #16d3c9;
 }
+
+@media only screen and (max-width: 600px) {
+    .new-notice{
+        display: block;
+    }
+    .sub-new-notice{
+        width: 100%;
+        margin: 16px 0px;
+    }
+  }
