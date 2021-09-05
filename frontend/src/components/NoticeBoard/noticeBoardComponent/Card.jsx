@@ -1,13 +1,15 @@
 import React from "react";
 
 import see from "../../../assets/Seen.svg";
-import active from "../../../assets/active.svg";
+// import active from "../../../assets/active.svg";
 import dot from "../../../assets/Ellipse135.svg";
 
 import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
+import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
 const Card = ({ person }) => {
+  const [openModal, setOpenModal] = React.useState(false)
 	// console.log(person)
 
 	return (
@@ -44,11 +46,13 @@ const Card = ({ person }) => {
 							<p className="number">{person.views}</p>
 						</div>
 					</div>
-					<Button className="card-button" variant="outlined" color="primary">
+					<Button className="card-button" variant="outlined" color="primary" onClick={() => {setOpenModal(true)}}>
 						View Notice
 					</Button>
 				</div>
 			</article>
+
+      {openModal &&<ViewNoticeModal />}
 		</div>
 	);
 };

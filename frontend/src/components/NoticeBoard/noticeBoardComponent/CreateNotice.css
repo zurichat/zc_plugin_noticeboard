@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-style: normal;
-  color: var(--text-color);
+  
 }
 
 :root {
@@ -23,11 +23,8 @@ body {
 
 .dashboard-container {
   padding: 25px 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   position: relative;
+  color: var(--text-color);
 }
 
 .dashboard-container header {
@@ -101,17 +98,6 @@ body .dashboard-container button {
   position: relative;
 }
 
-.dashboard-container input,
-.dashboard-container select,
-.dashboard-container textarea {
-  width: 542px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  margin: 10px 0px 25px 0px;
-  outline: none;
-}
 
 .dashboard-container label {
   font-weight: 600;
@@ -216,6 +202,8 @@ body .dashboard-container button {
   padding: 5px;
 }
 
+
+
 @media screen and (max-width: 830px) {
   .dashboard-container {
     padding: 10px;
@@ -259,6 +247,8 @@ body .dashboard-container button {
   .settings-container span {
     margin: 0px 15px 0px 5px;
   }
+
+  
 }
 
 @media screen and (max-width: 500px) {
@@ -303,10 +293,17 @@ body .dashboard-container button {
   body .notice {
     padding: 20px 12px;
   }
+
+  
 }
+
 
 @media screen and (min-width: 830px) {
   .dashboard-container .settings-container .text-formaters-sm {
     display: none !important;
+  }
+
+  .TextEditor-wrapper{
+    width: 75vmax;
   }
 }

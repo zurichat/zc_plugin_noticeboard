@@ -2,7 +2,8 @@ import './App.css';
 import Header from './components/Header/Header';
 import NoticeBoard from './components/NoticeBoard/NoticeBoard';
 import Sidebar from './components/Sidebar/Sidebar';
-import { BrowserRouter as Router} from "react-router-dom"
+import { BrowserRouter as Router} from "react-router-dom";
+import UserIntro from './components/NoticeBoard/noticeBoardComponent/UserIntro component/UserIntro'
 
 
 
@@ -16,6 +17,7 @@ function App() {
             <Header />  
             <NoticeBoard />
           </span>
+          {/* <UserIntro /> */}
         </div>
       </div>
    </Router>
