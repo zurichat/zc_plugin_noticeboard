@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-const CancelNoticeBtn = () => {
+const CancelNoticeBtn = ({ onClick }) => {
   return (
     <>
       <div className="cancel-btn-container">
@@ -9,13 +9,14 @@ const CancelNoticeBtn = () => {
           className="cancel-btn"
           style={{
             color: "#bebebe",
-            backgroundColor: "#F6F6F6",
+            backgroundColor: "#c1c1c1",
             textTransform: "capitalize",
             width: "100px",
             padding: "8px",
             display: "flex",
             marginTop: "20px",
           }}
+          onClick={onClick}
         >
           Close
         </Button>

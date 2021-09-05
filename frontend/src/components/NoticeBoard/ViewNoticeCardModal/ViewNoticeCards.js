@@ -3,9 +3,16 @@ import "./ViewNotice.css";
 import CancelNoticeBtn from "./CancelNoticeBtn";
 
 const ViewNoticeCards = ({ data }) => {
+  const cancelBtn = () => {
+    const modalCard = document.getElementById("modal");
+    const contain = document.getElementById('contain')
+    modalCard.classList.add("none");
+    contain.classList.add("none")
+
+  };
   return (
-    <>
-      <div className="modal-card">
+    <div className="contain" id="contain">
+      <div className="modal-card" id="modal">
         <div className="img-and-name-container">
           <div className="img">
             <img
@@ -32,11 +39,10 @@ const ViewNoticeCards = ({ data }) => {
             alt="belle cosmetics"
             className="dummy-img"
           />
-          <CancelNoticeBtn/>
+          <CancelNoticeBtn onClick={cancelBtn}/>
         </div>
       </div>
-        </>
-
+    </div>
   );
 };
 

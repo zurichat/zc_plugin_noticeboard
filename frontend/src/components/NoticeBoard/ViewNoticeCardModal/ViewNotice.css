@@ -12,21 +12,36 @@ body {
   font-family: "Lato", sans-serif;
 }
 
-.modal-container {
+.contain {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f5f5;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  left: 0;
+  top: -10px;
+}
+
+/* .modal-container {
   position: absolute;
   z-index: 9999
-}
+ 
+} */
 
 .modal-card {
   width: 380px;
   height: 535px;
   padding: 20px;
-  box-shadow: rgba(20, 20, 33, 0.25) 0px 20px 50px -10px,
-    rgba(0, 0, 0, 0.3) 0px 10px 30px -10px,
-    rgba(10, 17, 34, 0.15) 0px -2px 6px 0px inset;
+  box-shadow: rgba(20, 20, 33, 0.25) 0px 40px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 20px 60px -20px,
+    rgba(10, 17, 34, 0.15) 0px -4px 12px 0px inset;
   position: absolute;
-  top: 150px;
-  left: 39.2%;
+  top: 70px;
+  left: 37.2%;
+  z-index: 9999;
 }
 
 .user-picture {
@@ -77,6 +92,10 @@ body {
 .dummy-img {
   width: 100%;
   margin-top: 10px;
+}
+
+.none {
+  display: none;
 }
 
 .cancel-btn-container {
