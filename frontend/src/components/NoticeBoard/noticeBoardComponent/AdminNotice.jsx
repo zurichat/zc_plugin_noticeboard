@@ -46,6 +46,8 @@ const PinnedNotices = props => {
           return <Card person={person} key={person.id} />
         })}
       </section>
+
+     
     </div>
   )
 }

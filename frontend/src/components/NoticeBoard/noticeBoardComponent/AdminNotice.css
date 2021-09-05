@@ -256,7 +256,6 @@ section .card-button {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-/* section responiveness */
 @media (max-width: 797px) {
   section {
     grid-template-columns: repeat(2, 1fr);

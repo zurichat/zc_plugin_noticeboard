@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+:root {
+  --light-grey: #c1c1c1;
+  --dark-grey: #bebebe;
+  --dark-black: #161616;
+  --light-blue: #3a3a3a;
+  --main-gray: hsla(0, 0%, 60%, 1);
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.contain {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f5f5;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  left: 0;
+  top: -10px;
+}
+
+/* .modal-container {
+  position: absolute;
+  z-index: 9999
+ 
+} */
+
+.modal-card {
+  width: 380px;
+  height: 535px;
+  padding: 20px;
+  box-shadow: rgba(20, 20, 33, 0.25) 0px 40px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 20px 60px -20px,
+    rgba(10, 17, 34, 0.15) 0px -4px 12px 0px inset;
+  position: absolute;
+  top: 70px;
+  left: 37.2%;
+  z-index: 9999;
+}
+
+.user-picture {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.img-and-name-container,
+.time-stamps {
+  display: flex;
+  z-index: 9999;
+}
+
+.user-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-black);
+}
+
+.name-time {
+  margin-left: 10px;
+}
+
+.date-stamp,
+.modal-info {
+  font-size: small;
+  color: var(--main-gray);
+}
+
+.stamp-two {
+  padding-left: 8px;
+  position: relative;
+}
+
+.modal-title {
+  margin-top: 40px;
+  font-size: 17px;
+  color: var(--dark-black);
+}
+
+.modal-info {
+  text-align: justify;
+  padding-top: 15px;
+  line-height: 20px;
+}
+
+.dummy-img {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.none {
+  display: none;
+}
+
+.cancel-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  font-family: "Lato", sans-serif;
+}
+
+.cancel-btn {
+  font-family: "Lato", sans-serif;
+}
