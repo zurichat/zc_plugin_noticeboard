@@ -7,9 +7,9 @@ import NewNotice from '../New_Notice/new_notice'
 function CreateNotice() {
   const [setTitle] = useState('');
   const [recipient, setRecipient] = useState('');
-  const [noticeContent, setNoticeContent] = useState('');
-  const [activeOption, setActiveOption] = useState('');
-  const noticeContentRef = useRef();
+  // const [noticeContent, setNoticeContent] = useState('');
+  // const [activeOption, setActiveOption] = useState('');
+  // const noticeContentRef = useRef();
 
   function handleSubmit() {
     // handle notice submission
