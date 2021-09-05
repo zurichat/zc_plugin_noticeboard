@@ -6,8 +6,6 @@
         .UserIntro {
             display: grid;
             place-items: center;
-            /* height: 20px; */
-            margin-left: -100px;
         }
         
         .Img {
@@ -32,23 +30,19 @@
             line-height: 1.5;
             justify-content: center;
             align-items: center;
+            text-align: center;
         }
         
-        .UserIntroPmobile {
-            display: none;
-        }
         
         .IntroButton {
             background: var(--accent-color) !important;
             --text-color: #ffffff !important;
             font-weight: bold;
-            padding: 10px, 24px;
             width: 377px;
-            height: 56px;
+            height: 4em;
             text-transform: capitalize;
             font-size: 16px;
             margin-top: 40px !important;
-            margin-bottom: 125px;
         }
         
         .IntroButton img {
@@ -63,27 +57,21 @@
         }
         
         @media screen and (max-width: 500px) {
-            .UserIntro {
-                width: 342px;
-                height: 417.46px;
-                margin-left: 16px;
+
+            .UserIntro a{
+                height: fit-content;
             }
+            
             .Img {
                 height: 228.46153259277344px;
                 width: 342px;
             }
-            .UserIntroPmobile p {
-                right: 5px;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 14px;
-                color: #333333;
-                justify-content: center;
-                align-items: center;
+            
+            .UserIntro {
+                width: 342px;
+                height: 417.46px;
             }
-            .UserIntroPdesktop {
-                display: none;
-            }
+            
             .UserIntroPmobile {
                 display: block;
                 width: 332px;
@@ -97,6 +85,15 @@
                 text-align: center;
                 color: #333333;
                 margin-bottom: 24px;
+            }
+            .UserIntroPmobile p {
+                right: 5px;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                color: #333333;
+                justify-content: center;
+                align-items: center;
             }
             .IntroButton {
                 width: 167px;
