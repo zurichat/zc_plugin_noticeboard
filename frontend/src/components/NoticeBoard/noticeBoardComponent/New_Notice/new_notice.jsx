@@ -1,11 +1,10 @@
 import React from "react";
-import "./New_Notice/new_notice.css"
+import "./new_notice.css"
 
 const NewNotice = () => {
     return (
         <div className="new-notice-body">
             <div className="new-notice-main">
-                {/* <h3 className="new-notice-header">Create New Notice</h3> */}
                 <div className="new-notice">
                     <div className="sub-new-notice">
                         <label htmlFor="">Title/Subject:</label><br />

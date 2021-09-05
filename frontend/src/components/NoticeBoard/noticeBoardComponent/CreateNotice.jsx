@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import './CreateNotice.css';
 import { Button } from '@material-ui/core';
 import TextEditor from './Text-editor/Rich-text';
-import NewNotice from '../New_Notice/new_notice'
+import NewNotice from './New_Notice/new_notice'
 
 function CreateNotice() {
   const [setTitle] = useState('');
@@ -23,9 +23,7 @@ function CreateNotice() {
       </header>
 
       <form>
-        <div>
           <NewNotice />
-        </div>
       </form>
 
       <div className="TextEditor-wrapper">
