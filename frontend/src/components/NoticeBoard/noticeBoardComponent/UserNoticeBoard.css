@@ -167,4 +167,25 @@
     -webkit-tap-highlight-color: transparent;
 } 
 
+/* Responsiveness for User Notice Board */
+
+@media screen and (max-width: 768px) {
+  .user-notice-post{
+      padding: 2rem 0rem;
+  }
+  .user-notice-post {
+      display: flex;
+      flex-direction: column;
+  }
+  .user-notice-card {
+      width: 100%;
+  }
+  .sidebar {
+      display: none;
+  }
+  .header_wraps {
+      width: auto;
+  }
+}
+
 /* User  Notice styling End */
