@@ -10,9 +10,12 @@
 }
 
 :root {
-  --accent-color: hsla(160, 100%, 37%, 1);
-  --main-black: hsla(0, 0%, 20%, 1);
-  --main-gray: hsla(0, 0%, 60%, 1);
+  --button-bg: #00bb7c;
+  --button-hover-bg: #01b478;
+  --text-color: #333333;
+  --button-color: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.35);
+  --border-hover-color: rgba(0, 0, 0, 0.95);
 }
 
 h1,
@@ -30,6 +33,11 @@ h6 {
   display: grid;
   place-items: center;
   flex-direction: column;
+}
+
+.adminnotice {
+  margin-top: 50px;
+  padding: 40px;
 }
 
 .fa-spinner {
@@ -80,8 +88,8 @@ h6 {
 }
 
 .pinned-button-container .header-button {
-  background: var(--accent-color);
-  color: #fefefe;
+  background: var(--button-bg);
+  color: var(--button-color);
   font-weight: bold;
   padding: 10px, 24px;
   width: 187px;
@@ -240,7 +248,7 @@ section .card-button {
 .card-button:hover {
   border: none !important;
   background-color: var(--accent-color) !important;
-  color: #fefefe;
+  color: var(--button-color);
 }
 
 @media screen and (max-width: 1440px) {

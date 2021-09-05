@@ -1,0 +1,114 @@
+        @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+        * {
+            font-family: "Lato", sans-serif;
+        }
+        
+        .UserIntro {
+            display: grid;
+            place-items: center;
+            /* height: 20px; */
+            margin-left: -100px;
+        }
+        
+        .Img {
+            height: 439.5546569824219px;
+            width: 658px;
+        }
+        
+        .UserIntroPdesktop {
+            width: 493px;
+            height: 72px;
+            right: 352px;
+            top: 622.55px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: #333333;
+        }
+        
+        .UserIntro p {
+            line-height: 1.5;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .UserIntroPmobile {
+            display: none;
+        }
+        
+        .IntroButton {
+            background: var(--accent-color) !important;
+            --text-color: #ffffff !important;
+            font-weight: bold;
+            padding: 10px, 24px;
+            width: 377px;
+            height: 56px;
+            text-transform: capitalize;
+            font-size: 16px;
+            margin-top: 40px !important;
+            margin-bottom: 125px;
+        }
+        
+        .IntroButton img {
+            display: none;
+        }
+        
+         :root {
+            --accent-color: hsla(160, 100%, 37%, 1);
+            --main-black: hsla(0, 0%, 20%, 1);
+            --main-gray: hsla(0, 0%, 60%, 1);
+            --white-color: rgb(251, 248, 248);
+        }
+        
+        @media screen and (max-width: 500px) {
+            .UserIntro {
+                width: 342px;
+                height: 417.46px;
+                margin-left: 16px;
+            }
+            .Img {
+                height: 228.46153259277344px;
+                width: 342px;
+            }
+            .UserIntroPmobile p {
+                right: 5px;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                color: #333333;
+                justify-content: center;
+                align-items: center;
+            }
+            .UserIntroPdesktop {
+                display: none;
+            }
+            .UserIntroPmobile {
+                display: block;
+                width: 332px;
+                height: 88px;
+                right: 5px;
+                top: 252.46px;
+                font-family: Lato;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                text-align: center;
+                color: #333333;
+                margin-bottom: 24px;
+            }
+            .IntroButton {
+                width: 167px;
+                height: 53px;
+                left: 87.5px;
+                background: #00BB7C;
+                border-radius: 3px;
+                margin-bottom: 197.54px !important;
+                margin-top: 0px;
+            }
+            .IntroButton img {
+                display: block;
+                margin-left: 16px;
+            }
+        }
