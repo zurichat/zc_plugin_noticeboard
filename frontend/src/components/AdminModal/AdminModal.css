@@ -1,0 +1,54 @@
+.adminModal {
+  font-family: "Lato", sans-serif;
+  background: rgba(16, 13, 32, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.adminModal-container {
+  position: relative;
+  height: 100vh;
+}
+
+.adminModal-innerContainer {
+  position: absolute;
+  width: 28.95%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #999;
+  padding: 1.5em;
+  border-radius: 3px;
+}
+
+.adminModal-innerContainer h2 {
+  color: black;
+  margin: 0;
+}
+
+.adminModal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5em;
+}
+
+.adminModal-buttons button {
+  padding: 0.84em 2.62em;
+  border: 0;
+  outline: 0;
+  border-radius: 3px;
+}
+.cancelButton {
+  background: #f7f7f7;
+  color: #999;
+}
+
+.addButton {
+  background: #00bb7c;
+  color: #fff;
+  margin-left: 1em;
+}
