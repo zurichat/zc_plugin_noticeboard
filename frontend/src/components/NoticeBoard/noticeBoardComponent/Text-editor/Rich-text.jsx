@@ -4,7 +4,6 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import imageIcon from "./icons/attachment.svg";
-import mentionIcon from "./icons/mentionAdder.svg"
 import {MentionAdder, ToggleToolbar} from "./Text_editor_features"
 
 
@@ -24,7 +23,7 @@ class TextEditor extends Component {
   };
 
   render() {
-    const { editorState } = this.state;
+    
 
     return (
       <div className="text-editor-wrapper">

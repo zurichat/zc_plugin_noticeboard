@@ -36,7 +36,7 @@
         
         .IntroButton {
             background: var(--accent-color) !important;
-            --text-color: #ffffff !important;
+            color: var(--button-color) !important;
             font-weight: bold;
             width: 377px;
             height: 4em;
@@ -54,6 +54,7 @@
             --main-black: hsla(0, 0%, 20%, 1);
             --main-gray: hsla(0, 0%, 60%, 1);
             --white-color: rgb(251, 248, 248);
+            --button-color: #fff;
         }
         
         @media screen and (max-width: 500px) {
