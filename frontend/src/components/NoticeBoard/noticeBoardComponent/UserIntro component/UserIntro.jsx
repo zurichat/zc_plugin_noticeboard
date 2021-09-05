@@ -6,7 +6,7 @@ const UserIntro = () => {
     <div>
       <div className="UserIntro">
         <div className="IntroImg">
-          <img src={require("../../../../assets/Illustration.svg").default} />
+          <img src={require("../../../../assets/userintro.svg").default} />
         </div>
         <p>Hey your notice board is empty. notices would <br /> appear here when published.</p>
       </div>
