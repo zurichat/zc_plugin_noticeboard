@@ -167,6 +167,17 @@ html {
   }
 }
 
+@media screen and (max-width: 440px) {
+  header {
+    justify-content: center;
+  }
+  .header__form {
+    width: 100%;
+  }
+  .header__wraps {
+    margin: auto;
+  }
+}
 @media only screen and (min-width: 56.26em) {
   .header__hamburger-icon {
     display: none;

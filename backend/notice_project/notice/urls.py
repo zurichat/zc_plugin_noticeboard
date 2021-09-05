@@ -21,6 +21,8 @@ urlpatterns = [
 
     path('comment/get', RetrieveNoticeCommentsView.as_view()),
 
+    path('comment/reaction/<int:pk>/delete', CommentReactionDeleteAPIView.as_view()),
+
     path('comment/create', CommentCreateAPIView.as_view()),
 	
     path('notices/<int:notice_id>/viewed_by', ViewersListView.as_view()),
