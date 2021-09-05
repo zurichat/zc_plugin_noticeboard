@@ -4,6 +4,8 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import imageIcon from "./icons/attachment.svg";
+import mentionIcon from "./icons/mentionAdder.svg"
+import {MentionAdder, ToggleToolbar} from "./Text_editor_features"
 
 
 // This is the editor Component class
@@ -34,7 +36,7 @@ class TextEditor extends Component {
           editorClassName="textarea"
           toolbarClassName="toolbarClass"
           onEditorStateChange={this.onEditorStateChange}
-          // toolbarCustomButtons={[ import extra features in ]}
+          toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
           
 
           toolbar={{
