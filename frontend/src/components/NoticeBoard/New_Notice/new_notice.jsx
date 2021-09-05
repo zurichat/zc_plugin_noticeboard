@@ -1,5 +1,5 @@
 import React from "react";
-import "./new_notice.css"
+import "./New_Notice/new_notice.css"
 
 const NewNotice = () => {
     return (
