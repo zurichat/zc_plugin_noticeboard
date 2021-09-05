@@ -1,5 +1,6 @@
 import React from 'react'
 import './UserIntro.css'
+import defaultEdit from './default.svg'
 
 const UserIntro = () => {
   return (

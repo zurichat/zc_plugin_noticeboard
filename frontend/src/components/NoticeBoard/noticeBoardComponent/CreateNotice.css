@@ -23,10 +23,6 @@ body {
 
 .dashboard-container {
   padding: 25px 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   position: relative;
 }
 
@@ -216,6 +212,8 @@ body .dashboard-container button {
   padding: 5px;
 }
 
+
+
 @media screen and (max-width: 830px) {
   .dashboard-container {
     padding: 10px;
@@ -259,6 +257,8 @@ body .dashboard-container button {
   .settings-container span {
     margin: 0px 15px 0px 5px;
   }
+
+  
 }
 
 @media screen and (max-width: 500px) {
@@ -303,10 +303,17 @@ body .dashboard-container button {
   body .notice {
     padding: 20px 12px;
   }
+
+  
 }
+
 
 @media screen and (min-width: 830px) {
   .dashboard-container .settings-container .text-formaters-sm {
     display: none !important;
+  }
+
+  .TextEditor-wrapper{
+    width: 75vmax;
   }
 }
