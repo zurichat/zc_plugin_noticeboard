@@ -9,6 +9,7 @@
 
 .user-notice {
   margin: 30px 0 50px;
+  padding: 0 30px;
 }
 
 /* Notice card styling */
@@ -18,7 +19,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
- 
+
 .user-notice-card {
   /*position: relative; style is blocking absolute positioning of modals*/
   margin-top: 40px;
@@ -147,24 +148,24 @@
 
 /* overriding material-UI default relative position on buttons, so as to enable absolute positioning */
 .MuiButtonBase-root {
-    color: inherit;
-    border: 0;
-    cursor: pointer;
-    margin: 0;
-    display: inline-flex;
-    outline: 0;
-    padding: 0;
-    align-items: center;
-    user-select: none;
-    position: initial !important;
-    border-radius: 0;
-    vertical-align: middle;
-    -moz-appearance: none;
-    justify-content: center;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent;
-} 
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  align-items: center;
+  user-select: none;
+  position: initial !important;
+  border-radius: 0;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* User  Notice styling End */
