@@ -103,12 +103,12 @@ label{
     width: 40% !important;
 }
 
-.rdw-image-modal-url-input {
-    width: 90% !important;
+.rdw-image-modal-url-input, .rdw-link-modal-input {
+    width: 100% !important;
 }
 
 .rdw-image-modal{
-    top: -360px !important;
+    top: -310px !important;
   left: -200px !important;
 }
 
