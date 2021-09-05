@@ -24,7 +24,7 @@ function NoticeBoard() {
           <UserNotice />
         </Route>
 
-        <Route path="/">
+        <Route path="/user">
           <UserIntro />
         </Route>
 
