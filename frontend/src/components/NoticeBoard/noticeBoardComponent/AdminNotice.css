@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 * {
   margin: 0;
@@ -6,7 +6,7 @@
   box-sizing: border-box;
   outline: none;
   text-decoration: none;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 :root {
@@ -254,5 +254,46 @@ section .card-button {
 @media screen and (max-width: 1440px) {
   section {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 797px) {
+  section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 410px) {
+  section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .pinned-button-container .header-button {
+    padding: 10px, 24px;
+    width: 165px;
+    height: 44px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 375px) {
+  .adminnotice {
+    padding: 10px;
+  }
+  section .card {
+    width: 300px;
+    height: 273.68px;
+    padding: 16px;
+  }
+  .pinned-button-container .pin-text {
+    display: flex;
+  }
+  .pinned-button-container .header-button {
+    padding: 10px, 24px;
+    width: 145px;
+    height: 44px;
+    font-size: 12px;
+  }
+  .pinned-button-container .header-button img {
+    margin-left: 4px;
+  }
+  .pinned-button-container .pin-text {
+    margin-top: 5rem;
   }
 }

@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-style: normal;
-  color: var(--text-color);
+  
 }
 
 :root {
@@ -24,6 +24,7 @@ body {
 .dashboard-container {
   padding: 25px 35px;
   position: relative;
+  color: var(--text-color);
 }
 
 .dashboard-container header {
@@ -97,17 +98,6 @@ body .dashboard-container button {
   position: relative;
 }
 
-.dashboard-container input,
-.dashboard-container select,
-.dashboard-container textarea {
-  width: 542px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  margin: 10px 0px 25px 0px;
-  outline: none;
-}
 
 .dashboard-container label {
   font-weight: 600;
@@ -314,6 +304,6 @@ body .dashboard-container button {
   }
 
   .TextEditor-wrapper{
-    width: 75vmax;
+    width: 100%;
   }
 }

@@ -180,6 +180,26 @@ class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
 
+class CommentReactionDeleteAPIView(views.APIView):
+    
+    def delete(self,request,pk=None):
+        data=[
+        {'reaction': 'cool'},
+
+        {'reaction': 'Done'},
+
+        {'reaction': 'soon'},
+        ]
+
+        try:
+            reaction = data[pk-1]
+        except KeyError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except ValueError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        data.pop(pk-1)
+        return Response({"message": "You have successfully deleted your reaction"}, status=status.HTTP_200_OK)
 
 # The reaction API view
 class CreateReactionAPIView(views.APIView):
@@ -236,21 +256,36 @@ class UserNoticesView(views.APIView):
 	
 class ViewersListView(views.APIView):
 
-    """GET request to display/retrieve all existing notices"""
+    """GET request to display/retrieve all viewers for a particular notice"""
     def get(self, request, notice_id):
         data = [
             {"notice_id": 1,
+             "title": "Individual work",
+             "text": "Each intern is expected to complete at least one ticket individually",
+             "photo_url": "null",
+             "video_url": "null",
+             "audio_url": "null",
              "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul" ]},
 
             {"notice_id": 2,
+             "title": "Group work",
+             "text": "All interns are expected to complete at least one ticket as a group",
+             "photo_url": "null",
+             "video_url": "null",
+             "audio_url": "null",
              "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "adams"]},
 
             {"notice_id": 3,
+             "title": "Individual workers",
+             "text": "Each intern is expected to complete at least one ticket individually",
+             "photo_url": "null",
+             "video_url": "null",
+             "audio_url": "null",
              "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "tobi", "jones"]},
         ]
         views = data
         datalist = []
-        viewerscount = len((data[notice_id + 1]["viewed_by"]))
+        #viewerscount = len((data[notice_id + 1]["viewed_by"]))
         for viewerslist in views:
             if viewerslist['notice_id'] == notice_id:
                 datalist.append(viewerslist)

@@ -22,7 +22,7 @@
 
 .new-notice-main{
     width: 100%;
-    margin: 18px auto;
+    margin: 0 auto;
 }
 .new-notice{
     display: flex;
@@ -53,10 +53,10 @@
 
 .sub-new-notice select:focus,
 .sub-new-notice input:focus{
-    border: 2px solid #16d3c9;
+    border: 2px solid #00BB7C;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 830px) {
     .new-notice{
         display: block;
     }
