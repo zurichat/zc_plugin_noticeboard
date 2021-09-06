@@ -1,18 +1,20 @@
 import React, { useState, useRef } from 'react';
 import './CreateNotice.css';
 import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import TextEditor from './Text-editor/Rich-text';
 import NewNotice from './New_Notice/new_notice'
 
 function CreateNotice() {
-  const [setTitle] = useState('');
-  const [recipient, setRecipient] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [recipient, setRecipient] = useState('');
   // const [noticeContent, setNoticeContent] = useState('');
   // const [activeOption, setActiveOption] = useState('');
   // const noticeContentRef = useRef();
-
+  
   function handleSubmit() {
     // handle notice submission
+    <Link to = "/admin-notice"><Button variant = "contained">Publish Notice</Button></Link>
   }
 
   return (

@@ -34,26 +34,13 @@
         }
         
         
-        .IntroButton {
-            background: var(--accent-color) !important;
-            --text-color: #ffffff !important;
-            font-weight: bold;
-            width: 377px;
-            height: 4em;
-            text-transform: capitalize;
-            font-size: 16px;
-            margin-top: 40px !important;
-        }
-        
-        .IntroButton img {
-            display: none;
-        }
         
          :root {
             --accent-color: hsla(160, 100%, 37%, 1);
             --main-black: hsla(0, 0%, 20%, 1);
             --main-gray: hsla(0, 0%, 60%, 1);
             --white-color: rgb(251, 248, 248);
+            --button-color: #fff;
         }
         
         @media screen and (max-width: 500px) {
@@ -95,17 +82,9 @@
                 justify-content: center;
                 align-items: center;
             }
-            .IntroButton {
-                width: 167px;
-                height: 53px;
-                left: 87.5px;
-                background: #00BB7C;
-                border-radius: 3px;
-                margin-bottom: 197.54px !important;
-                margin-top: 0px;
-            }
-            .IntroButton img {
+        
+            /* .IntroButton img {
                 display: block;
                 margin-left: 16px;
-            }
+            } */
         }
