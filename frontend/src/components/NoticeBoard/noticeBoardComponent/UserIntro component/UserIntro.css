@@ -42,8 +42,10 @@
             --white-color: rgb(251, 248, 248);
             --button-color: #fff;
         }
+
         
-        @media screen and (max-width: 500px) {
+        
+        @media screen and (max-width: 830px) {
 
             .UserIntro a{
                 height: fit-content;
@@ -52,11 +54,6 @@
             .Img {
                 height: 228.46153259277344px;
                 width: 342px;
-            }
-            
-            .UserIntro {
-                width: 342px;
-                height: 417.46px;
             }
             
             .UserIntroPmobile {
@@ -83,8 +80,8 @@
                 align-items: center;
             }
         
-            /* .IntroButton img {
+            .IntroButton img {
                 display: block;
                 margin-left: 16px;
-            } */
+            }
         }
