@@ -1,89 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import ViewNoticeCards from './ViewNoticeCards'
+import React from "react";
+import CancelNoticeBtn from "./CancelNoticeBtn";
+import "./ViewNotice.css";
 
-const ViewNoticeModal = () => {
-    const [datas, setData] = useState([
-      {
-        id: 1,
-        userImage:
-          'https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        userName: 'Tiwa Suleiman',
-        date: '17 days ago',
-        timeStamp: '6 Hours ago',
-        views: '321',
-        title: 'Meet up at the hall of Justice',
-        info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-        attachedImage: null,
-      },
-      // {
-      //   id: 2,
-      //   userImage:
-      //     'https://images.unsplash.com/photo-1512849934327-1cf5bf8a5ccc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      //   userName: 'Bessie Cooper',
-      //   date: '17 days ago',
-      //   timeStamp: '6 Hours ago',
-      //   views: '212',
-      //   title: 'Meet up at the hall of Justice',
-      //   info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-      //   attachedImage: null,
-      // },
-      // {
-      //   id: 3,
-      //   userImage:
-      //     'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      //   userName: 'Berry Allen',
-      //   date: '17 days ago',
-      //   timeStamp: '6 Hours ago',
-      //   views: '403',
-      //   title: 'Meet up at the hall of Justice',
-      //   info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-      //   attachedImage: null,
-      // },
-      // {
-      //   id: 4,
-      //   userImage:
-      //     'https://images.unsplash.com/photo-1546456073-92b9f0a8d413?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      //   userName: 'Arlene McCoy',
-      //   date: '17 days ago',
-      //   timeStamp: '6 Hours ago',
-      //   views: '21',
-      //   title: 'Meet up at the hall of Justice',
-      //   info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-      //   attachedImage: null,
-      // },
-      // {
-      //   id: 5,
-      //   userImage:
-      //     'https://images.unsplash.com/photo-1606459431839-90b942dc3754?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzJ8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      //   userName: 'Robert Fox',
-      //   date: '17 days ago',
-      //   timeStamp: '6 Hours ago',
-      //   views: '32',
-      //   title: 'Meet up at the hall of Justice',
-      //   info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-      //   attachedImage: null,
-      // },
-      // {
-      //   id: 6,
-      //   userImage:
-      //     'https://images.unsplash.com/photo-1569243478735-8fcf29052262?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fGZhY2VzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      //   userName: 'Leslie Alexander',
-      //   date: '17 days ago',
-      //   timeStamp: '6 Hours ago',
-      //   views: '1',
-      //   title: 'Meet up at the hall of Justice',
-      //   info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
-      //   attachedImage: null,
-      // },
-    ])
-    return (
-        <>
-         {datas.map((data) => (
-             <ViewNoticeCards data={data} key={data.id}/>
-         ))}
-        </>
-    )
-}
+const ViewNoticeModal = ({ persons }) => {
+  const cancelBtn = () => {
+    const modalCard = document.getElementById("modal");
+    const contain = document.getElementById("contain");
+    modalCard.classList.add("none");
+    contain.classList.add("none");
+  };
 
-export default ViewNoticeModal
+  React.useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        cancelBtn();
+      }
+    });
+  });
 
+  return (
+    <div className="contain" id="contain">
+      {persons.map((person) => {
+        return (
+          <div className="modal-card" id="modal" key={person.id}>
+            <div className="img-and-name-container">
+              <div className="img">
+                <img
+                  src={person.userImage}
+                  alt={person.userName}
+                  className="user-picture"
+                />
+              </div>
+
+              <div className="name-time">
+                <h1 className="user-name">{person.userName}</h1>
+                <div className="time-stamps">
+                  <p className="date-stamp">{person.date}</p>
+                  <p className="date-stamp stamp-two">{person.timeStamp}</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="modal-title">{person.title}</h2>
+            <p className="modal-info">{person.info}</p>
+            <div>
+              <img
+                src="https://res.cloudinary.com/clefayomide/image/upload/v1630517027/dummy-img.svg"
+                alt="belle cosmetics"
+                className="dummy-img"
+              />
+              <CancelNoticeBtn onClick={cancelBtn} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default ViewNoticeModal;
