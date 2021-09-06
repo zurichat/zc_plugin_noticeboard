@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './UserIntro.css'
 import defaultEdit from './default.svg'
+import { IntroButtonStyles } from './styledComponents/IntroButtonStyles'
 
 const UserIntro = () => {
   return (
@@ -16,7 +17,7 @@ const UserIntro = () => {
           <p>👋  Hey you have been invited to the notice<br/>board, create notices for
           the workspace and different<br/>channels and you can pin important notices to help<br/>everyone identify them.</p>
         </div>
-        <Link to="/admin-notice"><Button label="View Notice" className="IntroButton" variant="contained">View Notice <img src={defaultEdit} alt='create notice' /></Button></Link>
+        <Link to="/admin-notice"><IntroButtonStyles label="View Notice"  variant="contained">View Notice <img src={defaultEdit} alt='create notice' /></IntroButtonStyles></Link>
      </div>
     </div>
   )
