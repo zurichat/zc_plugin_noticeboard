@@ -23,5 +23,4 @@ const UserIntro = () => {
     </div>
   )
 }
-
 export default UserIntro

@@ -24,5 +24,4 @@ export const IntroPMobileStyles = styled.div`
    align-items: center;
   }
  }
-  
 `;
