@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 export const IntroButtonStyles = styled.button`
 	background: var(--accent-color) !important;
- --text-color:#ffffff !important;
+ 	color: var(--button-color) !important;
 	font-weight: bold;
 	padding: 10px, 24px;
 	width: 377px;
@@ -11,8 +11,8 @@ export const IntroButtonStyles = styled.button`
 	font-size: 16px;
 	margin-top: 40px !important;
 	margin-bottom: 125px;
- border: none;
- outline: none;
+ 	border: none;
+ 	outline: none;
  img {
    display: none;
    }
@@ -27,7 +27,8 @@ export const IntroButtonStyles = styled.button`
 		margin-top: 0px;
 
   img {
-    display: block;
+    display: inline-block;
+    width: fit-content;
     margin-left: 16px;
    }
 	}
