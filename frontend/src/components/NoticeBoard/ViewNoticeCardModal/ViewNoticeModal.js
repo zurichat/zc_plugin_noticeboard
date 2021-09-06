@@ -2,12 +2,13 @@ import React from "react";
 import CancelNoticeBtn from "./CancelNoticeBtn";
 import "./ViewNotice.css";
 
-const ViewNoticeModal = ({ persons }) => {
+const ViewNoticeModal = ({ persons, closeModal }) => {
   const cancelBtn = () => {
     const modalCard = document.getElementById("modal");
     const contain = document.getElementById("contain");
     modalCard.classList.add("none");
     contain.classList.add("none");
+    closeModal(false)
   };
 
   React.useEffect(() => {
