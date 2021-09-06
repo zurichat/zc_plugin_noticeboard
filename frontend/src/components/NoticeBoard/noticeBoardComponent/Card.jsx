@@ -67,7 +67,7 @@ const Card = ({ person }) => {
           </Button>
         </div>
       </article>
-      {openModal && <ViewNoticeModal persons={persons} />}
+      {openModal && <ViewNoticeModal persons={persons} closeModal={setOpenModal}/>}
     </div>
   );
 };
