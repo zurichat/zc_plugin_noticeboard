@@ -7,7 +7,7 @@ const ViewNoticeCards = ({ data }) => {
     const modalCard = document.getElementById("modal");
     const contain = document.getElementById('contain')
     modalCard.classList.add("none");
-    contain.classList.add("none")
+    contain.classList.add("none") 
 
   };
   return (
@@ -36,12 +36,12 @@ const ViewNoticeCards = ({ data }) => {
         <div>
           <img
             src="https://res.cloudinary.com/clefayomide/image/upload/v1630517027/dummy-img.svg"
-            alt="belle cosmetics"
+            alt="belle cosmetics" 
             className="dummy-img"
           />
           <CancelNoticeBtn onClick={cancelBtn}/>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };

@@ -14,7 +14,7 @@ const ViewNoticeModal = () => {
         title: 'Meet up at the hall of Justice',
         info: 'All Justice League members are hereby summoned! ...the original members of the Justice League have formed a new sub-team called the Titans, and a proper ceremony will be held today at the Hall of Justice... More information will be supplied as soon as possible',
         attachedImage: null,
-      },
+      }, 
       // {
       //   id: 2,
       //   userImage:
