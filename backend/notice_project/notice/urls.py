@@ -25,7 +25,7 @@ urlpatterns = [
 
     path('comment/create', CommentCreateAPIView.as_view()),
 	
-    path('notices/<int:notice_id>/viewed_by', ViewersListView.as_view()),
+    path('notices/<int:notice_id>/viewed_by', NoticeDetailAPIView.as_view()),
 
     path('react/', CreateReactionAPIView.as_view(), name='react')  # Enables the user to react to a comment
 
