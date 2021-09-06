@@ -253,8 +253,8 @@ class UserNoticesView(views.APIView):
         
         results = CreateNoticeSerializer(data, many=True).data
         return Response(results, status=status.HTTP_200_OK)
-	
-class ViewersListView(views.APIView):
+
+class NoticeDetailAPIView(views.APIView):
 
     """GET request to display/retrieve all viewers for a particular notice"""
     def get(self, request, notice_id):
@@ -265,7 +265,7 @@ class ViewersListView(views.APIView):
              "photo_url": "null",
              "video_url": "null",
              "audio_url": "null",
-             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul" ]},
+             "viewed_by": "danny, bori, goko, manny, tori, paul"},
 
             {"notice_id": 2,
              "title": "Group work",
@@ -273,7 +273,7 @@ class ViewersListView(views.APIView):
              "photo_url": "null",
              "video_url": "null",
              "audio_url": "null",
-             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "adams"]},
+             "viewed_by": "danny, bori, goko, manny, tori, paul,adams"},
 
             {"notice_id": 3,
              "title": "Individual workers",
@@ -281,7 +281,7 @@ class ViewersListView(views.APIView):
              "photo_url": "null",
              "video_url": "null",
              "audio_url": "null",
-             "viewed_by": ["danny", "bori", "goko", "manny", "tori", "paul", "tobi", "jones"]},
+             "viewed_by": "danny, bori, goko, manny, tori, paul, tobi, jones"},
         ]
         views = data
         datalist = []
@@ -292,3 +292,4 @@ class ViewersListView(views.APIView):
 
         results = CreateNoticeSerializer(datalist, many=True).data
         return Response(results, status=status.HTTP_200_OK)
+	
