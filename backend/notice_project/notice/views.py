@@ -292,6 +292,8 @@ class ViewersListView(views.APIView):
 
         results = CreateNoticeSerializer(datalist, many=True).data
         return Response(results, status=status.HTTP_200_OK)
+
+        
 class UserCreatedNoticesView(views.APIView):
 
     """GET request to display/retrieve all existing notices created by a specific user"""
