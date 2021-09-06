@@ -1,13 +1,13 @@
 from django.db import models
 
 class Notice:
-    def __init__(self, title,
+    def __init__(self, user,title,
                 text,photo_url, video_url, audio_url,published,
                 date_added,last_modified,
                 
                  ):
         
-      
+        self.user = user
         self.title = title
         self.text = text
         self.photo_url = photo_url

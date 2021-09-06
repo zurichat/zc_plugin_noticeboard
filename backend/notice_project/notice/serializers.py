@@ -5,7 +5,7 @@ from .models import Notice, CommentReaction, EditNotice, CommentCreate,CreateRea
 
 
 class CreateNoticeSerializer(serializers.Serializer):
-    
+    user = serializers.CharField(max_length=100)
     title = serializers.CharField(max_length=100)
     text = serializers.CharField(max_length=250)
     photo_url =  serializers.CharField(max_length=50)
