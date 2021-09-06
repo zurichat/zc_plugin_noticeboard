@@ -1,6 +1,8 @@
 import IconButton from '@material-ui/core/IconButton'
+import Fade from '@material-ui/core/Fade'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Box from '@material-ui/core/Box'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded'
@@ -14,9 +16,15 @@ import moreMessagesIcon from './assets/moreMessagesIcon.svg'
 
 const useStyles = makeStyles({
   listItemText: {
-    fontSize: '16px',
     color: '#999999',
     weight: 400
+  },
+  MenuStyle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  MenuIconStyle: {
+    paddingRight: '10px'
   }
 })
 
@@ -43,8 +51,8 @@ export default function UserMenu () {
   }
 
   return (
-    <div>
-      <IconButton onClick={handleOpen}>
+    <>
+      <IconButton onClick={handleOpen} disableRipple>
         <MoreVertRoundedIcon style={{ color: '#00bb7c' }} />
       </IconButton>
       <Menu
@@ -52,16 +60,22 @@ export default function UserMenu () {
         keepMounted
         open={openMenu}
         onClose={handleClose}
+        TransitionComponent={Fade}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right'
         }}
+        PaperProps={{
+          style: {
+            marginTop: '30px'
+          }
+        }}
       >
         {menuContent.map(({ img, text }) => (
-          <MenuItem key={text} onClick={handleClose}>
-            <ListItemIcon>
-              <img width='50%' height='100%' src={img} alt={text} />
-            </ListItemIcon>
+          <MenuItem key={text} onClick={handleClose} disableRipple>
+            <Box className={classes.MenuStyle}>
+              <img src={img} alt={text} className={classes.MenuIconStyle} />
+            </Box>
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary={text}
@@ -69,6 +83,6 @@ export default function UserMenu () {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   )
 }
