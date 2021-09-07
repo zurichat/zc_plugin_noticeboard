@@ -1,90 +1,87 @@
-        @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
-        * {
-            font-family: "Lato", sans-serif;
-        }
-        
-        .UserIntro {
-            display: grid;
-            place-items: center;
-        }
-        
-        .Img {
-            height: 30em;
-            width: 658px;
-        }
-        
-        .UserIntroPdesktop {
-            width: 493px;
-            height: 72px;
-            right: 352px;
-            top: 622.55px;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 24px;
-            text-align: center;
-            color: #333333;
-        }
-        
-        .UserIntro p {
-            line-height: 1.5;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        
-        
-        
-         :root {
-            --accent-color: hsla(160, 100%, 37%, 1);
-            --main-black: hsla(0, 0%, 20%, 1);
-            --main-gray: hsla(0, 0%, 60%, 1);
-            --white-color: rgb(251, 248, 248);
-            --button-color: #fff;
-        }
-        
-        @media screen and (max-width: 500px) {
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+* {
+  font-family: "Lato", sans-serif;
+}
 
-            .UserIntro a{
-                height: fit-content;
-            }
-            
-            .Img {
-                height: 228.46153259277344px;
-                width: 342px;
-            }
-            
-            .UserIntro {
-                width: 342px;
-                height: 417.46px;
-            }
-            
-            .UserIntroPmobile {
-                display: block;
-                width: 332px;
-                height: 88px;
-                right: 5px;
-                top: 252.46px;
-                font-family: Lato;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 14px;
-                text-align: center;
-                color: #333333;
-                margin-bottom: 24px;
-            }
-            .UserIntroPmobile p {
-                right: 5px;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 14px;
-                color: #333333;
-                justify-content: center;
-                align-items: center;
-            }
-        
-            /* .IntroButton img {
+.UserIntro {
+  display: grid;
+  place-items: center;
+}
+
+.Img {
+  height: 30em;
+  width: 658px;
+}
+
+.UserIntroPdesktop {
+  width: 493px;
+  height: 72px;
+  right: 352px;
+  top: 622.55px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #333333;
+}
+
+.UserIntro p {
+  line-height: 1.5;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+:root {
+  --accent-color: hsla(160, 100%, 37%, 1);
+  --main-black: hsla(0, 0%, 20%, 1);
+  --main-gray: hsla(0, 0%, 60%, 1);
+  --white-color: rgb(251, 248, 248);
+  --button-color: #fff;
+}
+
+@media screen and (max-width: 500px) {
+  .UserIntro a {
+    height: fit-content;
+  }
+
+  .Img {
+    height: 228.46153259277344px;
+    width: 342px;
+  }
+
+  .UserIntro {
+    width: 342px;
+    height: 417.46px;
+  }
+
+  .UserIntroPmobile {
+    display: block;
+    width: 332px;
+    height: 88px;
+    right: 5px;
+    top: 252.46px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #333333;
+    margin-bottom: 24px;
+  }
+  .UserIntroPmobile p {
+    right: 5px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #333333;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* .IntroButton img {
                 display: block;
                 margin-left: 16px;
             } */
-        }
+}

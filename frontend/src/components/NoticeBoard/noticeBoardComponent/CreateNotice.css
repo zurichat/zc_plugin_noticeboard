@@ -17,10 +17,6 @@
   --border-hover-color: rgba(0, 0, 0, 0.95);
 }
 
-body {
-  overflow-x: hidden;
-}
-
 .dashboard-container {
   padding: 25px 35px;
   position: relative;
@@ -253,7 +249,7 @@ body .dashboard-container button {
 
 @media screen and (max-width: 500px) {
   .dashboard-container {
-    padding: 0px;
+    padding: 20px 12px;
   }
   .dashboard-container header {
     flex-direction: column;
@@ -289,14 +285,7 @@ body .dashboard-container button {
   .dashboard-container header button {
     width: 150px;
   }
-
-  body .notice {
-    padding: 20px 12px;
-  }
-
-  
 }
-
 
 @media screen and (min-width: 830px) {
   .dashboard-container .settings-container .text-formaters-sm {
