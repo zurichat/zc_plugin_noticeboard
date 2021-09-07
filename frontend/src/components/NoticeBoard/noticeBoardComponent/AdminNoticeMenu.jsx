@@ -58,7 +58,7 @@ function AdminMenu () {
         onClose={closeMenu}
         PaperProps={{
           style: {
-            width: '18rem'
+            width: '16rem'
           }
         }}
         transformOrigin={{
