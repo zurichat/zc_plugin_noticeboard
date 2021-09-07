@@ -18,8 +18,10 @@
 }
 
 .dashboard-container {
+  padding: 31px 12px;
   position: relative;
   color: var(--text-color);
+  
 }
 
 .dashboard-container header {
@@ -125,7 +127,7 @@ body .dashboard-container button {
 }
 
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
   .dashboard-container {
     padding: 20px 12px;
   }
@@ -138,14 +140,9 @@ body .dashboard-container button {
     margin: 15px 0px;
   }
 
-
   .dashboard-container header button {
     width: 150px;
     display: none;
-  }
-
-  body .notice {
-    padding: 20px 12px;
   }
 
   .dashboard-container .publish-notice-button{

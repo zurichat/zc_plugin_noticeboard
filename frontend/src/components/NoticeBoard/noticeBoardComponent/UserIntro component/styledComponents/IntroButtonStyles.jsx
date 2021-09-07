@@ -13,6 +13,7 @@ export const IntroButtonStyles = styled.button`
 	margin-bottom: 125px;
  	border: none;
  	outline: none;
+	cursor: pointer;
  img {
    display: none;
    }
