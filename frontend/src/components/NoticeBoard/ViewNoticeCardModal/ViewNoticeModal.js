@@ -8,15 +8,13 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
     const contain = document.getElementById("contain");
     modalCard.classList.add("none");
     contain.classList.add("none");
-    closeModal(false)
+    closeModal(false);
   };
 
-  React.useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        cancelBtn();
-      }
-    });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeModal(false);
+    }
   });
 
   return (

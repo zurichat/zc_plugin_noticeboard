@@ -8,14 +8,14 @@ const CancelNoticeBtn = ({ onClick }) => {
         <Button
           className="cancel-btn"
           style={{
-            color: "black",
-            backgroundColor: "#c1c1c1",
+            color: "#00B87C",
+            backgroundColor: "#F6F6F6",
             textTransform: "capitalize",
             width: "100px",
             padding: "8px",
             display: "flex",
-            marginTop: "20px",
-            fontFamily: "Lato"
+            marginTop: "25px",
+            fontFamily: "Lato",
           }}
           onClick={onClick}
         >
