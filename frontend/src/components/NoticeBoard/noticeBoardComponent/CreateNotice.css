@@ -18,7 +18,8 @@
 }
 
 .dashboard-container {
-  margin: 4% 8%;
+  width: 85%;
+  margin: 3em auto;
   color: var(--text-color);
 }
 
@@ -123,9 +124,10 @@ body .dashboard-container button {
 
 
 @media screen and (max-width: 768px) {
-  /* .dashboard-container {
-    margin: 4% 8%;
-  } */
+  .dashboard-container {
+    width: 85%;
+    margin: .5em auto 2em;
+  }
   .dashboard-container header {
     flex-direction: column;
     align-items: flex-start;
