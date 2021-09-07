@@ -17,10 +17,6 @@
   --border-hover-color: rgba(0, 0, 0, 0.95);
 }
 
-body {
-  overflow-x: hidden;
-}
-
 .dashboard-container {
   position: relative;
   color: var(--text-color);
@@ -131,7 +127,7 @@ body .dashboard-container button {
 
 @media screen and (max-width: 700px) {
   .dashboard-container {
-    padding: 0px;
+    padding: 20px 12px;
   }
   .dashboard-container header {
     flex-direction: column;
