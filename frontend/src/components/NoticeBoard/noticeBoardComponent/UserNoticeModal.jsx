@@ -5,14 +5,17 @@ import { Button } from "@material-ui/core";
 
 function UserNoticeModal({ user }) {
   const id = String(user.id);
+  const modal_id = `modal_${id}`;
   const paragraphs = user.moreInfo;
 
-  const CloseModal = () => {
-    document.getElementById("1").style.display = "none";
+  const CloseModal = (event) => {
+    const clickedButton = event.currentTarget.getAttribute("id");
+    const modal_id = `modal_${clickedButton}`;
+    document.getElementById(modal_id).style.display = "none";
   };
 
   return (
-    <div className="userNoticeModal" id={id}>
+    <div className="userNoticeModal" id={modal_id}>
       <div className="userNoticeModal-container">
         <div className="userNoticeModal-innerContainer">
           <div className="userNoticeModal-userInfo">
@@ -54,7 +57,8 @@ function UserNoticeModal({ user }) {
             <Button
               className="closeModalButton"
               variant="contained"
-              onClick={CloseModal}
+              id={id}
+              onClick={(event) => CloseModal(event)}
             >
               Close
             </Button>
