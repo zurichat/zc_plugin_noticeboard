@@ -36,7 +36,6 @@ h6 {
 }
 
 .adminnotice {
-  margin-top: 50px;
   padding: 40px;
 }
 
@@ -108,11 +107,13 @@ h6 {
 
 /* section with the cards */
 section {
-  display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 32px 20px;
   justify-self: center;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 section .card {
@@ -251,20 +252,42 @@ section .card-button {
   color: var(--button-color);
 }
 
-@media screen and (max-width: 1440px) {
-  section {
-    grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1261px) {
+  section .card {
+    width: 20rem;
+  }
+}
+@media (max-width: 1200px) {
+  section .card {
+    width: 28rem;
+  }
+}
+@media (max-width: 1099px) {
+  section .card {
+    width: 26rem;
+  }
+}
+@media (max-width: 1050px) {
+  section .card {
+    width: 24rem;
+  }
+}
+@media (max-width: 930px) {
+  section .card {
+    width: 21rem;
+  }
+}
+@media (max-width: 882px) {
+  section .card {
+    width: 19rem;
   }
 }
 @media (max-width: 797px) {
-  section {
-    grid-template-columns: repeat(2, 1fr);
+  section .card {
+    width: 100%;
   }
 }
 @media (max-width: 410px) {
-  section {
-    grid-template-columns: repeat(1, 1fr);
-  }
   .pinned-button-container .header-button {
     padding: 10px, 24px;
     width: 165px;
@@ -275,11 +298,6 @@ section .card-button {
 @media (max-width: 375px) {
   .adminnotice {
     padding: 10px;
-  }
-  section .card {
-    width: 300px;
-    height: 273.68px;
-    padding: 16px;
   }
   .pinned-button-container .pin-text {
     display: flex;
