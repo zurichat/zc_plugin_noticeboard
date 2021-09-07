@@ -11,12 +11,10 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
     closeModal(false);
   };
 
-  React.useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        cancelBtn();
-      }
-    });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeModal(false);
+    }
   });
 
   return (
