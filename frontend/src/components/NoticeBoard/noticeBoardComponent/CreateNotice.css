@@ -18,10 +18,8 @@
 }
 
 .dashboard-container {
-  padding: 31px 12px;
-  position: relative;
+  margin: 4% 8%;
   color: var(--text-color);
-  
 }
 
 .dashboard-container header {
@@ -58,9 +56,6 @@ body .dashboard-container button {
   background-color: rgb(235, 235, 235);
 }
 
-.dashboard-container .settings-container .content-formaters span:hover {
-  background: rgb(235, 235, 235);
-}
 
 .dashboard-container button span {
   color: var(--button-color);
@@ -128,9 +123,9 @@ body .dashboard-container button {
 
 
 @media screen and (max-width: 768px) {
-  .dashboard-container {
-    padding: 20px 12px;
-  }
+  /* .dashboard-container {
+    margin: 4% 8%;
+  } */
   .dashboard-container header {
     flex-direction: column;
     align-items: flex-start;
