@@ -16,7 +16,7 @@ body {
   width: 100vw;
   min-height: 100vh !important;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,4 +102,30 @@ body {
 
 .cancel-btn {
   font-family: "Lato", sans-serif;
+}
+
+@media (max-width: 500px) {
+  .modal-card {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 375px) {
+  .modal-card {
+    width: 340px;
+  }
+}
+
+@media (max-width: 360px) {
+  .modal-card {
+    width: 330px;
+  }
+}
+
+@media (max-width: 320px) {
+  .modal-card {
+    width: 300px;
+  }
 }
