@@ -14,14 +14,18 @@ function CreateNotice() {
   
   function handleSubmit() {
     // handle notice submission
-    <Link to = "/admin-notice"><Button variant = "contained">Publish Notice</Button></Link>
+    <Link to = "/admin-notice">
+      <Button variant = "contained">Publish Notice</Button>
+    </Link>
   }
 
   return (
     <div className="dashboard-container">
       <header>
         <h3 className="heading">Create New Notice</h3>
-        <Button onClick={handleSubmit}>Publish Notice</Button>
+        <Link to = "/admin-notice">
+        <Button variant = "contained">Publish Notice</Button>
+        </Link>
       </header>
 
       <form>
@@ -30,6 +34,12 @@ function CreateNotice() {
 
       <div className="TextEditor-wrapper">
         <TextEditor />
+      </div>
+
+      <div className="publish-notice-button">
+      <Link to = "/admin-notice">
+      <Button variant = "contained">Publish Notice</Button>
+      </Link>
       </div>
       
     </div>

@@ -14,34 +14,30 @@ body {
 
 .contain {
   width: 100vw;
+  min-height: 100vh !important;
   height: 100vh;
-  background-color: #f8f5f5;
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999999;
   left: 0;
   top: -10px;
+  background: rgba(114, 116, 114, 0.3);
 }
 
-/* .modal-container {
-  position: absolute;
-  z-index: 9999
- 
-} */
+.container::before {
+  z-index: -1;
+}
 
 .modal-card {
   width: 380px;
   height: 535px;
   padding: 20px;
-  box-shadow: rgba(20, 20, 33, 0.25) 0px 40px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 20px 60px -20px,
-    rgba(10, 17, 34, 0.15) 0px -4px 12px 0px inset;
   position: absolute;
-  top: 70px;
-  left: 37.2%;
-  z-index: 9999;
+  top: 95px;
+  left: 35.8%;
+  background-color: #fff;
+  opacity: 1;
 }
 
 .user-picture {
@@ -106,4 +102,30 @@ body {
 
 .cancel-btn {
   font-family: "Lato", sans-serif;
+}
+
+@media (max-width: 500px) {
+  .modal-card {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 375px) {
+  .modal-card {
+    width: 340px;
+  }
+}
+
+@media (max-width: 360px) {
+  .modal-card {
+    width: 330px;
+  }
+}
+
+@media (max-width: 320px) {
+  .modal-card {
+    width: 300px;
+  }
 }

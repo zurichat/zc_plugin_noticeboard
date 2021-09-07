@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView,CommentReactionDeleteAPIView, CommentDeleteAPIView, NoticeDeleteAPIView, EditNoticeAPIView, RetrieveNoticeCommentsView, CommentCreateAPIView, UserNoticesView,CreateReactionAPIView,ViewersListView
+from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, CommentDeleteAPIView, NoticeDeleteAPIView, \
+    EditNoticeAPIView, RetrieveNoticeCommentsView, CommentCreateAPIView,NoticeDetailAPIView
 
-#add url routes here
+# add url routes here
 
 urlpatterns = [
 
@@ -9,25 +10,18 @@ urlpatterns = [
 
     path('all-notices', AllNoticesView.as_view()),
 
-    path('user-notices/<int:user_id>', UserNoticesView.as_view()),
-
     path('comment/reaction/update', CommentReactionAPIView.as_view()),
-    
+
     path('notice/update', EditNoticeAPIView.as_view()),
 
     path('comment/delete', CommentDeleteAPIView.as_view()),
-    
+
     path('notice/delete', NoticeDeleteAPIView.as_view()),
 
     path('comment/get', RetrieveNoticeCommentsView.as_view()),
 
-    path('comment/reaction/<int:pk>/delete', CommentReactionDeleteAPIView.as_view()),
-
     path('comment/create', CommentCreateAPIView.as_view()),
-	
-    path('notices/<int:notice_id>/viewed_by', ViewersListView.as_view()),
 
-    path('react/', CreateReactionAPIView.as_view(), name='react')  # Enables the user to react to a comment
+    path('notice/<int:notice_id>/details', NoticeDetailAPIView.as_view()),
 
 ]
-

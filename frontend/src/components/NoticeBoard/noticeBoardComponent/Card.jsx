@@ -11,7 +11,6 @@ import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 const Card = ({ person }) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
-  console.log(persons);
 
   const filterUsers = (index) => {
     const user = persons.filter((person) => person.id === index);
@@ -67,7 +66,7 @@ const Card = ({ person }) => {
           </Button>
         </div>
       </article>
-      {openModal && <ViewNoticeModal persons={persons} />}
+      {openModal && <ViewNoticeModal persons={persons} closeModal={setOpenModal}/>}
     </div>
   );
 };
