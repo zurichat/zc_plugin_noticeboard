@@ -1,7 +1,7 @@
 .userNoticeModal {
   display: none;
   background: rgba(16, 13, 32, 0.5);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
