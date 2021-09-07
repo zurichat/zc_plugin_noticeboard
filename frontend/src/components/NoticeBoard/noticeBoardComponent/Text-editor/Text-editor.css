@@ -1,7 +1,11 @@
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 :root {
     --button-color: #ffffff;
-    --border-color: #0000001A;
+    --border-color: rgba(0, 0, 0, 0.1);
     --button-hover-bg: #00BB7C;
     --placeholder-text-color: #333333;
   }
@@ -30,11 +34,11 @@ label{
 }
 
 .textarea{
-    border: 1px solid var(--border-color);
+    
     outline: none;
     padding: 15px 24px;
+    scrollbar-width: none;   
     -ms-overflow-style: none; 
-    scrollbar-width: none;     
 }
 
 
