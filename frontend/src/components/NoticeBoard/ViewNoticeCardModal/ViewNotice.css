@@ -31,7 +31,6 @@ body {
 
 .modal-card {
   width: 380px;
-  height: 535px;
   padding: 20px;
   position: absolute;
   top: 95px;
@@ -110,28 +109,29 @@ body {
   }
 }
 
+@media (max-width: 540px) {
+  .modal-card {
+    left: 15%;
+  }
+}
+
 @media (max-width: 500px) {
   .modal-card {
+    width: 300px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .modal-card {
-    width: 340px;
+    margin-top: -50px;
   }
 }
 
 @media (max-width: 360px) {
   .modal-card {
-    width: 330px;
-  }
-}
-
-@media (max-width: 320px) {
-  .modal-card {
-    width: 300px;
+    margin-top: 0;
   }
 }
