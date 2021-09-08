@@ -1,9 +1,9 @@
-import React from 'react';
-import './CreateNotice.css';
-import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import TextEditor from './Text-editor/Rich-text';
-import NewNotice from './New_Notice/new_notice'
+import React from "react";
+import "./CreateNotice.css";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import TextEditor from "./Text-editor/Rich-text";
+import NewNotice from "./New_Notice/new_notice";
 
 function CreateNotice() {
   // const [title, setTitle] = useState('');
@@ -11,18 +11,18 @@ function CreateNotice() {
   // const [noticeContent, setNoticeContent] = useState('');
   // const [activeOption, setActiveOption] = useState('');
   // const noticeContentRef = useRef();
-  
+
   return (
     <div className="dashboard-container">
       <header>
         <h3 className="heading">Create New Notice</h3>
-        <Link to = "/admin-notice">
-        <Button variant = "contained">Publish Notice</Button>
+        <Link to="/admin-notice">
+          <Button variant="contained">Publish Notice</Button>
         </Link>
       </header>
 
       <form>
-          <NewNotice />
+        <NewNotice />
       </form>
 
       <div className="TextEditor-wrapper">
@@ -30,13 +30,12 @@ function CreateNotice() {
       </div>
 
       <div className="publish-notice-button">
-      <Link to = "/admin-notice">
-      <Button variant = "contained">Publish Notice</Button>
-      </Link>
+        <Link to="/admin-notice">
+          <Button variant="contained">Publish Notice</Button>
+        </Link>
       </div>
-      
     </div>
-  )
+  );
 }
 
 export default CreateNotice;
