@@ -80,7 +80,6 @@ h6 {
 }
 
 .pin-text img {
-  /* border: 1px solid green; */
   width: 15px;
   height: 20px;
   margin-right: 10.6px;
@@ -138,7 +137,6 @@ section .profile {
 }
 
 section .img-profile-container {
-  /* border: 2px solid red; */
   width: 42px;
   height: 42px;
   overflow: hidden;
@@ -151,7 +149,6 @@ section .profile-pic {
 }
 
 section .identity {
-  /* border: 1px solid red; */
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -159,9 +156,7 @@ section .identity {
 }
 
 section .identity .name {
-  /* font-size: 14px; */
   font-weight: 700;
-  /* color: var(--main-black); */
 }
 
 section .identity .time-date {
@@ -172,15 +167,12 @@ section .identity .time-date {
 }
 
 section .info-icon {
-  /* border: 1px solid red; */
   padding: 10px;
   border-radius: 100%;
-  /* background-color: hsla(160, 100%, 97%, 1); */
   transition: all 0.5s;
 }
 
 section .info-icon:hover {
-  /* border: 1px solid red; */
   cursor: pointer;
   transform: scale(1.1);
 }
@@ -205,13 +197,11 @@ section .card-info {
 
 /* icon-tray and stuffs */
 section .icon-button-tray {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: space-between;
 }
 
 section .icon-tray {
-  /* border: 1px solid red; */
   display: flex;
   width: 120.62px;
 }
@@ -234,13 +224,12 @@ section .number {
 }
 
 section .card-button {
-  width: 138px;
-  height: 56px;
+  width: 120px;
+  height: 45px;
   border-color: var(--accent-color);
-  /* padding: 14px 42px; */
   color: var(--accent-color);
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
   transition: all 0.4s;
