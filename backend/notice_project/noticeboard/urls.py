@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/', include('notice.urls')),
-    # path('', TemplateView.as_view(template_name = "index.html")),
-    re_path(r'^.*', TemplateView.as_view(template_name='index.html')), 
+
+    re_path('', TemplateView.as_view(template_name = "index.html")),
     
 ]

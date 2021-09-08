@@ -1,4 +1,5 @@
 /* User Notice styling starts */
+
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap");
 * {
   margin: 0;
@@ -7,29 +8,26 @@
   font-family: "Lato", sans-serif;
 }
 
-.user-notice {
-  margin: 30px 0 50px;
+.notice-heading p {
+  font-size: 1.5em;
 }
 
-/* Notice card styling */
+.user-notice {
+  width: 85%;
+  margin: 1.5em auto 0;
+}
 
 .user-notice-post {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  padding-bottom: 1em;
 }
 
 .user-notice-card {
-  position: relative;
-  margin-top: 40px;
   box-shadow: 0px 0px 0px 2px rgba(219, 219, 219, 0.2);
   border-radius: 3px;
+  margin: 1em 0 2em;
   padding: 20px;
-  width: 23rem;
   background-color: white;
 }
-
-/* Notice Card Top */
 
 .user-notice-card .card-top {
   display: flex;
@@ -46,6 +44,10 @@
   height: 42px;
   width: 42px;
   background-color: rgb(195, 195, 195);
+}
+
+.notice-heading {
+  font-weight: 900;
 }
 
 .user-notice-card .card-top .avatar-grp .avatar img {
@@ -66,7 +68,6 @@
 .user-notice-card .card-top .avatar-grp .avatar-info .time-stamp {
   font-size: 12px;
   color: #999999;
-
   display: flex;
   align-items: center;
 }
@@ -87,12 +88,14 @@
 }
 
 /* Info icon styling */
+
 .user-notice-card .card-top .info-icon {
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 /* Notice card body  */
+
 .user-notice-card .card-body .notice-title {
   font-size: 14px;
   font-weight: 700;
@@ -128,9 +131,8 @@
 
 .user-notice-card .card-buttons-grp .view-btn {
   outline: none;
-  width: 140px;
+  width: 8em;
   padding: 8px;
-  font-size: 18px;
   border-radius: 3px;
   border: 1px solid #00bb7c;
   color: #00bb7c;
@@ -143,6 +145,70 @@
 .user-notice-card .card-buttons-grp .view-btn:hover {
   background-color: #00bb7c;
   color: white;
+}
+
+/* overriding material-UI default relative position on buttons, so as to enable absolute positioning */
+
+.MuiButtonBase-root {
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  align-items: center;
+  user-select: none;
+  position: initial !important;
+  border-radius: 0;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Responsiveness for User Notice Board */
+
+@media screen and (min-width: 768px) {
+  .user-notice {
+    width: 85%;
+    margin: 2.5em auto 0;
+  }
+
+  .user-notice-post {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-notice-card {
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .header_wraps {
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .notice {
+    width: 100%;
+    margin: 1em auto 0;
+  }
+
+  .user-notice-post {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 2em;
+    margin-top: 1em;
+  }
 }
 
 /* User  Notice styling End */
