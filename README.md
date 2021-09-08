@@ -12,7 +12,7 @@ CONTRIBUTION GUIDE
 7. Once you are done with coding, stage your changes: `git add .`
 8. Then commit your changes your local branch: `git commit -m 'your reason for adding the code'`
 
-   Tip :bulb:: You can check the files yet to be staged and committed with git status
+   Tip :bulb:: You can check the files yet to be staged and committed with `git status`
 
 9. Then check the parent repo if there has been any update since the last time you pull to avoid conflicts and have a work that is in sync by pulling from the parent repo again: `git pull upstream development`
 10. Once it is done merging, push your changes to your own repo: `git push origin development`

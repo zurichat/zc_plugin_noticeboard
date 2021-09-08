@@ -140,10 +140,7 @@ body .dashboard-container button {
     display: none;
   }
 
-  body .notice {
-    padding: 0px 12px;
-  }
-
+  
   .dashboard-container .publish-notice-button{
     display: flex;
     justify-content: center;

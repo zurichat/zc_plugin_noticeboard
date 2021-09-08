@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const IntroPMobileStyles = styled.div`
  @media screen and (max-width: 500px) {
