@@ -1,20 +1,10 @@
 from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
-<<<<<<< HEAD
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, CommentCreateSerializer
+from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, CommentCreateSerializer, CreateReactionSerializer
 import requests
 from django.http import JsonResponse
 
-
-class AllNoticesView(views.APIView):
-=======
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, \
-    CommentCreateSerializer, CreateReactionSerializer
-import requests
-from django.http import JsonResponse
-
->>>>>>> 530d5ae53197882ed1b1630241134b9c8accfde8
 
 class AllNoticesView(views.APIView):
     """GET request to display/retrieve all existing notices"""
@@ -132,15 +122,6 @@ class CommentReactionAPIView(views.APIView):
             "data": serializer.data,
             "message": "Your reaction could not be updated"
         })
-<<<<<<< HEAD
-
-
-def deleteNotice(request):
-    Message = {"output": "Your notice has been successfully deleted."}
-
-    return JsonResponse(Message, status=200)
-=======
->>>>>>> 530d5ae53197882ed1b1630241134b9c8accfde8
 
 
 class EditNoticeAPIView(views.APIView):
@@ -175,8 +156,6 @@ class EditNoticeAPIView(views.APIView):
             "message": "Your reaction could not be updated"
         })
 
-<<<<<<< HEAD
-=======
 
 class CommentCreateAPIView(views.APIView):
 
@@ -188,7 +167,6 @@ class CommentCreateAPIView(views.APIView):
             return Response(results, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
->>>>>>> 530d5ae53197882ed1b1630241134b9c8accfde8
 
 class CommentDeleteAPIView(views.APIView):
 
@@ -196,32 +174,6 @@ class CommentDeleteAPIView(views.APIView):
         return Response({"message": "You have successfully deleted your comment"}, status=status.HTTP_200_OK)
 
 
-<<<<<<< HEAD
-def delete(request):
-    data = {"message": "Your comment has been successfully deleted."}
-    return JsonResponse(data, status=200)
-
-
-class CommentCreateView(views.APIView):
-
-    def post(self, request):
-        serializer = CommentCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            # fields = {
-            #     "comment": "comment",
-            #     "date": "date_added"
-            # }
-            results = serializer.data
-            return Response(results, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class NoticeDeleteAPIView(views.APIView):
-    def delete(self, pk):
-        return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
-=======
 class NoticeDeleteAPIView(views.APIView):
     def delete(self, pk):
         return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
@@ -285,6 +237,7 @@ class UserNoticesView(views.APIView):
 class NoticeDetailAPIView(views.APIView):
 
     """GET request to display/retrieve all existing notices"""
+
     def get(self, request, notice_id):
         data = [
             {"notice_id": 1,
@@ -320,7 +273,3 @@ class NoticeDetailAPIView(views.APIView):
 
         results = CreateNoticeSerializer(datalist, many=True).data
         return Response(results, status=status.HTTP_200_OK)
-
-
-
->>>>>>> 530d5ae53197882ed1b1630241134b9c8accfde8
