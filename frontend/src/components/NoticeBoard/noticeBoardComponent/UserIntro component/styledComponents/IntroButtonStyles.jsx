@@ -1,36 +1,23 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const IntroButtonStyles = styled.button`
-	background: var(--accent-color) !important;
- 	color: var(--button-color) !important;
-	font-weight: bold;
-	padding: 10px, 24px;
-	width: 377px;
-	height: 56px;
-	text-transform: capitalize;
-	font-size: 16px;
-	margin-top: 40px !important;
-	margin-bottom: 125px;
- 	border: none;
- 	outline: none;
-	cursor: pointer;
- img {
-   display: none;
-   }
+  display: block;
+  background: var(--accent-color) !important;
+  color: var(--button-color) !important;
+  font-weight: bold;
+  padding: 1.1em 1.5em;
+  text-transform: capitalize;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #00bb7c;
+  border-radius: 3px;
+  margin: 0 auto 2em;
 
-	@media screen and (max-width: 500px) {
-		width: 167px;
-		height: 53px;
-		left: 87.5px;
-		background: #00bb7c;
-		border-radius: 3px;
-		margin-bottom: 197.54px !important;
-		margin-top: 0px;
-
-  img {
+  img { 
     display: inline-block;
-    width: fit-content;
-    margin-left: 16px;
-   }
-	}
+    vertical-align: text-bottom;
+    margin-left: 10px;
+  }
 `;

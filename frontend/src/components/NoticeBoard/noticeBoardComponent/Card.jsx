@@ -33,11 +33,11 @@ const Card = ({ person }) => {
             <div className="identity">
               <h6 className="name">{person.userName}</h6>
               <p className="time-date">
-                {person.date}{" "}
-                <span>
+                <span>{person.date}</span>
+                <span className="adminDot">
                   <img src={dot} alt="" />
                 </span>{" "}
-                {person.timeStamp}
+                <span>{person.timeStamp}</span>
               </p>
             </div>
           </div>
@@ -66,7 +66,9 @@ const Card = ({ person }) => {
           </Button>
         </div>
       </article>
-      {openModal && <ViewNoticeModal persons={persons} closeModal={setOpenModal}/>}
+      {openModal && (
+        <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
+      )}
     </div>
   );
 };

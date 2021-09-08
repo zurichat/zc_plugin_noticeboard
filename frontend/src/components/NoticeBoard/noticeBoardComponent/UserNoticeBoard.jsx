@@ -6,8 +6,7 @@ import UserNoticeModal from "./UserNoticeModal";
 
 const UserNotice = () => {
   const [users] = useState(NoticeData);
-  const [openModal, setOpenModal] = useState(false);
-
+  
   return (
     <div className="user-notice" id="user-notice">
       <div className="notice-heading">

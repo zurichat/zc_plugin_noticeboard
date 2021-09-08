@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import './CreateNotice.css';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -12,13 +12,6 @@ function CreateNotice() {
   // const [activeOption, setActiveOption] = useState('');
   // const noticeContentRef = useRef();
   
-  function handleSubmit() {
-    // handle notice submission
-    <Link to = "/admin-notice">
-      <Button variant = "contained">Publish Notice</Button>
-    </Link>
-  }
-
   return (
     <div className="dashboard-container">
       <header>
