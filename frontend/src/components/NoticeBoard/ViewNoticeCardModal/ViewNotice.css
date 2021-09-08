@@ -104,6 +104,12 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+@media (max-width: 800px) {
+  .modal-card {
+    left: 25%;
+  }
+}
+
 @media (max-width: 500px) {
   .modal-card {
     top: 50%;
