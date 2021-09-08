@@ -17,7 +17,8 @@
 }
 
 .dashboard-container {
-  position: relative;
+  width: 85%;
+  margin: 3em auto;
   color: var(--text-color);
   width: 85%;
   margin: 0 auto;
@@ -57,9 +58,6 @@ body .dashboard-container button {
   background-color: rgb(235, 235, 235);
 }
 
-.dashboard-container .settings-container .content-formaters span:hover {
-  background: rgb(235, 235, 235);
-}
 
 .dashboard-container button span {
   color: var(--button-color);
@@ -122,9 +120,10 @@ body .dashboard-container button {
   display: none;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .dashboard-container {
-    padding: 1em 0em;
+    width: 85%;
+    margin: .5em auto 2em;
   }
 
   .dashboard-container header {
@@ -141,7 +140,11 @@ body .dashboard-container button {
     display: none;
   }
 
-  .dashboard-container .publish-notice-button {
+  body .notice {
+    padding: 0px 12px;
+  }
+
+  .dashboard-container .publish-notice-button{
     display: flex;
     justify-content: center;
     align-items: center;
