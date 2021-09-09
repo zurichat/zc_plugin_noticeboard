@@ -274,5 +274,11 @@ class NoticeDetailAPIView(views.APIView):
         results = CreateNoticeSerializer(datalist, many=True).data
         return Response(results, status=status.HTTP_200_OK)
 
+def install(request):
+     install = {
+        "name" : "Noticeboard Plugin",
+        "description" : "Creates Notice",
+        "plugin_id" : "6139ca8d59842c7444fb01fe",
 
-
+     }
+     return JsonResponse(install, safe=False)
