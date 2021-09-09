@@ -4,5 +4,5 @@ from .views import sidebar
 # add url routes here
 
 urlpatterns = [
-    path('sidebar', sidebar),
+    path('sidebar', sidebar, name="sidebar"),
 ]
