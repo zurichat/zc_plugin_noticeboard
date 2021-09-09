@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
 
 @api_view(['GET'])
 def sidebar(request):
@@ -26,3 +27,12 @@ def sidebar(request):
                 ]
             }
     return Response(sidebar, status=status.HTTP_200_OK)
+
+def install(request):
+     install = {
+        "name" : "Noticeboard Plugin",
+        "description" : "Creates Notice",
+        "plugin_id" : "6139ca8d59842c7444fb01fe",
+
+     }
+     return JsonResponse(install, safe=False)
