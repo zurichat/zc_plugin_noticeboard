@@ -17,7 +17,7 @@ const UserIntro = () => {
               src={require("../../../../assets/Illustration.svg").default}
             />
           </div>
-          
+
           <IntroPMobileStyles>
             <p className="userIntro-mainText">
               👋 Hey! You have been invited to the Notice board, Create notices

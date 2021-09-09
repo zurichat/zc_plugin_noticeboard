@@ -58,7 +58,6 @@ body .dashboard-container button {
   background-color: rgb(235, 235, 235);
 }
 
-
 .dashboard-container button span {
   color: var(--button-color);
 }
@@ -123,7 +122,7 @@ body .dashboard-container button {
 @media screen and (max-width: 768px) {
   .dashboard-container {
     width: 85%;
-    margin: .5em auto 2em;
+    margin: 1em auto 2em;
   }
 
   .dashboard-container header {
@@ -140,11 +139,16 @@ body .dashboard-container button {
     display: none;
   }
 
-  
-  .dashboard-container .publish-notice-button{
+  .dashboard-container .publish-notice-button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 12px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .dashboard-container {
+    margin: 3em auto;
   }
 }
