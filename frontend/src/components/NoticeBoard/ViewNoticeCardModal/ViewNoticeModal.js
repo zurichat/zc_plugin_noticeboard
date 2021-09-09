@@ -1,6 +1,7 @@
 import React from "react";
 import CancelNoticeBtn from "./CancelNoticeBtn";
 import "./ViewNotice.css";
+import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
 
 const ViewNoticeModal = ({ persons, closeModal }) => {
   const cancelBtn = () => {
@@ -22,21 +23,27 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
       {persons.map((person) => {
         return (
           <div className="modal-card" id="modal" key={person.id}>
-            <div className="img-and-name-container">
-              <div className="img">
-                <img
-                  src={person.userImage}
-                  alt={person.userName}
-                  className="user-picture"
-                />
+            <div className="user-details-menu-flex">
+              <div className="img-and-name-container">
+                <div className="img">
+                  <img
+                    src={person.userImage}
+                    alt={person.userName}
+                    className="user-picture"
+                  />
+                </div>
+
+                <div className="name-time">
+                  <h1 className="user-name">{person.userName}</h1>
+                  <div className="time-stamps">
+                    <p className="date-stamp stamp-one">{person.date}</p>
+                    <p className="date-stamp stamp-two">{person.timeStamp}</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="name-time">
-                <h1 className="user-name">{person.userName}</h1>
-                <div className="time-stamps">
-                  <p className="date-stamp">{person.date}</p>
-                  <p className="date-stamp stamp-two">{person.timeStamp}</p>
-                </div>
+              <div className="admin-menu-container">
+                <AdminMenu />
               </div>
             </div>
 

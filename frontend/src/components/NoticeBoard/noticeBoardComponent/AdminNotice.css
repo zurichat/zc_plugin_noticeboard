@@ -204,6 +204,7 @@ section .icon-button-tray {
 section .icon-tray {
   display: flex;
   width: 120.62px;
+  align-items: flex-end;
 }
 
 .icon-tray img {
