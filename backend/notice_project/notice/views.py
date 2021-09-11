@@ -2,10 +2,11 @@ from rest_framework import views
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, \
-    CommentCreateSerializer, CreateReactionSerializer
+    CommentCreateSerializer, CreateReactionSerializer,CreateNoticeV2Serializer
 import requests
 from django.http import JsonResponse
-
+from rest_framework.decorators import api_view
+from .storage import Database
 
 class AllNoticesView(views.APIView):
     """GET request to display/retrieve all existing notices"""
@@ -282,3 +283,14 @@ def install(request):
 
      }
      return JsonResponse(install, safe=False)
+
+@api_view(["POST"])
+def store_notice(request):
+    serializer = CreateNoticeV2Serializer(data=request.data)
+    
+    if serializer.is_valid():
+        response = Database.save("Test_notice", notice_data=serializer.data)
+        if response and response.get("status_code") == 201:
+            return Response(
+                data=response, status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_400_BAD_REQUEST)

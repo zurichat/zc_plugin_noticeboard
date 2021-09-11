@@ -1,6 +1,3 @@
-from django.test import TestCase
-
-# Create your tests here.
 import requests, json
 
 
@@ -13,15 +10,15 @@ class Dbnoticeboard:
         self.read_endpoint = (
             BASE_URL + "/data/read/{pgn_id}/{collec_name}/{org_id}?{query}"
         )
-        self.write_endpoint ="https://api.zuri.chat/data/write"
+        self.write_endpoint = BASE_URL + "/data/write"
 
     def read(self):
         """Gets json data from the Db"""
         print("Read api works")
         pass
 
-    def save(self, collection_name,data):
-        """This method writes json to the Db.
+    def save(self, collection_name,notice_data):
+        """This method stores noticeboard related data as json to the Db.
         It does this using the collection name and the serialized json
         """
         di = {
@@ -31,12 +28,13 @@ class Dbnoticeboard:
             "bulk_write": False,
             "object_id": "55",
             "filter": {},
-            "payload": tolu,
+            "payload": notice_data,
         }
         
-        # yoh=json.dumps(di).encode("utf-8") """for decoding thd dictionary"
+        data=json.dumps(di).encode("utf-8")
+        print(data)
         try:
-            r = requests.post(self.write_endpoint,yoh)
+            r = requests.post(self.write_endpoint,data)
             print(r.text)
             r.raise_for_status()
         except requests.exceptions.RequestException as err:
@@ -51,22 +49,18 @@ class Dbnoticeboard:
 
 
 Database = Dbnoticeboard()
-Database.read()
-collection_name="tf"
-tolu = dict(name=5)
-di = {
-    "plugin_id": "6139276099bd9e223a37d91d",
-    "organization_id": "613a1a3b59842c7444fb0220",
-    "collection_name": collection_name,
-    "bulk_write": False,
-    "object_id": "55",
-    "filter": {},
-    "payload": tolu,
-}
+# Database.read()
+# notice_data = dict(name=5,song_artist="Celestine Ukwu")
+# di = {
+#     "plugin_id": "6139276099bd9e223a37d91d",
+#     "organization_id": "613a1a3b59842c7444fb0220",
+#     "collection_name": collection_name,
+#     "bulk_write": False,
+#     "object_id": "55",
+#     "filter": {},
+#     "payload": tolu,
+# }
 
 
-Database.save("tf")
-print(Database.save)
-
-
-url = "http://www.google.com/blahblah"
+# Database.save("tf",notice_data)
+# print(Database.save)
