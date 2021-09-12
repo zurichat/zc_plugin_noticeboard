@@ -99,7 +99,7 @@ class UpdateNoticeAPIView(views.APIView):
     def put(self,request):
         serializer = CreateNotice(data=request.data)
         if serializer.is_valid():
-            db.save("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613dfccbe4010959c8dc0c78")
+            db.save("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613dfe14e4010959c8dc0c7d")
             return Response(
                 {
                     "success":True, 
@@ -136,7 +136,7 @@ class UpdateNoticeAPIView(views.APIView):
 class DeleteNotice(views.APIView):
 
     def delete(self, request):
-        notice = db.delete("613a1a3b59842c7444fb0220","noticeboard","613dfccbe4010959c8dc0c78")
+        notice = db.delete("613a1a3b59842c7444fb0220","noticeboard","613dfd1ce4010959c8dc0c79")
         if notice['status'] == 200:
             return Response(
                 {
