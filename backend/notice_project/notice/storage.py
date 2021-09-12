@@ -67,8 +67,9 @@ class Dbnoticeboard:
             "plugin_id": "6139276099bd9e223a37d91d",
             "organization_id": org_id,
             "collection_name": collection_name,
-            "bulk_write": False,
-            "object_id": object_id
+            "bulk_delete": False,
+            "object_id": object_id,
+            "filter":{}
         }
 
         try:
