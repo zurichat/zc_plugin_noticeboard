@@ -1,4 +1,5 @@
 import requests, json
+from urllib.parse import urlencode
 
 
 class Dbnoticeboard:
@@ -8,30 +9,46 @@ class Dbnoticeboard:
     def __init__(self):
         BASE_URL = "https://api.zuri.chat"
         self.read_endpoint = (
-            BASE_URL + "/data/read/{pgn_id}/{collec_name}/{org_id}?{query}"
+            BASE_URL + "/data/read/6139276099bd9e223a37d91d/{collec_name}/{org_id}?{query}"
         )
         self.write_endpoint = BASE_URL + "/data/write"
+        self.delete_endpoint = BASE_URL + "/data/delete"
 
-    def read(self):
+    def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""
-        print("Read api works")
-        pass
 
-    def save(self, collection_name,notice_data):
+        query = urlencode(filter)
+
+        url = self.read_endpoint.format(
+            collec_name=collection_name,
+            org_id=org_id,
+            query=query
+        )
+
+        try:
+            res = requests.get(url=url).json()
+            print("Working.................!")
+            print(res)
+            return res
+
+        except requests.exceptions.RequestException as err:
+            print("OOps: There is a problem with the Request", err)
+        
+
+    def save(self, collection_name, org_id, notice_data, object_id = None):
         """This method stores noticeboard related data as json to the Db.
         It does this using the collection name and the serialized json
         """
         di = {
             "plugin_id": "6139276099bd9e223a37d91d",
-            "organization_id": "613a1a3b59842c7444fb0220",
+            "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
-            "object_id": "55",
-            "filter": {},
+            "object_id": object_id,
             "payload": notice_data,
         }
         
-        data=json.dumps(di).encode("utf-8")
+        data=json.dumps(di).encode('utf-8')
         print(data)
         try:
             r = requests.post(self.write_endpoint,data)
@@ -45,22 +62,23 @@ class Dbnoticeboard:
             print("Error Connecting:", errc)
 
 
-        pass
+    def delete(self, org_id, collection_name, object_id):
+        data = {
+            "plugin_id": "6139276099bd9e223a37d91d",
+            "organization_id": org_id,
+            "collection_name": collection_name,
+            "bulk_write": False,
+            "object_id": object_id
+        }
+
+        try:
+            res = requests.post(self.delete_endpoint, json.dumps(data))
+            response = res.json()
+            print(response)
+            return response
+        except requests.exceptions.RequestException as err:
+            print("OOps: There is a problem with the Request", err)
 
 
-Database = Dbnoticeboard()
-# Database.read()
-# notice_data = dict(name=5,song_artist="Celestine Ukwu")
-# di = {
-#     "plugin_id": "6139276099bd9e223a37d91d",
-#     "organization_id": "613a1a3b59842c7444fb0220",
-#     "collection_name": collection_name,
-#     "bulk_write": False,
-#     "object_id": "55",
-#     "filter": {},
-#     "payload": tolu,
-# }
 
-
-# Database.save("tf",notice_data)
-# print(Database.save)
+db = Dbnoticeboard()
