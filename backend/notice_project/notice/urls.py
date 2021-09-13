@@ -16,5 +16,5 @@ urlpatterns = [
 
     path('delete', DeleteNotice.as_view()),
 
-    path('search/', search.as_view())
+    path('search', search.as_view())
 ]
