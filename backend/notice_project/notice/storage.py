@@ -35,7 +35,7 @@ class Dbnoticeboard:
             print("OOps: There is a problem with the Request", err)
         
 
-    def save(self, collection_name, org_id, notice_data, object_id = None):
+    def save(self, collection_name, org_id, notice_data):
         """This method stores noticeboard related data as json to the Db.
         It does this using the collection name and the serialized json
         """
@@ -44,7 +44,6 @@ class Dbnoticeboard:
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
-            "object_id": object_id,
             "payload": notice_data,
         }
         
@@ -56,6 +55,32 @@ class Dbnoticeboard:
             r.raise_for_status()
         except requests.exceptions.RequestException as err:
             print("OOps: There is a problem with the Request", err)
+        except requests.exceptions.HTTPError as errh:
+            print("Http Error:", errh)
+        except requests.exceptions.ConnectionError as errc:
+            print("Error Connecting:", errc)
+
+
+    def update(self, collection_name, org_id, notice_data, object_id):
+        """This method updates noticeboard related data as json to the Db.
+        It does this using the collection name and the serialized json
+        """
+        di = {
+            "plugin_id": "6139276099bd9e223a37d91d",
+            "organization_id": org_id,
+            "collection_name": collection_name,
+            "bulk_write": False,
+            "object_id": object_id,
+            "payload": notice_data,
+        }
+        
+        try:
+            res = requests.put(self.write_endpoint, json=di)
+            response = res.json()
+            print(response)
+            return response
+        except requests.exceptions.RequestException as err:
+            print("Oops: There is a problem with the Request", err)
         except requests.exceptions.HTTPError as errh:
             print("Http Error:", errh)
         except requests.exceptions.ConnectionError as errc:
