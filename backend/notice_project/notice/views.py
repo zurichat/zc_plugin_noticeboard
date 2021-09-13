@@ -101,25 +101,7 @@ class UpdateNoticeAPIView(views.APIView):
     def put(self,request):
         serializer = CreateNotice(data=request.data)
         if serializer.is_valid():
-            db.save("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613dfe14e4010959c8dc0c7d")
-            return Response(
-                {
-                    "success":True, 
-                    "data":serializer.data,
-                    "message":"Successfully updated"
-                }, 
-                status=status.HTTP_201_CREATED)
-        return Response(
-            {
-                "success":False, 
-                "message":"Boss do am again, e no create. No vex"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self,request):
-        serializer = CreateNotice(data=request.data)
-        if serializer.is_valid():
-            db.save("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613dfccbe4010959c8dc0c78")
+            db.update("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613e4cf015fb2424261b6633")
             return Response(
                 {
                     "success":True, 
@@ -138,7 +120,7 @@ class UpdateNoticeAPIView(views.APIView):
 class DeleteNotice(views.APIView):
 
     def delete(self, request):
-        notice = db.delete("613a1a3b59842c7444fb0220","noticeboard","613dfd1ce4010959c8dc0c79")
+        notice = db.delete("613a1a3b59842c7444fb0220","noticeboard","613f47b26173056af01b4a56")
         if notice['status'] == 200:
             return Response(
                 {
