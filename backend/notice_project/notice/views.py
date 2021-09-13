@@ -7,6 +7,8 @@ from rest_framework.serializers import Serializer
 from .storage import db
 from .serializers import CreateNotice
 from django.http import HttpResponse
+from rest_framework.generics import ListAPIView
+
 
 @api_view(['GET'])
 def sidebar(request):
@@ -151,3 +153,26 @@ class DeleteNotice(views.APIView):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+
+class search(ListAPIView):    
+    def get(self, request):
+        notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
+        if notice['status'] == 200:
+            all_notice = notice['data']
+            query = request.GET.get("q")
+
+            if query:
+                all_notice = list(filter(lambda x:x['body'] == query or x['title'] == query, all_notice))
+            return Response(
+            {
+                "status":True,
+                "data": all_notice,
+                "message":"Successfully retrieved"
+            }, 
+            status=status.HTTP_200_OK)
+        return Response(
+            {
+                "success": False,
+                "message":"Failed"
+            },
+            status=status.HTTP_400_BAD_REQUEST)
