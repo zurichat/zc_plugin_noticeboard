@@ -21,7 +21,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/', include('notice.urls')),
+    path('api/v1/', include('notice.urls')),
 
     re_path('', TemplateView.as_view(template_name = "index.html")),
     

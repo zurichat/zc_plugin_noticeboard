@@ -47,6 +47,7 @@
 .userNoticeModal-image {
   width: 100%;
   height: 100%;
+  object-fit: cover ;
 }
 
 .userNoticeModal-textContainer {
@@ -145,5 +146,15 @@
 
   .user-notice-card {
     width: 100%;
+  }
+}
+
+@media (max-width: 320px) {
+  .userNoticeModal-paragraph {
+    font-size: smaller;
+  }
+
+  .userNoticeModal-timeStamp {
+    font-size: x-small;
   }
 }

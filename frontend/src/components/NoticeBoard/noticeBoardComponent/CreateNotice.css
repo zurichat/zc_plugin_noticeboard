@@ -5,11 +5,10 @@
   padding: 0;
   box-sizing: border-box;
   font-style: normal;
-  
 }
 
 :root {
-  --button-bg: #00BB7C;
+  --button-bg: #00bb7c;
   --button-hover-bg: #01b478;
   --text-color: #333333;
   --button-color: #ffffff;
@@ -21,6 +20,8 @@
   width: 85%;
   margin: 3em auto;
   color: var(--text-color);
+  width: 85%;
+  margin: 0 auto;
 }
 
 .dashboard-container header {
@@ -57,7 +58,6 @@ body .dashboard-container button {
   background-color: rgb(235, 235, 235);
 }
 
-
 .dashboard-container button span {
   color: var(--button-color);
 }
@@ -90,16 +90,14 @@ body .dashboard-container button {
   position: relative;
 }
 
-
 .dashboard-container label {
   font-weight: 600;
 }
 
-.dashboard-container input:focus{
+.dashboard-container input:focus {
   border-color: var(--border-hover-color);
   outline: none;
 }
-
 
 .dashboard-container form select {
   cursor: pointer;
@@ -109,7 +107,6 @@ body .dashboard-container button {
   margin-right: 20px;
 }
 
-
 .toggler {
   margin-right: 10px;
   display: flex;
@@ -118,16 +115,16 @@ body .dashboard-container button {
   cursor: pointer;
 }
 
-.dashboard-container .publish-notice-button{
+.dashboard-container .publish-notice-button {
   display: none;
 }
-
 
 @media screen and (max-width: 768px) {
   .dashboard-container {
     width: 85%;
-    margin: .5em auto 2em;
+    margin: 1em auto 2em;
   }
+
   .dashboard-container header {
     flex-direction: column;
     align-items: flex-start;
@@ -142,18 +139,16 @@ body .dashboard-container button {
     display: none;
   }
 
-  body .notice {
-    padding: 0px 12px;
-  }
-
-  .dashboard-container .publish-notice-button{
+  .dashboard-container .publish-notice-button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 12px;
   }
-  
 }
 
-
-
+@media only screen and (min-width: 1024px) {
+  .dashboard-container {
+    margin: 3em auto;
+  }
+}

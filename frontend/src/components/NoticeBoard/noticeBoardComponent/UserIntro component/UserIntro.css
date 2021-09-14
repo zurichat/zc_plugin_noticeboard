@@ -3,9 +3,25 @@
   font-family: "Lato", sans-serif;
 }
 
+:root {
+  --accent-color: hsla(160, 100%, 37%, 1);
+  --main-black: hsla(0, 0%, 20%, 1);
+  --main-gray: hsla(0, 0%, 60%, 1);
+  --white-color: rgb(251, 248, 248);
+  --button-color: #fff;
+}
+
 .UserIntro {
-  display: grid;
-  place-items: center;
+  position: relative;
+  width: 85%;
+  height: 80vh;
+  margin: 0 auto;
+}
+
+.UserIntro-innerContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .Img {
@@ -26,35 +42,23 @@
   color: #333333;
 }
 
-.UserIntro p {
-  line-height: 1.5;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.IntroImg {
+  width: 100%;
 }
 
-:root {
-  --accent-color: hsla(160, 100%, 37%, 1);
-  --main-black: hsla(0, 0%, 20%, 1);
-  --main-gray: hsla(0, 0%, 60%, 1);
-  --white-color: rgb(251, 248, 248);
-  --button-color: #fff;
+.IntroImg img {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
 }
 
-@media screen and (max-width: 830px) {
+@media only screen and (min-width: 768px) {
   .UserIntro a {
     height: fit-content;
   }
 
-  .Img {
-    height: 228.46153259277344px;
-    width: 342px;
-  }
-
   .UserIntroPmobile {
     display: block;
-    width: 332px;
-    height: 88px;
     right: 5px;
     top: 252.46px;
     font-family: Lato;
@@ -65,6 +69,7 @@
     color: #333333;
     margin-bottom: 24px;
   }
+
   .UserIntroPmobile p {
     right: 5px;
     font-style: normal;
@@ -78,5 +83,18 @@
   .IntroButton img {
     display: block;
     margin-left: 16px;
+  }
+
+  .userIntro-mainText {
+    padding: 0 5em;
+    line-height: 1.5;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .userIntro-mainText {
+    width: 50%;
+    margin: 0 auto;
+    line-height: 1.5;
   }
 }

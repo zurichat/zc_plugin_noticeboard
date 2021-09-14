@@ -1,121 +1,139 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 :root {
-    --button-color: #ffffff;
-    --border-color: rgba(0, 0, 0, 0.1);
-    --button-hover-bg: #00BB7C;
-    --placeholder-text-color: #333333;
-  }
-
-label{
-    font-weight: 700;
-    padding-bottom: 10px;
-    display: block;
-    width: fit-content;
-}
-.text-editor-wrapper{
-    display: block;
-    height: fit-content;
-    max-width: 100%; /* set the width of the component */
-    height: 50vh; /* set the height of the component */
-    overflow-y: hidden;
+  --button-color: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --button-hover-bg: #00bb7c;
+  --placeholder-text-color: #333333;
 }
 
-.text-editor{
-    display: flex;
-    flex-direction: column-reverse;
-    height: 90%;
-    width: 100%;
-    border: 1px solid var(--border-color);
-    box-sizing: border-box !important;
+label {
+  font-weight: 700;
+  padding-bottom: 10px;
+  display: block;
+  width: fit-content;
 }
 
-.textarea{
-    
-    outline: none;
-    padding: 15px 24px;
-    scrollbar-width: none;   
-    -ms-overflow-style: none; 
+.text-editor-wrapper {
+  display: block;
+  height: fit-content;
+  max-width: 100%; /* set the width of the component */
+  height: 50vh; /* set the height of the component */
+  overflow-y: hidden;
 }
 
+.text-editor {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 90%;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box !important;
+}
+
+.textarea {
+  outline: none;
+  padding: 15px 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 .textarea::-webkit-scrollbar {
-    display: none;
-}
-  
-.toolbarClass{
-    display: inline-flex;
-    align-items: center;
+  display: none;
 }
 
+.toolbarClass {
+  display: inline-flex;
+  align-items: center;
+}
 
 /* style sheet is designed to overwrite the one that comes with the node_module therefore !important is used*/
 
-.rdw-editor-toolbar{
-    display: block !important ; 
+.rdw-editor-toolbar {
+  display: block !important ;
 }
 
-.rdw-option-wrapper{
-    border: none !important;
-    display: inline-flex !important;
+.rdw-option-wrapper {
+  border: none !important;
+  display: inline-flex !important;
 }
 
-
-
-.rdw-option-wrapper:hover, .rightIcons:hover{
-    background-color: var(--button-hover-bg) !important;
+.rdw-option-wrapper:hover,
+.rightIcons:hover {
+  background-color: var(--button-hover-bg) !important;
 }
 
-.rdw-option-wrapper:active{
-    background-color: var(--button-hover-bg) !important;
+.rdw-option-wrapper:active {
+  background-color: var(--button-hover-bg) !important;
 }
 .rdw-option-active {
-    background-color: var(--button-hover-bg) !important;
+  background-color: var(--button-hover-bg) !important;
 }
 
-.rdw-fontsize-wrapper, .rdw-emoji-wrapper, .rdw-inline-wrapper, .rdw-text-align-wrapper, .rdw-link-wrapper, .rdw-list-wrapper, .rdw-image-wrapper{ 
-    display: inline-block !important;
-    border: none !important;
-    
+.rdw-fontsize-wrapper,
+.rdw-emoji-wrapper,
+.rdw-inline-wrapper,
+.rdw-text-align-wrapper,
+.rdw-link-wrapper,
+.rdw-list-wrapper,
+.rdw-image-wrapper {
+  display: inline-block !important;
+  border: none !important;
 }
 
-.rdw-fontsize-wrapper{
-    display: inline-flex !important;
-
+.rdw-fontsize-wrapper {
+  display: inline-flex !important;
 }
 
-
-.rdw-image-wrapper, .rdw-emoji-wrapper{
-    float: right;
-    cursor: pointer;
+.rdw-image-wrapper,
+.rdw-emoji-wrapper {
+  float: right;
+  cursor: pointer;
 }
 
-.rdw-emoji-modal, .rdw-image-modal, .rdw-link-modal{
-    top: -180px !important;
+.rdw-emoji-modal,
+.rdw-image-modal,
+.rdw-link-modal {
+  top: -180px !important;
   left: -200px !important;
 }
 
-
-.rdw-dropdown-optionwrapper{
-    top: -280px !important;
+.rdw-dropdown-optionwrapper {
+  top: -280px !important;
 }
 
-.rdw-image-modal-size-input{
-    width: 40% !important;
+.rdw-image-modal-size-input {
+  width: 40% !important;
 }
 
-.rdw-image-modal-url-input, .rdw-link-modal-input {
-    width: 100% !important;
+.rdw-image-modal-url-input,
+.rdw-link-modal-input {
+  width: 100% !important;
 }
 
-.rdw-image-modal{
-    top: -310px !important;
+.rdw-image-modal {
+  top: -310px !important;
   left: -200px !important;
 }
 
+.rdw-editor-toolbar div {
+  display: inline;
+  vertical-align: middle;
+}
 
+.rdw-dropdown-carettoopen {
+  margin: 2px 0px 0px 2px;
+}
 
+.rdw-fontsize-wrapper {
+  box-shadow: 0px 1px 3px 1px rgb(236, 236, 236);
+}
 
+/* To overwrite the default scroll that is added to the textarea*/
+
+.rdw-editor-main {
+  overflow: initial !important;
+}

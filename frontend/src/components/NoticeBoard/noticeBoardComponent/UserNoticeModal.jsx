@@ -14,6 +14,12 @@ function UserNoticeModal({ user }) {
     document.getElementById(modal_id).style.display = "none";
   };
 
+  document.addEventListener('keydown', (event) => {
+    if(event.key === "Escape"){
+      document.getElementById(modal_id).style.display = "none";
+    }
+  })
+
   return (
     <div className="userNoticeModal" id={modal_id}>
       <div className="userNoticeModal-container">

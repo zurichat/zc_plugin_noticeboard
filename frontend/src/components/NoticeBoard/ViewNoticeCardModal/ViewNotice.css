@@ -31,7 +31,6 @@ body {
 
 .modal-card {
   width: 380px;
-  height: 535px;
   padding: 20px;
   position: absolute;
   top: 95px;
@@ -44,6 +43,11 @@ body {
   width: 50px;
   height: 50px;
   object-fit: cover;
+}
+
+.user-details-menu-flex {
+  display: flex;
+  justify-content: space-between;
 }
 
 .img-and-name-container,
@@ -80,7 +84,6 @@ body {
 }
 
 .modal-info {
-  text-align: justify;
   padding-top: 15px;
   line-height: 20px;
 }
@@ -104,34 +107,54 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+@media (max-width: 1500px){
+  .cancel-btn {
+    width: 100px;
+  }
+}
+
 @media (max-width: 800px) {
   .modal-card {
     left: 25%;
   }
 }
 
+@media (max-width: 540px) {
+  .modal-card {
+    left: 15%;
+  }
+}
+
 @media (max-width: 500px) {
   .modal-card {
+    width: 300px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .cancel-btn-container {
+    display: block;
+  }
+
+  .user-name {
+    font-size: small;
+  }
+
+  .cancel-btn {
+    width: 100%;
+    display: block;
+  }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .modal-card {
-    width: 340px;
+    margin-top: -50px;
   }
 }
 
 @media (max-width: 360px) {
   .modal-card {
-    width: 330px;
-  }
-}
-
-@media (max-width: 320px) {
-  .modal-card {
-    width: 300px;
+    margin-top: 0;
   }
 }
