@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import datetime
 import requests
 from django.http import JsonResponse, request
 from rest_framework import views, status, views
@@ -64,11 +65,13 @@ class CreateNewNotices(views.APIView):
     '''
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
+        dateAndTime = datetime.datetime.now()
+
         if serializer.is_valid():
-            organization_id =  serializer.validated_data.get("department")
+            department =  serializer.validated_data.get("department")
             db.save(
                 "noticeboard", 
-                org_id=organization_id, 
+                "613a1a3b59842c7444fb0220", 
                 notice_data=serializer.data
             )
 
