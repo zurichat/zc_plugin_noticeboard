@@ -1,11 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import datetime
 import requests
 from django.http import JsonResponse, request
 from rest_framework import views, status, views
 from rest_framework.serializers import Serializer
 from .storage import db
-from .serializers import CreateNotice
+from .serializers import CreateNoticeSerializer
 from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
 
@@ -57,25 +58,27 @@ def install(request):
      return JsonResponse(install, safe=False)
 
 
-class CreateNoticeAPIView(views.APIView):
+class CreateNewNotices(views.APIView):
 
-    def post(self,request):
-        serializer = CreateNotice(data=request.data)
+    '''
+    Create new notices
+    '''
+    def post(self, request):
+        serializer = CreateNoticeSerializer(data=request.data)
+        dateAndTime = datetime.datetime.now()
+
         if serializer.is_valid():
-            db.save("noticeboard", "613a1a3b59842c7444fb0220", serializer.data)
-            return Response(
-                {
-                    "success":True, 
-                    "data":serializer.data,
-                    "message":"Successfully created"
-                }, 
-                status=status.HTTP_201_CREATED)
-        return Response(
-            {
-                "success":False, 
-                "message":"Boss do am again, e no create. No vex"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST)
+            department =  serializer.validated_data.get("department")
+            db.save(
+                "noticeboard", 
+                "613a1a3b59842c7444fb0220", 
+                notice_data=serializer.data
+            )
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class NoticeAPI(views.APIView):
     
@@ -99,7 +102,7 @@ class NoticeAPI(views.APIView):
 class UpdateNoticeAPIView(views.APIView):
 
     def put(self,request):
-        serializer = CreateNotice(data=request.data)
+        serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613e4cf015fb2424261b6633")
             return Response(
