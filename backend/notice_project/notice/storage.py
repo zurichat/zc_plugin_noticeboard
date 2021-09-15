@@ -1,7 +1,8 @@
 import requests, json
 from urllib.parse import urlencode
-from django.conf import settings
 
+
+CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
 
 class Dbnoticeboard:
 
@@ -17,7 +18,7 @@ class Dbnoticeboard:
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
     def post_to_centrifugo(self, data):
-        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + settings.CENTRIFUGO_TOKEN}
+        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + CENTRIFUGO_TOKEN}
         command = {
             "method": "publish",    
             "params": {
