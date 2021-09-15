@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     #installed apps
     'notice',
     'rest_framework',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -132,3 +134,5 @@ STATIC_ROOT = os.path.join(BASE_DIR,'build', "static")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PLUGIN_ID=""
+
+CORS_ALLOW_ALL_ORIGINS = True
