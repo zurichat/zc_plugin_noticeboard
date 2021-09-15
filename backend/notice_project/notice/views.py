@@ -147,7 +147,7 @@ class search(ListAPIView):
             query = request.GET.get("q")
 
             if query:
-                all_notice = list(filter(lambda x:x['body'] == query or x['title'] == query, all_notice))
+                all_notice = list(filter(lambda x:x['message'] == query or x['title'] == query, all_notice))
             return Response(
             {
                 "status":True,

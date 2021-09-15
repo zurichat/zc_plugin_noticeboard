@@ -2,6 +2,8 @@ import requests, json
 from urllib.parse import urlencode
 
 
+CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
+
 class Dbnoticeboard:
 
     """Class based DB to Read and write to zc_core using the read and write endpoints"""
@@ -13,6 +15,25 @@ class Dbnoticeboard:
         )
         self.write_endpoint = BASE_URL + "/data/write"
         self.delete_endpoint = BASE_URL + "/data/delete"
+        self.centrifugo_url = "https://realtime.zuri.chat/api"
+
+    def post_to_centrifugo(self, data):
+        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + CENTRIFUGO_TOKEN}
+        command = {
+            "method": "publish",    
+            "params": {
+                "channel": "noticeboard", 
+                "data": data  
+                }
+            }
+        try:
+            response = requests.post(url=self.centrifugo_url, headers=headers, json=command)
+            return {
+                    "status_code": response.status_code,
+                    "message": response.json()
+                }
+        except Exception as e:
+            print(e)
 
     def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""
