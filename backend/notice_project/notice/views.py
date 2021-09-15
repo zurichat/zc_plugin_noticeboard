@@ -1,9 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import datetime
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom
+from .serializers import NoticeboardRoom, CreateNoticeSerializer
 from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
 import uuid
@@ -73,6 +74,29 @@ def install(request):
         "plugin_id" : "613fc3ea6173056af01b4b3e",
     }
     return Response(install)
+
+        
+class CreateNewNotices(views.APIView):
+
+    '''
+    Create new notices
+    '''
+    def post(self, request):
+        serializer = CreateNoticeSerializer(data=request.data)
+        dateAndTime = datetime.datetime.now()
+
+        if serializer.is_valid():
+            department =  serializer.validated_data.get("department")
+            db.save(
+                "noticeboard", 
+                "613a1a3b59842c7444fb0220", 
+                notice_data=serializer.data
+            )
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class search(ListAPIView):    
     def get(self, request):
