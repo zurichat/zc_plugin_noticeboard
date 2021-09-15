@@ -32,6 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+CENTRIFUGO_TOKEN = env('CENTRIFUGO_TOKEN')
 
 print(BASE_DIR)
 
@@ -48,9 +49,12 @@ INSTALLED_APPS = [
     #installed apps
     'notice',
     'rest_framework',
+    "corsheaders",
+
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,3 +139,5 @@ STATIC_ROOT = os.path.join(BASE_DIR,'build', "static")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PLUGIN_ID=""
+
+CORS_ALLOW_ALL_ORIGINS = True
