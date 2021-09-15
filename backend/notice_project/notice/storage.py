@@ -103,7 +103,7 @@ class Dbnoticeboard:
             print(response)
             return response
         except requests.exceptions.RequestException as err:
-            print("OOps: There is a problem with the Request", err)
+            print("OOps: There is a problem with the Request,try again.", err)
 
 
 
