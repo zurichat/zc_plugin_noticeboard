@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 from .storage import db
 
@@ -11,5 +12,5 @@ class NoticeboardRoom(serializers.Serializer):
 
 class CreateNoticeSerializer(serializers.Serializer):
     title = serializers.CharField(max_length = 255)
-    department = serializers.CharField(max_length = 255)
+    created = serializers.DateTimeField(default_timezone=timezone.now())
     message = serializers.CharField(max_length = 255)
