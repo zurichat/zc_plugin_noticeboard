@@ -84,7 +84,6 @@ class CreateNewNotices(views.APIView):
         dateAndTime = datetime.datetime.now()
 
         if serializer.is_valid():
-            department =  serializer.validated_data.get("department")
             db.save(
                 "noticeboard", 
                 "613a1a3b59842c7444fb0220", 
