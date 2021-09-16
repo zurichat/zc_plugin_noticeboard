@@ -1,7 +1,8 @@
 import requests, json
 from urllib.parse import urlencode
-from django.conf import settings
 
+
+CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
 
 class Dbnoticeboard:
 
@@ -10,14 +11,14 @@ class Dbnoticeboard:
     def __init__(self):
         BASE_URL = "https://api.zuri.chat"
         self.read_endpoint = (
-            BASE_URL + "/data/read/613fc3ea6173056af01b4b3e/{collec_name}/{org_id}?{query}"
+            BASE_URL + "/data/read/6139276099bd9e223a37d91d/{collec_name}/{org_id}?{query}"
         )
         self.write_endpoint = BASE_URL + "/data/write"
         self.delete_endpoint = BASE_URL + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
     def post_to_centrifugo(self, data):
-        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + settings.CENTRIFUGO_TOKEN}
+        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + CENTRIFUGO_TOKEN}
         command = {
             "method": "publish",    
             "params": {
@@ -52,7 +53,7 @@ class Dbnoticeboard:
             return res
 
         except requests.exceptions.RequestException as err:
-            print("Oops: There is a problem with the Request", err)
+            print("OOps: There is a problem with the Request", err)
         
 
     def save(self, collection_name, org_id, notice_data):
@@ -60,7 +61,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": "6139276099bd9e223a37d91d",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -73,7 +74,6 @@ class Dbnoticeboard:
             r = requests.post(self.write_endpoint,data)
             print(r.text)
             r.raise_for_status()
-            self.post_to_centrifugo(notice_data)
         except requests.exceptions.RequestException as err:
             print("OOps: There is a problem with the Request", err)
         except requests.exceptions.HTTPError as errh:
@@ -87,7 +87,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": "6139276099bd9e223a37d91d",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -110,7 +110,7 @@ class Dbnoticeboard:
 
     def delete(self, org_id, collection_name, object_id):
         data = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": "6139276099bd9e223a37d91d",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_delete": False,

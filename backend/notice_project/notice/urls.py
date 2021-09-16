@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import install,sidebar,create_room, search, CreateNewNotices
+from .views import install,sidebar, CreateNewNotices, NoticeAPI, UpdateNoticeAPIView, DeleteNotice, search
 
 # add url routes here
 
@@ -8,9 +8,13 @@ urlpatterns = [
 
     path('install',install, name='install'),
 
-    path('create-notice-room', create_room),
-
     path('create-notice', CreateNewNotices.as_view()),
+
+    path('update', UpdateNoticeAPIView.as_view()),
+
+    path('view', NoticeAPI.as_view()),
+
+    path('delete', DeleteNotice.as_view()),
 
     path('search', search.as_view())
 ]
