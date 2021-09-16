@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import install,sidebar, create_room, CreateNewNotices, search
+from .views import install,sidebar, create_room, CreateNewNotices, search, get_room
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -26,6 +26,8 @@ urlpatterns = [
    path('create-notice', CreateNewNotices.as_view()),
 
    path('search', search.as_view()),
+
+   path('get-room', get_room),
 
    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 

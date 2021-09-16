@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .storage import db
 
 class NoticeboardRoom(serializers.Serializer):
-    id = serializers.UUIDField()
+    room_id = serializers.UUIDField()
     title = serializers.CharField()
     unread = serializers.IntegerField()
     members = serializers.IntegerField()
