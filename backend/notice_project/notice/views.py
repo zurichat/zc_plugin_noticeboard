@@ -89,7 +89,6 @@ class CreateNewNotices(views.APIView):
     '''
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
-        dateAndTime = datetime.datetime.now()
 
         if serializer.is_valid():
             db.save(
