@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     #installed apps
     'notice',
     'rest_framework',
-    "corsheaders",
+    'corsheaders',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
