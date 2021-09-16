@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 * {
-  font-family: "Lato";
+  font-family: 'Lato';
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -66,7 +66,7 @@ body .dashboard-container button {
   background-color: var(--button-hover-bg) !important;
 }
 
-.dashboard-container form > div {
+/* .dashboard-container form > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,7 +88,7 @@ body .dashboard-container button {
 .dashboard-container form {
   width: 100%;
   position: relative;
-}
+} */
 
 .dashboard-container label {
   font-weight: 600;
@@ -145,6 +145,15 @@ body .dashboard-container button {
     align-items: center;
     margin-top: 12px;
   }
+}
+
+.text-editor {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 300px;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box !important;
 }
 
 @media only screen and (min-width: 1024px) {

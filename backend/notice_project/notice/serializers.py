@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .storage import db
 
-class CreateNotice(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
-    body = serializers.CharField(max_length=200)
+class CreateNoticeSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length = 255)
+    department = serializers.CharField(max_length = 255)
+    message = serializers.CharField(max_length = 255)
