@@ -51,13 +51,20 @@ def create_room(request):
     if serializer.is_valid():
         db.save("noticeboard_room", org_id, serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_room(request):
+    org_id = "613a1a3b59842c7444fb0220"
+    data = db.read("noticeboard_room", org_id)
+    return Response(data)
 
 
 @api_view(['GET'])
 def install(request):
     data = {
-            "id": uuid.uuid4(),
+            "room_id": uuid.uuid4(),
             "title": "noticeboard",
             "unread": "0",
             "members": "0",
@@ -66,6 +73,7 @@ def install(request):
         }
 
     requests.post("https://noticeboard.zuri.chat/api/v1/create-notice-room", data=data)
+    # requests.post("http://localhost:8000/api/v1/create-notice-room", data=data)
 
     install = {
         "name" : "Noticeboard Plugin",
@@ -81,7 +89,6 @@ class CreateNewNotices(views.APIView):
     '''
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
-        dateAndTime = datetime.datetime.now()
 
         if serializer.is_valid():
             db.save(
