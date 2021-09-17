@@ -16,7 +16,6 @@ const PinnedNotices = (props) => {
     setPeople(data);
     isLoading(false);
   }, []);
-
   if (loading) {
     return (
       <div className="preloader">
@@ -29,15 +28,16 @@ const PinnedNotices = (props) => {
 
   return (
     <div className="adminnotice">
-
-      <div className='pinned-button-container'>
-        <div className='pin-text'>
-          <p className='text'>Notices</p>
-
+      <div className="pinned-button-container">
+        <div className="pin-text">
+          <p className="text">Notices</p>
         </div>
-        <Button className='header-button'
-          onClick={() => props.history.push('/create-notice')} variant='contained'>
-          Create Notice <img src={notice} alt='create notice' />
+        <Button
+          className="header-button"
+          onClick={() => props.history.push("/create-notice")}
+          variant="contained"
+        >
+          Create Notice <img src={notice} alt="create notice" />
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
