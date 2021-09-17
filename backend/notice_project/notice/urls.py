@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import install,sidebar, create_room, CreateNewNotices, search, get_room
+from .views import install,sidebar, CreateNewNotices, ViewNoticeAPI, UpdateNoticeAPIView, DeleteNotice, NoticeDetail,search,create_room,get_room
+from django.views.decorators.csrf import csrf_exempt
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -16,7 +17,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-   
+
    path('sidebar', sidebar, name="sidebar"),
 
    path('install',install, name='install'),
@@ -28,6 +29,10 @@ urlpatterns = [
    path('search', search.as_view()),
 
    path('get-room', get_room),
+
+   path('notices', ViewNoticeAPI.as_view()),
+
+   path('view-notice/<pk>', NoticeDetail.as_view()),
 
    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
