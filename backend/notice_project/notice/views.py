@@ -148,6 +148,6 @@ class DeleteNotice(views.APIView):
             return Response(
                 {
                     "success": False,
-                    "message": "Delete Operation Failed. This object does not exist in the database"
+                    "message": "Delete Operation Failed. Object does not exist in the database"
                 },
             status=status.HTTP_404_NOT_FOUND)
