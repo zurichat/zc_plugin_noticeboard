@@ -1,12 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import datetime
 import requests
-from django.http import JsonResponse, request
 from rest_framework import views, status, views
 from .storage import db
 from .serializers import NoticeboardRoom, CreateNoticeSerializer
-from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
 import uuid
 
@@ -45,8 +42,8 @@ def sidebar(request):
     return Response({"status":False, "message":"Check your query parameter"})
     
 @api_view(['POST'])
-def create_room(request):
-    org_id = "613a1a3b59842c7444fb0220"
+def create_room(request, org_id):
+    # org_id = "613a1a3b59842c7444fb0220"
     serializer = NoticeboardRoom(data=request.data)
     if serializer.is_valid():
         db.save("noticeboard_room", org_id, serializer.data)
@@ -55,14 +52,16 @@ def create_room(request):
 
 
 @api_view(['GET'])
-def get_room(request):
-    org_id = "613a1a3b59842c7444fb0220"
+def get_room(request, org_id):
+    # org_id = "613a1a3b59842c7444fb0220"
     data = db.read("noticeboard_room", org_id)
     return Response(data)
 
 
 @api_view(['GET'])
 def install(request):
+    org_id = "613a1a3b59842c7444fb0220"
+
     data = {
             "room_id": uuid.uuid4(),
             "title": "noticeboard",
@@ -72,7 +71,7 @@ def install(request):
             "action": "open"
         }
 
-    requests.post("https://noticeboard.zuri.chat/api/v1/create-notice-room", data=data)
+    requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
     # requests.post("http://localhost:8000/api/v1/create-notice-room", data=data)
 
     install = {
@@ -87,13 +86,14 @@ class CreateNewNotices(views.APIView):
     '''
     Create new notices
     '''
-    def post(self, request):
+    def post(self, request, org_id):
         serializer = CreateNoticeSerializer(data=request.data)
 
         if serializer.is_valid():
             db.save(
                 "noticeboard", 
-                "613a1a3b59842c7444fb0220", 
+                # "613a1a3b59842c7444fb0220", 
+                org_id,
                 notice_data=serializer.data
             )
 
@@ -104,7 +104,10 @@ class CreateNewNotices(views.APIView):
 
 class search(ListAPIView):    
     def get(self, request):
-        notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
+
+        org_id = "613a1a3b59842c7444fb0220"
+
+        notice = db.read("noticeboard", org_id)
         if notice['status'] == 200:
             all_notice = notice['data']
             query = request.GET.get("q")
@@ -124,3 +127,23 @@ class search(ListAPIView):
                 "message":"Failed"
             },
             status=status.HTTP_400_BAD_REQUEST)
+
+
+class ViewNoticeAPI(views.APIView):
+
+    def get(self, request, org_id):
+        notice = db.read("noticeboard", org_id)
+        if notice['status'] == 200:
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status":False, "message":"retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class NoticeDetail(views.APIView):
+    # find notice by pk (id)
+
+    # def get(self, pk):
+    #     notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
+    #     try:
+    #         notice_detail = notice.objects.get(pk=pk)
+    #     except notice.DoesNotExist:
+    #         return JsonResponse({'message': 'Notice does not exist'}, status=status.HTTP_404_NOT_FOUND)
