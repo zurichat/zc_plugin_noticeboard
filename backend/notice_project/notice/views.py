@@ -138,12 +138,10 @@ class ViewNoticeAPI(views.APIView):
         return Response({"status":False, "message":"retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class NoticeDetail(views.APIView):
-    # find notice by pk (id)
+class NoticeDetail(views.APIView):
 
-    # def get(self, pk):
-    #     notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
-    #     try:
-    #         notice_detail = notice.objects.get(pk=pk)
-    #     except notice.DoesNotExist:
-    #         return JsonResponse({'message': 'Notice does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    def get(self, request, org_id, id):
+        notice = db.read("noticeboard", org_id, filter={"id": id})
+        if notice["status"] == 200:
+            return Response({"status":True, "data":notice["data"], "message":"sucessfully retrieved"}, status=status.HTTP_200_OK)
+        return Response({"status":False, "message":"retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
