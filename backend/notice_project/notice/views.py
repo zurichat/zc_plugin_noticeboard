@@ -108,6 +108,28 @@ class CreateNewNotices(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UpdateNoticeAPIView(views.APIView):
+
+    def put(self, request):
+        serializer = CreateNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            db.update("noticeboard", "613a1a3b59842c7444fb0220",
+                      serializer.data, object_id="613e4cf015fb2424261b6633")
+            return Response(
+                {
+                    "success": True,
+                    "data": serializer.data,
+                    "message": "Notice has been successfully updated"
+                },
+                status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "success": False,
+                "message": "Notice not updated, Please Try Again"
+            },
+            status=status.HTTP_400_BAD_REQUEST)
+
+
 class search(ListAPIView):
     def get(self, request):
 
