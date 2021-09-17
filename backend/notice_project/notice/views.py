@@ -1,3 +1,4 @@
+from requests.api import delete
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import datetime
@@ -124,3 +125,29 @@ class search(ListAPIView):
                 "message":"Failed"
             },
             status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteNotice(views.APIView):
+
+    """Delete a notice from the database"""
+
+    def delete(self, request, org_id, collection_name, object_id):
+        try:
+            db.delete(
+                org_id=org_id, 
+                collection_name=collection_name, 
+                object_id=object_id
+                )
+            return Response(
+                {
+                    "success": True,
+                    "message":"Delete Operation Successful"
+                },
+            status=status.HTTP_200_OK)
+        except db.DoesNotExist:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Delete Operation Failed. This object does not exist in the database"
+                },
+            status=status.HTTP_404_NOT_FOUND)
