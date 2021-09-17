@@ -27,7 +27,7 @@ urlpatterns = [
 
    path('search', search.as_view()),
 
-   path('delete-notice/<str:org_id>/<str:collection_name>/<str:object_id>', DeleteNotice.as_view()),
+   path('organizations/<str:org_id>/notices/<str:object_id>/delete-notice', DeleteNotice.as_view()),
 
    path('get-room', get_room),
 

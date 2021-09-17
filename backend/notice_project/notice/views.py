@@ -131,11 +131,11 @@ class DeleteNotice(views.APIView):
 
     """Delete a notice from the database"""
 
-    def delete(self, request, org_id, collection_name, object_id):
+    def delete(self, request, org_id, object_id):
         try:
             db.delete(
+                collection_name='noticeboard',
                 org_id=org_id, 
-                collection_name=collection_name, 
                 object_id=object_id
                 )
             return Response(
@@ -144,7 +144,7 @@ class DeleteNotice(views.APIView):
                     "message":"Delete Operation Successful"
                 },
             status=status.HTTP_200_OK)
-        except db.DoesNotExist:
+        except:
             return Response(
                 {
                     "success": False,
