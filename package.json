@@ -26,7 +26,7 @@
     "lint": "eslint src --ext js",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "test": "cross-env BABEL_ENV=test jest",
+    "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
     "prepare": "husky install",
     "coverage": "cross-env BABEL_ENV=test jest --coverage"
@@ -48,11 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn format"
-    }
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
