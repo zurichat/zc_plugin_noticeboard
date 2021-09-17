@@ -27,6 +27,19 @@ const PinnedNotices = props => {
     )
   }
 
+  // setInterval(() => {
+  //   fetch("https://noticeboard.zuri.chat/api/v1/search?q=chelsea")
+  //     .then((res) => res.json())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.log("error", error));
+  // }, 1000);
+  // setInterval(() => {
+  //   fetch("http://localhost:8000/api/v1/search?q=chelsea")
+  //     .then((res) => res.json())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.log("error", error));
+  // }, 10000);
+
   return (
     <div className='adminnotice'>
       <div className='pinned-button-container'>
