@@ -110,11 +110,10 @@ class CreateNewNotices(views.APIView):
 
 class UpdateNoticeAPIView(views.APIView):
 
-    def put(self, request):
+    def put(self, request, org_id, id):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            db.update("noticeboard", "613a1a3b59842c7444fb0220",
-                      serializer.data, object_id="613e4cf015fb2424261b6633")
+            db.update("noticeboard", org_id, serializer.data, object_id=id)
             return Response(
                 {
                     "success": True,
