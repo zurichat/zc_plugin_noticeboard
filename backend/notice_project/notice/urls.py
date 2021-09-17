@@ -33,7 +33,7 @@ urlpatterns = [
 
    path('organizations/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
 
-   path('organizations/<str:org_id>/notices/<str:object_id>/delete-notice', DeleteNotice.as_view()),
+   path('organizations/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
