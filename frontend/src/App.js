@@ -10,28 +10,29 @@ import {useEffect} from 'react'
 function App() {
 
   useEffect(()=>{
-    const centrifuge = new Centrifuge(
-      // "ws://localhost:8000/connection/websocket"
-      "wss://realtime.zuri.chat/connection/websocket"
-      ,{debug: true}
-    );
+    // const centrifuge = new Centrifuge(
+    //   // "ws://localhost:8000/connection/websocket"
+    //   "wss://realtime.zuri.chat/connection/websocket"
+    //   ,{debug: true}
+    // );
     
 
-    centrifuge.on("connect", function (ctx) {
-      console.log("connected", ctx);
-      centrifuge.subscribe("noticeboard", (ctx) => {
-        console.log(ctx);
-        //option 1 write function to re-render the component that needs re-rendering
-        //option 2, perform data fetch again
-      });
-    });
+    // centrifuge.on("connect", function (ctx) {
+    //   console.log("connected", ctx);
+    //   centrifuge.subscribe("noticeboard", (ctx) => {
+    //     console.log(ctx);
+    //     //option 1 write function to re-render the component that needs re-rendering
+    //     //option 2, perform data fetch again
+    //   });
+    // });
 
-    centrifuge.on("disconnect", function (ctx) {
-      console.log("disconnected", ctx);
-    });
+    // centrifuge.on("disconnect", function (ctx) {
+    //   console.log("disconnected", ctx);
+    // });
 
-    centrifuge.connect();
+    // centrifuge.connect();
 
+    console.log("Use effect is sha running bebe go find fault somewhere else ode")
   })
 
 
