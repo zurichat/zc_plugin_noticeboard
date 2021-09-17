@@ -1,6 +1,6 @@
 from django.utils import timezone
 from rest_framework import serializers
-from .storage import db
+from django.utils import timezone
 
 class NoticeboardRoom(serializers.Serializer):
     room_id = serializers.UUIDField()
