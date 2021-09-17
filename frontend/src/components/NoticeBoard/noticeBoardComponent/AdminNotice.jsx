@@ -27,13 +27,6 @@ const PinnedNotices = props => {
     )
   }
 
-  setInterval(() => {
-    fetch("https://noticeboard.zuri.chat/api/v1/search?q=chelsea")
-      .then((res) => res.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-  }, 1000);
-
 
   return (
     <div className='adminnotice'>
