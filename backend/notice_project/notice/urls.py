@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import install,sidebar, create_room, CreateNewNotices, search, get_room, ViewNoticeAPI, NoticeDetail
+from .views import install,sidebar, create_room, CreateNewNotices, DeleteNotice, search, get_room, ViewNoticeAPI, NoticeDetail
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -32,6 +32,8 @@ urlpatterns = [
    path('organizations/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
    path('organizations/<str:org_id>/notice/<str:id>', NoticeDetail.as_view()),
+
+   path('organizations/<str:org_id>/notices/<str:object_id>/delete-notice', DeleteNotice.as_view()),
 
    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
