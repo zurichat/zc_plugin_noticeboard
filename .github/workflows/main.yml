@@ -33,4 +33,4 @@ jobs:
             pip install -r requirements.txt
             python3 manage.py collectstatic --noinput
             pkill -u ${{secrets.USERNAME}} gunicorn 
-            gunicorn --bind 0.0.0.0:8800 .wsgi --daemon
+            gunicorn --bind 0.0.0.0:8800 noticeboard.wsgi --daemon
