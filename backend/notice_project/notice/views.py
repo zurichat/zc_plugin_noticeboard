@@ -43,7 +43,7 @@ def sidebar(request):
             return Response({"status":True, "data":sidebar}, status=status.HTTP_200_OK)
         return Response({"status":False, "message":res["message"]}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"status":False, "message":"Check your query parameter"})
-    
+
 @api_view(['POST'])
 def create_room(request):
     org_id = "613a1a3b59842c7444fb0220"
@@ -82,11 +82,13 @@ def install(request):
     }
     return Response(install)
 
+
 class CreateNewNotices(views.APIView):
 
     '''
     Create new notices
     '''
+
     def post(self, request):
         serializer = CreateNoticeSerializer(data=request.data)
 
@@ -102,7 +104,76 @@ class CreateNewNotices(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class search(ListAPIView):    
+@api_view(['GET'])
+class ViewNoticeAPI(views.APIView):
+
+    def get(self):
+        notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
+        notices = notice.objects.all
+        if notice['status'] == 200:
+            return Response(
+                {
+                    "status": True,
+                    "data": notices,
+                },
+                status=status.HTTP_200_OK)
+        notices_serializer = CreateNoticeSerializer(notices, many=True)
+        return JsonResponse(notices_serializer.data, safe=False)
+
+
+class NoticeDetail(views.APIView):
+    # find notice by pk (id)
+
+    def get(self, pk):
+        notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
+        try:
+            notice_detail = notice.objects.get(pk=pk)
+        except notice.DoesNotExist:
+            return JsonResponse({'message': 'Notice does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UpdateNoticeAPIView(views.APIView):
+
+    def put(self, request):
+        serializer = CreateNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            db.update("noticeboard", "613a1a3b59842c7444fb0220", serializer.data, object_id="613e4cf015fb2424261b6633")
+            return Response(
+                {
+                    "success": True,
+                    "data": serializer.data,
+                    "message": "Successfully updated"
+                },
+                status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "success": False,
+                "message": "Boss do am again, e no create. No vex"
+            },
+            status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteNotice(views.APIView):
+
+    def delete(self, request):
+        notice = db.delete("613a1a3b59842c7444fb0220", "noticeboard", "613f47b26173056af01b4a56")
+        if notice['status'] == 200:
+            return Response(
+                {
+                    "success": True,
+                    "message": "Deleted successfully"
+                },
+                status=status.HTTP_200_OK)
+        return Response(
+            {
+                "success": False,
+                "message": "Could not delete"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class search(ListAPIView):
     def get(self, request):
         notice = db.read("noticeboard", "613a1a3b59842c7444fb0220")
         if notice['status'] == 200:
@@ -124,4 +195,3 @@ class search(ListAPIView):
                 "message":"Failed"
             },
             status=status.HTTP_400_BAD_REQUEST)
-    
