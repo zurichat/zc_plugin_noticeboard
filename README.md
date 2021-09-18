@@ -1,70 +1,22 @@
-# Getting Started with Create React App
+CONTRIBUTION GUIDE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Fork the repository and copy the remote url of your own repo.
+2. On your terminal, clone repository using: `git clone <paste-the-remote-url-of-your-own-repo`
+3. On your terminal, set the parent repo as your upstream using: `git remote add upstream https://github.com/zurichat/zc_plugin_noticeboard.git`
+4. (a) Create a development branch as the is where the testing and all work will be taking place: `git checkout -b development.` 4 (b) If you already have a development branch: `git checkout development`.
+5. Get the latest code from the parent repo and merge : `git pull upstream development`
+6. You can start working on your task.
 
-## Available Scripts
+   Tip :bulb:: You can check the branch you are working on using `git branch`
 
-In the project directory, you can run:
+7. Once you are done with coding, stage your changes: `git add .`
+8. Then commit your changes your local branch: `git commit -m 'your reason for adding the code'`
 
-### `yarn start`
+   Tip :bulb:: You can check the files yet to be staged and committed with `git status`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+9. Then check the parent repo if there has been any update since the last time you pull to avoid conflicts and have a work that is in sync by pulling from the parent repo again: `git pull upstream development`
+10. Once it is done merging, push your changes to your own repo: `git push origin development`
+11. Then go to your repo, click on make contributions (if create a pull request doesn't show up) and create a pull request.
+12. Compare parent development branch with your own development branch and create a pull request
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    :warning: And the rest will be history :slightly_smiling_face: as long as you dont have more than 20 file changes

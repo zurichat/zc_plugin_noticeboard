@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.noticeboard-header {
+  font-family: "Lato", sans-serif;
+  padding: 10px 20px;
+  margin: 20px 0;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 1px 5px rgba(220, 218, 226, 0.3);
+}
+
+.noticeboard-header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noticeboard-header-container .heading {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.noticeboard-header-container .members-avatars-grp {
+  border: 2px rgb(226, 233, 233) solid;
+  border-radius: 3px;
+  padding: 5px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noticeboard-header-container .members-avatars-grp .avatar-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.noticeboard-header-container .members-avatars-grp .avatar {
+  height: 28px;
+  width: 28px;
+  background-color: rgb(192, 192, 192);
+  border-radius: 3px;
+}
+
+.noticeboard-header-container .members-avatars-grp .avatar:not(:first-child) {
+  margin-left: -4px;
+}
+
+.member-total-count {
+  margin-left: 5px;
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 500px) {
+  .noticeboard-header {
+    padding: 10px 35px;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1023px) {
+  .noticeboard-header {
+    padding: 10px 20px;
+  }
+
+  .noticeboard-header-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .noticeboard-header {
+    padding: 10px 30px;
+  }
+
+  .noticeboard-header-container {
+    width: 88%;
+    margin: 0 auto;
+  }
+
+  .noticeboard-header-container .heading {
+    font-size: 24px;
+  }
+
+  .noticeboard-header-container .members-avatars-grp {
+    padding: 10px;
+  }
+
+  .member-total-count {
+    margin-left: 10px;
+  }
+}
