@@ -68,6 +68,14 @@ function CreateNotice () {
     setEditorState(editorState)
   }
 
+  const maxChars = 1000;
+  const _handleBeforeInput = (input) => {
+    const inputLength = editorState.getCurrentContent().getPlainText().length;
+    if (input && inputLength >= maxChars) {
+      return "handled";
+    }
+  };
+
   return (
     <div className='dashboard-container'>
       <Box className={classes.page}>
@@ -118,6 +126,9 @@ function CreateNotice () {
                     placeholder='Enter the subject of your notice'
                     type='text'
                     variant='outlined'
+                    inputProps={{
+                      maxLength: 30
+                    }}
                   />
                 </Box>
               </Box>
@@ -132,6 +143,7 @@ function CreateNotice () {
                   toolbarClassName='toolbarClass'
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
+                  handleBeforeInput={_handleBeforeInput}
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
