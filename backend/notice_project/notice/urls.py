@@ -22,21 +22,21 @@ urlpatterns = [
 
     path('install', install, name='install'),
 
-    path('organizations/<str:org_id>/create-room', create_room),
+    path('create-room', create_room),
 
-    path('organizations/<str:org_id>/create', CreateNewNotices.as_view()),
+    path('create', CreateNewNotices.as_view()),
 
-    path('organizations/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
+    path('notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
     path('search', search.as_view()),
 
-    path('organizations/<str:org_id>/get-room', get_room),
+    path('get-room', get_room),
 
-    path('organizations/<str:org_id>/notices', ViewNoticeAPI.as_view()),
+    path('notices', ViewNoticeAPI.as_view()),
 
-    path('organizations/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
+    path('notices/<str:id>', NoticeDetail.as_view()),
 
-    path('organizations/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
+    path('notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
