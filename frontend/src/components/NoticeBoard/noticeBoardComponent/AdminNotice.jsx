@@ -27,6 +27,7 @@ const PinnedNotices = props => {
     )
   }
 
+
   return (
     <div className='adminnotice'>
       <div className='pinned-button-container'>

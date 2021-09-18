@@ -20,7 +20,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
           script: |
             cd /var/www/zc_plugin_noticeboard
             git stash
@@ -32,5 +31,6 @@ jobs:
             cd /var/www/zc_plugin_noticeboard/backend/notice_project
             source bin/activate
             pip install -r requirements.txt
-            python manage.py runserver 127.0.0.1:8900 
-            fuser -k -HUP 8900/tcp
+            python3 manage.py collectstatic --noinput
+            pkill -u ${{secrets.USERNAME}} gunicorn 
+            gunicorn --bind 0.0.0.0:8800 noticeboard.wsgi --daemon

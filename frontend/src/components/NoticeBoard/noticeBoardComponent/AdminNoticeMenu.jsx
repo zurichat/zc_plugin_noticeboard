@@ -11,6 +11,15 @@ import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button'
+
+
+
 function AdminMenu() {
   const menu = [
     { icon: BookmarkIcon, linkText: "Bookmark" },
@@ -20,6 +29,24 @@ function AdminMenu() {
     { icon: DeleteIcon, linkText: "Delete notice" },
     { icon: MoreMessage, linkText: "More message shortcuts..." },
   ];
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleOpen =() =>{
+    setOpenModal(true)
+  }
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  const deleteNoticeModal =(e) =>{
+    const target = e.target
+    if(target.innerHTML = 'Delete notice' ){
+        handleOpen()
+    }
+  }
+
 
   const AdminMenuStyle = {
     display: "flex",
@@ -83,6 +110,7 @@ function AdminMenu() {
                 style={{
                   color: "#999999",
                 }}
+                onClick={deleteNoticeModal}
               >
                 {linkText}
               </span>
@@ -90,6 +118,40 @@ function AdminMenu() {
           </MenuItem>
         ))}
       </Menu>
+      {openModal && (
+        <Dialog
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete Notice?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete notice, this action cannot be undone once you delete it.
+            Kindly proceed while you click on the delete button
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+           onClick={handleClose}
+           color="primary"
+           style={{textTransform:'none', padding:'1em 3em', backgroundColor:'#FCF8F7', color:'black'}}
+            >
+           Cancel
+          </Button>
+          <Button
+           
+            color="primary"
+            variant='filled' 
+             autoFocus
+             style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
+             >
+            Delete Notice
+          </Button>
+        </DialogActions>
+      </Dialog>
+      )}
     </div>
   );
 }
