@@ -4386,6 +4386,11 @@ draft-js@^0.11.7:
     immutable "~3.7.4"
     object-assign "^4.1.1"
 
+draft-to-html@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/draft-to-html/-/draft-to-html-0.0.1.tgz#473c2115cfcc6fd473d7e90a83cd8e02df64dec7"
+  integrity sha512-xkMTPLnuAeGWtkZTmmbQoTNWBkZKLyUXNbPxQKAfhDfH9uNyJtR1nW/MwFD/HeiXLyL9wIkEJQNUZIVYF3zvRQ==
+
 draftjs-to-html@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/draftjs-to-html/-/draftjs-to-html-0.9.1.tgz#1c870fbb588d2390204cb4d0ee7e04ad0c709969"

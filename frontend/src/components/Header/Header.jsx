@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import axios from "axios";
 
@@ -10,36 +10,25 @@ const Header = () => {
 		console.log(text);
 	};
 
+	const api = axios.create({
+		baseURL: "https://noticeboard.zuri.chat/api/v1",
+	});
+
+	// const handleSubmit = async (e) => {
+	// 	e.preventDefault();
+	// 	let res = await api.get(`/search?q=${text}`);
+	// 	console.log(res.data);
+	// };
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/search?q=${text}`).then(({ response }) => response);
-			console.log(response);
+			let response = await api.get(`/search?q=${text}`);
+			console.log(response.data);
 		} catch (error) {
 			console.log(error);
 		}
 	};
-
-	// const handleSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	const loadSearch = async () => {
-	// 		const response = await axios.get(`https://noticeboard.zuri.chat/api/v1/search?q=${text}`);
-	// 		console.log(response.data);
-	// 	};
-	// 	loadSearch();
-	// };
-
-	const testFunct = () => {
-		const loadUsers = async () => {
-			const response = await axios.get(`https://catfact.ninja/fact`);
-			console.log(response.data);
-		};
-		loadUsers();
-	};
-
-	useEffect(() => {
-		testFunct();
-	}, []);
 
 	return (
 		<header className="header">
