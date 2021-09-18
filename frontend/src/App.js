@@ -13,8 +13,8 @@ function App() {
 
   useEffect(()=>{
     const centrifuge = new Centrifuge(
-      "ws://localhost:8000/connection/websocket"
-        // "wss://realtime.zuri.chat/connection/websocket"
+      // "ws://localhost:8000/connection/websocket"
+      "wss://realtime.zuri.chat/connection/websocket"
       ,{debug: true}
     );
     
