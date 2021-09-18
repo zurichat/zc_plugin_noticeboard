@@ -1,0 +1,50 @@
+.rightIcons {
+  /* These cover the icons I created */
+  border: 1px solid #f1f1f1;
+  padding: 5px;
+  min-width: 25px;
+  height: 20px;
+  border-radius: 2px;
+  margin: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: white;
+  text-transform: capitalize;
+  border: none;
+}
+
+.ToggleToolbar-btn {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #e5e5e5;
+
+  /* This style is for the toggletool bar button */
+}
+
+.ToggleToolbar-btn-active {
+  color: #000;
+}
+
+.rightIcons:hover {
+  background-color: #00bb7c !important;
+}
+
+.rightIcons {
+  float: right;
+  cursor: pointer;
+}
+
+/* makes the tools of the toolbar invisible by default */
+.rdw-invisible {
+  display: none !important;
+}
+
+/* makes the tools of the toolbar visible */
+.rdw-visible {
+  display: inline-block !important;
+}
