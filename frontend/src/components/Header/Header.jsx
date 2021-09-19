@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./Header.css";
 import axios from "axios";
 
@@ -10,6 +11,7 @@ const Header = () => {
 		console.log(text);
 	};
 
+	const history = useHistory();
 	const api = axios.create({
 		baseURL: "https://noticeboard.zuri.chat/api/v1",
 	});
@@ -17,14 +19,18 @@ const Header = () => {
 	// const handleSubmit = async (e) => {
 	// 	e.preventDefault();
 	// 	let res = await api.get(`/search?q=${text}`);
-	// 	console.log(res.data);
+	// 	console.log(res.data.data);
 	// };
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			let response = await api.get(`/search?q=${text}`);
-			console.log(response.data);
+			history.push({
+				pathname: "/search",
+			});
+			console.log(response.data.data);
+			setText("");
 		} catch (error) {
 			console.log(error);
 		}
