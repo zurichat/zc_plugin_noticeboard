@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (install, sidebar, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, search, get_room, 
-                     ViewNoticeAPI, NoticeDetail)
+                     ViewNoticeAPI, NoticeDetail,add_user)
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -31,6 +31,7 @@ urlpatterns = [
     path('search', search.as_view()),
 
     path('get-room', get_room),
+    path('add_user', add_user, name='add_user'),
 
     path('notices', ViewNoticeAPI.as_view()),
 
