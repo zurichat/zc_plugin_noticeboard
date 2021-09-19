@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import "./Header.css";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ const Header = () => {
 		console.log(text);
 	};
 
-	const history = useHistory();
+	const history = createBrowserHistory({ forceRefresh: true });
 	const api = axios.create({
 		baseURL: "https://noticeboard.zuri.chat/api/v1",
 	});
@@ -25,12 +25,15 @@ const Header = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			let response = await api.get(`/search?q=${text}`);
+			const response = await api.get(`/search?q=${text}`);
+			const searchData = response.data.data;
+			console.log(response.data.data);
+			console.log(searchData);
+			setText("");
 			history.push({
 				pathname: "/search",
+				state: { searchData },
 			});
-			console.log(response.data.data);
-			setText("");
 		} catch (error) {
 			console.log(error);
 		}
