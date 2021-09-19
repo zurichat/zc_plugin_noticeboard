@@ -31,6 +31,7 @@ urlpatterns = [
     path('search', search.as_view()),
 
     path('get-room', get_room),
+    
     path('add_user', add_user, name='add_user'),
 
     path('notices', ViewNoticeAPI.as_view()),
