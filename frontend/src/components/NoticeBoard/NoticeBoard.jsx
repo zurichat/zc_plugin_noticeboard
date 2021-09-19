@@ -25,7 +25,7 @@ function NoticeBoard() {
           <UserNotice />
         </Route>
 
-        <Route exact path="/unsubscribe/email/:id">
+        <Route exact path="/unsubscribe-email/:id">
           <EmailUnsubscription />
         </Route>
 
