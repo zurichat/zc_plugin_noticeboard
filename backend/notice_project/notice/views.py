@@ -45,8 +45,8 @@ def sidebar(request):
 
 
 @api_view(['POST'])
-def create_room(request, org_id):
-    # org_id = "613a1a3b59842c7444fb0220"
+def create_room(request):
+    org_id = "613a1a3b59842c7444fb0220"
     serializer = NoticeboardRoom(data=request.data)
     if serializer.is_valid():
         db.save("noticeboard_room", org_id, serializer.data)
@@ -55,8 +55,8 @@ def create_room(request, org_id):
 
 
 @api_view(['GET'])
-def get_room(request, org_id):
-    # org_id = "613a1a3b59842c7444fb0220"
+def get_room(request):
+    org_id = "613a1a3b59842c7444fb0220"
     data = db.read("noticeboard_room", org_id)
     return Response(data)
 
@@ -92,7 +92,9 @@ class CreateNewNotices(views.APIView):
     Create new notices
     '''
 
-    def post(self, request, org_id):
+    def post(self, request):
+        org_id = "613a1a3b59842c7444fb0220"
+
         serializer = CreateNoticeSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -110,7 +112,8 @@ class CreateNewNotices(views.APIView):
 
 class UpdateNoticeAPIView(views.APIView):
 
-    def put(self, request, org_id, id):
+    def put(self, request, id):
+        org_id = "613a1a3b59842c7444fb0220"
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
@@ -161,7 +164,8 @@ class DeleteNotice(views.APIView):
 
     """Delete a notice from the database"""
 
-    def delete(self, request, org_id, object_id):
+    def delete(self, request, object_id):
+        org_id = "613a1a3b59842c7444fb0220"
         try:
             db.delete(
                 collection_name='noticeboard',
@@ -185,7 +189,8 @@ class DeleteNotice(views.APIView):
 
 class ViewNoticeAPI(views.APIView):
 
-    def get(self, request, org_id):
+    def get(self, request):
+        org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
         if notice['status'] == 200:
             return Response(notice, status=status.HTTP_200_OK)
@@ -194,7 +199,8 @@ class ViewNoticeAPI(views.APIView):
 
 class NoticeDetail(views.APIView):
 
-    def get(self, request, org_id, id):
+    def get(self, request, id):
+        org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
             return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)

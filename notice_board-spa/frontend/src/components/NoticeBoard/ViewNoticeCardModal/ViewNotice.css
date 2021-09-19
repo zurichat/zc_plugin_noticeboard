@@ -64,7 +64,6 @@ body {
 
 .name-time {
   margin-left: 10px;
-  align-self: center;
 }
 
 .date-stamp,
@@ -78,18 +77,8 @@ body {
   position: relative;
 }
 
-.dot {
-  position: relative;
-  left: 4px;
-  bottom: 5px;
-}
-
-.admin-menu-container {
-  align-self: center;
-}
-
 .modal-title {
-  margin-top: 20px;
+  margin-top: 40px;
   font-size: 17px;
   color: var(--dark-black);
 }

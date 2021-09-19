@@ -13,7 +13,7 @@ const Card = ({ person }) => {
   const [persons, setPersons] = React.useState([person]);
 
   const filterUsers = (index) => {
-    const user = persons.filter((person) => person._id === index);
+    const user = persons.filter((person) => person.id === index);
     setPersons(user);
     setOpenModal(true);
   };
@@ -26,18 +26,18 @@ const Card = ({ person }) => {
             <div className="img-profile-container">
               <img
                 className="profile-pic"
-                src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                src={person.userImage}
                 alt="profile-pic"
               />
             </div>
             <div className="identity">
-              {/* <h6 className="name">{person.userName}</h6> */}
+              <h6 className="name">{person.userName}</h6>
               <p className="time-date">
-                <span>{person.created.substring(0, 10)}</span>
+                <span>{person.date}</span>
                 <span className="adminDot">
                   <img src={dot} alt="" />
                 </span>{" "}
-                <span>{person.created.substring(11, 20)}</span>
+                <span>{person.timeStamp}</span>
               </p>
             </div>
           </div>
@@ -45,24 +45,22 @@ const Card = ({ person }) => {
         </div>
         {/* body of card */}
         <div className="card-body">
-          <h5 className="card-title">{person.title.replace(/[<p></p>]/g, "")}</h5>
-          <p className="card-info">
-            {person.message.replace(/[<p></p>]/g, "").substring(0, 150)}...
-          </p>
+          <h5 className="card-title">{person.title}</h5>
+          <p className="card-info">{person.info.substring(0, 150)}...</p>
         </div>
         {/* icons tray */}
         <div className="icon-button-tray">
           <div className="icon-tray">
-            {/* <div>
+            <div>
               <img src={see} alt="" />
               <p className="number">{person.views}</p>
-            </div> */}
+            </div>
           </div>
           <Button
             className="card-button"
             variant="outlined"
             color="primary"
-            onClick={() => filterUsers(person._id)}
+            onClick={() => filterUsers(person.id)}
           >
             View Notice
           </Button>

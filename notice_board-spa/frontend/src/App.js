@@ -40,7 +40,6 @@ function App() {
 
     centrifuge.connect();
 
-    console.log("Use effect is sha running bebe go find fault somewhere else ode")
   })
 
 
@@ -50,7 +49,7 @@ function App() {
       <div>
            <p>{cent}</p>
            <p>{message}</p>
-         </div>
+      </div>
         <div className="app__body">
           
           <span className="app__bodyFlex">
