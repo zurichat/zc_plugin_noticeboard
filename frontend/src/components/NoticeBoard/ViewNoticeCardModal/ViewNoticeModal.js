@@ -2,6 +2,7 @@ import React from "react";
 import CancelNoticeBtn from "./CancelNoticeBtn";
 import "./ViewNotice.css";
 import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
+import dot from "../../../assets/Ellipse135.svg";
 
 const ViewNoticeModal = ({ persons, closeModal }) => {
   const cancelBtn = () => {
@@ -22,22 +23,25 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
     <div className="contain" id="contain">
       {persons.map((person) => {
         return (
-          <div className="modal-card" id="modal" key={person.id}>
+          <div className="modal-card" id="modal" key={person._id}>
             <div className="user-details-menu-flex">
               <div className="img-and-name-container">
                 <div className="img">
                   <img
-                    src={person.userImage}
-                    alt={person.userName}
+                    src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt=""
                     className="user-picture"
                   />
                 </div>
 
                 <div className="name-time">
-                  <h1 className="user-name">{person.userName}</h1>
+                  {/* <h1 className="user-name">{person.userName}</h1> */}
                   <div className="time-stamps">
-                    <p className="date-stamp stamp-one">{person.date}</p>
-                    <p className="date-stamp stamp-two">{person.timeStamp}</p>
+                    <p className="date-stamp stamp-one">{person.created.substring(0, 10)}</p>
+                    <p className="dot">
+                      <img src={dot} alt=""/>
+                    </p>
+                    <p className="date-stamp stamp-two">{person.created.substring(11, 20)}</p>
                   </div>
                 </div>
               </div>
@@ -47,8 +51,8 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
               </div>
             </div>
 
-            <h2 className="modal-title">{person.title}</h2>
-            <p className="modal-info">{person.info}</p>
+            <h2 className="modal-title">{person.title.replace(/[<p></p>]/g, "")}</h2>
+            <p className="modal-info">{person.message.replace(/[<p></p>]/g, "")}</p>
             <div>
               <img
                 src="https://res.cloudinary.com/clefayomide/image/upload/v1630517027/dummy-img.svg"
