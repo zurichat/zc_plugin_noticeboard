@@ -14,20 +14,23 @@ const PinnedNotices = (props) => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    fetch("https://noticeboard.zuri.chat/api/v1/notices")
-      .then((res) => {
-        if (res.status >= 200 && res.status <= 299) {
-          return res.json();
-        } else {
+    setInterval(() => {
+      fetch("https://noticeboard.zuri.chat/api/v1/notices")
+        .then((res) => {
+          if (res.status >= 200 && res.status <= 299) {
+            return res.json();
+          } else {
+            setLoading(false);
+            setIsError(true);
+          }
+        })
+        .then((data) => {
+          console.log(data)
+          setPeople(data.data);
           setLoading(false);
-          setIsError(true);
-        }
-      })
-      .then((data) => {
-        setPeople(data.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+    }, 5000);
   }, []);
 
   if (loading) {
@@ -44,7 +47,12 @@ const PinnedNotices = (props) => {
     return (
       <div className="preloader">
         <img className="logo" src={logo} alt="logo" />
-        <h1 className="isError" style={{color: "red", fontSize: "1.5rem", marginTop: "100px"}}>Error. Try refreshing your browser</h1>
+        <h1
+          className="isError"
+          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
+        >
+          Error. Try refreshing your browser
+        </h1>
         <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
