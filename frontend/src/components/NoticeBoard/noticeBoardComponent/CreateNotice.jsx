@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -72,28 +73,35 @@ function CreateNotice() {
     setEditorState(editorState);
   };
 
+  //CREATE NOTICE API CALL STARTS
   const api = axios.create({
-    baseURL: "https://noticeboard.zuri.chat/api/v1/organizations",
+    baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
+
+  const history = useHistory();
 
   const onSubmitHandler = async (values) => {
     values.message = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
     const request = {
       title: values.title,
       message: values.message,
     };
 
     try {
-      const response = await api.post(
-        "/613a1a3b59842c7444fb0220/create-notice",
-        request
-      );
-      console.log(response);
-    } catch (error) {
-      console.log("error", error);
+      const res = await api.post("/create", request);
+      //Return input field to blank
+      values.title = "";
+      setEditorState("");
+      //routes to the admin view notice page
+      history.push({
+        pathname: "/admin-notice",
+      });
+      return console.log(res.data);
+    } catch (err) {
+      console.log(err);
     }
   };
+  //CREATE NOTICE API CALL ENDS
 
   const maxChars = 1000;
   const _handleBeforeInput = (input) => {
@@ -106,7 +114,6 @@ function CreateNotice() {
   return (
     <div className="dashboard-container">
       <Box className={classes.page}>
-        {/* I edited this part(Formik line) of the code */}
         <Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
           {({ handleChange, handleSubmit, handleBlur, values }) => (
             <form onSubmit={handleSubmit}>
@@ -143,18 +150,12 @@ function CreateNotice() {
                     value={values.title}
                     onChange={handleChange}
                     onBlur={handleBlur}
-<<<<<<< HEAD
                     placeholder="Enter the subject of your notice"
                     type="text"
                     variant="outlined"
-=======
-                    placeholder='Enter the subject of your notice'
-                    type='text'
-                    variant='outlined'
                     inputProps={{
-                      maxLength: 30
+                      maxLength: 30,
                     }}
->>>>>>> a7ca53ce5da48effb57eaf8c49186100cc753f52
                   />
                 </Box>
               </Box>
