@@ -8,7 +8,7 @@ import "./SearchResult.css";
 function SearchResult() {
 	const history = useHistory();
 	const user = history.location.state.searchData;
-	//const id = String(user.id);
+	
 	console.log(user);
 
 	/*const OpenModal = (event) => {
