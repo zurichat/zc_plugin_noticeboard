@@ -3,8 +3,8 @@ const singleSpaDefaults = require("webpack-config-single-spa-react");
 
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
-    orgName: "zuri-chat",
-    projectName: "plugin-noticeboard",
+    orgName: "zuri",
+    projectName: "zuri-plugin-noticeboard",
     webpackConfigEnv,
     argv,
   });
