@@ -9,19 +9,12 @@ import { registerApplication, start } from "single-spa";
 //   activeWhen: ["/"],
 // });
 
-if (window.local){
-  registerApplication({
-    name: "@zuri/zuri-plugin-noticeboard",
-    app: () => System.import("//localhost:8000/static/zuri-zuri-plugin-noticeboard.js"),
-    activeWhen: ["/"]
-  });
-}else{
-  registerApplication({
-    name: "@zuri/zuri-plugin-noticeboard",
-    app: () => System.import("@zuri/zuri-zuri-plugin-noticeboard"),
-    activeWhen: ["/"],
-  });
-}
+
+registerApplication({
+  name: "@zuri/zuri-plugin-noticeboard",
+  app: () => System.import("@zuri/zuri-plugin-noticeboard"),
+  activeWhen: ["/"],
+});
 
 start({
   urlRerouteOnly: true,
