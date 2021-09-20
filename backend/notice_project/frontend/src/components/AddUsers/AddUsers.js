@@ -3,8 +3,103 @@ import styled from "styled-components";
 
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
+import AddUserIcon from "@material-ui/icons/PersonAdd";
+import Img from "./images/img1.png";
 
-export const AddUsers = ({ setOpenModal, openModal }) => {
+//members documents
+const ListMemberContainer = ({ Name, Img, Username, Job }) => {
+  return (
+    <MembersContainer>
+      <MemberDetails>
+        <img src={Img} alt="member" />
+        <div>
+          <div>
+            <MemberName>{Name}</MemberName>
+            <Status></Status>
+            <UserName>{Username}</UserName>
+          </div>
+          <Role>{Job}</Role>
+        </div>
+      </MemberDetails>
+      <Remove>Remove</Remove>
+    </MembersContainer>
+  );
+};
+
+// Notice board component
+export const Noticeboard = ({ setShowAddUser }) => {
+  return (
+    <NoticeContainer>
+      <AddUserHeader>
+        <h2>Noticeboard members</h2>
+        <span>
+          <CloseIcon onClick={() => setOpenModal(false)} />
+        </span>
+      </AddUserHeader>
+
+      <AddUserForm>
+        <SearchUser>
+          <input type="text" placeholder="Search for user in this channel" />
+          <span>
+            <SearchIcon />
+          </span>
+        </SearchUser>
+      </AddUserForm>
+
+      <AddUserBox onClick={() => setShowAddUser(true)}>
+        <AddUserIcon />
+        <h3>Add a User</h3>
+      </AddUserBox>
+
+      {/* list of member */}
+      <ListMemberContainer
+        Name={"Deyrin Cutting"}
+        Img={Img}
+        Username={"@cuttingproduct"}
+        Job={"Product design"}
+      />
+      <ListMemberContainer
+        Name={"Bessie Cooper"}
+        Img={Img}
+        Username={"@officialbessie"}
+        Job={"CEOing"}
+      />
+      <ListMemberContainer
+        Name={"Esther Howard"}
+        Img={Img}
+        Username={"@Esther"}
+        Job={"CTO"}
+      />
+      <ListMemberContainer
+        Name={"Thersa Webb"}
+        Img={Img}
+        Username={"@peopleperson"}
+        Job={"Human Resource"}
+      />
+      <ListMemberContainer
+        Name={"Kristin Watson"}
+        Img={Img}
+        Username={"@Kristinmoney"}
+        Job={"CFO"}
+      />
+      <ListMemberContainer
+        Name={"Robert Fox"}
+        Img={Img}
+        Username={"@robertfox"}
+        Job={"Head of Marketing"}
+      />
+      <ListMemberContainer
+        Name={"Ralph Edwards"}
+        Img={Img}
+        Username={"@Raplh"}
+        Job={"Co founder"}
+      />
+    </NoticeContainer>
+  );
+};
+
+//add new member component
+const AddUserNoticeboard = ({setShowAddUser}) => {
   const [message, setMessage] = useState(null);
   const getUsers = async (e) => {
     e.preventDefault();
@@ -25,43 +120,53 @@ export const AddUsers = ({ setOpenModal, openModal }) => {
       console.log(error);
     }
   };
+  return (
+    <AddUserContainer>
+      <AddUserHeader>
+        <h2>Add users to Noticeboard</h2>
+        <span>
+          <CloseIcon onClick={() => setShowAddUser(false)} />
+        </span>
+      </AddUserHeader>
+
+      <AddUserForm>
+        {/* <SearchUser>
+        <input
+          type="text"
+          placeholder="Search for user in this workspace"
+        />
+        <span>
+          <SearchIcon />
+        </span>
+      </SearchUser> */}
+        {message ? (
+          message
+        ) : (
+          <>
+            <ListUsers>
+              <Users>
+                <img src={Img} alt="Search" />
+                <h2>Thersa Webb</h2>
+                <CloseIcon />
+              </Users>
+            </ListUsers>
+            <button onClick={getUsers}>Add User</button>
+          </>
+        )}
+      </AddUserForm>
+    </AddUserContainer>
+  );
+};
+
+export const AddUsers = ({ setOpenModal, openModal, notice }) => {
+
+
+  const [showAddUser, setShowAddUser] = useState(false)
 
   return (
     <BackDrop>
-      <AddUserContainer>
-        <AddUserHeader>
-          <h2>Add users to Noticeboard</h2>
-          <span>
-            <CloseIcon onClick={() => setOpenModal(false)} />
-          </span>
-        </AddUserHeader>
-
-        <AddUserForm>
-          {/* <SearchUser>
-            <input
-              type="text"
-              placeholder="Search for user in this workspace"
-            />
-            <span>
-              <SearchIcon />
-            </span>
-          </SearchUser> */}
-          {message ? (
-            message
-          ) : (
-            <>
-              <ListUsers>
-                <Users>
-                  <img src={"img1.png"} alt="Search" />
-                  <h2>Thersa Webb</h2>
-                  <CloseIcon />
-                </Users>
-              </ListUsers>
-              <button onClick={getUsers}>Add User</button>
-            </>
-          )}
-        </AddUserForm>
-      </AddUserContainer>
+        {showAddUser? (<AddUserNoticeboard setShowAddUser={setShowAddUser} />): (<Noticeboard setShowAddUser={setShowAddUser}/>)}
+       
     </BackDrop>
   );
 };
@@ -140,8 +245,13 @@ const SearchUser = styled.div`
   input {
     border: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
-    padding: 1em 2em 1em 3em;
+    padding: 1em 2em 1em 2.5em;
     font-size: 1em;
+
+    ::placeholder {
+      opacity: 0.6;
+      font-weight: 400;
+    }
   }
 
   span {
@@ -191,4 +301,78 @@ const Users = styled.div`
       font-size: 1em;
     }
   }
+`;
+
+const NoticeContainer = styled(AddUserContainer)`
+  height: unset;
+`;
+
+const AddUserBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  color: #00bb7c;
+  h3 {
+    margin-left: 0.7em;
+    color: #00bb7c;
+  }
+  &:hover{
+    opacity: .7;
+    cursor: pointer;
+  }
+`;
+
+const MembersContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+`;
+const MemberDetails = styled.div`
+  display: flex;
+  width: 20em;
+  justify-content: flex-start;
+
+  img {
+    //height: 2em;
+  }
+
+  > div {
+    margin-left: 0.7em;
+    div {
+      display: flex;
+      align-items: center;
+    }
+  }
+`;
+
+const Remove = styled.h3`
+  color: #00bb7c;
+`;
+
+const MemberName = styled.h3`
+      @media (max-width: ${500}px) {
+      font-size: 12px;
+    }
+`;
+const Status = styled.span`
+  height: 0.5em;
+  width: 0.5em;
+  background-color: #00bb7c;
+  border-radius: 50%;
+  margin-left: 0.5em;
+`;
+const UserName = styled.h5`
+  opacity: 0.6;
+  margin-left: 0.5em;
+  @media (max-width: ${500}px) {
+      font-size: 12px;
+    }
+`;
+const Role = styled.h4`
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 0.3em;
+  @media (max-width: ${500}px) {
+      font-size: 11px;
+    }
 `;

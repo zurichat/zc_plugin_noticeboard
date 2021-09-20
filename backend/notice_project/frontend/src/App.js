@@ -42,12 +42,12 @@ function App() {
   });
 
   return (
-    <Router>
+    <Router basename="/noticeboard">
       <div className="App">
-        <div>
+        {/* <div>
           <p>{cent}</p>
           <p>{message}</p>
-        </div>
+        </div> */}
         <div className="app__body">
           <span className="app__bodyFlex">
             <Header />

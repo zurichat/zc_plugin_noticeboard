@@ -25,10 +25,11 @@ urlpatterns = [
 
     path('api/v1/', include('notice.urls')),
 
-    re_path('', TemplateView.as_view(template_name = "index.html"))
+    # re_path(r'^.*', TemplateView.as_view(template_name = "index.html"))
     
 ]
 
 # urlpatterns += static("/static/zuri-root-config.js", document_root="test_root_config/dist/zuri-root-config.js")
 # urlpatterns += static("/static/zuri-zuri-plugin-noticeboard.js", document_root="frontend/dist/zuri-zuri-plugin-noticeboard.js")
-urlpatterns += static(settings.STATIC_ROOT, document_root=settings.STATICFILES_DIRS)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

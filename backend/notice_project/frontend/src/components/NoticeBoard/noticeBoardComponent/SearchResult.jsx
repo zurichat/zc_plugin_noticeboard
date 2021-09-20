@@ -1,23 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-//import UserNoticeModal from "./UserNoticeModal";
-import Button from "@material-ui/core/Button";
-import UserMenu from "./UserMenu/UserMenu";
 import "./SearchResult.css";
 
 function SearchResult() {
 	const history = useHistory();
-	const user = history.location.state.searchData;
-	
-	console.log(user);
+	const data = history.location.state.searchData;
+	console.log(data);
 
-	/*const OpenModal = (event) => {
-		const clickedButton = event.currentTarget.getAttribute("id");
-		const modal_id = `modal_${clickedButton}`;
-		document.getElementById(modal_id).style.display = "block";
-	  };*/
-	  
-		
 	return (
 		<div className="user-notice" id="user-notice">
         <div className="notice-heading">
@@ -59,6 +48,5 @@ function SearchResult() {
 	  </div>	
 	);
 }
-
 
 export default SearchResult;
