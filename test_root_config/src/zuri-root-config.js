@@ -18,11 +18,8 @@ if (window.local){
 }else{
   registerApplication({
     name: "@zuri/zuri-plugin-noticeboard",
-    app: () =>
-      System.import(
-        "https://noticeboard.zuri.chat/static/zuri-zuri-plugin-noticeboard.js"
-      ),
-    activeWhen: ["/"]
+    app: () => System.import("@zuri/zuri-plugin-noticeboard"),
+    activeWhen: ["/"],
   });
 }
 
