@@ -42,7 +42,7 @@ function App() {
   });
 
   return (
-    <Router>
+    <Router basename="/noticeboard">
       <div className="App">
         <div>
           <p>{cent}</p>
