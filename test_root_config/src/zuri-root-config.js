@@ -18,7 +18,7 @@ if (window.local){
 }else{
   registerApplication({
     name: "@zuri/zuri-plugin-noticeboard",
-    app: () => System.import("@zuri/zuri-plugin-noticeboard"),
+    app: () => System.import("@zuri/zuri-zuri-plugin-noticeboard"),
     activeWhen: ["/"],
   });
 }
