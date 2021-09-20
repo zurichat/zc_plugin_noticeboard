@@ -28,7 +28,7 @@ label {
 .text-editor {
   display: flex;
   flex-direction: column-reverse;
-  height: 300px;
+  height: 90%;
   width: 100%;
   border: 1px solid var(--border-color);
   box-sizing: border-box !important;
