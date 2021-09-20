@@ -1,235 +1,213 @@
-from rest_framework import views
-from rest_framework import status
+from requests.api import delete
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import CreateNoticeSerializer, CommentReactionSerializer, EditNoticeSerializer, CommentCreateSerializer,CreateReactionSerializer
 import requests
-from django.http import JsonResponse
-
-class AllNoticesView(views.APIView):
-
-    """GET request to display/retrieve all existing notices"""
-    def get(self, request):
-        data= [
-        {"title":"Management meeting",
-        "text":"Management has updated the design scedule",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null"},
-
-        {"title":"Stage 5",
-        "text":"Complete a ticket to move to stage 5",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null",
-        "published":"True"},
-
-        {"title":"Individual work",
-        "text":"Each intern is expected to complete at least one ticket individually",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null"},
-        ]
-        
-        results = CreateNoticeSerializer(data, many=True).data
-        return Response(results, status=status.HTTP_200_OK)
+from rest_framework import views, status, views
+from .storage import db
+from .serializers import NoticeboardRoom, CreateNoticeSerializer
+from rest_framework.generics import ListAPIView
+import uuid
 
 
+@api_view(['GET'])
+def sidebar(request):
 
-class RetrieveNoticeCommentsView(views.APIView):
-   
-    
-    def get(self, request,  *args, **kwargs):
-        payload=[{
-            "Title": "You have been promoted to admin",
-            "Time": "3 hours ago",
-            "Comment": "Thanks received",
-            "text":"Management has updated the design scedule",
-        },{
-            "Title": "You have been promoted to admin",
-            "Time": "6 hours ago",
-            "Comment": "Each intern is expected to complete at least one ticket individually",
-            "text":"Project Got update by bill",
-    },{
-            "Title": "Complete a ticket to move to stage 5",
-            "Time": "1 day ago",
-            "Comment": "Thanks received",
-            "text": "I updated the design scedule",
+    org_id = request.GET.get('org')
+    user_id = request.GET.get('user')
+
+    if org_id and user_id:
+
+        res = requests.get(
+            f"https://api.zuri.chat/organizations/{org_id}/members/{user_id}").json()
+
+        if res['status'] == 200:
+
+            res = requests.get("noticeboard_room", org_id).json()
+            if res['status'] == 200 and res is not None:
+                public_rooms = res['data']
+            else:
+                public_rooms = []
+
+            sidebar = {
+                "name": "Noticeboard Plugin",
+                "description": "Displays Information On A Noticeboard",
+                        "plugin_id": "613fc3ea6173056af01b4b3e",
+                        "organisation_id": f"{org_id}",
+                        "user_id": f"{user_id}",
+                        "group_name": "Noticeboard",
+                        "show_group": False,
+                        "joined_rooms": [],
+                        "public_rooms": public_rooms
+            }
+            return Response({"status": True, "data": sidebar}, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": res["message"]}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"status": False, "message": "Check your query parameter"})
+
+
+@api_view(['POST'])
+def create_room(request):
+    org_id = "613a1a3b59842c7444fb0220"
+    serializer = NoticeboardRoom(data=request.data)
+    if serializer.is_valid():
+        db.save("noticeboard_room", org_id, serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_room(request):
+    org_id = "613a1a3b59842c7444fb0220"
+    data = db.read("noticeboard_room", org_id)
+    return Response(data)
+
+
+@api_view(['GET'])
+def install(request):
+    org_id = "613a1a3b59842c7444fb0220"
+
+    data = {
+        "room_id": uuid.uuid4(),
+        "title": "noticeboard",
+        "unread": "0",
+        "members": "0",
+        "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-kPo-vAmp_GrCZbnmqT6PMU5Wi5BLwgvPQ&usqp=CAU",
+        "action": "open"
     }
-    ]
-        return Response({
-            "plugin_id": "612a3a914acf115e685df8e3",
-            "organization_id": "id",
-            "collection_name": "mycollection",
-            "bulk_write": False,
-            "filter": {},
-            "Has Comment": True,
-            "data": payload,
-            "Comment_id": "1"
-        },status=status.HTTP_200_OK)
+
+    requests.post(
+        f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+    # requests.post("http://localhost:8000/api/v1/create-notice-room", data=data)
+
+    install = {
+        "name": "Noticeboard Plugin",
+        "description": "Creates Notice",
+        "plugin_id": "613fc3ea6173056af01b4b3e",
+    }
+    return Response(install)
 
 
-class CreateNoticeView(views.APIView):
+class CreateNewNotices(views.APIView):
+
+    '''
+    Create new notices
+    '''
 
     def post(self, request):
+        org_id = "613a1a3b59842c7444fb0220"
+
+        serializer = CreateNoticeSerializer(data=request.data)
+
+        if serializer.is_valid():
+            db.save(
+                "noticeboard",
+                # "613a1a3b59842c7444fb0220",
+                org_id,
+                notice_data=serializer.data
+            )
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateNoticeAPIView(views.APIView):
+
+    def put(self, request, id):
+        org_id = "613a1a3b59842c7444fb0220"
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-
-            payload={
-                    "plugin_id": "612a3a914acf115e685df8e3",
-                    "organization_id": "id",
-                    "collection_name": "mycollection",
-                    "bulk_write": False,
-                    "object_id": "1212",
-                    "filter": {},
-                    "payload": serializer.data
-                    }
-            external_api_url = 'https://zccore.herokuapp.com/data/write'
-            
-            res = requests.post(external_api_url, payload)
-            return Response({"post_data":payload, "server_response":res.json()}, status=status.HTTP_201_CREATED)
-
-
-           
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-  
-class CommentReactionAPIView(views.APIView):
-
-    def put(self, request):
-        serializer = CommentReactionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "success": True,
-                "data": serializer.data,
-                "message": "Your have successfully updated your reaction"
-            })
-        return Response({
+            db.update("noticeboard", org_id, serializer.data, object_id=id)
+            return Response(
+                {
+                    "success": True,
+                    "data": serializer.data,
+                    "message": "Notice has been successfully updated"
+                },
+                status=status.HTTP_201_CREATED)
+        return Response(
+            {
                 "success": False,
-                "data": serializer.data,
-                "message": "Your reaction could not be updated"
-            })
+                "message": "Notice not updated, Please Try Again"
+            },
+            status=status.HTTP_400_BAD_REQUEST)
 
 
-    def patch(self, request):
-        serializer = CommentReactionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "success": True,
-                "data": serializer.data,
-                "message": "Your have successfully updated your reaction"
-            })
-        return Response({
+class search(ListAPIView):
+    def get(self, request):
+
+        org_id = "613a1a3b59842c7444fb0220"
+
+        notice = db.read("noticeboard", org_id)
+        if notice['status'] == 200:
+            all_notice = notice['data']
+            query = request.GET.get("q")
+
+            if query:
+                all_notice = list(
+                    filter(lambda x: x['title'] == query, all_notice))
+            return Response(
+                {
+                    "status": True,
+                    "data": all_notice,
+                    "message": "Successfully retrieved"
+                },
+                status=status.HTTP_200_OK)
+        return Response(
+            {
                 "success": False,
-                "data": serializer.data,
-                "message": "Your reaction could not be updated"
-            })
+                "message": "Failed"
+            },
+            status=status.HTTP_400_BAD_REQUEST)
 
 
-class EditNoticeAPIView(views.APIView):
+class DeleteNotice(views.APIView):
 
-    def put(self, request):
-        serializer = EditNoticeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "success": True,
-                "data": serializer.data,
-                "message": "Your have successfully updated your reaction"
-            })
-        return Response({
-                "success": False,
-                "data": serializer.data,
-                "message": "Your reaction could not be updated"
-            })
+    """Delete a notice from the database"""
 
-
-    def patch(self, request):
-        serializer = EditNoticeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "success": True,
-                "data": serializer.data,
-                "message": "Your have successfully updated your reaction"
-            })
-        return Response({
-                "success": False,
-                "data": serializer.data,
-                "message": "Your reaction could not be updated"
-            })
-
-class CommentCreateAPIView(views.APIView):
-
-    def post(self, request):
-        serializer = CommentCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            results = serializer.data
-            return Response(results, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, object_id):
+        org_id = "613a1a3b59842c7444fb0220"
+        try:
+            db.delete(
+                collection_name='noticeboard',
+                org_id=org_id,
+                object_id=object_id
+            )
+            return Response(
+                {
+                    "success": True,
+                    "message": "Delete Operation Successful"
+                },
+                status=status.HTTP_200_OK)
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Delete Operation Failed. Object does not exist in the database"
+                },
+                status=status.HTTP_404_NOT_FOUND)
 
 
-class CommentDeleteAPIView(views.APIView):
+class ViewNoticeAPI(views.APIView):
 
-    def delete(self, pk):
-        return Response({"message": "You have successfully deleted your comment"}, status=status.HTTP_200_OK)
+    def get(self, request):
+        org_id = "613a1a3b59842c7444fb0220"
+        notice = db.read("noticeboard", org_id)
+        if notice['status'] == 200:
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
-class NoticeDeleteAPIView(views.APIView):
-    def delete(self, pk):
-        return Response({"message": "You have successfully deleted your notice"}, status=status.HTTP_200_OK)
+
+class NoticeDetail(views.APIView):
+
+    def get(self, request, id):
+        org_id = "613a1a3b59842c7444fb0220"
+        notice = db.read("noticeboard", org_id, filter={"id": id})
+        if notice["status"] == 200:
+            return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# The reaction API view
-class CreateReactionAPIView(views.APIView):
-    def post(self, request):
-        serializer = CreateReactionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "success": True,
-                "data": serializer.data,
-                "message": "Reaction Posted!!!"
-            })
-        return Response({
-            "success": False,
-            "data": serializer.data,
-            "message": "Reaction could not be posted"
-        })
-
-class UserNoticesView(views.APIView):
-
-    """GET request to display/retrieve all existing notices"""
-    def get(self, request, user_id):
-        data= [
-        {"user_id":1,
-        "title":"Management meeting",
-        "text":"Management has updated the design scedule",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null"},
-
-        {"user_id":2,
-        "title":"Stage 5",
-        "text":"Complete a ticket to move to stage 5",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null",
-        "published":"True"},
-
-        {"user_id":1,
-        "title":"Individual work",
-        "text":"Each intern is expected to complete at least one ticket individually",
-        "photo_url":"null",
-        "video_url":"null",
-        "audio_url":"null"},
-        ]
-        user_notice = data
-        data = []
-        for notice in user_notice:
-            if notice['user_id'] == user_id:
-                data.append(notice)
-        
-        results = CreateNoticeSerializer(data, many=True).data
-        return Response(results, status=status.HTTP_200_OK)
+@api_view(['GET'])
+def add_user(request):
+    data = {"message":"User has been added"}
+    return Response(data)

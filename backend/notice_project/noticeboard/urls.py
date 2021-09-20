@@ -14,15 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/', include('notice.urls')),
+    path('api/v1/', include('notice.urls')),
 
-    path('', TemplateView.as_view(template_name = "index.html")),
+    # re_path(r'^.*', TemplateView.as_view(template_name = "index.html"))
     
 ]
+
+# urlpatterns += static("/static/zuri-root-config.js", document_root="test_root_config/dist/zuri-root-config.js")
+# urlpatterns += static("/static/zuri-zuri-plugin-noticeboard.js", document_root="frontend/dist/zuri-zuri-plugin-noticeboard.js")
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

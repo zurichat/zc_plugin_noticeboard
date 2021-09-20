@@ -1,29 +1,45 @@
 from django.urls import path
-from .views import CreateNoticeView, CommentReactionAPIView, AllNoticesView, CommentDeleteAPIView, NoticeDeleteAPIView, EditNoticeAPIView, RetrieveNoticeCommentsView, CommentCreateAPIView, UserNoticesView,CreateReactionAPIView
+from .views import (install, sidebar, create_room, CreateNewNotices, 
+                     UpdateNoticeAPIView, DeleteNotice, search, get_room, 
+                     ViewNoticeAPI, NoticeDetail,add_user)
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
 
-#add url routes here
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Noticeboard API",
+        default_version='v1',
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
 
-    path('notices/', CreateNoticeView.as_view()),
+    path('sidebar', sidebar, name="sidebar"),
 
-    path('all-notices', AllNoticesView.as_view()),
+    path('install', install, name='install'),
 
-    path('user-notices/<int:user_id>', UserNoticesView.as_view()),
+    path('create-room', create_room),
 
-    path('comment/reaction/update', CommentReactionAPIView.as_view()),
+    path('create', CreateNewNotices.as_view()),
+
+    path('notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
+
+    path('search', search.as_view()),
+
+    path('get-room', get_room),
     
-    path('notice/update', EditNoticeAPIView.as_view()),
+    path('add_user', add_user, name='add_user'),
 
-    path('comment/delete', CommentDeleteAPIView.as_view()),
-    
-    path('notice/delete', NoticeDeleteAPIView.as_view()),
+    path('notices', ViewNoticeAPI.as_view()),
 
-    path('comment/get', RetrieveNoticeCommentsView.as_view()),
+    path('notices/<str:id>', NoticeDetail.as_view()),
 
-    path('comment/create', CommentCreateAPIView.as_view()),
+    path('notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
-    path('react/', CreateReactionAPIView.as_view(), name='react')  # Enables the user to react to a comment
+    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
 ]
-
