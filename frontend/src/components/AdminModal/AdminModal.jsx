@@ -14,7 +14,7 @@ function AdminModal() {
     <div className="adminModal">
       <div className="adminModal-container">
         <div className="adminModal-innerContainer">
-          <h2>Add Admins</h2>
+          <h2>Add Admin</h2>
           <p>
             Persons added here will identified as admins and can be able to
             create notices to be published on the notice board.
@@ -24,7 +24,7 @@ function AdminModal() {
               Cancel
             </button>
             <button className="addButton" onClick={() => addAdminModal()}>
-              Add Admins
+              Add Admin
             </button>
           </div>
         </div>
