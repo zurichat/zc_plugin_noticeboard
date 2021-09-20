@@ -11,7 +11,7 @@ class Dbnoticeboard:
     def __init__(self):
         BASE_URL = "https://api.zuri.chat"
         self.read_endpoint = (
-            BASE_URL + "/data/read/6139276099bd9e223a37d91d/{collec_name}/{org_id}?{query}"
+            BASE_URL + "/data/read/613fc3ea6173056af01b4b3e/{collec_name}/{org_id}?{query}"
         )
         self.write_endpoint = BASE_URL + "/data/write"
         self.delete_endpoint = BASE_URL + "/data/delete"
@@ -61,7 +61,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "6139276099bd9e223a37d91d",
+            "plugin_id": "613fc3ea6173056af01b4b3e",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -87,7 +87,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "6139276099bd9e223a37d91d",
+            "plugin_id": "613fc3ea6173056af01b4b3e",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -110,7 +110,7 @@ class Dbnoticeboard:
 
     def delete(self, org_id, collection_name, object_id):
         data = {
-            "plugin_id": "6139276099bd9e223a37d91d",
+            "plugin_id": "613fc3ea6173056af01b4b3e",
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_delete": False,
