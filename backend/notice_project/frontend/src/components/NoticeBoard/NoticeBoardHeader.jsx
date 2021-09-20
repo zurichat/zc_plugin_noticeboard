@@ -14,10 +14,8 @@ function NoticeBoardHeader() {
     <div className="noticeboard-header">
       <div className="noticeboard-header-container">
         <div className="heading">Notice Board</div>
-        {
-          //add Modal to add Users
-          openModal? <AddUsers setOpenModal={setOpenModal} openModal={openModal}/>: ""
-        }
+
+        <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/>
         <div className="members-avatars-grp">
           <AddIcon onClick={()=> setOpenModal(true)}/>
           <div className="avatar-wrap">
