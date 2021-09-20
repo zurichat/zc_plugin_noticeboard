@@ -29,5 +29,6 @@ urlpatterns = [
     
 ]
 
-urlpatterns += static("/static/zuri-root-config.js", document_root="test_root_config/dist/zuri-root-config.js")
-urlpatterns += static("/static/zuri-zuri-plugin-noticeboard.js", document_root="frontend/dist/zuri-zuri-plugin-noticeboard.js")
+# urlpatterns += static("/static/zuri-root-config.js", document_root="test_root_config/dist/zuri-root-config.js")
+# urlpatterns += static("/static/zuri-zuri-plugin-noticeboard.js", document_root="frontend/dist/zuri-zuri-plugin-noticeboard.js")
+urlpatterns += static(settings.STATIC_ROOT, document_root=settings.STATICFILES_DIRS)
