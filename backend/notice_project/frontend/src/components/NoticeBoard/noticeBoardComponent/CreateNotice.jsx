@@ -112,7 +112,7 @@ function CreateNotice() {
   };
   //validation for pasted text
 
-  //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!!
+  //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!
 
   // handlePastedText = (pastedText) => {
   //   const inputLength = editorState.getCurrentContent().getPlainText().length;
