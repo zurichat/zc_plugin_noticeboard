@@ -209,5 +209,5 @@ class NoticeDetail(views.APIView):
 
 @api_view(['GET'])
 def add_user(request):
-    data = {"message":"user has been added"}
+    data = {"message":"User has been added"}
     return Response(data)
