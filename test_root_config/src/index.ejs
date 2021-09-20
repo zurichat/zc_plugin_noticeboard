@@ -36,7 +36,7 @@
   <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
 
 
-  <% if (isLocal) { %>
+  <% if (!isLocal) { %>
     <script type="systemjs-importmap">
       {
         "imports": {
@@ -51,11 +51,11 @@
     <script type="text/javascript">
       window.local = true;
     </script>
-    <% } %> <% if (!isLocal) { %>
+    <% } %> <% if (isLocal) { %>
     <script type="systemjs-importmap">
       {
         "imports": {
-          "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
+        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
         "react" : "https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js",
         "react-dom" : "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js",
         "@zuri/root-config": "https://noticeboard.zuri.chat/static/zuri-root-config.js",
