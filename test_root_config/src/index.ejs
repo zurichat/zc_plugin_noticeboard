@@ -36,7 +36,7 @@
   <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
 
 
-  <% if (!isLocal) { %>
+  <% if (isLocal) { %>
     <script type="systemjs-importmap">
       {
         "imports": {
@@ -51,7 +51,7 @@
     <script type="text/javascript">
       window.local = true;
     </script>
-    <% } %> <% if (isLocal) { %>
+    <% } %> <% if (!isLocal) { %>
     <script type="systemjs-importmap">
       {
         "imports": {
