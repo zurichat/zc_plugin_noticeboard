@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 
@@ -23,6 +25,10 @@ urlpatterns = [
 
     path('api/v1/', include('notice.urls')),
 
-    re_path('', TemplateView.as_view(template_name = "index.html")),
+    re_path('', TemplateView.as_view(template_name = "index.html"))
     
 ]
+
+# urlpatterns += static("/static/zuri-root-config.js", document_root="test_root_config/dist/zuri-root-config.js")
+# urlpatterns += static("/static/zuri-zuri-plugin-noticeboard.js", document_root="frontend/dist/zuri-zuri-plugin-noticeboard.js")
+urlpatterns += static(settings.STATIC_ROOT, document_root=settings.STATICFILES_DIRS)
