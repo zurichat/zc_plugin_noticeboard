@@ -33,7 +33,7 @@ function NoticeBoard() {
 					<EmailUnsubscription />
 				</Route>
 
-				<Route exact path="/">
+				<Route exact path="/noticeboard">
 					<UserIntro />
 				</Route>
 
