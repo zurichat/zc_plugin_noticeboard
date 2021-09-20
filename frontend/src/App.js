@@ -11,7 +11,7 @@ function App() {
     <Router>
       <div className="App">
         <div className="app__body">
-          <Sidebar />
+          
           <span className="app__bodyFlex">
             <Header />  
             <NoticeBoard />
