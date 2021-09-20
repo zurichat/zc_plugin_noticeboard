@@ -14,10 +14,15 @@ function NoticeBoardHeader() {
     <div className="noticeboard-header">
       <div className="noticeboard-header-container">
         <div className="heading">Notice Board</div>
+<<<<<<< HEAD:frontend/src/components/NoticeBoard/NoticeBoardHeader.jsx
+
+        <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/>
+=======
         {
           //add Modal to add Users
           openModal? <AddUsers setOpenModal={setOpenModal} openModal={openModal}/>: ""
         }
+>>>>>>> 8eb5d9e5ca732ae1860293efcac8c0ca0530a17d:backend/notice_project/frontend/src/components/NoticeBoard/NoticeBoardHeader.jsx
         <div className="members-avatars-grp">
           <AddIcon onClick={()=> setOpenModal(true)}/>
           <div className="avatar-wrap">
