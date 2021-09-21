@@ -41,8 +41,10 @@ function AdminMenu() {
   };
 
   const deleteNoticeModal =(e) =>{
-    const target = e.target
-    if(target.innerHTML = 'Delete notice' ){
+    const target = e.target.innerHTML
+    console.log(target)
+  // dont change the logical operator to '==' or '='. it will mess the code up. leave it as ===
+    if(target === 'Delete notice' ){
         handleOpen()
     }
   }
@@ -145,7 +147,7 @@ function AdminMenu() {
             color="primary"
             variant='filled' 
              autoFocus
-             style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
+             style={{textTransform:'none', padding:'1em 1em', backgroundColor:'red', color:'white'}}
              >
             Delete Notice
           </Button>
