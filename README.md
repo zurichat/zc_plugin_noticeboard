@@ -1,7 +1,7 @@
 - [CONTRIBUTION GUIDE](#contribution-guide)
 - [RUNNING THE SERVER](#running-the-server)
 
-##CONTRIBUTION GUIDE
+## CONTRIBUTION GUIDE
 
 1. Fork the repository and copy the remote url of your own repo.
 2. On your terminal, clone repository using: `git clone <paste-the-remote-url-of-your-own-repo`
@@ -25,7 +25,7 @@
     :warning: And the rest will be history :slightly_smiling_face: as long as you dont have more than 20 file changes
 
 
-##RUNNING THE SERVER
+## RUNNING THE SERVER
 
 1. cd into `backend/notice_project/frontend`
 2. run command `yarn start` to run in integrated mode
