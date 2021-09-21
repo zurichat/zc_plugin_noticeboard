@@ -27,9 +27,9 @@ const ListMemberContainer = ({ Name, Img, Username, Job }) => {
 };
 
 // Notice board component
-export const Noticeboard = ({ setShowAddUser }) => {
+export const Noticeboard = ({ setShowAddUser, setOpenModal }) => {
   return (
-    <NoticeContainer>
+    <NoticeContainer >
       <AddUserHeader>
         <h2>Noticeboard members</h2>
         <span>
@@ -165,7 +165,7 @@ export const AddUsers = ({ setOpenModal, openModal, notice }) => {
 
   return (
     <BackDrop>
-        {showAddUser? (<AddUserNoticeboard setShowAddUser={setShowAddUser} />): (<Noticeboard setShowAddUser={setShowAddUser}/>)}
+        {showAddUser? (<AddUserNoticeboard setShowAddUser={setShowAddUser} />): (<Noticeboard setOpenModal={setOpenModal} setShowAddUser={setShowAddUser}/>)}
        
     </BackDrop>
   );
@@ -196,6 +196,10 @@ const AddUserContainer = styled.div`
   @media (max-width: ${500}px) {
     width: 90%;
     margin: 50% auto;
+  }
+
+  &.notice{
+    margin: 10% auto;
   }
 `;
 
@@ -305,6 +309,7 @@ const Users = styled.div`
 
 const NoticeContainer = styled(AddUserContainer)`
   height: unset;
+  margin: 10% auto;
 `;
 
 const AddUserBox = styled.div`
