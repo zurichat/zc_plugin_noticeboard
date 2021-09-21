@@ -18,6 +18,23 @@ const Card = ({ person }) => {
     setOpenModal(true);
   };
 
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
+
   return (
     <div>
       <article className="card">
@@ -33,7 +50,9 @@ const Card = ({ person }) => {
             <div className="identity">
               {/* <h6 className="name">{person.userName}</h6> */}
               <p className="time-date">
-                <span>{person.created.substring(0, 10)}</span>
+                <span>
+                  {currentMonth}&nbsp;{person.created.slice(8, 10)}
+                </span>
                 <span className="adminDot">
                   <img src={dot} alt="" />
                 </span>{" "}
@@ -45,7 +64,9 @@ const Card = ({ person }) => {
         </div>
         {/* body of card */}
         <div className="card-body">
-          <h5 className="card-title">{person.title.replace(/[<p></p>]/g, "")}</h5>
+          <h5 className="card-title">
+            {person.title.replace(/[<p></p>]/g, "")}
+          </h5>
           <p className="card-info">
             {person.message.replace(/[<p></p>]/g, "").substring(0, 150)}...
           </p>
