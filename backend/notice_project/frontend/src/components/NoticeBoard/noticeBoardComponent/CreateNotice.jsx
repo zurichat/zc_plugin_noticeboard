@@ -111,12 +111,15 @@ function CreateNotice() {
     }
   };
   //validation for pasted text
-  handlePastedText= (pastedText) => {
-     const inputLength = editorState.getCurrentContent().getPlainText().length;
-     if ((inputLength + pastedText.length) >= maxChars) {
-       return "handled"
-     }
-    }
+
+  //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!
+
+  // handlePastedText = (pastedText) => {
+  //   const inputLength = editorState.getCurrentContent().getPlainText().length;
+  //   if (inputLength + pastedText.length >= maxChars) {
+  //     return "handled";
+  //   }
+  // };
 
   return (
     <div className="dashboard-container">
@@ -179,7 +182,7 @@ function CreateNotice() {
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
                   handleBeforeInput={_handleBeforeInput}
-                  handlePastedText={handlePastedText}
+                  // handlePastedText={handlePastedText}
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
