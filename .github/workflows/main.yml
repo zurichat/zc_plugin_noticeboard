@@ -23,6 +23,7 @@ jobs:
       - name: install Dependencies
         run: |
           yarn install
+          yarn add husky --save-dev
           cd test_root_config
           yarn install
           yarn build
