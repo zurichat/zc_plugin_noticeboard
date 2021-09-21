@@ -28,7 +28,7 @@
 ## RUNNING THE SERVER
 
 1. cd into `backend/notice_project/frontend`
-2. run command `yarn start` to run in integrated mode
+2. run command `yarn start` to run in integrated mode<br/>
    OR
 3. run command `yarn start:standalone` to run in standalone mode
 4. open `localhost:8080` on your browser
