@@ -74,7 +74,6 @@ class Dbnoticeboard:
             r = requests.post(self.write_endpoint,data)
             print(r.text)
             r.raise_for_status()
-            self.post_to_centrifugo(notice_data)
         except requests.exceptions.RequestException as err:
             print("OOps: There is a problem with the Request", err)
         except requests.exceptions.HTTPError as errh:

@@ -205,3 +205,9 @@ class NoticeDetail(views.APIView):
         if notice["status"] == 200:
             return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def add_user(request):
+    data = {"message":"User has been added"}
+    return Response(data)

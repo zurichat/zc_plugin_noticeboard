@@ -1,0 +1,12 @@
+.app__body {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.app__bodyFlex {
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+}
+
