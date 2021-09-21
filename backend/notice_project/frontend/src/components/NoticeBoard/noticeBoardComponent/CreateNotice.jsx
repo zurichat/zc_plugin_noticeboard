@@ -110,6 +110,16 @@ function CreateNotice() {
       return "handled";
     }
   };
+  //validation for pasted text
+
+  //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!
+
+  // handlePastedText = (pastedText) => {
+  //   const inputLength = editorState.getCurrentContent().getPlainText().length;
+  //   if (inputLength + pastedText.length >= maxChars) {
+  //     return "handled";
+  //   }
+  // };
 
   return (
     <div className="dashboard-container">
@@ -156,6 +166,7 @@ function CreateNotice() {
                     inputProps={{
                       maxLength: 30,
                     }}
+                    helperText="You can type 30 characters or less"
                   />
                 </Box>
               </Box>
@@ -164,13 +175,14 @@ function CreateNotice() {
                   <Box fontWeight="fontWeightBold">Message:</Box>
                 </Box>
                 <Editor
-                  placeholder="Enter the content of your notice"
+                  placeholder="Enter the content of your notice(Max 1000)"
                   wrapperClassName="text-editor"
                   editorClassName="textarea"
                   toolbarClassName="toolbarClass"
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
                   handleBeforeInput={_handleBeforeInput}
+                  // handlePastedText={handlePastedText}
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [

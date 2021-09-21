@@ -5,7 +5,7 @@ import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 // import data from './Data'
 import logo from "../../../assets/svg/logo.svg";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 // import axios from 'axios'
 
 const PinnedNotices = (props) => {
@@ -25,7 +25,7 @@ const PinnedNotices = (props) => {
           }
         })
         .then((data) => {
-          console.log(data)
+          console.log(data);
           setPeople(data.data);
           setLoading(false);
         })
@@ -79,6 +79,11 @@ const PinnedNotices = (props) => {
           return <Card person={person} key={person._id} />;
         })}
       </section>
+      <Link to="/old-notices">
+        <div className="older-notices">
+          <p>View older notices</p>
+        </div>
+      </Link>
     </div>
   );
 };

@@ -236,6 +236,27 @@ section .card-button {
   margin: 0 3px;
   vertical-align: middle;
 }
+
+
+.older-notices {
+  width: max-content;
+  padding-bottom: 3px;
+  margin: 0 auto;
+  border-bottom: 2px solid #00bb7c;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 2em;
+}
+
+.older-notices:hover {
+  transform: scale(1.1);
+}
+
+.older-notices p {
+  color: #00bb7c;
+  text-align: center;
+}
+
 /*
 
 @media (max-width: 1261px) {
@@ -285,6 +306,10 @@ section .card-button {
 
   .adminnotice {
     padding: 1.5em 6em 0;
+  }
+
+  .older-notices {
+    margin-top: 0em;
   }
 }
 
