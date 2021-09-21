@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./NoticeBoard.css";
 import NoticeBoardHeader from "./NoticeBoardHeader";
 import AdminNotice from "../NoticeBoard/noticeBoardComponent/AdminNotice";
+import OldNotices from "../NoticeBoard/noticeBoardComponent/Old_Notices/oldNotices";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import CreateNotice from "./noticeBoardComponent/CreateNotice";
 import UserIntro from "../NoticeBoard/noticeBoardComponent/UserIntro component/UserIntro";
@@ -28,6 +29,11 @@ function NoticeBoard() {
 				<Route exact path="/user-notice">
 					<UserNotice />
 				</Route>
+
+				<Route exact path="/old-notices">
+					<OldNotices />
+				</Route>
+
 
 				<Route exact path="/unsubscribe-email/:id">
 					<EmailUnsubscription />
