@@ -4,6 +4,7 @@ import "./UserIntro.css";
 import defaultEdit from "./default.svg";
 import { IntroButtonStyles } from "./styledComponents/IntroButtonStyles";
 import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
+import Illustration from "../../../../assets/Illustration.svg";
 
 const UserIntro = () => {
   return (
@@ -11,11 +12,7 @@ const UserIntro = () => {
       <div className="UserIntro">
         <div className="UserIntro-innerContainer">
           <div className="IntroImg">
-            <img
-              className="Img"
-              alt="zuri"
-              src={require("../../../../assets/Illustration.svg").default}
-            />
+            <img className="Img" alt="zuri" src={Illustration} />
           </div>
 
           <IntroPMobileStyles>
