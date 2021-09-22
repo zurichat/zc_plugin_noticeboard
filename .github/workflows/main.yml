@@ -71,7 +71,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          localPath: './zc_plugin_noticeboard/backend/notice_project/frontend/dist'
+          localPath: './backend/notice_project/frontend/dist'
           remotePath: '/var/www/zc_plugin_noticeboard/backend/notice_project/frontend/dist'
           
       - name: collect static and restart gunicorn
