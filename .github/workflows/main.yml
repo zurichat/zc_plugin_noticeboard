@@ -22,8 +22,7 @@ jobs:
          #and also to build the static files that would be transferred to server later
       - name: install Dependencies
         run: |
-          yarn install
-          yarn add husky --save-dev
+          yarn install          
           cd test_root_config
           yarn install
           yarn build
@@ -36,7 +35,7 @@ jobs:
       - name: install Dependencies
         run: |
           yarn install
-          cd zc_plugin_noticeboard/backend/notice_project/frontend
+          cd zc_plugin_noticeboard/backend/notice_project/frontend/
           yarn
           yarn build
 
