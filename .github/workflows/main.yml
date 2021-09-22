@@ -48,9 +48,9 @@ jobs:
           script: |
             cd /var/www/zc_plugin_noticeboard/backend/notice_project
             source venv/bin/activate
-            git stash
-            git checkout development
-            git pull origin development          
+            git stash            
+            git pull origin development
+            git branch -r
             cd /var/www/zc_plugin_noticeboard/backend/notice_project
             pip3 install -r requirements.txt
             python3 manage.py migrate
