@@ -3,7 +3,8 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost:8000','noticeboard.zuri.chat']
+# ALLOWED_HOSTS = ['localhost:8000','noticeboard.zuri.chat']
+ALLOWED_HOSTS = ['*']
 
 
 #installed app for development
