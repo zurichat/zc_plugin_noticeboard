@@ -94,7 +94,7 @@ function CreateNotice() {
       setEditorState("");
       //routes to the admin view notice page
       history.push({
-        pathname: "/admin-notice",
+        pathname: "/noticeboard/admin-notice",
       });
       return console.log(res.data);
     } catch (err) {
