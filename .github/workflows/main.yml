@@ -35,6 +35,7 @@ jobs:
       - name: install Dependencies
         run: |
           yarn install
+          yarn add husky
           cd backend/notice_project/frontend/
           yarn
           yarn build
