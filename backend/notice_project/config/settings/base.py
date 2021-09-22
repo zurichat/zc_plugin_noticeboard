@@ -140,14 +140,6 @@ PLUGIN_ID = ""
 
 # CORS_ALLOW_ALL_ORIGINS = True
 
-
-
-# EMAIL_HOST = "email-smtp.us-west-2.amazonaws.com"
-# EMAIL_HOST_USER = "AKIA4HTONAOE7ZTF2TUX"
-# EMAIL_HOST_PASSWORD = "BPPGzyMT6hxRe76WYCbDDtWD1hofn6sMLBq5gaVn7oEB"
-# EMAIL_PORT = 587
-# SES_EMAIL = "test02@chatscrum.com"
-
 EMAIL_HOST = "email-smtp.us-west-2.amazonaws.com"
 EMAIL_HOST_USER = "AKIATIMXWZYESTHZGX43"
 EMAIL_HOST_PASSWORD = "BDzJ9m2oTo/1naiqO8C4g6+pK/1wSZ3hXdJ5JpLXtUHc"
