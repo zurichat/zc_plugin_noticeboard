@@ -59,7 +59,7 @@ jobs:
       - name: copy build to server
         uses: Creepios/sftp-action@v1.0.1
         with:
-          host: ${{ secrets.ZURI_HOST }}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}          
           localPath: '.test_root_config/dist'
@@ -68,7 +68,7 @@ jobs:
       - name: copy build to server
         uses: Creepios/sftp-action@v1.0.1
         with:
-          host: ${{ secrets.ZURI_HOST }}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           localPath: './zc_plugin_noticeboard/backend/notice_project/frontend/dist'
