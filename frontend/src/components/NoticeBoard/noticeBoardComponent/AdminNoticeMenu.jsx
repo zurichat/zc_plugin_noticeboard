@@ -10,6 +10,7 @@ import CopyLinkIcon from "../../../assets/copy-link-icon.svg";
 import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
+import axios from "axios";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,7 +21,7 @@ import Button from '@material-ui/core/Button'
 
 
 
-function AdminMenu() {
+function AdminMenu({selectedPerson}) {
   const menu = [
     { icon: BookmarkIcon, linkText: "Bookmark" },
     { icon: EditIcon, linkText: "Edit notice" },
@@ -47,6 +48,7 @@ function AdminMenu() {
     }
   }
 
+// console.log(selectedPerson)
 
   const AdminMenuStyle = {
     display: "flex",
@@ -67,6 +69,28 @@ function AdminMenu() {
   const closeMenu = () => {
     setAnchorEl(false);
   };
+
+const deleteNotice = (_id) => {
+  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`)
+    .then((response) => {
+        console.log(response);
+    }, (error) => {
+        console.log(error);
+    });
+    handleClose();
+}
+// axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`,
+//         {
+//             headers: {
+//                 'Authorization': `Bearer ${userToken}`
+//             }
+//         }
+//     )
+//         .then((response) => {
+//             console.log(response);
+//         }, (error) => {
+//             console.log(error);
+//         });
 
   return (
     <div>
@@ -146,6 +170,7 @@ function AdminMenu() {
             variant='filled' 
              autoFocus
              style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
+             onClick = {() =>{deleteNotice(selectedPerson._id)}}
              >
             Delete Notice
           </Button>
