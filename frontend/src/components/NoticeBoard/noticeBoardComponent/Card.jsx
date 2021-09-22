@@ -41,7 +41,7 @@ const Card = ({ person }) => {
               </p>
             </div>
           </div>
-          <AdminMenu />
+          <AdminMenu selectedPerson={person}/>
         </div>
         {/* body of card */}
         <div className="card-body">
