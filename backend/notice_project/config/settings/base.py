@@ -138,7 +138,7 @@ STATIC_ROOT = os.path.join(NOTICE_PROJECT_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PLUGIN_ID = ""
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 
 
@@ -154,3 +154,4 @@ EMAIL_HOST_PASSWORD = "BDzJ9m2oTo/1naiqO8C4g6+pK/1wSZ3hXdJ5JpLXtUHc"
 EMAIL_PORT = 587
 SES_EMAIL = "jeremiahchukwu@gmail.com"
 EMAIL_USE_TLS = True 
+

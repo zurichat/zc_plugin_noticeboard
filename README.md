@@ -1,4 +1,7 @@
-CONTRIBUTION GUIDE
+- [CONTRIBUTION GUIDE](#contribution-guide)
+- [RUNNING THE SERVER](#running-the-server)
+
+## CONTRIBUTION GUIDE
 
 1. Fork the repository and copy the remote url of your own repo.
 2. On your terminal, clone repository using: `git clone <paste-the-remote-url-of-your-own-repo`
@@ -20,3 +23,12 @@ CONTRIBUTION GUIDE
 12. Compare parent development branch with your own development branch and create a pull request
 
     :warning: And the rest will be history :slightly_smiling_face: as long as you dont have more than 20 file changes
+
+
+## RUNNING THE SERVER
+
+1. cd into `backend/notice_project/frontend`
+2. run command `yarn start` to run in integrated mode<br/>
+   OR
+3. run command `yarn start:standalone` to run in standalone mode
+4. open `localhost:8080` on your browser

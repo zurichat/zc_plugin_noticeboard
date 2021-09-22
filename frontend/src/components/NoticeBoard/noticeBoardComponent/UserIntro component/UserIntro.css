@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+* {
+  font-family: "Lato", sans-serif;
+}
+
+:root {
+  --accent-color: hsla(160, 100%, 37%, 1);
+  --main-black: hsla(0, 0%, 20%, 1);
+  --main-gray: hsla(0, 0%, 60%, 1);
+  --white-color: rgb(251, 248, 248);
+  --button-color: #fff;
+}
+
+.UserIntro {
+  position: relative;
+  width: 85%;
+  height: 80vh;
+  margin: 0 auto;
+}
+
+.UserIntro-innerContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.Img {
+  height: 30em;
+  width: 658px;
+}
+
+.UserIntroPdesktop {
+  width: 493px;
+  height: 72px;
+  right: 352px;
+  top: 622.55px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #333333;
+}
+
+.IntroImg {
+  width: 100%;
+}
+
+.IntroImg img {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .UserIntro a {
+    height: fit-content;
+  }
+
+  .UserIntroPmobile {
+    display: block;
+    right: 5px;
+    top: 252.46px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #333333;
+    margin-bottom: 24px;
+  }
+
+  .UserIntroPmobile p {
+    right: 5px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #333333;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .IntroButton img {
+    display: block;
+    margin-left: 16px;
+  }
+
+  .userIntro-mainText {
+    padding: 0 5em;
+    line-height: 1.5;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .userIntro-mainText {
+    width: 50%;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+}
