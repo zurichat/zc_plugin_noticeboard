@@ -1,0 +1,12 @@
+.outer-div {
+	display: flex;
+	justify-content: space-around;
+}
+
+.inner-cards {
+	width: 18rem;
+	border: 2px solid grey;
+	padding: 20px;
+}
+
+/* David please delete all the code above this comment */
