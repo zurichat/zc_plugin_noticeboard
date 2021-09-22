@@ -30,12 +30,12 @@ jobs:
       - name: Use cached node_modules for root dir
         uses: c-hive/gha-yarn-cache@v2
         with:
-         directory: zc_plugin_noticeboard/backend/notice_project/frontend
+         directory: backend/notice_project/frontend
      
       - name: install Dependencies
         run: |
           yarn install
-          cd zc_plugin_noticeboard/backend/notice_project/frontend/
+          cd backend/notice_project/frontend/
           yarn
           yarn build
 
