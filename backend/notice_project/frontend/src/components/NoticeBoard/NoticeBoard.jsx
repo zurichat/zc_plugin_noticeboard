@@ -16,26 +16,26 @@ function NoticeBoard() {
 		<div className="notice">
 			<NoticeBoardHeader />
 			<Switch>
-				<Route exact path="/search">
+				<Route exact path="/noticeboard/search">
 					<SearchResult />
 				</Route>
 
-				<Route exact path="/create-notice">
+				<Route exact path="/noticeboard/create-notice">
 					<CreateNotice />
 				</Route>
-				<Route exact path="/admin-notice">
+				<Route exact path="/noticeboard/admin-notice">
 					<AdminNotice />
 				</Route>
-				<Route exact path="/user-notice">
+				<Route exact path="/noticeboard/user-notice">
 					<UserNotice />
 				</Route>
 
-				<Route exact path="/old-notices">
+				<Route exact path="/noticeboard/old-notices">
 					<OldNotices />
 				</Route>
 
 
-				<Route exact path="/unsubscribe-email/:id">
+				<Route exact path="/noticeboard/unsubscribe-email/:id">
 					<EmailUnsubscription />
 				</Route>
 
