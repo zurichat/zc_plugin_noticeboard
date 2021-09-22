@@ -32,7 +32,7 @@ const Header = () => {
 			console.log(searchData);
 			setText("");
 			history.push({
-				pathname: "/search",
+				pathname: "/noticeboard/search",
 				state: { searchData },
 			});
 		} catch (error) {
