@@ -25,7 +25,6 @@ const PinnedNotices = (props) => {
           }
         })
         .then((data) => {
-          console.log(data);
           setPeople(data.data);
           setLoading(false);
         })
