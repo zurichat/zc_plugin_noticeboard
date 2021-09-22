@@ -9,7 +9,7 @@
     "lint": "eslint src --ext js",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "prepare": "cd ../.. && husky install",
+    "prepare": "cd .. && cd .. && husky install",
     "test": "cross-env BABEL_ENV=test jest",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
     "prepare": "husky install",
