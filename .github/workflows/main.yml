@@ -77,7 +77,7 @@ jobs:
       - name: collect static and restart gunicorn
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.ZURI_HOST }}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
