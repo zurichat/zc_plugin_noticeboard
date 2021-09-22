@@ -62,7 +62,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}          
-          localPath: '.test_root_config/dist'
+          localPath: './test_root_config/dist'
           remotePath: '/var/www/zc_plugin_noticeboard/test_root_config/dist'
           
       - name: copy build to server
