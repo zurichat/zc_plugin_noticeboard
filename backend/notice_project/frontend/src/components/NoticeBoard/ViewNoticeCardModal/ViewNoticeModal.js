@@ -57,8 +57,8 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
               </div>
             </div>
 
-            <h2 className="modal-title">{person.title.replace(/[<p></p>]/g, "")}</h2>
-            <p className="modal-info">{person.message.replace(/[<p></p>]/g, "")}</p>
+            <h2 className="modal-title">{person.title.replace(/<[^>]+>/g, "")}</h2>
+            <p className="modal-info">{person.message.replace(/<[^>]+>/g, "")}</p>
             <div>
               <img
                 src="https://res.cloudinary.com/clefayomide/image/upload/v1630517027/dummy-img.svg"
