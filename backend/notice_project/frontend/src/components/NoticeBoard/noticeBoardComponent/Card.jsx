@@ -18,6 +18,23 @@ const Card = ({ person }) => {
     setOpenModal(true);
   };
 
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
+
   return (
     <div>
       <article className="card">
@@ -31,9 +48,12 @@ const Card = ({ person }) => {
               />
             </div>
             <div className="identity">
+              {/* no user details in notices from the api */}
               {/* <h6 className="name">{person.userName}</h6> */}
               <p className="time-date">
-                <span>{person.created.substring(0, 10)}</span>
+                <span>
+                  {currentMonth}&nbsp;{person.created.slice(8, 10)}
+                </span>
                 <span className="adminDot">
                   <img src={dot} alt="" />
                 </span>{" "}
@@ -45,14 +65,17 @@ const Card = ({ person }) => {
         </div>
         {/* body of card */}
         <div className="card-body">
-          <h5 className="card-title">{person.title.replace(/[<p></p>]/g, "")}</h5>
+          <h5 className="card-title">
+            {person.title.replace(/<[^>]+>/g, "")}
+          </h5>
           <p className="card-info">
-            {person.message.replace(/[<p></p>]/g, "").substring(0, 150)}...
+            {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
         <div className="icon-button-tray">
           <div className="icon-tray">
+            {/* the seen feature was removed */}
             {/* <div>
               <img src={see} alt="" />
               <p className="number">{person.views}</p>

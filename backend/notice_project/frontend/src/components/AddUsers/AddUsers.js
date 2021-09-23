@@ -92,7 +92,7 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal }) => {
         Name={"Ralph Edwards"}
         Img={Img}
         Username={"@Raplh"}
-        Job={"Co founder"}
+        Job={"Co-founder"}
       />
     </NoticeContainer>
   );

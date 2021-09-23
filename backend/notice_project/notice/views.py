@@ -7,6 +7,7 @@ from .storage import db
 from .serializers import NoticeboardRoom, CreateNoticeSerializer
 from rest_framework.generics import ListAPIView
 import uuid
+from .email import sendemail
 
 
 @api_view(['GET'])
@@ -58,6 +59,9 @@ def create_room(request):
 def get_room(request):
     org_id = "613a1a3b59842c7444fb0220"
     data = db.read("noticeboard_room", org_id)
+    login = "https://api.zuri.chat/auth/login"
+    print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
+   
     return Response(data)
 
 
@@ -91,12 +95,17 @@ class CreateNewNotices(views.APIView):
     '''
     Create new notices
     '''
-
+    
     def post(self, request):
         org_id = "613a1a3b59842c7444fb0220"
-
+        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
-
+        # validate request
+        #   if 'Authorization' in request.headers:
+        #       token = request.headers['Authorization']
+        #        headers={"Authorization": f"Bearer {request.headers['Authorization']}"}
+        #   else:
+        #       token = request.headers['Cookie']
         if serializer.is_valid():
             db.save(
                 "noticeboard",
@@ -104,7 +113,17 @@ class CreateNewNotices(views.APIView):
                 org_id,
                 notice_data=serializer.data
             )
+            '''
+                Retrieve Organisation members
+            '''
 
+            # login = "https://api.zuri.chat/auth/login"
+            # print(requests.post(url=login, data={"email": "user@example.com", "password": "pa$$word"}))
+            # url = f"https://api.zuri.chat/organizations/{org_id}/members/"
+            # members = requests.get(url=url, )
+            #send email after adding notice
+            sendemail("email/notify-users.html", {"vail":"shsd"}, "Testing app", "jrmhchukwuka@gmail.com")
+           
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -192,7 +211,12 @@ class ViewNoticeAPI(views.APIView):
     def get(self, request):
         org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
         if notice['status'] == 200:
+            print(notice)
             return Response(notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createBrowserHistory } from "history";
 import "./Header.css";
 import axios from "axios";
+import profileIcon from "./images/profile_icon_img_x2.png";
 
 const Header = () => {
 	const [text, setText] = useState("");
@@ -31,7 +32,7 @@ const Header = () => {
 			console.log(searchData);
 			setText("");
 			history.push({
-				pathname: "/search",
+				pathname: "/noticeboard/search",
 				state: { searchData },
 			});
 		} catch (error) {
@@ -77,7 +78,7 @@ const Header = () => {
 					</svg>
 				</div>
 				<div className="header__profile">
-					<img className="header__profile__image" src={require("./images/profile_icon_img_x2.png").default} alt="Profile" />
+					<img className="header__profile__image" src={profileIcon} alt="Profile" />
 				</div>
 			</div>
 		</header>
