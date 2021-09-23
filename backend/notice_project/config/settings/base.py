@@ -138,7 +138,7 @@ STATIC_ROOT = os.path.join(NOTICE_PROJECT_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PLUGIN_ID = ""
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 EMAIL_HOST = "email-smtp.us-west-2.amazonaws.com"
 EMAIL_HOST_USER = "AKIATIMXWZYEYAR6IAPG"
