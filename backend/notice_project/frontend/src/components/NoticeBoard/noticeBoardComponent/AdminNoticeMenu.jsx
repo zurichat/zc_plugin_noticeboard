@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button'
 
 
 
-function AdminMenu({selectedPerson}) {
+function AdminMenu({noticeID}) {
   const menu = [
     { icon: BookmarkIcon, linkText: "Bookmark" },
     { icon: EditIcon, linkText: "Edit notice" },
@@ -70,16 +70,33 @@ function AdminMenu({selectedPerson}) {
     setAnchorEl(false);
   };
 
-const deleteNotice = (_id) => {
-  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`)
+const deleteNotice = (noticeId) => {
+  axios.delete('https://noticeboard.zuri.chat/api/v1/notices/' + noticeId )
+  // axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete` )
     .then((response) => {
         console.log(response);
     }, (error) => {
         console.log(error);
     });
     handleClose();
+  console.log(noticeId)
+
+
 }
 
+
+// axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`,
+//         {
+//             headers: {
+//                 'Authorization': `Bearer ${userToken}`
+//             }
+//         }
+//     )
+//         .then((response) => {
+//             console.log(response);
+//         }, (error) => {
+//             console.log(error);
+//         });
 
   return (
     <div>
@@ -159,7 +176,7 @@ const deleteNotice = (_id) => {
             variant='filled' 
              autoFocus
              style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
-             onClick = {() =>{deleteNotice(selectedPerson._id)}}
+             onClick = {() =>{deleteNotice(noticeID)}}
              >
             Delete Notice
           </Button>
