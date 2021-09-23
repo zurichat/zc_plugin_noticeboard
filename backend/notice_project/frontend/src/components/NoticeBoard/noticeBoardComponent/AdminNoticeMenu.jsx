@@ -79,18 +79,7 @@ const deleteNotice = (_id) => {
     });
     handleClose();
 }
-// axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`,
-//         {
-//             headers: {
-//                 'Authorization': `Bearer ${userToken}`
-//             }
-//         }
-//     )
-//         .then((response) => {
-//             console.log(response);
-//         }, (error) => {
-//             console.log(error);
-//         });
+
 
   return (
     <div>
