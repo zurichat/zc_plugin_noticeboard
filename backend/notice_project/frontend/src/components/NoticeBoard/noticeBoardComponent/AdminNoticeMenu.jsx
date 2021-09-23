@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 
@@ -48,7 +49,6 @@ function AdminMenu({noticeID}) {
     }
   }
 
-// console.log(selectedPerson)
 
   const AdminMenuStyle = {
     display: "flex",
@@ -71,10 +71,9 @@ function AdminMenu({noticeID}) {
   };
 
 const deleteNotice = (noticeId) => {
-  axios.delete('https://noticeboard.zuri.chat/api/v1/notices/' + noticeId )
-  // axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete` )
+  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete` )
     .then((response) => {
-        console.log(response);
+       console.log(response);
     }, (error) => {
         console.log(error);
     });
@@ -85,18 +84,6 @@ const deleteNotice = (noticeId) => {
 }
 
 
-// axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`,
-//         {
-//             headers: {
-//                 'Authorization': `Bearer ${userToken}`
-//             }
-//         }
-//     )
-//         .then((response) => {
-//             console.log(response);
-//         }, (error) => {
-//             console.log(error);
-//         });
 
   return (
     <div>
@@ -173,7 +160,7 @@ const deleteNotice = (noticeId) => {
           <Button
            
             color="primary"
-            variant='filled' 
+            variant='contained' 
              autoFocus
              style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
              onClick = {() =>{deleteNotice(noticeID)}}
