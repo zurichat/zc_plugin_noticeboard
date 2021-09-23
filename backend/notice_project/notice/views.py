@@ -122,7 +122,7 @@ class CreateNewNotices(views.APIView):
             # url = f"https://api.zuri.chat/organizations/{org_id}/members/"
             # members = requests.get(url=url, )
             #send email after adding notice
-            sendemail("email/notify-users.html", {"vail":"shsd"}, "Testing app", "jrmhchukwuka@gmail.com")
+            sendemail("email/notify-users.html", {"vail":"shsd"}, "Hi, A notice have been created", "jrmhchukwuka@gmail.com")
            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
