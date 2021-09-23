@@ -8,6 +8,7 @@ from .serializers import NoticeboardRoom, CreateNoticeSerializer
 from rest_framework.generics import ListAPIView
 import uuid
 from .email import sendemail
+import re
 
 
 @api_view(['GET'])
@@ -159,11 +160,22 @@ class search(ListAPIView):
         notice = db.read("noticeboard", org_id)
         if notice['status'] == 200:
             all_notice = notice['data']
+
+            def func(data, keyword):
+                new_data = []
+                for d in data:
+                    if keyword.lower() in d['title'].lower() or keyword.lower() in d['message'].lower():
+                        new_data.append(d)
+                return new_data
+
             query = request.GET.get("q")
 
             if query:
-                all_notice = list(
-                    filter(lambda x: x['title'] == query, all_notice))
+                all_notice = func(all_notice, query)
+                # print(all_notices)
+                # all_notice = list(
+                #     filter(lambda x: x['title'].lower().startswith(query.lower()), all_notice))
+                
             return Response(
                 {
                     "status": True,
