@@ -114,6 +114,9 @@ class CreateNewNotices(views.APIView):
                 org_id,
                 notice_data=serializer.data
             )
+
+            db.post_to_centrifugo(serializer.data)
+            
             '''
                 Retrieve Organisation members
             '''

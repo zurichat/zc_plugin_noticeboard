@@ -11,7 +11,7 @@
     "check-format": "prettier --check .",
     "prepare": "cd ../../.. && husky install",
     "test": "cross-env BABEL_ENV=test jest",
-    "watch-tests": "cross-env BABEL_ENV=test jest --watch",    
+    "watch-tests": "cross-env BABEL_ENV=test jest --watch",
     "coverage": "cross-env BABEL_ENV=test jest --coverage"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "axios": "^0.21.4",
     "centrifuge": "^2.8.2",
     "draft-js": "^0.11.7",
-    "draftjs-to-html": "^0.9.1",
+    "draftjs-to-markdown": "^0.6.0",
     "formik": "^2.2.9",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^17.0.2",
