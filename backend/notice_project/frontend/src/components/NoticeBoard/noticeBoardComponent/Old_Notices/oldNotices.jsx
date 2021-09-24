@@ -64,7 +64,7 @@ function OldNotices() {
     <>
       <div className="old-notice-container">
         <OldNoticeHeader />
-        <section className="old-notices">
+        <section className="adminNotice-section">
           {currentNoticeData.map((notice, index) => {
             return <Card person={notice} key={index} />;
           })}
