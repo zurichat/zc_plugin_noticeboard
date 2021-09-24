@@ -14,22 +14,20 @@ const PinnedNotices = (props) => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    setInterval(() => {
-      fetch("https://noticeboard.zuri.chat/api/v1/notices")
-        .then((res) => {
-          if (res.status >= 200 && res.status <= 299) {
-            return res.json();
-          } else {
-            setLoading(false);
-            setIsError(true);
-          }
-        })
-        .then((data) => {
-          setPeople(data.data);
+    fetch("https://noticeboard.zuri.chat/api/v1/notices")
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          return res.json();
+        } else {
           setLoading(false);
-        })
-        .catch((error) => console.log(error));
-    }, 5000);
+          setIsError(true);
+        }
+      })
+      .then((data) => {
+        setPeople(data.data);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   if (loading) {
