@@ -71,6 +71,7 @@ function CreateNotice() {
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
+    document.getElementById("messageError").innerHTML = "";
   };
 
   //CREATE NOTICE API CALL STARTS
@@ -87,23 +88,35 @@ function CreateNotice() {
       message: values.message,
     };
 
-    try {
-      const res = await api.post("/create", request);
-      //Return input field to blank
-      values.title = "";
-      setEditorState("");
-      //routes to the admin view notice page
-      history.push({
-        pathname: "/noticeboard/admin-notice",
-      });
-      return console.log(res.data);
-    } catch (err) {
-      console.log(err);
+    if (values.title==="" || setEditorState==="") {
+      setErrorMessage("Field cannot be empty")
+      setErrorTitle("Field cannot be empty")
+      console.log(errorMessage, errorTitle)
+    } else {
+      setErrorMessage("");
+      setErrorTitle("")
+      console.log(values.title)
     }
+
+      try {
+        const res = await api.post("/create", request);
+        //Return input field to blank
+        values.title = "";
+        setEditorState("");
+        //routes to the admin view notice page
+        history.push({
+          pathname: "/noticeboard/admin-notice",
+        });
+        return console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
   };
   //CREATE NOTICE API CALL ENDS
 
   const maxChars = 1000;
+  const [errorTitle, setErrorTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const _handleBeforeInput = (input) => {
     const inputLength = editorState.getCurrentContent().getPlainText().length;
     if (input && inputLength >= maxChars) {
@@ -164,10 +177,12 @@ function CreateNotice() {
                     type="text"
                     variant="outlined"
                     inputProps={{
+                      minLength:5,
                       maxLength: 30,
                     }}
-                    helperText="You can type 30 characters or less"
+                    // helperText="You can type 30 characters or less"
                   />
+                  <p id="titleError" style={{color:"red", fontSize:"14px"}}>{errorTitle}</p>
                 </Box>
               </Box>
               <Box pt="30px" pb="50px">
@@ -241,6 +256,7 @@ function CreateNotice() {
                     ],
                   }}
                 />
+                <p id="messageError" style={{color:"red", fontSize:"14px"}}>{errorMessage}</p>
               </Box>
               <Hidden lgUp>
                 <Box pt="20px" pb="30px" display="flex" justifyContent="center">
