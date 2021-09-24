@@ -10,7 +10,7 @@ function App() {
   
   const CentrifugoConnection = () =>{
     const centrifuge = new Centrifuge(
-      "ws://localhost:8000/connection/websocket",
+      "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
     );
 
@@ -18,7 +18,7 @@ function App() {
       console.log("connected", ctx);
 
       centrifuge.subscribe("noticeboard", (ctx) => {
-        console.log(ctx.data);
+        console.log(ctx);
         //option 1 write function to re-render the component that needs re-rendering
         //option 2, perform data fetch again
       });
@@ -30,11 +30,6 @@ function App() {
 
     centrifuge.connect();
   }
-
-  let userID="6146f82c845b436ea04d10e1"
-
-  let token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpVd09EQTJObnhIZDNkQlIwUlplRTVFVFROTlJGVXdXa1JCZVU5RVVtbFplbHBvVDFSSmVVMTZVVEpaWnowOWZIN1pRLUZHYTlSTExIcjczUERnWVlDX3V4NU5BMmhzWUZ6M0FheERKNlRUIiwiZW1haWwiOiJwaWRAb3h5LmNvbSIsImlkIjoiNjE0MzcwNTRkMDI4NGJjNmE5MjIzNDZiIiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6NzkzOTY4NjE3NSwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.SwBlvr0h2BSas0aCPaqQaRr";
 
   console.log(GetUserInfo())
 
