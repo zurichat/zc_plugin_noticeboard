@@ -5,11 +5,11 @@ import Hidden from '@material-ui/core/Hidden'
 import TextField from '@material-ui/core/TextField'
 import draftToMarkdown from 'draftjs-to-markdown'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 import { Formik } from 'formik'
 import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
 
 import imageIcon from './Text-editor/icons/attachment.svg'
 import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
@@ -81,6 +81,7 @@ function CreateNotice () {
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
+    document.getElementById('messageError').innerHTML = ''
   }
 
   //CREATE NOTICE API CALL STARTS
@@ -95,6 +96,15 @@ function CreateNotice () {
     const request = {
       title: values.title,
       message: values.message
+    }
+    if (values.title === '' || setEditorState === '') {
+      setErrorMessage('Field cannot be empty')
+      setErrorTitle('Field cannot be empty')
+      console.log(errorMessage, errorTitle)
+    } else {
+      setErrorMessage('')
+      setErrorTitle('')
+      console.log(values.title)
     }
 
     try {
@@ -111,7 +121,11 @@ function CreateNotice () {
   }
   //CREATE NOTICE API CALL ENDS
 
+  //CREATE NOTICE API CALL ENDS
+
   const maxChars = 1000
+  const [errorTitle, setErrorTitle] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const _handleBeforeInput = input => {
     const inputLength = editorState.getCurrentContent().getPlainText().length
     if (input && inputLength >= maxChars) {
@@ -172,10 +186,14 @@ function CreateNotice () {
                     type='text'
                     variant='outlined'
                     inputProps={{
+                      minLength: 5,
                       maxLength: 30
                     }}
-                    helperText='You can type 30 characters or less'
+                    // helperText="You can type 30 characters or less"
                   />
+                  <p id='titleError' style={{ color: 'red', fontSize: '14px' }}>
+                    {errorTitle}
+                  </p>
                 </Box>
               </Box>
               <Box pt='30px' pb='50px'>
@@ -249,6 +267,9 @@ function CreateNotice () {
                     ]
                   }}
                 />
+                <p id='messageError' style={{ color: 'red', fontSize: '14px' }}>
+                  {errorMessage}
+                </p>
               </Box>
               <Hidden lgUp>
                 <Box pt='20px' pb='30px' display='flex' justifyContent='center'>
