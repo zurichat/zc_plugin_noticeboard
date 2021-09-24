@@ -1,9 +1,5 @@
 import React from "react";
-
-import see from "../../../assets/Seen.svg";
-// import active from "../../../assets/active.svg";
 import dot from "../../../assets/Ellipse135.svg";
-
 import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
