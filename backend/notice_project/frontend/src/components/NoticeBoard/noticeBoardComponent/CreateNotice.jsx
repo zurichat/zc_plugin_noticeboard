@@ -9,7 +9,6 @@ import { Formik } from 'formik'
 import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
-import { useHistory } from 'react-router-dom'
 
 import imageIcon from './Text-editor/icons/attachment.svg'
 import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
@@ -62,9 +61,12 @@ const initialValues = {
   message: ''
 }
 
+const maxChars = 1000
+
 function CreateNotice () {
   const classes = useStyles()
-  const history = useHistory()
+  const [errorTitle, setErrorTitle] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [openErrorDialog, setOpenErrorDialog] = useState(false)
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
   const [editorState, setEditorState] = useState(() =>
@@ -81,6 +83,7 @@ function CreateNotice () {
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
+    setErrorMessage('')
     document.getElementById('messageError').innerHTML = ''
   }
 
@@ -98,13 +101,10 @@ function CreateNotice () {
       message: values.message
     }
     if (values.title === '' || setEditorState === '') {
-      setErrorMessage('Field cannot be empty')
-      setErrorTitle('Field cannot be empty')
-      console.log(errorMessage, errorTitle)
-    } else {
-      setErrorMessage('')
-      setErrorTitle('')
-      console.log(values.title)
+      return (
+        setErrorMessage('Field cannot be empty'),
+        setErrorTitle('Field cannot be empty')
+      )
     }
 
     try {
@@ -119,19 +119,14 @@ function CreateNotice () {
       setOpenErrorDialog(true)
     }
   }
-  //CREATE NOTICE API CALL ENDS
 
-  //CREATE NOTICE API CALL ENDS
-
-  const maxChars = 1000
-  const [errorTitle, setErrorTitle] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
   const _handleBeforeInput = input => {
     const inputLength = editorState.getCurrentContent().getPlainText().length
     if (input && inputLength >= maxChars) {
       return 'handled'
     }
   }
+
   //validation for pasted text
 
   //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!
@@ -180,7 +175,10 @@ function CreateNotice () {
                     id='title'
                     name='title'
                     value={values.title}
-                    onChange={handleChange}
+                    onChange={e => {
+                      handleChange(e)
+                      setErrorTitle('')
+                    }}
                     onBlur={handleBlur}
                     placeholder='Enter the subject of your notice'
                     type='text'
