@@ -26,7 +26,11 @@ const PinnedNotices = (props) => {
         }
       })
       .then((data) => {
-        setPeople(data.data.filter((notice) => notice.created.substring(8, 10) === date.toString()));
+        setPeople(
+          data.data.filter(
+            (notice) => notice.created.substring(8, 10) === date.toString()
+          )
+        );
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -53,6 +57,37 @@ const PinnedNotices = (props) => {
           Error. Try refreshing your browser
         </h1>
         <i className="fas fa-spinner fa-spin"></i>
+      </div>
+    );
+  }
+
+  if (people.length <= 0) {
+    return (
+      <div className="adminnotice">
+        <div className="pinned-button-container">
+          <div className="pin-text">
+            <p className="text">Notices</p>
+          </div>
+          <Button
+            className="header-button"
+            onClick={() => props.history.push("/noticeboard/create-notice")}
+            variant="contained"
+            disableRipple
+          >
+            Create Notice <img src={notice} alt="create notice" />
+          </Button>
+        </div>
+        <h1
+          className="no-new-notices"
+          style={{ fontSize: "1.5rem", textAlign: "center", color: "#01b478", marginTop: "20px" }}
+        >
+          No new notice today
+        </h1>
+        <Link to="/noticeboard/old-notices">
+          <div className="older-notices">
+            <p style={{ marginTop: "20px", color: "#00bb7c" }}>View older notices</p>
+          </div>
+        </Link>
       </div>
     );
   }
