@@ -9,7 +9,10 @@ const useStyles = makeStyles({
   button: {
     backgroundColor: '#00B87C',
     color: 'white',
-    textTransform: 'none'
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#00B87C'
+    }
   }
 })
 
