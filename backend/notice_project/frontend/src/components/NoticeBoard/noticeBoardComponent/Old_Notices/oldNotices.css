@@ -38,25 +38,49 @@
   margin-left: -1em;
   margin-right: -1em;
 }
-
-.sort-arrowDown {
-  vertical-align: middle;
+.sort-oldNotice {
+  position: relative;
+  margin: 1em 0;
 }
 
-.sort {
-  margin: 0.8em 0;
+.sort-oldNotice-selected {
+  color: #999999;
 }
 
-.sort-bold {
+.sort-bold-oldNotice {
   color: #999999;
   font-weight: 600;
 }
 
-.sort-arrowDown-container {
+.sort-arrowDown-container-oldNotice {
   margin-left: 5px;
 }
 
-.sort p {
+.sort-arrowDown-oldNotice {
+  vertical-align: middle;
+}
+
+.sortMenu-oldNotice {
+  position: absolute;
+  min-width: 15em;
+  top: 1.5em;
+  left: 1em;
+  background: #ffffff;
+  box-shadow: 0px 0px 26px rgba(197, 178, 251, 0.25);
+  border-radius: 3px;
+  padding: 0.5em;
+}
+
+.sort-oldNotice-option {
+  padding: 0.5em;
   color: #999999;
 }
 
+.sort-oldNotice-option:hover {
+  cursor: pointer;
+}
+
+.focus {
+  color: #00BB7C;
+
+}
