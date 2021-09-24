@@ -85,7 +85,7 @@ const PinnedNotices = (props) => {
         </h1>
         <Link to="/noticeboard/old-notices">
           <div className="older-notices">
-            <p style={{ marginTop: "20px" }}>View older notices</p>
+            <p style={{ marginTop: "20px", color: "#00bb7c" }}>View older notices</p>
           </div>
         </Link>
       </div>
