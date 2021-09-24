@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class NoticeboardRoom(serializers.Serializer):
-    room_id = serializers.UUIDField()
     title = serializers.CharField()
     unread = serializers.IntegerField()
     members = serializers.IntegerField()
