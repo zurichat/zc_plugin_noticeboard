@@ -22,6 +22,10 @@ function App() {
         //option 1 write function to re-render the component that needs re-rendering
         //option 2, perform data fetch again
       });
+
+      centrifuge.on('publish', function(ctx) {
+        console.log(ctx);
+    });
     });
 
     centrifuge.on("disconnect", function (ctx) {
