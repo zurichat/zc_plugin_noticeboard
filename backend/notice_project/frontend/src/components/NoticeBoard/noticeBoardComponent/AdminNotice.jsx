@@ -73,14 +73,14 @@ const PinnedNotices = (props) => {
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
-      <section>
+      <section className="adminNotice-section">
         {people.map((person) => {
           return <Card person={person} key={person._id} />;
         })}
       </section>
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
-          <p>View older notices</p>
+          <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
     </div>
