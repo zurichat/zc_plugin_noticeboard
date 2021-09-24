@@ -6,7 +6,6 @@ from rest_framework import views, status, views
 from .storage import db
 from .serializers import NoticeboardRoom, CreateNoticeSerializer
 from rest_framework.generics import ListAPIView
-import uuid
 from .email import sendemail
 import re
 
@@ -60,8 +59,8 @@ def create_room(request):
 def get_room(request):
     org_id = "613a1a3b59842c7444fb0220"
     data = db.read("noticeboard_room", org_id)
-    login = "https://api.zuri.chat/auth/login"
-    print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
+    # login = "https://api.zuri.chat/auth/login"
+    # print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
    
     return Response(data)
 
@@ -71,7 +70,6 @@ def install(request):
     org_id = "613a1a3b59842c7444fb0220"
 
     data = {
-        "room_id": uuid.uuid4(),
         "title": "noticeboard",
         "unread": "0",
         "members": "0",
@@ -79,9 +77,11 @@ def install(request):
         "action": "open"
     }
 
-    requests.post(
-        f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
-    # requests.post("http://localhost:8000/api/v1/create-notice-room", data=data)
+    response = db.read("noticeboard_room", org_id)
+
+    if response['data'] is None:
+        # requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+        requests.post("http://localhost:8000/api/v1/create-room", data=data)
 
     install = {
         "name": "Noticeboard Plugin",
@@ -202,7 +202,7 @@ class DeleteNotice(views.APIView):
         org_id = "613a1a3b59842c7444fb0220"
         try:
             db.delete(
-                collection_name='noticeboard',
+                collection_name='noticeboard_room',
                 org_id=org_id,
                 object_id=object_id
             )

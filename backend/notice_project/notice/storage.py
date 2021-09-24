@@ -54,8 +54,8 @@ class Dbnoticeboard:
             print(res)
             return res
 
-        except requests.exceptions.RequestException as err:
-            print("OOps: There is a problem with the Request", err)
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
         
 
     def save(self, collection_name, org_id, notice_data):
