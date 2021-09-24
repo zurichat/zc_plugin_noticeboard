@@ -23,7 +23,7 @@ const UserIntro = () => {
             </p>
           </IntroPMobileStyles>
           <Link to="/noticeboard/admin-notice">
-            <IntroButtonStyles label="View Notice" >
+            <IntroButtonStyles label="View Notice" variant="contained">
               <span className="view-notice-btn">View Notice</span>
               <img src={defaultEdit} alt="create notice" />
             </IntroButtonStyles>

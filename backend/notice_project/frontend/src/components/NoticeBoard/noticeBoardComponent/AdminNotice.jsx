@@ -52,7 +52,7 @@ const PinnedNotices = (props) => {
         >
           Error. Try refreshing your browser
         </h1>
-        <i c lassName="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
   }
