@@ -19,6 +19,14 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
     }
   });
 
+  const getMonthName = (month) => {
+    const d = new Date();
+    d.setMonth(month - 1);
+    const monthName = d.toLocaleString("default", {month: "short"});
+    return monthName;
+  }
+
+
   return (
     <div className="contain" id="contain">
       {persons.map((person) => {
@@ -33,11 +41,9 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
                     className="user-picture"
                   />
                 </div>
-
                 <div className="name-time">
-                  {/* <h1 className="user-name">{person.userName}</h1> */}
                   <div className="time-stamps">
-                    <p className="date-stamp stamp-one">{person.created.substring(0, 10)}</p>
+                    <p className="date-stamp stamp-one">{`${getMonthName(Number(person.created.substring(5, 7)))} ${person.created.substring(8, 10)} ${person.created.substring(0, 4)}`}</p>
                     <p className="dot">
                       <img src={dot} alt=""/>
                     </p>
@@ -51,8 +57,8 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
               </div>
             </div>
 
-            <h2 className="modal-title">{person.title.replace(/[<p></p>]/g, "")}</h2>
-            <p className="modal-info">{person.message.replace(/[<p></p>]/g, "")}</p>
+            <h2 className="modal-title">{person.title.replace(/<[^>]+>/g, "")}</h2>
+            <p className="modal-info">{person.message.replace(/<[^>]+>/g, "")}</p>
             <div>
               <img
                 src="https://res.cloudinary.com/clefayomide/image/upload/v1630517027/dummy-img.svg"

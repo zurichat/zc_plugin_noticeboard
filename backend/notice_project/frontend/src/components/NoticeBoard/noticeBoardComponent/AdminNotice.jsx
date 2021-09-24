@@ -25,7 +25,6 @@ const PinnedNotices = (props) => {
           }
         })
         .then((data) => {
-          console.log(data);
           setPeople(data.data);
           setLoading(false);
         })
@@ -66,7 +65,7 @@ const PinnedNotices = (props) => {
         </div>
         <Button
           className="header-button"
-          onClick={() => props.history.push("/create-notice")}
+          onClick={() => props.history.push("/noticeboard/create-notice")}
           variant="contained"
           disableRipple
         >
@@ -79,7 +78,7 @@ const PinnedNotices = (props) => {
           return <Card person={person} key={person._id} />;
         })}
       </section>
-      <Link to="/old-notices">
+      <Link to="/noticeboard/old-notices">
         <div className="older-notices">
           <p>View older notices</p>
         </div>

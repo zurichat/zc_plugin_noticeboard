@@ -27,7 +27,7 @@ const Card = ({ person }) => {
     "Jun",
     "Jul",
     "Aug",
-    "Sept",
+    "Sep",
     "Oct",
     "Nov",
     "Dec",
@@ -48,6 +48,7 @@ const Card = ({ person }) => {
               />
             </div>
             <div className="identity">
+              {/* no user details in notices from the api */}
               {/* <h6 className="name">{person.userName}</h6> */}
               <p className="time-date">
                 <span>
@@ -60,20 +61,21 @@ const Card = ({ person }) => {
               </p>
             </div>
           </div>
-          <AdminMenu />
+          <AdminMenu noticeID={person._id} />
         </div>
         {/* body of card */}
         <div className="card-body">
           <h5 className="card-title">
-            {person.title.replace(/[<p></p>]/g, "")}
+            {person.title.replace(/<[^>]+>/g, "")}
           </h5>
           <p className="card-info">
-            {person.message.replace(/[<p></p>]/g, "").substring(0, 150)}...
+            {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
         <div className="icon-button-tray">
           <div className="icon-tray">
+            {/* the seen feature was removed */}
             {/* <div>
               <img src={see} alt="" />
               <p className="number">{person.views}</p>

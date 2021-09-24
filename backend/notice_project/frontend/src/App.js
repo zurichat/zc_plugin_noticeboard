@@ -14,7 +14,6 @@ function App() {
     );
 
     centrifuge.on("connect", function (ctx) {
-      setCent("Centrifugo as connected");
       console.log("connected", ctx);
 
       centrifuge.subscribe("noticeboard", (ctx) => {

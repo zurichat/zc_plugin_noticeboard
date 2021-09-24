@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,  } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -10,6 +10,7 @@ import CopyLinkIcon from "../../../assets/copy-link-icon.svg";
 import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
+import axios from "axios";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,10 +18,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 
-function AdminMenu() {
+function AdminMenu({noticeID}) {
   const menu = [
     { icon: BookmarkIcon, linkText: "Bookmark" },
     { icon: EditIcon, linkText: "Edit notice" },
@@ -41,10 +43,8 @@ function AdminMenu() {
   };
 
   const deleteNoticeModal =(e) =>{
-    const target = e.target.innerHTML
-    console.log(target)
-  // dont change the logical operator to '==' or '='. it will mess the code up. leave it as ===
-    if(target === 'Delete notice' ){
+    const target = e.target
+    if(target.innerHTML = 'Delete notice' ){
         handleOpen()
     }
   }
@@ -69,6 +69,21 @@ function AdminMenu() {
   const closeMenu = () => {
     setAnchorEl(false);
   };
+
+const deleteNotice = (noticeId) => {
+  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete` )
+    .then((response) => {
+       console.log(response);
+    }, (error) => {
+        console.log(error);
+    });
+    handleClose();
+  console.log(noticeId)
+
+
+}
+
+
 
   return (
     <div>
@@ -145,9 +160,10 @@ function AdminMenu() {
           <Button
            
             color="primary"
-            variant='filled' 
+            variant='contained' 
              autoFocus
-             style={{textTransform:'none', padding:'1em 1em', backgroundColor:'red', color:'white'}}
+             style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
+             onClick = {() =>{deleteNotice(noticeID)}}
              >
             Delete Notice
           </Button>
