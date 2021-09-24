@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     CentrifugoConnection()
-  });
+  }, []);
 
   return (
     <Router basename="/noticeboard">

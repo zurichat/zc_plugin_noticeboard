@@ -17,22 +17,20 @@ const PinnedNotices = (props) => {
   const date = today.getDate();
 
   useEffect(() => {
-    setInterval(() => {
-      fetch("https://noticeboard.zuri.chat/api/v1/notices")
-        .then((res) => {
-          if (res.status >= 200 && res.status <= 299) {
-            return res.json();
-          } else {
-            setLoading(false);
-            setIsError(true);
-          }
-        })
-        .then((data) => {
-          setPeople(data.data.filter((data) => data.created.substring(8, 10) === date.toString()));
+    fetch("https://noticeboard.zuri.chat/api/v1/notices")
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          return res.json();
+        } else {
           setLoading(false);
-        })
-        .catch((error) => console.log(error));
-    }, 5000);
+          setIsError(true);
+        }
+      })
+      .then((data) => {
+        setPeople(data.data.filter((notice) => notice.created.substring(8, 10) === date.toString()));
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   if (loading) {
