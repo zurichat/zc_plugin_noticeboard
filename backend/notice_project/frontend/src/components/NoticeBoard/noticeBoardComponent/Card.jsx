@@ -61,7 +61,7 @@ const Card = ({ person }) => {
               </p>
             </div>
           </div>
-          <AdminMenu />
+          <AdminMenu noticeID={person._id} />
         </div>
         {/* body of card */}
         <div className="card-body">
