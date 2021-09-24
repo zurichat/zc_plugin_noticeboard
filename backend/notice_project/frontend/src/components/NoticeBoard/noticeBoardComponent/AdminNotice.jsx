@@ -13,6 +13,9 @@ const PinnedNotices = (props) => {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
+  const today = new Date();
+  const date = today.getDate();
+
   useEffect(() => {
     fetch("https://noticeboard.zuri.chat/api/v1/notices")
       .then((res) => {
@@ -24,7 +27,7 @@ const PinnedNotices = (props) => {
         }
       })
       .then((data) => {
-        setPeople(data.data);
+        setPeople(data.data.filter((notice) => notice.created.substring(8, 10) === date.toString()));
         setLoading(false);
       })
       .catch((error) => console.log(error));
