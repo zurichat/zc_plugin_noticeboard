@@ -10,14 +10,16 @@ export const IntroButtonStyles = styled.button`
   font-size: 16px;
   border: none;
   outline: none;
-  cursor: pointer;
-  background: #00bb7c;
   border-radius: 3px;
   margin: 0 auto 2em;
 
-  img { 
+  img {
     display: inline-block;
     vertical-align: text-bottom;
     margin-left: 10px;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 `;
