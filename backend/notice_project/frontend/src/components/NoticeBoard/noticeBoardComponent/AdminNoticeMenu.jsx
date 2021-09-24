@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,  } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,10 +18,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 
-function AdminMenu({selectedPerson}) {
+function AdminMenu({noticeID}) {
   const menu = [
     { icon: BookmarkIcon, linkText: "Bookmark" },
     { icon: EditIcon, linkText: "Edit notice" },
@@ -48,7 +49,6 @@ function AdminMenu({selectedPerson}) {
     }
   }
 
-// console.log(selectedPerson)
 
   const AdminMenuStyle = {
     display: "flex",
@@ -70,15 +70,19 @@ function AdminMenu({selectedPerson}) {
     setAnchorEl(false);
   };
 
-const deleteNotice = (_id) => {
-  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${_id}/delete`)
+const deleteNotice = (noticeId) => {
+  axios.delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete` )
     .then((response) => {
-        console.log(response);
+       console.log(response);
     }, (error) => {
         console.log(error);
     });
     handleClose();
+  console.log(noticeId)
+
+
 }
+
 
 
   return (
@@ -156,10 +160,10 @@ const deleteNotice = (_id) => {
           <Button
            
             color="primary"
-            variant='filled' 
+            variant='contained' 
              autoFocus
              style={{textTransform:'none', padding:'1em 2em', backgroundColor:'red', color:'white'}}
-             onClick = {() =>{deleteNotice(selectedPerson._id)}}
+             onClick = {() =>{deleteNotice(noticeID)}}
              >
             Delete Notice
           </Button>
