@@ -16,8 +16,8 @@ function App() {
     centrifuge.on("connect", function (ctx) {
       console.log("connected", ctx);
 
-      centrifuge.subscribe("noticeboard", (response) => {
-        console.log(response.data);
+      centrifuge.subscribe("noticeboard", (ctx) => {
+        console.log(ctx.data.value);
         //option 1 write function to re-render the component that needs re-rendering
         //option 2, perform data fetch again
       });
