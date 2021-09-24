@@ -1,115 +1,123 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Formik } from "formik";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import TextField from "@material-ui/core/TextField";
-import { EditorState, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
+import React, { useState } from 'react'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Hidden from '@material-ui/core/Hidden'
+import TextField from '@material-ui/core/TextField'
+import draftToMarkdown from 'draftjs-to-markdown'
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import { Formik } from 'formik'
+import { EditorState, convertToRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
+import { makeStyles } from '@material-ui/core/styles'
 
-import imageIcon from "./Text-editor/icons/attachment.svg";
-import "./CreateNotice.css";
-import "../noticeBoardComponent/Text-editor/Text-editor.css";
-import {
-  MentionAdder,
-  ToggleToolbar,
-} from "./Text-editor/Text_editor_features";
+import imageIcon from './Text-editor/icons/attachment.svg'
+import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
+import SuccessDialog from './CreateNoticeDialogs/SuccessDialog'
+import { MentionAdder, ToggleToolbar } from './Text-editor/Text_editor_features'
+import '../noticeBoardComponent/Text-editor/Text-editor.css'
+import './CreateNotice.css'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   headerText: {
     flexGrow: 1,
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "30px",
-    [theme.breakpoints.down("md")]: {
-      display: "flex",
-      justifyContent: "center",
-      fontSize: "30px",
-    },
+    alignItems: 'center',
+    fontWeight: 'bold',
+    fontSize: '30px',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      justifyContent: 'center',
+      fontSize: '30px'
+    }
   },
   header: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center'
   },
   page: {
-    backgroundColor: "white",
-    [theme.breakpoints.down("md")]: {
-      padding: "30px 20px 0px 20px",
-    },
+    backgroundColor: 'white',
+    [theme.breakpoints.down('md')]: {
+      padding: '30px 20px 0px 20px'
+    }
   },
   form: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   formControl: {
-    width: "100%",
+    width: '100%'
   },
   button: {
-    color: "white",
+    color: 'white'
   },
   recipient: {
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
-  },
-}));
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
+  }
+}))
 
 const initialValues = {
-  title: "",
-  recipient: "",
-  message: "",
-};
+  title: '',
+  recipient: '',
+  message: ''
+}
 
-function CreateNotice() {
-  const classes = useStyles();
+function CreateNotice () {
+  const classes = useStyles()
+  const history = useHistory()
+  const [openErrorDialog, setOpenErrorDialog] = useState(false)
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
-  );
+  )
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
+  const handleCloseErrorDialog = () => {
+    setOpenErrorDialog(false)
+  }
+
+  const handleCloseSuccessDialog = () => {
+    setOpenSuccessDialog(false)
+  }
+
+  const onEditorStateChange = editorState => {
+    setEditorState(editorState)
+  }
 
   //CREATE NOTICE API CALL STARTS
   const api = axios.create({
-    baseURL: "https://noticeboard.zuri.chat/api/v1",
-  });
+    baseURL: 'https://noticeboard.zuri.chat/api/v1'
+  })
 
-  const history = useHistory();
-
-  const onSubmitHandler = async (values) => {
-    values.message = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  const onSubmitHandler = async values => {
+    values.message = draftToMarkdown(
+      convertToRaw(editorState.getCurrentContent())
+    )
     const request = {
       title: values.title,
-      message: values.message,
-    };
+      message: values.message
+    }
 
     try {
-      const res = await api.post("/create", request);
+      const res = await api.post('/create', request)
       //Return input field to blank
-      values.title = "";
-      setEditorState("");
-      //routes to the admin view notice page
-      history.push({
-        pathname: "/noticeboard/admin-notice",
-      });
-      return console.log(res.data);
+      values.title = ''
+      setEditorState('')
+
+      return setOpenSuccessDialog(true)
     } catch (err) {
-      console.log(err);
+      // console.log(err)
+      setOpenErrorDialog(true)
     }
-  };
+  }
   //CREATE NOTICE API CALL ENDS
 
-  const maxChars = 1000;
-  const _handleBeforeInput = (input) => {
-    const inputLength = editorState.getCurrentContent().getPlainText().length;
+  const maxChars = 1000
+  const _handleBeforeInput = input => {
+    const inputLength = editorState.getCurrentContent().getPlainText().length
     if (input && inputLength >= maxChars) {
-      return "handled";
+      return 'handled'
     }
-  };
+  }
   //validation for pasted text
 
   //N.B: Comment: Untested codes. It throws a reference error that makes this page blank!!!
@@ -122,7 +130,7 @@ function CreateNotice() {
   // };
 
   return (
-    <div className="dashboard-container">
+    <div className='dashboard-container'>
       <Box className={classes.page}>
         <Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
           {({ handleChange, handleSubmit, handleBlur, values }) => (
@@ -132,10 +140,10 @@ function CreateNotice() {
                 <Box>
                   <Hidden mdDown>
                     <Button
-                      type="submit"
-                      variant="contained"
+                      type='submit'
+                      variant='contained'
                       className={classes.button}
-                      color="primary"
+                      color='primary'
                       disableRipple
                     >
                       Publish Notice
@@ -145,40 +153,40 @@ function CreateNotice() {
               </Box>
               <Box className={classes.recipient}>
                 <Box
-                  width="100%"
-                  pt="30px"
-                  display="flex"
-                  flexDirection="column"
+                  width='100%'
+                  pt='30px'
+                  display='flex'
+                  flexDirection='column'
                   className={classes.form}
                 >
-                  <Box pb="10px">
-                    <Box fontWeight="fontWeightBold">Title/Subject:</Box>
+                  <Box pb='10px'>
+                    <Box fontWeight='fontWeightBold'>Title/Subject:</Box>
                   </Box>
                   <TextField
-                    id="title"
-                    name="title"
+                    id='title'
+                    name='title'
                     value={values.title}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Enter the subject of your notice"
-                    type="text"
-                    variant="outlined"
+                    placeholder='Enter the subject of your notice'
+                    type='text'
+                    variant='outlined'
                     inputProps={{
-                      maxLength: 30,
+                      maxLength: 30
                     }}
-                    helperText="You can type 30 characters or less"
+                    helperText='You can type 30 characters or less'
                   />
                 </Box>
               </Box>
-              <Box pt="30px" pb="50px">
-                <Box pb="10px">
-                  <Box fontWeight="fontWeightBold">Message:</Box>
+              <Box pt='30px' pb='50px'>
+                <Box pb='10px'>
+                  <Box fontWeight='fontWeightBold'>Message:</Box>
                 </Box>
                 <Editor
-                  placeholder="Enter the content of your notice(Max 1000)"
-                  wrapperClassName="text-editor"
-                  editorClassName="textarea"
-                  toolbarClassName="toolbarClass"
+                  placeholder='Enter the content of your notice(Max 1000)'
+                  wrapperClassName='text-editor'
+                  editorClassName='textarea'
+                  toolbarClassName='toolbarClass'
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
                   handleBeforeInput={_handleBeforeInput}
@@ -186,31 +194,31 @@ function CreateNotice() {
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
-                      "fontSize",
-                      "inline",
-                      "list",
-                      "textAlign",
-                      "link",
-                      "image",
-                      "emoji",
+                      'fontSize',
+                      'inline',
+                      'list',
+                      'textAlign',
+                      'link',
+                      'image',
+                      'emoji'
                     ],
                     inline: {
-                      options: ["bold", "italic", "underline", "strikethrough"],
-                      className: "rdw-invisible",
+                      options: ['bold', 'italic', 'underline', 'strikethrough'],
+                      className: 'rdw-invisible'
                     },
                     fontSize: {
-                      className: "rdw-invisible",
+                      className: 'rdw-invisible'
                     },
                     link: {
-                      className: "rdw-invisible",
-                      options: ["link"],
+                      className: 'rdw-invisible',
+                      options: ['link']
                     },
                     textAlign: {
-                      className: "rdw-invisible",
+                      className: 'rdw-invisible'
                     },
                     list: {
-                      className: "rdw-invisible",
-                      options: ["unordered", "ordered"],
+                      className: 'rdw-invisible',
+                      options: ['unordered', 'ordered']
                     },
                     emoji: {},
                     image: {
@@ -219,36 +227,36 @@ function CreateNotice() {
                       urlEnabled: true,
                       // uploadCallback: this.uploadImageCallback,
                       inputAccept:
-                        "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-                    },
+                        'image/gif,image/jpeg,image/jpg,image/png,image/svg'
+                    }
                   }}
                   mention={{
-                    separator: " ",
-                    trigger: "@",
+                    separator: ' ',
+                    trigger: '@',
                     suggestions: [
-                      { text: "APPLE", value: "apple", url: "apple" },
-                      { text: "BANANA", value: "banana", url: "banana" },
-                      { text: "CHERRY", value: "cherry", url: "cherry" },
-                      { text: "DURIAN", value: "durian", url: "durian" },
-                      { text: "EGGFRUIT", value: "eggfruit", url: "eggfruit" },
-                      { text: "FIG", value: "fig", url: "fig" },
+                      { text: 'APPLE', value: 'apple', url: 'apple' },
+                      { text: 'BANANA', value: 'banana', url: 'banana' },
+                      { text: 'CHERRY', value: 'cherry', url: 'cherry' },
+                      { text: 'DURIAN', value: 'durian', url: 'durian' },
+                      { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
+                      { text: 'FIG', value: 'fig', url: 'fig' },
                       {
-                        text: "GRAPEFRUIT",
-                        value: "grapefruit",
-                        url: "grapefruit",
+                        text: 'GRAPEFRUIT',
+                        value: 'grapefruit',
+                        url: 'grapefruit'
                       },
-                      { text: "HONEYDEW", value: "honeydew", url: "honeydew" },
-                    ],
+                      { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' }
+                    ]
                   }}
                 />
               </Box>
               <Hidden lgUp>
-                <Box pt="20px" pb="30px" display="flex" justifyContent="center">
+                <Box pt='20px' pb='30px' display='flex' justifyContent='center'>
                   <Button
-                    type="submit"
-                    variant="contained"
+                    type='submit'
+                    variant='contained'
                     className={classes.button}
-                    color="primary"
+                    color='primary'
                     disableRipple
                   >
                     Publish Notice
@@ -259,8 +267,16 @@ function CreateNotice() {
           )}
         </Formik>
       </Box>
+      <ErrorDialog
+        open={openErrorDialog}
+        handleClose={handleCloseErrorDialog}
+      />
+      <SuccessDialog
+        open={openSuccessDialog}
+        handleClose={handleCloseSuccessDialog}
+      />
     </div>
-  );
+  )
 }
 
-export default CreateNotice;
+export default CreateNotice
