@@ -17,7 +17,7 @@ function App() {
       console.log("connected", ctx);
 
       centrifuge.subscribe("noticeboard", (ctx) => {
-        console.log(ctx.result.data);
+        console.log(ctx.data);
         //option 1 write function to re-render the component that needs re-rendering
         //option 2, perform data fetch again
       });
@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     CentrifugoConnection()
-  });
+  }, []);
 
   return (
     <Router basename="/noticeboard">
