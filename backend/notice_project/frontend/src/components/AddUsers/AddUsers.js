@@ -12,7 +12,7 @@ const ListMemberContainer = ({ Name, Img, Username, Job }) => {
   return (
     <MembersContainer>
       <MemberDetails>
-        <Avatar src={!Img ? Name[0] : Img} alt={Name} />
+        <Avatar src={!Img ? Name[0] : Img} alt={Name.toUpperCase()} />
         <MemDetailContainer1>
           <MemDetailContainer2>
             <MemberName>{Name}</MemberName>
@@ -22,7 +22,7 @@ const ListMemberContainer = ({ Name, Img, Username, Job }) => {
           <Role>{Job}</Role>
         </MemDetailContainer1>
       </MemberDetails>
-      <Remove>Remove</Remove>
+      {/* <Remove>Remove</Remove> */}
     </MembersContainer>
   );
 };
@@ -42,7 +42,7 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers }) => {
   return (
     <NoticeContainer>
       <AddUserHeaderContainer>
-        <h2>Noticeboard members</h2>
+        <AddUserHeader>Noticeboard members</AddUserHeader>
         <span>
           <CloseIcon onClick={() => setOpenModal(false)} />
         </span>
@@ -61,10 +61,10 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers }) => {
         </SearchUser>
       </AddUserForm>
 
-      <AddUserBox onClick={() => setShowAddUser(false)}>
+      {/* <AddUserBox onClick={() => setShowAddUser(false)}>
         <AddUserIcon />
         <AddUserBoxName>Add a User</AddUserBoxName>
-      </AddUserBox>
+      </AddUserBox> */}
       {!allUsers? (<Loading>Loading</Loading>) : ""}
       {/* list of member */}
       {filteredUsers? filteredUsers.map((user, id) => {
@@ -222,7 +222,7 @@ const AddUserContainer = styled.div`
   }
 
   &.notice {
-    margin: 10% auto;
+    margin: 15% auto;
   }
 `;
 
@@ -383,6 +383,11 @@ const MemDetailContainer2 = styled.div`
 `;
 const Remove = styled.h3`
   color: #00bb7c;
+
+  &:hover{
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;
 
 const MemberName = styled.h3`

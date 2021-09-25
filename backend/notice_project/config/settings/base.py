@@ -136,6 +136,7 @@ STATIC_ROOT = os.path.join(NOTICE_PROJECT_DIR, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FROM_EMAIL = 'jeremiahchukwu@gmail.com'
 PLUGIN_ID = ""
 
 # CORS_ALLOW_ALL_ORIGINS = True
@@ -144,6 +145,5 @@ EMAIL_HOST = "email-smtp.us-west-2.amazonaws.com"
 EMAIL_HOST_USER = "AKIATIMXWZYEYAR6IAPG"
 EMAIL_HOST_PASSWORD = "BP2IQwI5k8nQRyIV/fYxdqwsrJHUGzHatHmmKXxZU356"
 EMAIL_PORT = 587
-SES_EMAIL = "jeremiahchukwu@gmail.com"
 EMAIL_USE_TLS = True 
 
