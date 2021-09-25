@@ -6,7 +6,6 @@ import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 
-
 const PinnedNotices = (props) => {
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -79,13 +78,18 @@ const PinnedNotices = (props) => {
         </div>
         <h1
           className="no-new-notices"
-          style={{ fontSize: "1.5rem", textAlign: "center", color: "#01b478", marginTop: "20px" }}
+          style={{
+            fontSize: "1.5rem",
+            textAlign: "center",
+            color: "#01b478",
+            marginTop: "20px",
+          }}
         >
           No new notice today
         </h1>
         <Link to="/noticeboard/old-notices">
           <div className="older-notices">
-            <p style={{ marginTop: "20px", color: "#00bb7c" }}>View older notices</p>
+            <p className="older-notices-text">View older notices</p>
           </div>
         </Link>
       </div>
