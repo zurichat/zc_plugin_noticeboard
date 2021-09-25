@@ -14,7 +14,8 @@ const PinnedNotices = (props) => {
   const date = today.getDate();
 
   useEffect(() => {
-    fetch("https://noticeboard.zuri.chat/api/v1/notices")
+    fetch(`https://noticeboard.zuri.chat/api/v1/
+    ​/organisation​/{org_id}​/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
