@@ -88,7 +88,7 @@ function NoticeBoard() {
           <OldNotices />
         </Route>
 
-        <Route exact path="/noticeboard/unsubscribe-email/:id/:orgId">
+        <Route exact path="/noticeboard/unsubscribe-email/:userId/:orgId">
           <EmailUnsubscription />
         </Route>
 
