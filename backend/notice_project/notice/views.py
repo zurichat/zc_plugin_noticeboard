@@ -63,9 +63,6 @@ def get_room(request):
     # org_id = "613a1a3b59842c7444fb0220"
     org_id = "6145b49e285e4a18402073bc"
     data = db.read("noticeboard_room", org_id)
-    # login = "https://api.zuri.chat/auth/login"
-    # print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
-   
     return Response(data)
 
 
@@ -250,8 +247,6 @@ def emailNotificaion(request):
         """
         res = requests.get(f"https://api.zuri.chat/organizations/{org_id}/members").json()
         notice = db.read("noticeboard_email_unsubscribers", org_id)
-
-            
         if res['status'] == 200:
             try:
                 for user in res['data']:
