@@ -10,6 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 function NoticeBoardHeader() {
   const [openModal, setOpenModal] = useState(false)
+
   return (
     <div className="noticeboard-header">
       <div className="noticeboard-header-container">
@@ -18,8 +19,8 @@ function NoticeBoardHeader() {
       openModal?  <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
     }
 
-        <div className="members-avatars-grp">
-          <AddIcon onClick={()=> setOpenModal(true)}/>
+        <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
+          {/* <AddIcon onClick={()=> setOpenModal(true)}/> */}
           <div className="avatar-wrap">
             <div className="avatar">
               <img src={Member4} alt="avatar" />
@@ -39,7 +40,7 @@ function NoticeBoardHeader() {
           </div>
 
           <div className="member-total-count">145</div>
-        </div>
+        </AvatarGroup>
       </div>
     </div>
   );
@@ -63,3 +64,11 @@ const AddUserButton = styled.button`
       //width: 100%;
     }
 `;
+
+const AvatarGroup = styled.div`
+  &:hover{
+    cursor: pointer;
+    opacity: 0.5
+  }
+`;
+
