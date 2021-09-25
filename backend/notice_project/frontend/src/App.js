@@ -4,6 +4,8 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
+import { GetUserInfo } from "@zuri/control";
+
 
 function App() {
   
@@ -15,12 +17,6 @@ function App() {
 
     centrifuge.on("connect", function (ctx) {
       console.log("connected", ctx);
-
-      centrifuge.subscribe("noticeboard", (response) => {
-        console.log(response.data);
-        //option 1 write function to re-render the component that needs re-rendering
-        //option 2, perform data fetch again
-      });
     });
 
     centrifuge.on("disconnect", function (ctx) {
@@ -28,11 +24,25 @@ function App() {
     });
 
     centrifuge.connect();
+
+    centrifuge.subscribe("noticeboard", (ctx) => {
+      console.log(ctx);
+      //option 1 write function to re-render the component that needs re-rendering
+      //option 2, perform data fetch again
+    });
+
+    centrifuge.on('publish', function(ctx) {
+      console.log(ctx);
+  });
+
   }
+
+  console.log(GetUserInfo())
+
 
   useEffect(() => {
     CentrifugoConnection()
-  }, []);
+  });
 
   return (
     <Router basename="/noticeboard">
