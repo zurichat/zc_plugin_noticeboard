@@ -10,6 +10,8 @@ import UserIntro from "../NoticeBoard/noticeBoardComponent/UserIntro component/U
 import UserNotice from "./noticeBoardComponent/UserNoticeBoard";
 import EmailUnsubscription from "./EmailUnsubscriptionPage/EmailUnsubscription";
 import SearchResult from "./noticeBoardComponent/SearchResult";
+import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
+
 
 function NoticeBoard() {
 	return (
@@ -23,6 +25,11 @@ function NoticeBoard() {
 				<Route exact path="/noticeboard/create-notice">
 					<CreateNotice />
 				</Route>
+
+				<Route exact path="/noticeboard/edit-notice/:currentNoticeID">
+					<EditNotice />
+				</Route>
+
 				<Route exact path="/noticeboard/admin-notice">
 					<AdminNotice />
 				</Route>
