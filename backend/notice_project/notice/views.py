@@ -18,16 +18,19 @@ def sidebar(request):
 
     if org_id and user_id:
 
+        # headers = {"Content-Type":"application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpVd09EWXhOWHhIZDNkQlIwUlplRTVIVlhoWlYwMHpXbXBOZUZsVVl6QmFWRUV5VDBkVk1GcEVUWGhPZHowOWZBOVRBS2xoaHVZNjhELWRwa3ZEcTVjeDJ4UWZGaXhDc1FGRG9RRHZIblMwIiwiZW1haWwiOiJwYXBham9uYXR1czEwQHp1cmkuY2hhdCIsImlkIjoiNjE0ZTFhYzdmMzFhNzRlMDY4ZTRkMzE3Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6NzkzOTY4NjE3NSwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.NyfVxOLNDSCy0hUYJ5V4m0SbXZkwAD5_2nDG_z0OzsU"}
+
         res = requests.get(
+            # f"https://api.zuri.chat/organizations/{org_id}/members/{user_id}", headers=headers).json()
             f"https://api.zuri.chat/organizations/{org_id}/members/{user_id}").json()
 
         if res['status'] == 200:
 
-            res = requests.get("noticeboard_room", org_id).json()
-            if res['status'] == 200 and res is not None:
-                public_rooms = res['data']
-            else:
-                public_rooms = []
+            # res = requests.get("noticeboard_room", org_id).json()
+            # if res['status'] == 200 and res is not None:
+            #     public_rooms = res['data']
+            # else:
+            #     public_rooms = []
 
             sidebar = {
                 "name": "Noticeboard Plugin",
@@ -38,16 +41,16 @@ def sidebar(request):
                         "group_name": "Noticeboard",
                         "show_group": False,
                         "joined_rooms": [],
-                        "public_rooms": public_rooms
+                        # "public_rooms": public_rooms
             }
             return Response({"status": True, "data": sidebar}, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": res["message"]}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": res['status'], "message": res["message"]}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"status": False, "message": "Check your query parameter"})
 
 
 @api_view(['POST'])
 def create_room(request):
-    org_id = "613a1a3b59842c7444fb0220"
+    org_id = "6145b49e285e4a18402073bc"
     serializer = NoticeboardRoom(data=request.data)
     if serializer.is_valid():
         db.save("noticeboard_room", org_id, serializer.data)
@@ -57,7 +60,8 @@ def create_room(request):
 
 @api_view(['GET'])
 def get_room(request):
-    org_id = "613a1a3b59842c7444fb0220"
+    # org_id = "613a1a3b59842c7444fb0220"
+    org_id = "6145b49e285e4a18402073bc"
     data = db.read("noticeboard_room", org_id)
     # login = "https://api.zuri.chat/auth/login"
     # print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
@@ -77,11 +81,9 @@ def install(request):
         "action": "open"
     }
 
-    response = db.read("noticeboard_room", org_id)
-
-    if response['data'] is None:
-        # requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
-        requests.post("http://localhost:8000/api/v1/create-room", data=data)
+    # requests.post(
+    #     f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+    requests.post("http://localhost:8000/api/v1/create-room", data=data)
 
     install = {
         "name": "Noticeboard Plugin",

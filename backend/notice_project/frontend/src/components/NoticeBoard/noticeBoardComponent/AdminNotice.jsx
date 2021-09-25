@@ -3,15 +3,17 @@ import notice from "../../../assets/createNotice.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
-// import data from './Data'
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
-// import axios from 'axios'
+
 
 const PinnedNotices = (props) => {
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  const today = new Date();
+  const date = today.getDate();
 
   useEffect(() => {
     fetch("https://noticeboard.zuri.chat/api/v1/notices")
@@ -24,7 +26,7 @@ const PinnedNotices = (props) => {
         }
       })
       .then((data) => {
-        setPeople(data.data);
+        setPeople(data.data.filter((notice) => notice.created.substring(8, 10) === date.toString()));
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -50,7 +52,7 @@ const PinnedNotices = (props) => {
         >
           Error. Try refreshing your browser
         </h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i c lassName="fas fa-spinner fa-spin"></i>
       </div>
     );
   }
@@ -71,14 +73,14 @@ const PinnedNotices = (props) => {
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
-      <section>
+      <section className="adminNotice-section">
         {people.map((person) => {
           return <Card person={person} key={person._id} />;
         })}
       </section>
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
-          <p>View older notices</p>
+          <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
     </div>
