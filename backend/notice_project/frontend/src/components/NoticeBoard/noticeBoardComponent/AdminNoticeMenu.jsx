@@ -18,7 +18,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function AdminMenu({ noticeID }) {
   const menu = [
@@ -27,6 +28,14 @@ function AdminMenu({ noticeID }) {
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
+  const [preloader, setPreloader] = useState(false)
+
+
+  const test = () =>{
+    setInterval(()=>{
+      setPreloader(true)
+    },3000)
+  }
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -68,6 +77,7 @@ function AdminMenu({ noticeID }) {
       .delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete`)
       .then(
         (response) => {
+          test()
           console.log(response);
         },
         (error) => {
@@ -174,6 +184,16 @@ function AdminMenu({ noticeID }) {
             </Button>
           </DialogActions>
         </Dialog>
+      )}
+
+      { preloader && (
+         <Backdrop
+         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+         open={open}
+         onClick={handleClose}
+       >
+         <CircularProgress color="inherit" />
+       </Backdrop>
       )}
     </div>
   );
