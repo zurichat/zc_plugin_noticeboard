@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CardNotice from "./CardNotice";
 import "./UserNoticeBoard.css";
-import NoticeData from "./DataToo.json";
 import UserNoticeModal from "./UserNoticeModal";
 
 const UserNotice = () => {
