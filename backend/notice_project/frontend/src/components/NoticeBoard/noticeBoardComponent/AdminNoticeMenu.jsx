@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -19,6 +19,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import { useHistory } from "react-router";
+
 
 function AdminMenu({ noticeID }) {
   const menu = [
@@ -27,6 +29,8 @@ function AdminMenu({ noticeID }) {
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
+  const [noticeList  , setNoticeList ] = useState([]);
+  const history = useHistory();
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -36,12 +40,40 @@ function AdminMenu({ noticeID }) {
     setOpenModal(false);
   };
 
-  const deleteNoticeModal = (e) => {
+
+
+  async function getAllNotices() {
+    try {
+      let response = await axios.get("https://noticeboard.zuri.chat/api/v1/notices");
+      let result = await response.data;
+      setNoticeList(result.data);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  
+  const editNotice = (noticeID) => {
+    const currentNoticeID = noticeList.find(element => {
+      return element._id == noticeID;
+    })
+    history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
+  }
+
+  const handleMenuButton = (e) => {
     const target = e.target;
-    if ((target.innerHTML = "Delete notice")) {
+    if (target.innerHTML === "Delete notice") {
       handleOpen();
     }
+    else {
+      editNotice(noticeID);
+    }
   };
+
+  useEffect(() => {
+    getAllNotices();
+
+  }, [noticeID])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -120,7 +152,7 @@ function AdminMenu({ noticeID }) {
                 style={{
                   color: "#999999",
                 }}
-                onClick={deleteNoticeModal}
+                onClick={handleMenuButton}
               >
                 {linkText}
               </span>
