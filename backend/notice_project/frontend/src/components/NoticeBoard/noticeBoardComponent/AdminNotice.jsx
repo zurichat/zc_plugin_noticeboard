@@ -5,12 +5,14 @@ import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+<<<<<<< HEAD
 import { DataContext } from "../../../App";
+=======
+import { UserContext } from '../../../Data-fetcing';
+>>>>>>> 723fcdfa81bd96ba205dd6c6fe5eee9224a17471
 
 const PinnedNotices = (props) => {
-  const [people, setPeople] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const {people, setPeople, loading, setLoading, isError, setIsError} = useContext(UserContext)
 
   const today = new Date();
   const date = today.getDate();

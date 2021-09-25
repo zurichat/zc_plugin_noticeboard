@@ -95,8 +95,9 @@ class CreateNewNotices(views.APIView):
     Create new notices
     '''
     
-    def post(self, request):
-        org_id = "613a1a3b59842c7444fb0220"
+    def post(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        
         headers={}
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
@@ -116,8 +117,8 @@ class CreateNewNotices(views.APIView):
 
 class UpdateNoticeAPIView(views.APIView):
 
-    def put(self, request, id):
-        org_id = "613a1a3b59842c7444fb0220"
+    def put(self, request, id, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
@@ -137,9 +138,9 @@ class UpdateNoticeAPIView(views.APIView):
 
 
 class search(ListAPIView):
-    def get(self, request):
+    def get(self, request, org_id):
 
-        org_id = "613a1a3b59842c7444fb0220"
+        # org_id = "613a1a3b59842c7444fb0220"
 
         notice = db.read("noticeboard", org_id)
         if notice['status'] == 200:
@@ -179,8 +180,8 @@ class DeleteNotice(views.APIView):
 
     """Delete a notice from the database"""
 
-    def delete(self, request, object_id):
-        org_id = "613a1a3b59842c7444fb0220"
+    def delete(self, request, object_id, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
         try:
             db.delete(
                 collection_name='noticeboard',
@@ -204,23 +205,29 @@ class DeleteNotice(views.APIView):
 
 class ViewNoticeAPI(views.APIView):
 
-    def get(self, request):
-        org_id = "613a1a3b59842c7444fb0220"
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
-        get_data=notice["data"]
-        reversed_list = get_data[::-1]
-        print(reversed_list)
-        notice.update(data=reversed_list)
-        if notice['status'] == 200:
-            print(notice)
-            return Response(notice, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        if notice["data"] != None:
+            get_data=notice["data"]
+            reversed_list = get_data[::-1]
+            print(reversed_list)
+            notice.update(data=reversed_list)
+            if notice['status'] == 200:
+                print(notice)
+                return Response(notice, status=status.HTTP_200_OK)
+            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if notice['status'] == 200:
+                print(notice)
+                return Response(notice, status=status.HTTP_200_OK)
+            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NoticeDetail(views.APIView):
 
-    def get(self, request, id):
-        org_id = "613a1a3b59842c7444fb0220"
+    def get(self, request, id, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
             return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
@@ -260,12 +267,12 @@ def emailNotificaion(request):
                                 if data["user_id"] == user["_id"]:
                                     pass
                                 else:
-                                    sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+                                    sendmassemail("email/notify-users.html", {"user_id":user["_id"], "org": org_id}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
                         else:
                             """
                                 Nobody has Unsubscribed . The unsubscribe collection is empty
                             """
-                            sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+                            sendmassemail("email/notify-users.html", {"user_id":user["_id"],  "org": org_id}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
 
                 # return Response({"data": {"Message": "Emails have been sent"}}, status=status.HTTP_200_OK)
                 return Response({"data": res}, status=status.HTTP_200_OK)
