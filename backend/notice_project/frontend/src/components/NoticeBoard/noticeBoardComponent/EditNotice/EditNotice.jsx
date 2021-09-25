@@ -39,12 +39,13 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "30px",
         [theme.breakpoints.down("md")]: {
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             fontSize: "30px",
         },
     },
     header: {
         display: "flex",
+        justifyContent : "space-between",
         alignItems: "center",
     },
     page: {
