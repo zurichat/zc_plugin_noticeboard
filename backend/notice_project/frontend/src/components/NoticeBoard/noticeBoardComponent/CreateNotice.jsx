@@ -72,6 +72,7 @@ function CreateNotice() {
   const [errorMessage, setErrorMessage] = useState("");
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -96,6 +97,11 @@ function CreateNotice() {
   });
 
   const onSubmitHandler = async (values) => {
+
+      if (isChecked){
+        fetch('http://localhost:8000/api/v1/sendemail?sendemail={should_send}&org={org_id}')
+      }
+    
     values.message = draftToMarkdown(
       convertToRaw(editorState.getCurrentContent())
     );
@@ -121,6 +127,7 @@ function CreateNotice() {
       // console.log(err)
       setOpenErrorDialog(true);
     }
+
   };
 
   const _handleBeforeInput = (input) => {
@@ -149,7 +156,7 @@ function CreateNotice() {
             <form onSubmit={handleSubmit}>
               <Box className={classes.header}>
                 <Box className={classes.headerText}>Create Notice</Box>
-                <Box>
+                <Box display="flex" margin="0 auto" flexDirection="column" width="fit-content" justifyContent="center">
                   <Hidden mdDown>
                     <Button
                       type="submit"
@@ -159,7 +166,14 @@ function CreateNotice() {
                       disableRipple
                     >
                       Publish Notice
-                    </Button>
+                    </Button><br />
+                    <p>
+                      <input
+                      type = "checkbox"
+                      checked = {isChecked}
+                      onChange={(e) => setIsChecked((prevIsChecked => !prevIsChecked))}
+                      /> 
+                      &nbsp; Notify Members Via Email</p>
                   </Hidden>
                 </Box>
               </Box>
@@ -273,7 +287,7 @@ function CreateNotice() {
                 </p>
               </Box>
               <Hidden lgUp>
-                <Box pt="20px" pb="30px" display="flex" justifyContent="center">
+                <Box pt="20px" pb="30px" display="flex" margin="0 auto" flexDirection="column" width="fit-content" justifyContent="center" >
                   <Button
                     type="submit"
                     variant="contained"
@@ -282,7 +296,14 @@ function CreateNotice() {
                     disableRipple
                   >
                     Publish Notice
-                  </Button>
+                  </Button><br />
+                  <p >
+                      <input
+                      type = "checkbox"
+                      checked = {isChecked}
+                      onChange={(e) => setIsChecked((prevIsChecked => !prevIsChecked))}
+                      /> 
+                      &nbsp; Notify Members Via Email</p>
                 </Box>
               </Hidden>
             </form>
