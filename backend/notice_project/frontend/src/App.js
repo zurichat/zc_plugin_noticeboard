@@ -6,6 +6,7 @@ import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
 import { GetUserInfo } from "@zuri/control";
 
+
 function App() {
   
   const CentrifugoConnection = () =>{
