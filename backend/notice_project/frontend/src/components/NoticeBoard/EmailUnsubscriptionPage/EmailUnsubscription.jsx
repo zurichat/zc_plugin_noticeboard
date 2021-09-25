@@ -8,23 +8,22 @@ import axios from "axios";
 
 const EmailUnsubscription = () => {
   const [subscribed, setSubscribed] = useState(true);
-  const [result, setResult] = useState();
+  const [loading, setLoading] = useState(false);
   const { userId, orgId } = useParams();
   const history = useHistory();
+
   const handleNo = () => {
     history.go(-1);
   };
 
-  // const userId = "614dec17f31a74e068e4d0f4";
-  // const orgId = "614dec17f31a74e068e4d0f3";
-
   const handleYes = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     axios
       .get(`https://api.zuri.chat/organizations/${orgId}/members`)
       .then((res) => {
         const result = res.data.data.filter((data) => data._id === userId)[0];
-
         return axios
           .post(
             `https://noticeboard.zuri.chat/api/v1/unsubscribe?org=${orgId}`,
@@ -34,8 +33,8 @@ const EmailUnsubscription = () => {
             }
           )
           .then((res) => {
-            console.log(res.data.status);
-            if (res.data.status) {
+            if (res.data.Message === "You have successfully Unsubscribed") {
+              setLoading(true);
               setSubscribed(false);
             }
           })
@@ -68,10 +67,13 @@ const EmailUnsubscription = () => {
               </p>
             </div>
 
-            <div className="btn">
-              <button onClick={handleNo}>No</button>
-              <button onClick={handleYes}>Yes</button>
-            </div>
+            {loading && <button disabled>Unsubscribing</button>}
+            {!loading && (
+              <div className="btn">
+                <button onClick={handleNo}>No</button>
+                <button onClick={handleYes}>Yes</button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="unsubscribed">
