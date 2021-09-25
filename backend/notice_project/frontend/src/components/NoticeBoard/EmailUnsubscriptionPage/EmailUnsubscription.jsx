@@ -3,6 +3,8 @@ import { useHistory, useParams } from "react-router-dom";
 import "./EmailUnsubscription.css";
 import gif from "./gif.jpg";
 import zuri from "./zuri.png";
+import envelope from "./envelope.svg";
+import axios from "axios";
 
 const EmailUnsubscription = () => {
   const [subscribed, setSubscribed] = useState(true);
@@ -15,13 +17,19 @@ const EmailUnsubscription = () => {
 
   const handleYes = (e) => {
     e.preventDefault();
-    console.log("yes");
-    setSubscribed(false);
-    // fetch("", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: id,
-    // }).then((data) => setSubscribed(false));
+    const data = {
+      email: "franklin@gmail.com",
+      user_id: id,
+    };
+    axios
+      .post(`https://noticeboard.zuri.chat/api/v1/unsubscribe?org=${id}`, data)
+      .then((response) => {
+        console.log("yes", response);
+        setSubscribed(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="unsubscribe">
@@ -58,7 +66,11 @@ const EmailUnsubscription = () => {
           </div>
         ) : (
           <div className="unsubscribed">
-            <p>You have successfully unsubscribed from our mailing list</p>
+            <div style={{ margin: "auto 0" }}>
+              <img src={envelope} alt="envelope" height="100px" width="100px" />
+              <p>You have successfully unsubscribed from our mailing list</p>
+              <button onClick={handleNo}>Back</button>
+            </div>
           </div>
         )}
       </div>

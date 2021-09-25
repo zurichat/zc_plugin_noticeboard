@@ -215,11 +215,11 @@ h6 {
 }
 
 .adminNotice-section .card-button-adminNotice {
-  width: 7.5em;
-  height: 2.8em;
+  width: 120px;
+  height: 45px;
   background-color: #fff;
   border: 1px solid #00bb7c;
-  color: var(--accent-color);
+  color: #00bb7c;
   font-size: 14px;
   border-radius: 4px;
   font-weight: 400;

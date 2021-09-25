@@ -4,9 +4,9 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer
 from rest_framework.generics import ListAPIView
-from .email import sendmassemail
+from .email import sendemail
 import re
 
 
@@ -98,7 +98,14 @@ class CreateNewNotices(views.APIView):
     
     def post(self, request):
         org_id = "613a1a3b59842c7444fb0220"
+        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
+        # validate request
+        #   if 'Authorization' in request.headers:
+        #       token = request.headers['Authorization']
+        #        headers={"Authorization": f"Bearer {request.headers['Authorization']}"}
+        #   else:
+        #       token = request.headers['Cookie']
         if serializer.is_valid():
             db.save(
                 "noticeboard",
@@ -108,6 +115,17 @@ class CreateNewNotices(views.APIView):
             )
 
             db.post_to_centrifugo(serializer.data)
+            
+            '''
+                Retrieve Organisation members
+            '''
+
+            # login = "https://api.zuri.chat/auth/login"
+            # print(requests.post(url=login, data={"email": "user@example.com", "password": "pa$$word"}))
+            # url = f"https://api.zuri.chat/organizations/{org_id}/members/"
+            # members = requests.get(url=url, )
+            #send email after adding notice
+            sendemail("email/notify-users.html", {"vail":"shsd"}, "Hi, A notice have been created", "jrmhchukwuka@gmail.com")
            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
