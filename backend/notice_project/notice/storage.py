@@ -18,7 +18,7 @@ class Dbnoticeboard:
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
     def post_to_centrifugo(self, data):
-        headers = {'Content-type': 'application/json', 'Authorization': 'apikey ' + CENTRIFUGO_TOKEN}
+        headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
             "params": {
@@ -27,11 +27,13 @@ class Dbnoticeboard:
                 }
             }
         try:
-            response = requests.post(url=self.centrifugo_url, headers=headers, json=command)
+            data = json.dumps(command)
+            response = requests.post(url=self.centrifugo_url, headers=headers, data=data)
+            print(response.json())
             return {
-                    "status_code": response.status_code,
-                    "message": response.json()
-                }
+                        "status_code": response.status_code,
+                        "message": response.json()
+                    }
         except Exception as e:
             print(e)
 

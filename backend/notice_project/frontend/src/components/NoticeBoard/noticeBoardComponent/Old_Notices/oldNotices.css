@@ -1,0 +1,61 @@
+.preloader {
+  text-align: center;
+  display: grid;
+  place-items: center;
+  flex-direction: column;
+}
+
+.fa-spinner {
+  margin: 5rem 0 !important;
+}
+
+.isLoading,
+.fa-spinner {
+  text-align: center;
+  font-size: 2rem;
+  margin: auto 0;
+  padding: 0;
+  color: var(--accent-color);
+  display: grid;
+  place-items: center;
+  margin-top: 150px;
+}
+
+.old-notices {
+  padding: 1em 0em;
+}
+
+.old-notice-container {
+  width: 90%;
+  margin: 0em auto 2em;
+}
+
+.old-notice-title {
+  font-size: 1em;
+  box-shadow: 0px 1px 5px rgba(220, 218, 226, 0.25);
+  padding: 0.5em 0 0.5em 1em;
+  width: auto;
+  margin-left: -1em;
+  margin-right: -1em;
+}
+
+.sort-arrowDown {
+  vertical-align: middle;
+}
+
+.sort {
+  margin: 0.8em 0;
+}
+
+.sort-bold {
+  color: #999999;
+  font-weight: 600;
+}
+
+.sort-arrowDown-container {
+  margin-left: 5px;
+}
+
+.sort p {
+  color: #999999;
+}

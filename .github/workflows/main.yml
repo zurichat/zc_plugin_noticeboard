@@ -13,6 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Use cached node_modules
+        uses: c-hive/gha-yarn-cache@v2
+        with:
+         directory: test_root_config
+         
+         #this job installs intalls yarn dependencies on the github runner
+         #and also to build the static files that would be transferred to server later
+      - name: install Dependencies
+        run: |
+          yarn install          
+          cd test_root_config
+          yarn install
+          yarn build
+          
+      - name: Use cached node_modules for root dir
+        uses: c-hive/gha-yarn-cache@v2
+        with:
+         directory: backend/notice_project/frontend
+     
+      - name: install Dependencies
+        run: |
+          yarn install
+          cd backend/notice_project/frontend/
+          yarn
+          yarn build
 
       - name: Pull Repo on Server
         uses: appleboy/ssh-action@master
@@ -21,16 +46,44 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/www/zc_plugin_noticeboard
-            git stash
-            git checkout development
-            git pull
-            cd /var/www/zc_plugin_noticeboard/frontend
-            yarn install
-            yarn build
             cd /var/www/zc_plugin_noticeboard/backend/notice_project
-            source bin/activate
-            pip install -r requirements.txt
+            source venv/bin/activate
+            git stash            
+            git pull origin development
+            git branch -r
+            cd /var/www/zc_plugin_noticeboard/backend/notice_project
+            pip3 install -r requirements.txt
+            python3 manage.py migrate
+            yarn            
+            
+      - name: copy build to server
+        uses: Creepios/sftp-action@v1.0.1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}          
+          localPath: './test_root_config/dist'
+          remotePath: '/var/www/zc_plugin_noticeboard/test_root_config/dist'
+          
+      - name: copy build to server
+        uses: Creepios/sftp-action@v1.0.1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          localPath: './backend/notice_project/frontend/dist'
+          remotePath: '/var/www/zc_plugin_noticeboard/backend/notice_project/frontend/dist'
+          
+      - name: collect static and restart gunicorn
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd /var/www/zc_plugin_noticeboard/backend/notice_project
             python3 manage.py collectstatic --noinput
-            pkill -u ${{secrets.USERNAME}} gunicorn 
+            cd /var/www/zc_plugin_noticeboard/backend/notice_project
+            source venv/bin/activate
+            pkill -u ${{secrets.USERNAME}} gunicorn
             gunicorn --bind 0.0.0.0:8800 noticeboard.wsgi --daemon

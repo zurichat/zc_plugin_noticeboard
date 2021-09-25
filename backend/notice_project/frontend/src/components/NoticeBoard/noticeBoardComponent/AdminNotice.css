@@ -1,0 +1,350 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+}
+
+:root {
+  --button-bg: #00bb7c;
+  --button-hover-bg: #01b478;
+  --text-color: #333333;
+  --button-color: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.35);
+  --border-hover-color: rgba(0, 0, 0, 0.95);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 14px;
+  color: var(--main-black);
+}
+
+.preloader {
+  text-align: center;
+  display: grid;
+  place-items: center;
+  flex-direction: column;
+}
+
+.adminnotice {
+  padding: 1.5em 2.5em 2.5em;
+}
+
+.fa-spinner {
+  margin: 5rem 0 !important;
+}
+
+.logo {
+  height: 200px;
+}
+
+.isLoading,
+.fa-spinner {
+  text-align: center;
+  font-size: 2rem;
+  margin: auto 0;
+  padding: 0;
+  color: var(--accent-color);
+  display: grid;
+  place-items: center;
+  margin-top: 150px;
+}
+
+/* pinned notice nav */
+
+.pinned-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 0 6px;
+}
+
+.pinned-button-container .pin-text {
+  display: flex;
+}
+
+.pin-text p {
+  font-weight: 900;
+  font-size: 1.5em !important;
+}
+
+.pin-text img {
+  width: 15px;
+  height: 20px;
+  margin-right: 10.6px;
+}
+
+.pinned-button-container .header-button {
+  background: var(--button-bg);
+  color: var(--button-color);
+  font-weight: bold;
+  padding: 10px, 24px;
+  width: 187px;
+  height: 44px;
+  text-transform: capitalize;
+  font-size: 16px;
+}
+
+.header-button:hover {
+  color: var(--main-black);
+}
+
+.pinned-button-container .header-button img {
+  margin-left: 16px;
+}
+
+/* section with the cards */
+
+section .card {
+  border-radius: 3px;
+  padding: 16px;
+  box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);
+  padding: 16px;
+  margin: 0 auto 2em;
+}
+
+section .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section .profile {
+  display: flex;
+}
+
+section .img-profile-container {
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+}
+
+section .profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+section .identity {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+section .identity .name {
+  font-weight: 700;
+}
+
+section .identity .time-date {
+  font-size: 12px;
+  color: var(--main-gray);
+  margin-top: 5px;
+}
+
+.time-date {
+  display: flex;
+}
+
+section .info-icon {
+  padding: 10px;
+  border-radius: 100%;
+  transition: all 0.5s;
+}
+
+section .info-icon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* card body */
+
+section .card-body {
+  margin-top: 20px;
+  height: 6.5rem;
+}
+
+section .card-title {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+section .card-info {
+  margin: 6px 0 17px;
+  font-size: 12px;
+  color: var(--main-gray);
+}
+
+/* icon-tray and stuffs */
+section .icon-button-tray {
+  display: flex;
+  justify-content: space-between;
+}
+
+section .icon-tray {
+  display: flex;
+  width: 120.62px;
+  align-items: flex-end;
+}
+
+.icon-tray img {
+  transition: all 0.4s;
+}
+
+.icon-tray img:hover {
+  transform: scale(1.1);
+}
+
+section .icon-tray div {
+  margin-right: 15px;
+  text-align: center;
+}
+
+section .number {
+  font-size: 8.51px;
+}
+
+section .card-button {
+  width: 120px;
+  height: 45px;
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
+  box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
+  transition: all 0.4s;
+}
+
+.card-button:hover {
+  border: none !important;
+  background-color: var(--accent-color) !important;
+  color: var(--button-color);
+}
+
+.adminDot img {
+  margin: 0 3px;
+  vertical-align: middle;
+}
+
+
+.older-notices {
+  width: max-content;
+  padding-bottom: 3px;
+  margin: 0 auto;
+  border-bottom: 2px solid #00bb7c;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 2em;
+}
+
+.older-notices:hover {
+  transform: scale(1.1);
+}
+
+.older-notices p {
+  color: #00bb7c;
+  text-align: center;
+}
+
+/*
+
+@media (max-width: 1261px) {
+  section .card {
+    width: 20rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  section .card {
+    width: 28rem;
+  }
+}
+
+@media (max-width: 1099px) {
+  section .card {
+    width: 26rem;
+  }
+}
+
+@media (max-width: 1050px) {
+  section .card {
+    width: 24rem;
+  }
+}
+
+@media (max-width: 930px) {
+  section .card {
+    width: 21rem;
+  }
+}
+
+@media (max-width: 882px) {
+  section .card {
+    width: 19rem;
+  }
+}
+*/
+
+@media only screen and (min-width: 1024px) {
+  section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 2em;
+    margin-top: 1em;
+  }
+
+  .adminnotice {
+    padding: 1.5em 6em 0;
+  }
+
+  .older-notices {
+    margin-top: 0em;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  section .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 410px) {
+  .pinned-button-container .header-button {
+    padding: 10px, 24px;
+    width: 165px;
+    height: 44px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 375px) {
+  .adminnotice {
+    padding: 0 2em 2em;
+  }
+  .pinned-button-container .pin-text {
+    display: flex;
+  }
+  .pinned-button-container .header-button {
+    padding: 10px, 24px;
+    width: 145px;
+    height: 44px;
+    font-size: 12px;
+  }
+  .pinned-button-container .header-button img {
+    margin-left: 4px;
+  }
+  .pinned-button-container {
+    margin-top: 1rem;
+  }
+}
