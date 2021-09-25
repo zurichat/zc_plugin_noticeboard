@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
 
+
 function App() {
   const [cent, setCent] = useState("");
   const [message, setMessage] = useState("No message");
