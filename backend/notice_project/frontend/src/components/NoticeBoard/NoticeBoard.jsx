@@ -15,7 +15,7 @@ import Centrifuge from "centrifuge";
 
 function NoticeBoard() {
 
-	  const [setPeople, setLoading, setIsError] = useContext(UserContext)
+	  const {setPeople, setLoading, setIsError} = useContext(UserContext)
 
 	  const CentrifugoConnection = () => {
 		const centrifuge = new Centrifuge(
