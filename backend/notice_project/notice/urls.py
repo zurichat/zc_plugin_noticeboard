@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (install, sidebar, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, search, get_room, 
-                     ViewNoticeAPI, NoticeDetail,add_user)
+                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion)
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -21,6 +21,11 @@ urlpatterns = [
     path('sidebar', sidebar, name="sidebar"),
 
     path('install', install, name='install'),
+      
+    path('sendemail', emailNotificaion, name="Email Notificaion"),
+
+    path('unsubscribe', Unsubscribe.as_view()),
+
 
     path('create-room', create_room),
 
