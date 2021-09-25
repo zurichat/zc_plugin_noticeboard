@@ -8,7 +8,7 @@ export const UserProvider = (props) =>{
     const [isError, setIsError] = useState(false);
 
     return(
-        <UserContext.Provider value={[people, setPeople, loading, setLoading, isError, setIsError]}>
+        <UserContext.Provider value={{people, setPeople, loading, setLoading, isError, setIsError}}>
           {props.children } 
         </UserContext.Provider>
     )

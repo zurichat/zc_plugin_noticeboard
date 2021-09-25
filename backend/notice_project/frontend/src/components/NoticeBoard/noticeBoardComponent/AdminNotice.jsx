@@ -8,7 +8,7 @@ import { withRouter, Link } from "react-router-dom";
 import { UserContext } from '../../../Data-fetcing';
 
 const PinnedNotices = (props) => {
-  const [people, setPeople, loading, setLoading, isError, setIsError] = useContext(UserContext)
+  const {people, setPeople, loading, setLoading, isError, setIsError} = useContext(UserContext)
 
   const today = new Date();
   const date = today.getDate();
