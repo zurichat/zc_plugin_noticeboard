@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+import { UserContext } from '../../../Data-fetcing';
 
 const PinnedNotices = (props) => {
-  const [people, setPeople] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [people, setPeople, loading, setLoading, isError, setIsError] = useContext(UserContext)
 
   const today = new Date();
   const date = today.getDate();
