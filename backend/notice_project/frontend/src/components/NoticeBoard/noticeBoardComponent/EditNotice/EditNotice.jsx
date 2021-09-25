@@ -27,7 +27,7 @@ import {
 import "../../noticeBoardComponent/Text-editor/Text-editor.css";
 
 
-import "./EditNotice.css";
+import '../EditNotice/editNotice.css';
 
 import {useParams} from 'react-router-dom';
 
