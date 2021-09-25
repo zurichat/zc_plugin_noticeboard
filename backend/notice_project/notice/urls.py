@@ -26,24 +26,23 @@ urlpatterns = [
 
     path('unsubscribe', Unsubscribe.as_view()),
 
-
     path('create-room', create_room),
 
-    path('create', CreateNewNotices.as_view()),
+    path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
-    path('notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
+    path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
-    path('search', search.as_view()),
+    path('organisation/<str:org_id>/search', search.as_view()),
 
     path('get-room', get_room),
     
     path('add_user', add_user, name='add_user'),
 
-    path('notices', ViewNoticeAPI.as_view()),
+    path('organisation/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
-    path('notices/<str:id>', NoticeDetail.as_view()),
+    path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
 
-    path('notices/<str:object_id>/delete', DeleteNotice.as_view()),
+    path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
