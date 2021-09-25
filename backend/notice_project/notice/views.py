@@ -260,12 +260,12 @@ def emailNotificaion(request):
                                 if data["user_id"] == user["_id"]:
                                     pass
                                 else:
-                                    sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+                                    sendmassemail("email/notify-users.html", {"user_id":user["_id"], "org": org_id}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
                         else:
                             """
                                 Nobody has Unsubscribed . The unsubscribe collection is empty
                             """
-                            sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+                            sendmassemail("email/notify-users.html", {"user_id":user["_id"],  "org": org_id}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
 
                 # return Response({"data": {"Message": "Emails have been sent"}}, status=status.HTTP_200_OK)
                 return Response({"data": res}, status=status.HTTP_200_OK)
