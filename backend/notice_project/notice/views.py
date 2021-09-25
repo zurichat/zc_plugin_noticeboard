@@ -101,14 +101,7 @@ class CreateNewNotices(views.APIView):
     
     def post(self, request):
         org_id = "613a1a3b59842c7444fb0220"
-        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
-        # validate request
-        #   if 'Authorization' in request.headers:
-        #       token = request.headers['Authorization']
-        #        headers={"Authorization": f"Bearer {request.headers['Authorization']}"}
-        #   else:
-        #       token = request.headers['Cookie']
         if serializer.is_valid():
             db.save(
                 "noticeboard",
