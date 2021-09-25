@@ -1,9 +1,5 @@
 import React from "react";
-
-import see from "../../../assets/Seen.svg";
-// import active from "../../../assets/active.svg";
 import dot from "../../../assets/Ellipse135.svg";
-
 import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
@@ -37,20 +33,20 @@ const Card = ({ person }) => {
 
   return (
     <div>
-      <article className="card">
-        <div className="card-header">
-          <div className="profile">
-            <div className="img-profile-container">
+      <article className="card-adminNotice">
+        <div className="card-header-adminNotice">
+          <div className="profile-adminNotice">
+            <div className="img-profile-container-adminNotice">
               <img
-                className="profile-pic"
+                className="profile-pic-adminNotice"
                 src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                 alt="profile-pic"
               />
             </div>
-            <div className="identity">
+            <div className="identity-adminNotice">
               {/* no user details in notices from the api */}
               {/* <h6 className="name">{person.userName}</h6> */}
-              <p className="time-date">
+              <p className="time-date-adminNotice">
                 <span>
                   {currentMonth}&nbsp;{person.created.slice(8, 10)}
                 </span>
@@ -64,31 +60,31 @@ const Card = ({ person }) => {
           <AdminMenu noticeID={person._id} />
         </div>
         {/* body of card */}
-        <div className="card-body">
-          <h5 className="card-title">
+        <div className="card-body-adminNotice">
+          <h5 className="card-title-adminNotice">
             {person.title.replace(/<[^>]+>/g, "")}
           </h5>
-          <p className="card-info">
+          <p className="card-info-adminNotice">
             {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
-        <div className="icon-button-tray">
-          <div className="icon-tray">
+        <div className="icon-button-tray-adminNotice">
+          <div className="icon-tray-adminNotice">
             {/* the seen feature was removed */}
             {/* <div>
               <img src={see} alt="" />
               <p className="number">{person.views}</p>
             </div> */}
           </div>
-          <Button
-            className="card-button"
+          <button
+            className="card-button-adminNotice"
             variant="outlined"
             color="primary"
             onClick={() => filterUsers(person._id)}
           >
             View Notice
-          </Button>
+          </button>
         </div>
       </article>
       {openModal && (
