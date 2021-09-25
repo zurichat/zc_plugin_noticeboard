@@ -11,7 +11,8 @@ html {
 .header {
   width: 100%;
   align-items: center;
-  padding-top: 1em;
+  padding: 0.5em 0;
+  background-color: #00bb7c;
 }
 
 .header__form {
@@ -19,7 +20,7 @@ html {
   position: relative;
   padding: 0.7em 0;
   border: 0.8px solid rgba(153, 153, 153, 0.2);
-  background: rgba(255, 255, 255, 0.4);
+  background: #fff;
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -71,8 +72,7 @@ html {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 85%;
-    margin: 0 auto;
+    width: 100%;
   }
 
   .header__wraps {
