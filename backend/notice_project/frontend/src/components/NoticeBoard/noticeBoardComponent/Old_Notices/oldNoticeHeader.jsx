@@ -41,12 +41,7 @@ function OldNoticeHeader() {
 
 const Menu = () => {
   const sortFromOldest = (event) => {
-    /*
-    const elementList = Array.from(
-      document.getElementsByClassName("sort-oldNotice-option")
-    );
-    elementList.map((element) => element.classList.remove("focus"));
-    event.currentTarget.classList.add("focus"); */
+    ///
     const sortData = async () => {
       //
     };
