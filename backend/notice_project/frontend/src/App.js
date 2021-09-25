@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
 import { GetUserInfo } from "@zuri/control";
+import { UserProvider } from './Data-fetcing';
 
 function App() {
   const CentrifugoConnection = () => {
@@ -24,9 +25,25 @@ function App() {
     centrifuge.connect();
 
     centrifuge.subscribe("noticeboard", (ctx) => {
-//       console.log(ctx.data);
-      //option 1 write function to re-render the component that needs re-rendering
-      //option 2, perform data fetch again
+      console.log(ctx);
+      
+      const fetching = () =>{
+        fetch("https://noticeboard.zuri.chat/api/v1/notices")
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          return res.json();
+        } else {
+          setLoading(false);
+          setIsError(true);
+        }
+      })
+      .then((data) => {
+        setPeople(data.data.filter((notice) => notice.created.substring(8, 10) === date.toString()));
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+      } 
+
     });
 
     centrifuge.on("publish", function (ctx) {
@@ -42,14 +59,16 @@ function App() {
 
   return (
     <Router basename="/noticeboard">
-      <div className="App">
-        <div className="app__body">
-          <span className="app__bodyFlex">
-            <Header />
-            <NoticeBoard />
-          </span>
+      <UserProvider >
+        <div className="App">
+          <div className="app__body">
+            <span className="app__bodyFlex">
+              <Header />
+              <NoticeBoard />
+            </span>
+          </div>
         </div>
-      </div>
+      </UserProvider>
     </Router>
   );
 }
