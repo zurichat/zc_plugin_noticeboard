@@ -4,7 +4,7 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
-import { GetUserInfo } from "@zuri/control";
+//import { GetUserInfo } from "@zuri/control";
 
 function App() {
   

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import down from "./down.svg";
+import back from "./back.png";
+import { Link } from "react-router-dom";
 import "./oldNotices.css";
 
 function OldNoticeHeader() {
@@ -11,7 +13,19 @@ function OldNoticeHeader() {
 
   return (
     <div>
-      <h1 className="old-notice-title">Older Notices</h1>
+      <div className="oldNotice-title-btn">
+        <h1 className="old-notice-title">Older Notices</h1>
+        <div>
+          <Link to="/noticeboard/admin-notice">
+            <button className="old-notice-back-button">
+              <span className="backImageOldNotice">
+                <img src={back} alt="back" />
+              </span>
+              <span>Back</span>
+            </button>
+          </Link>
+        </div>
+      </div>
       <div className="sort-oldNotice" onClick={OpenMenu}>
         <p className="sort-oldNotice-selected">
           <span className="sort-bold-oldNotice">Sort:</span> Newest Message
@@ -35,7 +49,7 @@ const Menu = () => {
     event.currentTarget.classList.add("focus"); */
     const sortData = async () => {
       //
-    }
+    };
   };
 
   return (

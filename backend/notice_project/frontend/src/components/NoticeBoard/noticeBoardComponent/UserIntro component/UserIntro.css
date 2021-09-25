@@ -52,6 +52,30 @@
   margin: 0 auto;
 }
 
+.view-notice-btn-userIntro {
+  display: block;
+  background: var(--accent-color) !important;
+  color: var(--button-color) !important;
+  font-weight: bold;
+  padding: 1.1em 1.5em;
+  text-transform: capitalize;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  margin: 0 auto 2em;
+}
+
+.view-notice-btn-userIntro img {
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin-left: 10px;
+}
+
+.view-notice-btn-userIntro:hover {
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 768px) {
   .UserIntro a {
     height: fit-content;
