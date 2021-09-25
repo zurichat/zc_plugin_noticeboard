@@ -12,43 +12,42 @@ import EmailUnsubscription from "./EmailUnsubscriptionPage/EmailUnsubscription";
 import SearchResult from "./noticeBoardComponent/SearchResult";
 
 function NoticeBoard() {
-	return (
-		<div className="notice">
-			<NoticeBoardHeader />
-			<Switch>
-				<Route exact path="/noticeboard/search">
-					<SearchResult />
-				</Route>
+  return (
+    <div className="notice">
+      <NoticeBoardHeader />
+      <Switch>
+        <Route exact path="/noticeboard/search">
+          <SearchResult />
+        </Route>
 
-				<Route exact path="/noticeboard/create-notice">
-					<CreateNotice />
-				</Route>
-				<Route exact path="/noticeboard/admin-notice">
-					<AdminNotice />
-				</Route>
-				<Route exact path="/noticeboard/user-notice">
-					<UserNotice />
-				</Route>
+        <Route exact path="/noticeboard/create-notice">
+          <CreateNotice />
+        </Route>
+        <Route exact path="/noticeboard/admin-notice">
+          <AdminNotice />
+        </Route>
+        <Route exact path="/noticeboard/user-notice">
+          <UserNotice />
+        </Route>
 
-				<Route exact path="/noticeboard/old-notices">
-					<OldNotices />
-				</Route>
+        <Route exact path="/noticeboard/old-notices">
+          <OldNotices />
+        </Route>
 
+        <Route exact path="/noticeboard/unsubscribe-email/:id/:orgId">
+          <EmailUnsubscription />
+        </Route>
 
-				<Route exact path="/noticeboard/unsubscribe-email/:id">
-					<EmailUnsubscription />
-				</Route>
+        <Route exact path="/noticeboard">
+          <UserIntro />
+        </Route>
 
-				<Route exact path="/noticeboard">
-					<UserIntro />
-				</Route>
-
-				{/* <Route path="/"> 
+        {/* <Route path="/"> 
       this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
     </Route> */}
-			</Switch>
-		</div>
-	);
+      </Switch>
+    </div>
+  );
 }
 
 export default NoticeBoard;

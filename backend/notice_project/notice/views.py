@@ -4,9 +4,9 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer
 from rest_framework.generics import ListAPIView
-from .email import sendemail
+from .email import sendmassemail
 import re
 
 
@@ -63,9 +63,6 @@ def get_room(request):
     # org_id = "613a1a3b59842c7444fb0220"
     org_id = "6145b49e285e4a18402073bc"
     data = db.read("noticeboard_room", org_id)
-    # login = "https://api.zuri.chat/auth/login"
-    # print(requests.post(url=login, data={"email": "jerry@gmail.com", "password": "ag222fan"}))
-   
     return Response(data)
 
 
@@ -81,9 +78,8 @@ def install(request):
         "action": "open"
     }
 
-    # requests.post(
-    #     f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
-    requests.post("http://localhost:8000/api/v1/create-room", data=data)
+    requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+    # requests.post("http://localhost:8000/api/v1/create-room", data=data)
 
     install = {
         "name": "Noticeboard Plugin",
@@ -103,12 +99,6 @@ class CreateNewNotices(views.APIView):
         org_id = "613a1a3b59842c7444fb0220"
         headers={}
         serializer = CreateNoticeSerializer(data=request.data)
-        # validate request
-        #   if 'Authorization' in request.headers:
-        #       token = request.headers['Authorization']
-        #        headers={"Authorization": f"Bearer {request.headers['Authorization']}"}
-        #   else:
-        #       token = request.headers['Cookie']
         if serializer.is_valid():
             db.save(
                 "noticeboard",
@@ -119,17 +109,6 @@ class CreateNewNotices(views.APIView):
 
             db.post_to_centrifugo(serializer.data)
             
-            '''
-                Retrieve Organisation members
-            '''
-
-            # login = "https://api.zuri.chat/auth/login"
-            # print(requests.post(url=login, data={"email": "user@example.com", "password": "pa$$word"}))
-            # url = f"https://api.zuri.chat/organizations/{org_id}/members/"
-            # members = requests.get(url=url, )
-            #send email after adding notice
-            sendemail("email/notify-users.html", {"vail":"shsd"}, "Hi, A notice have been created", "jrmhchukwuka@gmail.com")
-           
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -252,3 +231,97 @@ class NoticeDetail(views.APIView):
 def add_user(request):
     data = {"message":"User has been added"}
     return Response(data)
+
+
+
+@api_view(['GET'])
+def emailNotificaion(request):
+    org_id=request.GET.get('org')
+    # org_id="6145b49e285e4a18402073bc"
+    sendemail=request.GET.get('sendemail')
+
+    if org_id and sendemail == 'True':
+        """
+         Retrieve Organization Members
+
+        """
+        res = requests.get(f"https://api.zuri.chat/organizations/{org_id}/members").json()
+        notice = db.read("noticeboard_email_unsubscribers", org_id)
+        if res['status'] == 200:
+            try:
+                for user in res['data']:
+                    if user["role"] != "owner":
+                        if notice['status'] == 200 and notice["data"] != None:
+                            """
+                                Somebody has Unsubscribed . The unsubscribe collection is not empty
+                            """
+                            print("Somebody has Unsubscribed")
+                            for data in notice["data"]:
+                                if data["user_id"] == user["_id"]:
+                                    pass
+                                else:
+                                    sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+                        else:
+                            """
+                                Nobody has Unsubscribed . The unsubscribe collection is empty
+                            """
+                            sendmassemail("email/notify-users.html", {"user_id":user["_id"]}, "Hey \U0001f600, You have got a new Notice on the board", user['email'])
+
+                # return Response({"data": {"Message": "Emails have been sent"}}, status=status.HTTP_200_OK)
+                return Response({"data": res}, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({"status": 401, "message": "An error occured why sending emails"})
+        return Response({"status": res['status'], "message": res["message"]}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"status": False, "message": "No email Sent. Check your query parameter"})
+
+
+
+class Unsubscribe(views.APIView):
+    def get(self, request):
+        org_id=request.GET.get('org')
+        if org_id:
+            notice = db.read("noticeboard_email_unsubscribers", org_id)
+            if notice['status'] == 200:
+                # print(notice)
+                pass
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": 401, "message": "An error occured"})
+
+    def post(self, request):
+        org_id=request.GET.get('org')
+        if org_id:
+            """
+            Add Unsubscibers to a new table
+            """
+            notice = db.read("noticeboard_email_unsubscribers", org_id)
+            serializer = UnsubscribeSerializer(data=request.data)
+            if notice['status'] == 200:
+                if notice["data"] != None:
+                    for data in notice["data"]:
+                        if data["user_id"] == request.data["user_id"]:
+                            return Response(data={"Message":"User is already Unsubscribed"}, status=502)
+                        else:
+                            if serializer.is_valid():
+                                db.save(
+                                    "noticeboard_email_unsubscribers",
+                                    org_id,
+                                    notice_data=serializer.data
+                                )
+                            return Response(data={"Message":"You have successfully Unsubscribed"}, status=status.HTTP_201_CREATED)
+                else:
+                    if serializer.is_valid():
+                        db.save("noticeboard_email_unsubscribers", org_id, notice_data=serializer.data)
+                        return Response(data={"Message":"You have successfully Unsubscribed"}, status=status.HTTP_201_CREATED)
+        return Response({"status": False, "message": "Check your query parameter"})
+    
+    def delete(self, request):
+        org_id=request.GET.get('org')
+        object_id=request.GET.get('object')
+        if org_id and object_id:
+            try:
+                db.delete(collection_name='noticeboard_email_unsubscribers',org_id=org_id,object_id=object_id)
+                return Response({"success": True, "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
+            except:
+                return Response({"success": False,"message": "Delete Operation Failed. Object does not exist in the database"},status=status.HTTP_404_NOT_FOUND)
+        return Response({"status": False, "message": "Check your query parameter"})

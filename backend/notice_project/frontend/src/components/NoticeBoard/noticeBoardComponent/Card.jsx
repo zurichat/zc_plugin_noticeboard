@@ -77,14 +77,14 @@ const Card = ({ person }) => {
               <p className="number">{person.views}</p>
             </div> */}
           </div>
-          <Button
+          <button
             className="card-button-adminNotice"
             variant="outlined"
             color="primary"
             onClick={() => filterUsers(person._id)}
           >
             View Notice
-          </Button>
+          </button>
         </div>
       </article>
       {openModal && (

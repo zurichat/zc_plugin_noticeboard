@@ -217,9 +217,11 @@ h6 {
 .adminNotice-section .card-button-adminNotice {
   width: 120px;
   height: 45px;
-  border-color: var(--accent-color);
-  color: var(--accent-color);
+  background-color: #fff;
+  border: 1px solid #00bb7c;
+  color: #00bb7c;
   font-size: 14px;
+  border-radius: 4px;
   font-weight: 400;
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
@@ -254,6 +256,7 @@ h6 {
 .older-notices-text {
   color: #00bb7c;
   text-align: center;
+  margin-bottom: 0px!important;
 }
 
 @media only screen and (min-width: 1024px) {

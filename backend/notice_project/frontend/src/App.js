@@ -4,12 +4,11 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
+import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from './Data-fetcing';
-// import { GetUserInfo } from "@zuri/zuri-control";
 
 function App() {
-  
-  const CentrifugoConnection = () =>{
+  const CentrifugoConnection = () => {
     const centrifuge = new Centrifuge(
       "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
@@ -47,19 +46,15 @@ function App() {
 
     });
 
-    centrifuge.on('publish', function(ctx) {
+    centrifuge.on("publish", function (ctx) {
       console.log(ctx);
-  });
+    });
+  };
 
-  
-
-  }
-
-  // console.log(GetUserInfo())
-
+  console.log(GetUserInfo());
 
   useEffect(() => {
-    CentrifugoConnection()
+    CentrifugoConnection();
   });
 
   return (

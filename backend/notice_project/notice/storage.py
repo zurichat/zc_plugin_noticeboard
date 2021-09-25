@@ -31,10 +31,7 @@ class Dbnoticeboard:
             data = json.dumps(command)
             response = requests.post(url=self.centrifugo_url, headers=headers, data=data)
             print(response.json())
-            return {
-                        "status_code": response.status_code,
-                        "message": response.json()
-                    }
+            return response
         except Exception as e:
             print(e)
 
