@@ -204,7 +204,7 @@ class DeleteNotice(views.APIView):
         org_id = "613a1a3b59842c7444fb0220"
         try:
             db.delete(
-                collection_name='noticeboard',
+                collection_name='noticeboard_room',
                 org_id=org_id,
                 object_id=object_id
             )
