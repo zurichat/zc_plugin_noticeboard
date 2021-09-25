@@ -30,29 +30,40 @@
   border-radius: 10px;
   min-height: 80%;
   margin: auto auto;
-  margin-top: 4%;
+  margin-top: 3%;
+  margin-bottom: 20px;
 }
 
-.unsubscribed {
+.unsubscribe .content .header {
+  background-color: white;
+  padding: 10px;
+  width: 100%;
   display: flex;
-  background-color: #fff;
-  padding: 15px 8px;
+  justify-content: space-between;
+  border-bottom: 2px solid #00bb7c;
   align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  color: #00bb8c;
 }
 
-.unsubscribed p {
-  font-size: 25px;
+.unsubscribe .content h1 {
+  margin-left: 10px;
+  font-size: 20px;
 }
 
-.unsubscribe .btn {
+.unsubscribe .content p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.unsubscribe .content img {
+  margin: 0 auto;
+}
+
+.unsubscribe .content .btn {
   display: flex;
   justify-content: space-around;
 }
 
-.unsubscribe .big {
+.unsubscribe .content .big {
   font-size: 30px;
   font-weight: 700;
 }
@@ -65,7 +76,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  background: black;
+  background: #00bb7c;
   color: white;
   border-radius: 3px;
   margin: 10px auto;
@@ -73,56 +84,56 @@
 }
 
 .unsubscribe button:hover {
-  background: rgb(29, 28, 28);
+  background: #01b478;
 }
 
-.unsubscribe button:last-child:hover {
-  background: #00bb8c;
-}
-
-.unsubscribe button:last-child {
-  background: #00bb7c;
-}
-
-.unsubscribe .header {
-  background-color: white;
-  padding: 10px;
-  width: 100%;
+.unsubscribed {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  border-bottom: 2px solid #ddd;
-  align-items: center;
+  text-align: center;
+  background: #fff;
+  width: 60%;
+  padding: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  min-height: 80%;
+  margin: auto auto;
+  margin-top: 4%;
+  margin-bottom: 20px;
 }
 
-.unsubscribe h1 {
-  margin-left: 10px;
-  font-size: 20px;
-}
-
-.unsubscribe p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-.unsubscribe img {
+.unsubscribe .unsubscribed img {
   margin: 0 auto;
+  padding: 0;
+  /* margin-bottom: 40px; */
+}
+
+.unsubscribe .unsubscribed p {
+  font-size: 20px;
+  margin: 0;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 760px) {
-  .unsubscribe .content {
+  .unsubscribe .content,
+  .unsubscribe .unsubscribed {
     width: 90%;
   }
 
-  .content.unsubscribed p {
-    font-size: 18px;
+  .unsubscribe .unsubscribed p {
+    font-size: 16px;
+    /* display: none; */
   }
 }
 
 @media (max-width: 400px) {
-  .unsubscribe .content {
+  .unsubscribe .content,
+  .unsubscribe .unsubscribed {
     width: 96%;
     margin-top: 46px;
   }
+
   .unsubscribe p {
     font-size: 16px;
     padding: 0 10px;
