@@ -20,13 +20,9 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
-<<<<<<< HEAD
-    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`)
-=======
     fetch(
       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     )
->>>>>>> e99c532c0e76053c6f9d7be848a02e398085c7c1
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
@@ -41,6 +37,7 @@ const PinnedNotices = (props) => {
             (notice) => notice.created.substring(8, 10) === date.toString()
           )
         );
+          console.log(data.data)
         setLoading(false);
       })
       .catch((error) => console.log(error));
