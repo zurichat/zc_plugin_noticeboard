@@ -39,7 +39,7 @@ const PinnedNotices = (props) => {
 			})
 			.catch((error) => console.log(error));
     }, 5000);
-	}, []);
+	}, [poeple]);
 
 	if (loading) {
 		return (
