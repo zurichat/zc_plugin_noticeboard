@@ -64,7 +64,7 @@ const PinnedNotices = (props) => {
     );
   }*/
 
-	if (people.length <= 0 && searchSuggestions.length <= 0) {
+	if (people.length <= 0) {
 		return (
 			<div className="adminnotice">
 				<div className="pinned-button-container">
@@ -117,6 +117,7 @@ const PinnedNotices = (props) => {
 					{searchSuggestions.map((search) => {
 						return <Card person={search} key={search._id} />;
 					})}
+					{console.log(searchSuggestions)}
 				</section>
 			)}
 

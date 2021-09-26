@@ -25,6 +25,10 @@ const Header = () => {
 		loadNotices();
 	}, [searchResult]);
 
+	setInterval(() => {
+		loadNotices();
+	}, 30000);
+
 	const onChangeHandler = (e) => {
 		setSearchText(e.target.value);
 
@@ -35,12 +39,13 @@ const Header = () => {
 				const regex = new RegExp(`${searchText}`, "gi");
 				return result.title.match(regex) + result.message.match(regex);
 			});
-		} else if (searchText.length <= 0) {
+
+			setSearchSuggestions(matches);
+		} else if (searchText.length == 0) {
 			setSearchingNotice(false);
 			setSearchSuggestions([]);
 		}
 		console.log(matches);
-		setSearchSuggestions(matches);
 	};
 
 	return (
