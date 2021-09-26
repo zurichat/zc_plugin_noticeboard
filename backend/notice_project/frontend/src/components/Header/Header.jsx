@@ -1,57 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { createBrowserHistory } from "history";
+import React, { useState, useEffect, useContext } from "react";
 import "./Header.css";
 import axios from "axios";
 import profileIcon from "./images/profile_icon_img_x2.png";
 import SearchResult from "../NoticeBoard/noticeBoardComponent/SearchResult";
+import { SearchContext } from "../../noticeContext";
 
 const Header = () => {
-	// const [text, setText] = useState("");
-
-	// const handleChange = (e) => {
-	// 	setText(e.target.value);
-	// 	console.log(text);
-	// };
-
-	const history = createBrowserHistory({ forceRefresh: true });
 	const api = axios.create({
 		baseURL: "https://noticeboard.zuri.chat/api/v1",
 	});
 
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-	// 	let res = await api.get(`/search?q=${text}`);
-	// 	console.log(res.data.data);
-	// };
-
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-	// 	try {
-	// 		const response = await api.get(`/search?q=${text}`);
-	// 		const searchData = response.data.data;
-	// 		console.log(response.data.data);
-	// 		console.log(searchData);
-	// 		setText("");
-	// 		history.push({
-	// 			pathname: "/noticeboard/search",
-	// 			state: { searchData },
-	// 		});
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
-
 	// For Searching On Change
 	const [searchText, setSearchText] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
-	const [searchSuggestions, setSearchSuggestions] = useState([]);
+	const [searchSuggestions, setSearchSuggestions] = useContext(SearchContext);
+	const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
+	const org_id = "614679ee1a5607b13c00bcb7";
 
 	useEffect(() => {
 		const loadNotices = async () => {
-			const response = await api.get(`/notices`);
+			const response = await api.get(`/organisation/${org_id}/notices`);
 			setSearchResult(response.data.data);
-			// console.log(response.data.data);
-			// console.log(searchResult);
 		};
 		loadNotices();
 	}, [searchResult]);
@@ -62,9 +31,13 @@ const Header = () => {
 		let matches = [];
 		if (searchText.length > 0) {
 			matches = searchResult.filter((result) => {
+				setSearchingNotice(true);
 				const regex = new RegExp(`${searchText}`, "gi");
 				return result.title.match(regex) + result.message.match(regex);
 			});
+		} else if (searchText.length <= 0) {
+			setSearchingNotice(false);
+			setSearchSuggestions([]);
 		}
 		console.log(matches);
 		setSearchSuggestions(matches);

@@ -4,7 +4,8 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import { useEffect, useState } from "react";
-import { GetUserInfo } from "@zuri/control";
+// import { GetUserInfo } from "@zuri/control";
+import { SearchProvider } from "./noticeContext";
 
 function App() {
 	const CentrifugoConnection = () => {
@@ -31,24 +32,25 @@ function App() {
 		});
 	};
 
-	const x = GetUserInfo();
-	console.log(x);
+	// console.log(GetUserInfo())
 
 	useEffect(() => {
 		CentrifugoConnection();
 	});
 
 	return (
-		<Router basename="/noticeboard">
-			<div className="App">
-				<div className="app__body">
-					<span className="app__bodyFlex">
-						<Header />
-						<NoticeBoard />
-					</span>
+		<SearchProvider>
+			<Router basename="/noticeboard">
+				<div className="App">
+					<div className="app__body">
+						<span className="app__bodyFlex">
+							<Header />
+							<NoticeBoard />
+						</span>
+					</div>
 				</div>
-			</div>
-		</Router>
+			</Router>
+		</SearchProvider>
 	);
 }
 

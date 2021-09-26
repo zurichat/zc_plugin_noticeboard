@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+import { SearchContext } from "../../../noticeContext";
 
 const PinnedNotices = (props) => {
 	const [people, setPeople] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
+	const [searchSuggestions, setSearchSuggestions] = useContext(SearchContext);
+	const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
 
 	const today = new Date();
 	const date = today.getDate();
@@ -53,7 +56,7 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-	if (people.length <= 0) {
+	if (people.length <= 0 && searchSuggestions.length <= 0) {
 		return (
 			<div className="adminnotice">
 				<div className="pinned-button-container">
@@ -94,11 +97,21 @@ const PinnedNotices = (props) => {
 				</Button>
 			</div>
 			{/* the is the beginning of the section where the card for each notice starts from */}
-			<section className="adminNotice-section">
-				{people.map((person) => {
-					return <Card person={person} key={person._id} />;
-				})}
-			</section>
+
+			{!searchingNotice ? (
+				<section className="adminNotice-section">
+					{people.map((person) => {
+						return <Card person={person} key={person._id} />;
+					})}
+				</section>
+			) : (
+				<section className="adminNotice-section">
+					{searchSuggestions.map((search) => {
+						return <Card person={search} key={search._id} />;
+					})}
+				</section>
+			)}
+
 			<Link to="/noticeboard/old-notices">
 				<div className="older-notices">
 					<p className="older-notices-text">View older notices</p>
