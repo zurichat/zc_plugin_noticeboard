@@ -13,10 +13,15 @@ import SearchResult from "./noticeBoardComponent/SearchResult";
 import { UserContext } from '../../Data-fetcing';
 import Centrifuge from "centrifuge";
 import EditNotice from './noticeBoardComponent/EditNotice/EditNotice';
+import { DataContext } from "../../App"
 
 function NoticeBoard() {
 
 	  const {setPeople, setLoading, setIsError} = useContext(UserContext)
+
+
+	  const _globalData = useContext(DataContext);
+	  const org_id = _globalData.Organizations[0];
 
 	  const CentrifugoConnection = () => {
 		const centrifuge = new Centrifuge(
@@ -38,8 +43,7 @@ function NoticeBoard() {
 		  console.log(ctx);
 		  
 		  const fetching = () =>{
-		    fetch(`https://noticeboard.zuri.chat/api/v1/
-			​/organisation​/${org_id}​/notices`)
+		    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`)
 		  .then((res) => {
 		    if (res.status >= 200 && res.status <= 299) {
 		      return res.json();

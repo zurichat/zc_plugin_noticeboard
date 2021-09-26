@@ -4,11 +4,11 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import Centrifuge from "centrifuge";
 import React, { useEffect } from "react";
-import { GetUserInfo } from "@zuri/control";
+// import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from "./Data-fetcing"
 
-/*
-For testing purposes
+
+// For testing purposes
 
 const _globalData = {
   Organizations: ["614679ee1a5607b13c00bcb7"],
@@ -29,45 +29,45 @@ const _globalData = {
   workspaces: null,
   _id: "61496769e4b2aebf8ec8cff1",
 };
-*/
 
-const _globalData = GetUserInfo();
+
+// const _globalData = GetUserInfo();
 
 export const DataContext = React.createContext(_globalData);
 
 function App() {
-  const CentrifugoConnection = () => {
-    const centrifuge = new Centrifuge(
-      "wss://realtime.zuri.chat/connection/websocket",
-      { debug: true }
-    );
+  // const CentrifugoConnection = () => {
+  //   const centrifuge = new Centrifuge(
+  //     "wss://realtime.zuri.chat/connection/websocket",
+  //     { debug: true }
+  //   );
 
-    centrifuge.on("connect", function (ctx) {
-      console.log("connected", ctx);
-    });
+  //   centrifuge.on("connect", function (ctx) {
+  //     console.log("connected", ctx);
+  //   });
 
-    centrifuge.on("disconnect", function (ctx) {
-      console.log("disconnected", ctx);
-    });
+  //   centrifuge.on("disconnect", function (ctx) {
+  //     console.log("disconnected", ctx);
+  //   });
 
-    centrifuge.connect();
+  //   centrifuge.connect();
 
-    centrifuge.subscribe("noticeboard", (ctx) => {
-      //       console.log(ctx.data);
-      //option 1 write function to re-render the component that needs re-rendering
-      //option 2, perform data fetch again
-    });
+  //   centrifuge.subscribe("noticeboard", (ctx) => {
+  //     //       console.log(ctx.data);
+  //     //option 1 write function to re-render the component that needs re-rendering
+  //     //option 2, perform data fetch again
+  //   });
 
-    centrifuge.on("publish", function (ctx) {
-      console.log(ctx);
-    });
-  };
+  //   centrifuge.on("publish", function (ctx) {
+  //     console.log(ctx);
+  //   });
+  // };
 
   //console.log(GetUserInfo());
 
-  useEffect(() => {
-    CentrifugoConnection();
-  });
+  // useEffect(() => {
+  //   CentrifugoConnection();
+  // });
 
   return (
       <Router basename="/noticeboard">

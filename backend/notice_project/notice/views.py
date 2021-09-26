@@ -208,20 +208,15 @@ class ViewNoticeAPI(views.APIView):
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
-        if notice["data"] != None:
-            get_data=notice["data"]
-            reversed_list = get_data[::-1]
-            print(reversed_list)
-            notice.update(data=reversed_list)
-            if notice['status'] == 200:
-                print(notice)
-                return Response(notice, status=status.HTTP_200_OK)
-            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            if notice['status'] == 200:
-                print(notice)
-                return Response(notice, status=status.HTTP_200_OK)
-            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class NoticeDetail(views.APIView):

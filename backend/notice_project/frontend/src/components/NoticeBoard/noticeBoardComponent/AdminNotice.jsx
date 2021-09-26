@@ -19,8 +19,8 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
-    fetch(`https://noticeboard.zuri.chat/api/v1/
-    ​/organisation​/{org_id}​/notices`)
+    console.log(org_id)
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
