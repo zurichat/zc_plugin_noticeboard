@@ -376,7 +376,10 @@ def room_noticeboard_list(request, room_id):
     if request.method == 'GET':
         org_id = request.GET.get('org')
         room_notices_list = db.read("test_noticeboard", org_id, {"room_id": room_id})
-        return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+
+        if room_notices_list["status"] == 200:
+            return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+        return Response({"error": room_notices_list["message"]}, status=room_notices_list["status"])
     
 
 @api_view(['POST'])
