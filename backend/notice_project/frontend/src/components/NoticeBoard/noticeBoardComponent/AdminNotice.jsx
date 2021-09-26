@@ -5,6 +5,7 @@ import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+import { DataContext } from "../../../App";
 import { UserContext } from '../../../Data-fetcing';
 
 const PinnedNotices = (props) => {
@@ -12,6 +13,10 @@ const PinnedNotices = (props) => {
 
   const today = new Date();
   const date = today.getDate();
+
+  // Read Organization ID
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
     fetch(`https://noticeboard.zuri.chat/api/v1/
@@ -45,6 +50,7 @@ const PinnedNotices = (props) => {
     );
   }
 
+  /*
   if (isError) {
     return (
       <div className="preloader">
@@ -58,7 +64,7 @@ const PinnedNotices = (props) => {
         <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
-  }
+  }*/
 
   if (people.length <= 0) {
     return (

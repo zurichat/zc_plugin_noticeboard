@@ -12,6 +12,7 @@ import EmailUnsubscription from "./EmailUnsubscriptionPage/EmailUnsubscription";
 import SearchResult from "./noticeBoardComponent/SearchResult";
 import { UserContext } from '../../Data-fetcing';
 import Centrifuge from "centrifuge";
+import EditNotice from './noticeBoardComponent/EditNotice/EditNotice';
 
 function NoticeBoard() {
 
@@ -81,6 +82,9 @@ function NoticeBoard() {
         <Route exact path="/noticeboard/admin-notice">
           <AdminNotice />
         </Route>
+		<Route exact path="/noticeboard/edit-notice/:currentNoticeID">
+			<EditNotice/>
+		</Route>
         <Route exact path="/noticeboard/user-notice">
           <UserNotice />
         </Route>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 import draftToMarkdown from "draftjs-to-markdown";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
 
@@ -26,10 +26,11 @@ import {
 } from "../Text-editor/Text_editor_features";
 import "../../noticeBoardComponent/Text-editor/Text-editor.css";
 
+import logo from "../../../../assets/svg/logo.svg";
 
 import '../EditNotice/editNotice.css';
 
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     headerText: {
@@ -72,33 +73,34 @@ const useStyles = makeStyles((theme) => ({
 const maxChars = 1000;
 
 const EditNotice = () => {
-    let {currentNoticeID} = useParams();
+    let { currentNoticeID } = useParams();
     const classes = useStyles();
-    const [currentMessage, setCurrentMessage] = useState({});
+    const [oldTitle, setOldTitle] = useState('');
     const [errorTitle, setErrorTitle] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [openErrorDialog, setOpenErrorDialog] = useState(false);
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
-
-    const [editorState, setEditorState] = useState( () => {
-        EditorState.createEmpty();
-    }         
+    const [loading, setLoading] = useState(true);
+    const [editorState, setEditorState] = useState(() => {
+        return EditorState.createEmpty();
+    }
     );
-    
+
     async function getAllNotices() {
         try {
-          let response = await axios.get("https://noticeboard.zuri.chat/api/v1/notices");
-          let result = await response.data;
-          const currentNoticeElement = result.data.find(element => {
-            return element._id == currentNoticeID;
-        })
-         setCurrentMessage(currentNoticeElement);
+            let response = await axios.get("https://noticeboard.zuri.chat/api/v1/notices");
+            let result = await response.data;
+            const currentNoticeElement = result.data.find(element => {
+                return element._id == currentNoticeID;
+            })
+            return currentNoticeElement;
+
         }
         catch (err) {
-          console.log(err);
+            console.log(err);
         }
     }
-    
+
     const handleCloseErrorDialog = () => {
         setOpenErrorDialog(false);
     };
@@ -113,23 +115,23 @@ const EditNotice = () => {
         document.getElementById("messageError").innerHTML = "";
     };
 
-    const onSubmitHandler = async (values,noticeID) => {
-        
+    const onSubmitHandler = async (values, noticeID) => {
+
         if (values.title === '' || setEditorState === '') {
             return (
-              setErrorMessage('Field cannot be empty'),
-              setErrorTitle('Field cannot be empty')
+                setErrorMessage('Field cannot be empty'),
+                setErrorTitle('Field cannot be empty')
             )
         }
-        try{
+        try {
             formik.values.message = draftToMarkdown(
                 convertToRaw(editorState.getCurrentContent())
             );
-            await axios.put(`https://noticeboard.zuri.chat/api/v1/notices/${noticeID}/edit`,{title: formik.values.title, message : formik.values.message});
+            await axios.put(`https://noticeboard.zuri.chat/api/v1/notices/${noticeID}/edit`, { title: formik.values.title, message: formik.values.message });
             return setOpenSuccessDialog(true);
         }
-        catch(err){
-           setOpenErrorDialog(true);
+        catch (err) {
+            setOpenErrorDialog(true);
         }
     }
 
@@ -141,25 +143,39 @@ const EditNotice = () => {
     };
 
     useEffect(() => {
-        getAllNotices();     
-   
+        getAllNotices().then((result) => {
+            const contentState = ContentState.createFromText(result.message);
+            setEditorState(EditorState.createWithContent(contentState));
+            setOldTitle(result.title);
+            setLoading(false);
+
+        });
+
     }, [])
-      
+
 
     const formik = useFormik({
         initialValues: {
             title: "",
-            message: "",
         },
-        onSubmit: (values,actions) => {
-            onSubmitHandler(values,currentNoticeID);
+        onSubmit: (values, actions) => {
+            onSubmitHandler(values, currentNoticeID);
             actions.resetForm({
-                title : "",
-                message: "",
+                title: "",
             })
         },
     });
-    
+
+    if (loading) {
+        return (
+            <div className="preloader">
+                <img className="logo" src={logo} alt="logo" />
+                <h1 className="isLoading">Loading...</h1>
+                <i className="fas fa-spinner fa-spin"></i>
+            </div>
+        )
+    }
+
     return (
         <div className="edit__dashboard-container">
             <Box className={classes.page}>
@@ -168,15 +184,15 @@ const EditNotice = () => {
                         <Box className={classes.headerText}>Edit Notice</Box>
                         <Box>
                             {/* <Hidden mdDown> */}
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    className={classes.button}
-                                    color="primary"
-                                    disableRipple
-                                >
-                                    Save Notice
-                                </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                className={classes.button}
+                                color="primary"
+                                disableRipple
+                            >
+                                Save Notice
+                            </Button>
                             {/* </Hidden> */}
                         </Box>
                     </Box>
@@ -194,11 +210,8 @@ const EditNotice = () => {
                             <TextField
                                 id="title"
                                 name="title"
-                                value= {formik.values.title}
-                                onChange={(e) => {
-                                    formik.handleChange(e);
-                                    setErrorTitle("");
-                                }}
+                                value={formik.values.title || oldTitle }
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder="Enter the subject of your notice"
                                 type="text"
