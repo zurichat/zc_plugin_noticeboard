@@ -376,6 +376,26 @@ class CreateNoticeView(CreateAPIView):
         return Response(notice, status=status.HTTP_201_CREATED)
 
 
+@api_view(['GET'])
+def room_noticeboard_list(request, room_id):
+    if request.method == 'GET':
+        org_id = request.GET.get('org')
+        room_notices_list = db.read("test_noticeboard", org_id, {"room_id": room_id})
+        return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+    
+
+@api_view(['POST'])
+def create_room_view(request):
+    if request.method == 'POST':
+        org_id = request.GET.get('org')
+        user_id = request.GET.get('user')
+
+        serializer = NoticeboardRoom(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        new_room_data = serializer.data
+        new_room_data["member_ids"] = [user_id]
+        db.save("test_noticeboard_room", org_id, new_room_data)
+        return Response(new_room_data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
