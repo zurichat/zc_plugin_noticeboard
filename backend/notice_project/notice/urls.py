@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (install, sidebar, create_room, CreateNewNotices, 
+from .views import (create_room_view, install, room_noticeboard_list, sidebar, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, search, get_room, 
                      ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion,
                      sidebar_info, CreateNoticeView, add_member_to_room
@@ -48,6 +48,10 @@ urlpatterns = [
 
     # newly added due to sidebar task -- start
     path('create-notice', CreateNoticeView.as_view()),
+
+    path('room-noticeboard-list', room_noticeboard_list), 
+
+    path('create-roomview', create_room_view), 
 
     path('add-member', add_member_to_room), 
     # -- stop

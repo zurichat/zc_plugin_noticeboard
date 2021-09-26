@@ -6,10 +6,11 @@ import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
-import { UserContext } from '../../../Data-fetcing';
+import { UserContext } from "../../../Data-fetcing";
 
 const PinnedNotices = (props) => {
-  const {people, setPeople, loading, setLoading, isError, setIsError} = useContext(UserContext)
+  const { people, setPeople, loading, setLoading, isError, setIsError } =
+    useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
@@ -19,7 +20,13 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
+<<<<<<< HEAD
     fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`)
+=======
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+    )
+>>>>>>> e99c532c0e76053c6f9d7be848a02e398085c7c1
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
