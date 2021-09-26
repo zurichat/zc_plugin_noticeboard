@@ -44,7 +44,6 @@ function NoticeBoard() {
 
     centrifuge.subscribe("noticeboard", (ctx) => {
       const message = ctx.data.data;
-      
         setPeople(
           message.filter(
             (notice) => notice.created.substring(8, 10) === date.toString()
@@ -60,9 +59,9 @@ function NoticeBoard() {
     });
   };
 
-//   useEffect(() => {
-//     CentrifugoConnection();
-//   }, []);
+  useEffect(() => {
+    CentrifugoConnection();
+  }, []);
 
   return (
     <div className="notice">
