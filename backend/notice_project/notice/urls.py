@@ -49,7 +49,7 @@ urlpatterns = [
     # newly added due to sidebar task -- start
     path('create-notice', CreateNoticeView.as_view()),
 
-    path('room-noticeboard-list', room_noticeboard_list), 
+    path('noticeboard/<str:room_id>', room_noticeboard_list), 
 
     path('create-roomview', create_room_view), 
 
