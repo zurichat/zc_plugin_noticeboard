@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,8 +11,6 @@ import draftToMarkdown from "draftjs-to-markdown";
 import { EditorState, convertToRaw, convertFromRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
-
-import axios from "axios";
 import { useFormik } from "formik";
 
 import imageIcon from "../Text-editor/icons/attachment.svg";
@@ -32,6 +30,7 @@ import logo from "../../../../assets/svg/logo.svg";
 import '../EditNotice/editNotice.css';
 
 import { useParams } from 'react-router-dom';
+import { UserContext } from "../../../../Data-fetcing";
 
 const useStyles = makeStyles((theme) => ({
     headerText: {
@@ -89,22 +88,7 @@ const EditNotice = () => {
 
     const _globalData = useContext(DataContext);
     const org_id = _globalData.Organizations[0];
-
-    async function getAllNotices() {
-        
-        try {
-            let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices`);
-            let result = await response.data;
-            const currentNoticeElement = result.data.find(element => {
-                return element._id == currentNoticeID;
-            })
-            return currentNoticeElement;
-
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
+    const {selectedNotice} = useContext(UserContext);
 
     const handleCloseErrorDialog = () => {
         setOpenErrorDialog(false);
@@ -119,20 +103,46 @@ const EditNotice = () => {
         setErrorMessage("");
         document.getElementById("messageError").innerHTML = "";
     };
+    const orgId = "614679ee1a5607b13c00bcb7";
+    const onSubmitHandler = async ( values, noticeID) => {
+        console.log(values, "values")
+        console.log(formik)
+        console.log(noticeID, selectedNotice._id, "ids")
 
-    const onSubmitHandler = async (values, noticeID) => {
-
-        if (values.title === '' || setEditorState === '') {
+        if (formik.values.title === '') {
             return (
                 setErrorMessage('Field cannot be empty'),
                 setErrorTitle('Field cannot be empty')
             )
         }
+        setLoading(true)
         try {
             formik.values.message = draftToMarkdown(
                 convertToRaw(editorState.getCurrentContent())
             );
-            await axios.put(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeID}/edit`, { title: formik.values.title, message: formik.values.message });
+             const formValues = {
+                 title: values.title,
+                message: values.message 
+                }
+
+               
+            fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${selectedNotice._id}/edit`, {
+                headers: { 'Content-Type': 'application/json'},
+                method: 'PUT',
+                 body: JSON.stringify(formValues)
+             }).then((res) => {
+                 
+                if (res.status >= 200 && res.status <= 299){
+                    
+                    setTimeout(() => {
+                        history.push("/noticeboard/admin-notice");
+                        window.location.reload();
+                      }, 2000);
+                      setLoading(false)
+
+                }
+                 
+             })
             return setOpenSuccessDialog(true);
         }
         catch (err) {
@@ -147,15 +157,11 @@ const EditNotice = () => {
         }
     };
 
-    useEffect(() => {
-        getAllNotices().then((result) => {
-            const contentState = ContentState.createFromText(result.message);
-            setEditorState(EditorState.createWithContent(contentState));
-            setOldTitle(result.title);
-            setLoading(false);
-
-        });
-
+    useEffect( () => {
+    setLoading(false);
+    setOldTitle(selectedNotice.title);
+     const contentState = ContentState.createFromText(selectedNotice?.message);
+    setEditorState(EditorState.createWithContent(contentState));
     }, [])
 
 
