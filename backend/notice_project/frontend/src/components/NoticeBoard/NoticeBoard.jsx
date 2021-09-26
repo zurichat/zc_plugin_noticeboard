@@ -48,7 +48,6 @@ function NoticeBoard() {
           message.filter(
             (notice) => notice.created.substring(8, 10) === date.toString()
           )
-        
       );
 
       console.log(message);

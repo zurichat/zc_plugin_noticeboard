@@ -37,8 +37,9 @@ const PinnedNotices = (props) => {
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
-	
-  }, []);
+    }, 5000);
+	}, [people]);
+
 
 	if (loading) {
 		return (
