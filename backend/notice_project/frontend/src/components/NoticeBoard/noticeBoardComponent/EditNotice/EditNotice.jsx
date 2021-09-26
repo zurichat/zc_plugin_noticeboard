@@ -28,7 +28,7 @@ import "../../noticeBoardComponent/Text-editor/Text-editor.css";
 import logo from "../../../../assets/svg/logo.svg";
 
 import '../EditNotice/editNotice.css';
-
+import { useHistory } from "react-router";
 import { useParams } from 'react-router-dom';
 import { UserContext } from "../../../../Data-fetcing";
 
@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 const maxChars = 1000;
 
 const EditNotice = () => {
+    const history = useHistory();
     let { currentNoticeID } = useParams();
     const classes = useStyles();
     const [oldTitle, setOldTitle] = useState('');
@@ -105,9 +106,6 @@ const EditNotice = () => {
     };
     const orgId = "614679ee1a5607b13c00bcb7";
     const onSubmitHandler = async ( values, noticeID) => {
-        console.log(values, "values")
-        console.log(formik)
-        console.log(noticeID, selectedNotice._id, "ids")
 
         if (formik.values.title === '') {
             return (
@@ -133,14 +131,14 @@ const EditNotice = () => {
              }).then((res) => {
                  
                 if (res.status >= 200 && res.status <= 299){
-                    
-                    setTimeout(() => {
+                  
+                   setTimeout(() => {
+                        
                         history.push("/noticeboard/admin-notice");
-                        window.location.reload();
-                      }, 2000);
+                       }, 2000);
                       setLoading(false)
 
-                }
+            }
                  
              })
             return setOpenSuccessDialog(true);
@@ -161,6 +159,7 @@ const EditNotice = () => {
     setLoading(false);
     setOldTitle(selectedNotice.title);
      const contentState = ContentState.createFromText(selectedNotice?.message);
+     console.log(contentState, "contetn");
     setEditorState(EditorState.createWithContent(contentState));
     }, [])
 
