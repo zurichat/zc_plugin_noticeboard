@@ -9,6 +9,6 @@ def user_rooms(org_id, user_id):
         if all_org_rooms:
             for room in all_org_rooms:
                 if user_id in room["member_ids"]:
-                    user_rooms.append({"room_name": room["title"], "room_url": f"noticeboard/{room['_id']}", "room_image": room["icon"]})
+                    user_rooms.append({"room_name": room["title"], "room_url": f"https://noticeboard.zuri.chat/api/v1/noticeboard/{room['_id']}", "room_image": room["icon"]})
             return user_rooms
         return user_rooms
