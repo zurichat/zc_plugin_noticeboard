@@ -20,3 +20,6 @@ class UnsubscribeSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     user_id = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now())
+
+class AddMemberToRoom(serializers.Serializer):
+    member_id = serializers.CharField(max_length=24)

@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+import { DataContext } from "../../../App";
+import { UserContext } from '../../../Data-fetcing';
 
 const PinnedNotices = (props) => {
-  const [people, setPeople] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const {people, setPeople, loading, setLoading, isError, setIsError} = useContext(UserContext)
 
   const today = new Date();
   const date = today.getDate();
 
+  // Read Organization ID
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+
   useEffect(() => {
-    fetch("https://noticeboard.zuri.chat/api/v1/notices")
+    console.log(org_id)
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
@@ -45,6 +50,7 @@ const PinnedNotices = (props) => {
     );
   }
 
+  /*
   if (isError) {
     return (
       <div className="preloader">
@@ -58,7 +64,7 @@ const PinnedNotices = (props) => {
         <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
-  }
+  }*/
 
   if (people.length <= 0) {
     return (

@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./UserIntro.css";
 import defaultEdit from "./default.svg";
-import { IntroButtonStyles } from "./styledComponents/IntroButtonStyles";
 import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
 import Illustration from "../../../../assets/Illustration.svg";
 
