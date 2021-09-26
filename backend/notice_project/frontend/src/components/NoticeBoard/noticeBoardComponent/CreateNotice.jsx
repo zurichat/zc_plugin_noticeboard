@@ -107,6 +107,7 @@ function CreateNotice() {
     baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
 
+
   const onSubmitHandler = async (values) => {
     if (isChecked) {
       fetch(
@@ -129,7 +130,7 @@ function CreateNotice() {
     }
 
     try {
-      const res = await api.post("/create", request);
+      const res = await api.post(`organisation​/${org_id}/create`, request);
       //Return input field to blank
       values.title = "";
       setEditorState("");
