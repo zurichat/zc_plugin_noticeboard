@@ -99,7 +99,6 @@ class CreateNewNotices(views.APIView):
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         
-        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
@@ -109,7 +108,9 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            db.post_to_centrifugo(serializer.data)
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -123,6 +124,11 @@ class UpdateNoticeAPIView(views.APIView):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+
             return Response(
                 {
                     "success": True,
@@ -189,6 +195,11 @@ class DeleteNotice(views.APIView):
                 org_id=org_id,
                 object_id=object_id
             )
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+            
             return Response(
                 {
                     "success": True,
