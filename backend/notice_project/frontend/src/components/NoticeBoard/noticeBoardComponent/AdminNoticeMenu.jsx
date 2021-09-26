@@ -60,9 +60,6 @@ function AdminMenu({ noticeID }) {
   }
 
 
-
-
-
   const fetching = () => {
     fetch(
   `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
@@ -77,13 +74,14 @@ function AdminMenu({ noticeID }) {
       })
       .then((data) => {
         setNoticeList(data.data);
-        console.log(data)
+        console.log(data, "heredata")
       })
       .catch((error) => console.log(error));
   };
 
   const editNotice = (noticeID) => {
-    
+    fetching();
+      console.log(noticeList)
     const currentNoticeID = noticeList?.find(element => {
       return element._id == noticeID;
     })
@@ -101,15 +99,6 @@ function AdminMenu({ noticeID }) {
       editNotice(noticeID);
     }
   };
-
-  // useEffect(() => {
-  //   fetching();
-
-  // }, [noticeID])
-  // useEffect(() => {
-  //   fetching();
-
-  // }, [])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -130,7 +119,6 @@ function AdminMenu({ noticeID }) {
   const closeMenu = () => {
     setAnchorEl(false);
   };
-
 
 
   const deleteNotice = (noticeId) => {
