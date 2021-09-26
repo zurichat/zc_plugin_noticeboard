@@ -8,28 +8,39 @@ import axios from "axios";
 
 const EmailUnsubscription = () => {
   const [subscribed, setSubscribed] = useState(true);
-  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const { userId, orgId } = useParams();
   const history = useHistory();
+
   const handleNo = () => {
     history.go(-1);
-    console.log("no", id);
   };
 
   const handleYes = (e) => {
     e.preventDefault();
-    const data = {
-      email: "franklin@gmail.com",
-      user_id: id,
-    };
+    setLoading(true);
+
     axios
-      .post(`https://noticeboard.zuri.chat/api/v1/unsubscribe?org=${id}`, data)
-      .then((response) => {
-        console.log("yes", response);
-        setSubscribed(false);
+      .get(`https://api.zuri.chat/organizations/${orgId}/members`)
+      .then((res) => {
+        const result = res.data.data.filter((data) => data._id === userId)[0];
+        return axios
+          .post(
+            `https://noticeboard.zuri.chat/api/v1/unsubscribe?org=${orgId}`,
+            {
+              email: result.email,
+              user_id: result._id,
+            }
+          )
+          .then((res) => {
+            if (res.data.Message === "You have successfully Unsubscribed") {
+              setLoading(true);
+              setSubscribed(false);
+            }
+          })
+          .catch((err) => console.log(err));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
   return (
     <div className="unsubscribe">
@@ -37,14 +48,11 @@ const EmailUnsubscription = () => {
         {subscribed ? (
           <div className="content">
             <div className="header">
-              <h1>Notice Board Plugin</h1>
-              <div>
-                <img src={zuri} alt="" height="30px" width="auto" />
-              </div>
+              <img src={zuri} alt="zuri_logo" height="30px" width="auto" />
             </div>
 
             <div>
-              <p className="big">Unsubscribe</p>
+              <p className="big">Unsubscribe from Notice Board Emails</p>
               <p>We are sorry to see you go!</p>
             </div>
 
@@ -54,15 +62,18 @@ const EmailUnsubscription = () => {
 
             <div>
               <p>
-                Are you sure you want to unsubscribe from all zuri notice board
-                emails?
+                Are you sure you want to unsubscribe from Zuri notice board new
+                notice emails?
               </p>
             </div>
 
-            <div className="btn">
-              <button onClick={handleNo}>No</button>
-              <button onClick={handleYes}>Yes</button>
-            </div>
+            {loading && <button disabled>Unsubscribing</button>}
+            {!loading && (
+              <div className="btn">
+                <button onClick={handleNo}>No</button>
+                <button onClick={handleYes}>Yes</button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="unsubscribed">
