@@ -138,11 +138,11 @@ function AdminMenu({ noticeID }) {
       .then(()=>{
         setLoader(true)
       })
-      
-      
-      
+
     handleClose();
     console.log(noticeId);
+
+    
   };
 
   return (
