@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (create_room_view, install, room_noticeboard_list, sidebar, create_room, CreateNewNotices, 
-                     UpdateNoticeAPIView, DeleteNotice, search, get_room, 
+                     UpdateNoticeAPIView, DeleteNotice, get_room, 
                      ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion,
                      sidebar_info, CreateNoticeView, add_member_to_room
                      )
@@ -33,8 +33,6 @@ urlpatterns = [
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
-
-    path('organisation/<str:org_id>/search', search.as_view()),
 
     path('get-room', get_room),
     
