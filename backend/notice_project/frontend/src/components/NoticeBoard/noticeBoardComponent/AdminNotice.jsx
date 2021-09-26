@@ -22,7 +22,6 @@ const PinnedNotices = (props) => {
 	const org_id = _globalData.Organizations[0];
 
 	useEffect(() => {
-		setTimeout(() => {
       fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
 			.then((res) => {
 				if (res.status >= 200 && res.status <= 299) {
@@ -38,8 +37,8 @@ const PinnedNotices = (props) => {
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
-    }, 5000);
-	}, []);
+	
+  }, []);
 
 	if (loading) {
 		return (

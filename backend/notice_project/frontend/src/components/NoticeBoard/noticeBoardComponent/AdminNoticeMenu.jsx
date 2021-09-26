@@ -106,6 +106,7 @@ function AdminMenu({ noticeID }) {
     fetching();
 
   }, [noticeID])
+  
   useEffect(() => {
     fetching();
 
