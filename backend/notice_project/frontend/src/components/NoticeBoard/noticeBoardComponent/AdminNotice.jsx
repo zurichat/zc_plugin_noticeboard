@@ -7,12 +7,9 @@ import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
-import { SearchContext } from "../../../noticeContext";
 
 const PinnedNotices = (props) => {
-	const { people, setPeople, loading, setLoading, isError, setIsError } = useContext(UserContext);
-	const [searchSuggestions, setSearchSuggestions] = useContext(SearchContext);
-	const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
+	const { people, setPeople, loading, setLoading, isError, setIsError, searchText, filteredNotice } = useContext(UserContext);
 
 	const today = new Date();
 	const date = today.getDate();
@@ -22,7 +19,7 @@ const PinnedNotices = (props) => {
 	const org_id = _globalData.Organizations[0];
 
 	useEffect(() => {
-      fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
+		fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
 			.then((res) => {
 				if (res.status >= 200 && res.status <= 299) {
 					return res.json();
@@ -39,7 +36,6 @@ const PinnedNotices = (props) => {
 			.catch((error) => console.log(error));
 	}, []);
 
-
 	if (loading) {
 		return (
 			<div className="preloader">
@@ -50,20 +46,17 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-  if (isError) {
-    return (
-      <div className="preloader">
-        <img className="logo" src={logo} alt="logo" />
-        <h1
-          className="isError"
-          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
-        >
-          Error. Try refreshing your browser
-        </h1>
-        <i className="fas fa-spinner fa-spin"></i>
-      </div>
-    );
-  }
+	if (isError) {
+		return (
+			<div className="preloader">
+				<img className="logo" src={logo} alt="logo" />
+				<h1 className="isError" style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}>
+					Error. Try refreshing your browser
+				</h1>
+				<i className="fas fa-spinner fa-spin"></i>
+			</div>
+		);
+	}
 
 	if (people?.length <= 0) {
 		return (
@@ -95,34 +88,6 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-	if (searchSuggestions.length > 0) {
-		return (
-			<div className="adminnotice">
-				<div className="pinned-button-container">
-					<div className="pin-text">
-						<p className="text">Notices</p>
-					</div>
-					<Button className="header-button" onClick={() => props.history.push("/noticeboard/create-notice")} variant="contained" disableRipple>
-						Create Notice <img src={notice} alt="create notice" />
-					</Button>
-				</div>
-
-				<section className="adminNotice-section">
-					{searchSuggestions.map((search) => {
-						return <Card person={search} key={search._id} />;
-					})}
-					{console.log(searchSuggestions)}
-				</section>
-
-				<Link to="/noticeboard/old-notices">
-					<div className="older-notices">
-						<p className="older-notices-text">View older notices</p>
-					</div>
-				</Link>
-			</div>
-		);
-	}
-
 	return (
 		<div className="adminnotice">
 			<div className="pinned-button-container">
@@ -136,9 +101,13 @@ const PinnedNotices = (props) => {
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
 			<section className="adminNotice-section">
-				{people?.map((person) => {
-					return <Card person={person} key={person._id} />;
-				})}
+				{searchText
+					? filteredNotice?.map((person) => {
+							return <Card person={person} key={person._id} />;
+					  })
+					: people?.map((person) => {
+							return <Card person={person} key={person._id} />;
+					  })}
 			</section>
 
 			<Link to="/noticeboard/old-notices">
