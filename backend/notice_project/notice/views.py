@@ -348,7 +348,7 @@ def sidebar_info(request):
             "public_rooms": [],
             "joined_rooms": user_rooms(org_id, user_id)
         }
-        return JsonResponse(sidebar)
+        return Response(sidebar)
     return Response({"message": "org id or user id is None"}, status=status.HTTP_400_BAD_REQUEST)
 
 
