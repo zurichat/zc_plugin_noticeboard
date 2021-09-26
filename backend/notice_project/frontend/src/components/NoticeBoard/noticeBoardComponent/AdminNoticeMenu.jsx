@@ -55,7 +55,7 @@ function AdminMenu({ noticeID }) {
     setLoader(true)
     setTimeout(() =>{
       setToast(true)
-  },5000)
+  },4000)
    
   }
 
@@ -134,13 +134,11 @@ function AdminMenu({ noticeID }) {
     ).then(
         (response) => {
           console.log(response);
-          console.log(noticeId)
         }).catch((error) => {
           console.log(error);
         }
       )
     handleClose();
-    console.log(noticeId);
   };
 
   return (
