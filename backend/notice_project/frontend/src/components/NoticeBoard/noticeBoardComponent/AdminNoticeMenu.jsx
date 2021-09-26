@@ -77,7 +77,7 @@ function AdminMenu({ noticeID }) {
       })
       .then((data) => {
         setNoticeList(data.data);
-        console.log(data)
+        // console.log(data)
       })
       .catch((error) => console.log(error));
   };
