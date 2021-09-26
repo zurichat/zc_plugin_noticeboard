@@ -102,7 +102,7 @@ function AdminMenu({ noticeID }) {
   const deleteNotice = (noticeId) => {
 
     axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
+      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
       .then(
         (response) => {
           console.log(response);
