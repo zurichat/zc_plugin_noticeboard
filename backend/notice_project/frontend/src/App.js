@@ -8,7 +8,6 @@ import { GetUserInfo } from "@zuri/control";
 
 /*
 For testing purposes
-
 const _globalData = {
   Organizations: ["614679ee1a5607b13c00bcb7"],
   created_at: "2021-09-21T07:02:33.998839808+02:00",
@@ -79,13 +78,8 @@ function App() {
             </span>
           </div>
         </div>
-<<<<<<< HEAD
       </Router>
     </DataContext.Provider>
-=======
-      </UserProvider>
-    </Router>
->>>>>>> 723fcdfa81bd96ba205dd6c6fe5eee9224a17471
   );
 }
 
