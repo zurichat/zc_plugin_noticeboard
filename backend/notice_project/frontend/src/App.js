@@ -61,7 +61,7 @@ function App() {
 	//   });
 	// };
 
-	//console.log(GetUserInfo());
+	// // console.log(GetUserInfo());
 
 	// useEffect(() => {
 	//   CentrifugoConnection();

@@ -29,6 +29,8 @@ function NoticeBoard() {
       "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
     );
+    const today = new Date();
+    const date = today.getDate();
 
     centrifuge.on("connect", function (ctx) {
       console.log("connected", ctx);
@@ -41,10 +43,14 @@ function NoticeBoard() {
     centrifuge.connect();
 
     centrifuge.subscribe("noticeboard", (ctx) => {
-	const message = ctx.data.data
-	setPeople(
-		setPeople(message.filter((notice) => notice.created.substring(8, 10) === date.toString()))
-	)
+      const message = ctx.data.data;
+      setPeople(
+        setPeople(
+          message.filter(
+            (notice) => notice.created.substring(8, 10) === date.toString()
+          )
+        )
+      );
 
       console.log(message);
     });
