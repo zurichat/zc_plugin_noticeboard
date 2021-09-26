@@ -99,7 +99,7 @@ function CreateNotice() {
   const onSubmitHandler = async (values) => {
 
       if (isChecked){
-        fetch('http://localhost:8000/api/v1/sendemail?sendemail={should_send}&org={org_id}')
+        fetch('http://noticeboard.zuri.chat/api/v1/sendemail?sendemail={should_send}&org={org_id}')
       }
     
     values.message = draftToMarkdown(
