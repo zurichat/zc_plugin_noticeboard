@@ -37,8 +37,7 @@ const PinnedNotices = (props) => {
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
-    }, 5000);
-	}, [people]);
+	}, []);
 
 
 	if (loading) {
@@ -137,7 +136,7 @@ const PinnedNotices = (props) => {
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
 			<section className="adminNotice-section">
-				{people?.map((person) => {
+				{people?.reverse().map((person) => {
 					return <Card person={person} key={person._id} />;
 				})}
 			</section>
