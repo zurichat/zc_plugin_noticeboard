@@ -101,17 +101,15 @@ function CreateNotice() {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-
   //CREATE NOTICE API CALL STARTS
   const api = axios.create({
     baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
 
-
   const onSubmitHandler = async (values) => {
     if (isChecked) {
       fetch(
-        "http://localhost:8000/api/v1/sendemail?sendemail={should_send}&org={org_id}"
+        "http://localhost:8000/api/v1/sendemail?sendemail={should_send}&org=614679ee1a5607b13c00bcb7"
       );
     }
 
@@ -130,7 +128,10 @@ function CreateNotice() {
     }
 
     try {
-      const res = await api.post(`organisation​/${org_id}/create`, request);
+      const res = await api.post(
+        `organisation​/614679ee1a5607b13c00bcb7/create`,
+        request
+      );
       //Return input field to blank
       values.title = "";
       setEditorState("");
