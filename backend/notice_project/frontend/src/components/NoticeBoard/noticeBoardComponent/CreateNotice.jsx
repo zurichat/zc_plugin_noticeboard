@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import TextField from "@material-ui/core/TextField";
 import draftToMarkdown from "draftjs-to-markdown";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import { Formik } from "formik";
 import { EditorState, convertToRaw } from "draft-js";
@@ -19,6 +20,8 @@ import {
 } from "./Text-editor/Text_editor_features";
 import "../noticeBoardComponent/Text-editor/Text-editor.css";
 import "./CreateNotice.css";
+
+import { DataContext } from "../../../App";
 
 const useStyles = makeStyles((theme) => ({
   headerText: {
@@ -56,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
   },
+  buttonSubmit: {
+    color: "white",
+  },
 }));
 
 const initialValues = {
@@ -72,6 +78,7 @@ function CreateNotice() {
   const [errorMessage, setErrorMessage] = useState("");
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -90,12 +97,22 @@ function CreateNotice() {
     document.getElementById("messageError").innerHTML = "";
   };
 
+  // Read Organization ID
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+
   //CREATE NOTICE API CALL STARTS
   const api = axios.create({
     baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
 
   const onSubmitHandler = async (values) => {
+    if (isChecked) {
+      fetch(
+        "http://localhost:8000/api/v1/sendemail?sendemail={should_send}&org=614679ee1a5607b13c00bcb7"
+      );
+    }
+
     values.message = draftToMarkdown(
       convertToRaw(editorState.getCurrentContent())
     );
@@ -111,7 +128,10 @@ function CreateNotice() {
     }
 
     try {
-      const res = await api.post("/create", request);
+      const res = await api.post(
+        `organisation​/614679ee1a5607b13c00bcb7/create`,
+        request
+      );
       //Return input field to blank
       values.title = "";
       setEditorState("");
@@ -145,11 +165,23 @@ function CreateNotice() {
     <div className="dashboard-container">
       <Box className={classes.page}>
         <Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
-          {({ handleChange, handleSubmit, handleBlur, values }) => (
+          {({
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            values,
+            isSubmitting,
+          }) => (
             <form onSubmit={handleSubmit}>
               <Box className={classes.header}>
                 <Box className={classes.headerText}>Create Notice</Box>
-                <Box>
+                <Box
+                  display="flex"
+                  margin="0 auto"
+                  flexDirection="column"
+                  width="fit-content"
+                  justifyContent="center"
+                >
                   <Hidden mdDown>
                     <Button
                       type="submit"
@@ -158,8 +190,23 @@ function CreateNotice() {
                       color="primary"
                       disableRipple
                     >
-                      Publish Notice
+                      {isSubmitting ? (
+                        <CircularProgress className={classes.buttonSubmit} />
+                      ) : (
+                        "Publish Notice"
+                      )}
                     </Button>
+                    <br />
+                    <p>
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={(e) =>
+                          setIsChecked((prevIsChecked) => !prevIsChecked)
+                        }
+                      />
+                      &nbsp; Notify Members Via Email
+                    </p>
                   </Hidden>
                 </Box>
               </Box>
@@ -273,7 +320,15 @@ function CreateNotice() {
                 </p>
               </Box>
               <Hidden lgUp>
-                <Box pt="20px" pb="30px" display="flex" justifyContent="center">
+                <Box
+                  pt="20px"
+                  pb="30px"
+                  display="flex"
+                  margin="0 auto"
+                  flexDirection="column"
+                  width="fit-content"
+                  justifyContent="center"
+                >
                   <Button
                     type="submit"
                     variant="contained"
@@ -281,8 +336,23 @@ function CreateNotice() {
                     color="primary"
                     disableRipple
                   >
-                    Publish Notice
+                    {isSubmitting ? (
+                      <CircularProgress className={classes.buttonSubmit} />
+                    ) : (
+                      "Publish Notice"
+                    )}
                   </Button>
+                  <br />
+                  <p>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={(e) =>
+                        setIsChecked((prevIsChecked) => !prevIsChecked)
+                      }
+                    />
+                    &nbsp; Notify Members Via Email
+                  </p>
                 </Box>
               </Hidden>
             </form>

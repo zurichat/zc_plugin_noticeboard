@@ -5,20 +5,24 @@ import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
+import { DataContext } from "../../../App";
+import { UserContext } from "../../../Data-fetcing";
 import { SearchContext } from "../../../noticeContext";
 
 const PinnedNotices = (props) => {
-	const [people, setPeople] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [isError, setIsError] = useState(false);
+	const { people, setPeople, loading, setLoading, isError, setIsError } = useContext(UserContext);
 	const [searchSuggestions, setSearchSuggestions] = useContext(SearchContext);
 	const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
 
 	const today = new Date();
 	const date = today.getDate();
 
+	// Read Organization ID
+	const _globalData = useContext(DataContext);
+	const org_id = _globalData.Organizations[0];
+
 	useEffect(() => {
-		fetch("https://noticeboard.zuri.chat/api/v1/notices")
+		fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
 			.then((res) => {
 				if (res.status >= 200 && res.status <= 299) {
 					return res.json();
@@ -44,17 +48,21 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-	if (isError) {
-		return (
-			<div className="preloader">
-				<img className="logo" src={logo} alt="logo" />
-				<h1 className="isError" style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}>
-					Error. Try refreshing your browser
-				</h1>
-				<i className="fas fa-spinner fa-spin"></i>
-			</div>
-		);
-	}
+	/*
+  if (isError) {
+    return (
+      <div className="preloader">
+        <img className="logo" src={logo} alt="logo" />
+        <h1
+          className="isError"
+          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
+        >
+          Error. Try refreshing your browser
+        </h1>
+        <i className="fas fa-spinner fa-spin"></i>
+      </div>
+    );
+  }*/
 
 	if (people.length <= 0 && searchSuggestions.length <= 0) {
 		return (

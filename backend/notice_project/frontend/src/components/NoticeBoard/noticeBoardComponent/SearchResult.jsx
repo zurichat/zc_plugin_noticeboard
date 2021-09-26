@@ -26,6 +26,7 @@ function SearchResult() {
 		setNotice(userData);
 		setOpenModal(true);
 	};
+	
 
 	return (
 		<div className="user-notice" id="user-notice">
