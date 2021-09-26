@@ -82,6 +82,7 @@ const EditNotice = () => {
     const [openErrorDialog, setOpenErrorDialog] = useState(false);
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [type, setType] = useState(false)
     const [editorState, setEditorState] = useState(() => {
         return EditorState.createEmpty();
     }
@@ -141,7 +142,8 @@ const EditNotice = () => {
             }
                  
              })
-            return setOpenSuccessDialog(true);
+             setType(true);
+             setOpenSuccessDialog(true);
         }
         catch (err) {
             setOpenErrorDialog(true);
@@ -318,9 +320,10 @@ const EditNotice = () => {
                 open={openErrorDialog}
                 handleClose={handleCloseErrorDialog}
             />
-            <SuccessDialog
+             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleCloseSuccessDialog}
+                type={type}
             />
         </div>
     );
