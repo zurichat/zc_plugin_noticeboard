@@ -28,8 +28,8 @@ import { UserContext } from "../../../Data-fetcing";
 
 function AdminMenu({ noticeID }) {
   const menu = [
-    { icon: EditIcon, linkText: "Edit notice" },
-    { icon: DeleteIcon, linkText: "Delete notice" },
+    { icon: EditIcon, linkText: "Edit notice", id:"1"},
+    { icon: DeleteIcon, linkText: "Delete notice", id:"2" },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -55,12 +55,9 @@ function AdminMenu({ noticeID }) {
     setLoader(true)
     setTimeout(() =>{
       setToast(true)
-  },5000)
+  },4000)
    
   }
-
-
-
 
 
   const fetching = () => {
@@ -77,12 +74,14 @@ function AdminMenu({ noticeID }) {
       })
       .then((data) => {
         setNoticeList(data.data);
-        console.log(data)
+        console.log(data, "heredata")
       })
       .catch((error) => console.log(error));
   };
 
   const editNotice = (noticeID) => {
+    fetching();
+      console.log(noticeList)
     const currentNoticeID = noticeList?.find(element => {
       return element._id == noticeID;
     })
@@ -93,23 +92,14 @@ function AdminMenu({ noticeID }) {
   }
 
   const handleMenuButton = (e) => {
-    const target = e.target;
-    if (target.innerHTML === "Delete notice") {
+    const target = e.currentTarget;
+    if (target.id === "2") {
       handleOpen();
     }
     else {
       editNotice(noticeID);
     }
   };
-
-  useEffect(() => {
-    fetching();
-
-  }, [noticeID])
-  useEffect(() => {
-    fetching();
-
-  }, [])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -132,24 +122,24 @@ function AdminMenu({ noticeID }) {
   };
 
 
-
   const deleteNotice = (noticeId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
 
-    axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
-      .then(
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`, 
+    options
+    ).then(
         (response) => {
           console.log(response);
-          console.log(noticeId)
-        },
-        (error) => {
+        }).catch((error) => {
           console.log(error);
         }
       )
     handleClose();
-    console.log(noticeId);
-
-
   };
 
   return (
@@ -181,20 +171,22 @@ function AdminMenu({ noticeID }) {
           horizontal: "right",
         }}
       >
-        {menu.map(({ icon, linkText }) => (
+        {menu.map(({ icon, linkText, id }) => (
           <MenuItem
             key={linkText}
             onClick={closeMenu}
             className="overrideHeight"
             disableRipple
           >
-            <div style={AdminMenuStyle}>
+            <div style={AdminMenuStyle}
+                  onClick={handleMenuButton}
+                  key={id}
+            >
               <img src={icon} alt={linkText} style={MenuIconStyle} />
               <span
                 style={{
                   color: "#999999",
                 }}
-                onClick={handleMenuButton}
               >
                 {linkText}
               </span>
