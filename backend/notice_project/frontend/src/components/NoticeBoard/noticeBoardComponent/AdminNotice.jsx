@@ -19,8 +19,7 @@ const PinnedNotices = (props) => {
 	const org_id = _globalData.Organizations[0];
 
 	useEffect(() => {
-		setTimeout(() => {
-      fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
+		fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`)
 			.then((res) => {
 				if (res.status >= 200 && res.status <= 299) {
 					return res.json();
@@ -35,7 +34,6 @@ const PinnedNotices = (props) => {
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
-    }, 5000);
 	}, []);
 
 	if (loading) {
@@ -48,22 +46,19 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-  if (isError) {
-    return (
-      <div className="preloader">
-        <img className="logo" src={logo} alt="logo" />
-        <h1
-          className="isError"
-          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
-        >
-          Error. Try refreshing your browser
-        </h1>
-        <i className="fas fa-spinner fa-spin"></i>
-      </div>
-    );
-  }
+	if (isError) {
+		return (
+			<div className="preloader">
+				<img className="logo" src={logo} alt="logo" />
+				<h1 className="isError" style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}>
+					Error. Try refreshing your browser
+				</h1>
+				<i className="fas fa-spinner fa-spin"></i>
+			</div>
+		);
+	}
 
-	if (people.length <= 0) {
+	if (people?.length <= 0) {
 		return (
 			<div className="adminnotice">
 				<div className="pinned-button-container">
@@ -106,13 +101,9 @@ const PinnedNotices = (props) => {
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
 			<section className="adminNotice-section">
-				{searchText
-					? filteredNotice?.map((person) => {
-							return <Card person={person} key={person._id} />;
-					  })
-					: people.map((person) => {
-							return <Card person={person} key={person._id} />;
-					  })}
+				{people?.map((person) => {
+					return <Card person={person} key={person._id} />;
+				})}
 			</section>
 
 			<Link to="/noticeboard/old-notices">
