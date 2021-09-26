@@ -134,15 +134,20 @@ function AdminMenu({ noticeID }) {
 
 
   const deleteNotice = (noticeId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
 
-    axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
-      .then(
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`, 
+    options
+    ).then(
         (response) => {
           console.log(response);
           console.log(noticeId)
-        },
-        (error) => {
+        }).catch((error) => {
           console.log(error);
         }
       )
