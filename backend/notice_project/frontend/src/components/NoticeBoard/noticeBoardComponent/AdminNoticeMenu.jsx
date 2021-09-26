@@ -83,10 +83,10 @@ function AdminMenu({ noticeID }) {
   };
 
   const editNotice = (noticeID) => {
-    
     const currentNoticeID = noticeList?.find(element => {
       return element._id == noticeID;
     })
+
     console.log(currentNoticeID, "here")
     setSelectedNotice(currentNoticeID)
     history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);

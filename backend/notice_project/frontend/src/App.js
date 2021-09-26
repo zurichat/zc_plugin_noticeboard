@@ -4,7 +4,7 @@ import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 // import Centrifuge from "centrifuge";
 import React, { useEffect } from "react";
-import { GetUserInfo } from "@zuri/control";
+// import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
 
@@ -62,7 +62,7 @@ function App() {
     });
   };
 
-  console.log(GetUserInfo());
+  // console.log(GetUserInfo());
 
   useEffect(() => {
     CentrifugoConnection();
