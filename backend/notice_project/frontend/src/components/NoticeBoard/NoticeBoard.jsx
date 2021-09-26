@@ -26,6 +26,8 @@ function NoticeBoard() {
       "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
     );
+    const today = new Date();
+    const date = today.getDate();
 
     centrifuge.on("connect", function (ctx) {
       console.log("connected", ctx);
@@ -38,35 +40,16 @@ function NoticeBoard() {
     centrifuge.connect();
 
     centrifuge.subscribe("noticeboard", (ctx) => {
-      const fetching = () => {
-		const today = new Date();
-		const date = today.getDate();
-		
-        fetch(
-			`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+      const message = ctx.data.data;
+      setPeople(
+        setPeople(
+          message.filter(
+            (notice) => notice.created.substring(8, 10) === date.toString()
+          )
         )
-        .then((res) => {
-            if (res.status >= 200 && res.status <= 299) {
-              return res.json();
-            } else {
-              setLoading(false);
-              setIsError(true);
-            }
-          })
-        .then((data) => {
-            setPeople(
-              data.data.filter(
-                (notice) => notice.created.substring(8, 10) === date.toString()
-              )
-            );
-            setLoading(false);
-          })
-          .catch((error) => console.log(error));
-      };
+      );
 
-      fetching();
-
-      console.log(ctx);
+      console.log(message);
     });
 
     centrifuge.on("publish", function (ctx) {

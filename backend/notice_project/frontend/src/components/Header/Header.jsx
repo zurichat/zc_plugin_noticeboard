@@ -17,13 +17,13 @@ const Header = () => {
 	const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
 	const org_id = "614679ee1a5607b13c00bcb7";
 
-	useEffect(() => {
-		const loadNotices = async () => {
-			const response = await api.get(`/organisation/${org_id}/notices`);
-			setSearchResult(response.data.data);
-		};
-		loadNotices();
-	}, [searchResult]);
+	// useEffect(() => {
+	// 	const loadNotices = async () => {
+	// 		const response = await api.get(`/organisation/${org_id}/notices`);
+	// 		setSearchResult(response.data.data);
+	// 	};
+	// 	loadNotices();
+	// }, [searchResult]);
 
 	const onChangeHandler = (targetText) => {
 		setSearchText(targetText);

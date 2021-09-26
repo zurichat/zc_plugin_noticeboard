@@ -102,14 +102,14 @@ function AdminMenu({ noticeID }) {
     }
   };
 
-  useEffect(() => {
-    fetching();
+  // useEffect(() => {
+  //   fetching();
 
-  }, [noticeID])
-  useEffect(() => {
-    fetching();
+  // }, [noticeID])
+  // useEffect(() => {
+  //   fetching();
 
-  }, [])
+  // }, [])
 
   const AdminMenuStyle = {
     display: "flex",
