@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
-const Card = ({ person }) => {
+const Card = ({ person, people }) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
 

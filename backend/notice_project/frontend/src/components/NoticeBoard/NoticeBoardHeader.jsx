@@ -15,6 +15,7 @@ function NoticeBoardHeader() {
   const _globalData = useContext(DataContext)
   const {allUsers, setAllUsers} = useContext(UserContext)
   const workspace = _globalData.Organizations[0]
+  
   const getAllUsers = async () => {
     try {
       const requestOptions = {
@@ -34,6 +35,7 @@ function NoticeBoardHeader() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getAllUsers();
   }, []);
