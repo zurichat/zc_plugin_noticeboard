@@ -16,10 +16,13 @@ import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
 
 function NoticeBoard() {
-  const { setPeople, setLoading, setIsError } = useContext(UserContext);
+  const { setPeople } = useContext(UserContext);
 
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
+
+  const today = new Date();
+  const date = today.getDate();
 
   const CentrifugoConnection = () => {
     const centrifuge = new Centrifuge(
@@ -44,7 +47,7 @@ function NoticeBoard() {
         setPeople(
           message.filter(
             (notice) => notice.created.substring(8, 10) === date.toString()
-        )
+          )
       );
 
       console.log(message);
