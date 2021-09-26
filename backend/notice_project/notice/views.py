@@ -44,8 +44,8 @@ def install(request):
         "action": "open"
     }
 
-    # requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
-    response = requests.post("http://localhost:8000/api/v1/614679ee1a5607b13c00bcb7/create-room", data=data)
+    response = requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+    # response = requests.post("http://localhost:8000/api/v1/614679ee1a5607b13c00bcb7/create-room", data=data)
 
     install = {
         "name": "Noticeboard Plugin",
