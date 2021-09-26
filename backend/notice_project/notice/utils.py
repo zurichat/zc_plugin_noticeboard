@@ -3,13 +3,13 @@ from .storage import db
 
 def user_rooms(org_id, user_id):
     user_rooms = []
-    response = db.read("noticeboard_room", org_id, {"_id":"6150b8fac0f54e56e28bab2d"})
+    response = db.read("noticeboard_room", org_id)
     print('='*50)
     print(response)
     print('='*50)
 
     if response["status"] == 200:
-        room = response["data"][0]
+        room = response["data"][1]
         user_rooms.append({"room_name": room["title"], "room_url": "/noticeboard/admin-notice", "room_image": room["icon"]})
         return user_rooms
 
