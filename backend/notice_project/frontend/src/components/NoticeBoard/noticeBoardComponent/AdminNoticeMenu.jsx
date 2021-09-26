@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,10 +21,8 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Backdrop from "@material-ui/core/Backdrop";
-
-
-
-
+import { useHistory } from "react-router";
+import { DataContext } from "../../../App";
 
 
 function AdminMenu({ noticeID }) {
@@ -34,9 +32,10 @@ function AdminMenu({ noticeID }) {
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
-
+  const [noticeList  , setNoticeList ] = useState([]);
   const [loader, setLoader] = useState(false)
   const [toast, setToast] = useState(false)
+  const history = useHistory();
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -49,27 +48,51 @@ function AdminMenu({ noticeID }) {
   const deleteNoticeFunc =() =>{
     deleteNotice(noticeID);
     setLoader(true)
-    setTimeout(()=>{
-      setLoader(false)
-    },3000)
-    toastPop()
-    setTimeout(()=>{
-      setToast(false)
-    },2000)
-  }
-
-  const toastPop =() =>{
     setTimeout(() =>{
-        setToast(true)
-    },4000)
+      setToast(true)
+  },5000)
+   
   }
 
-  const deleteNoticeModal = (e) => {
+
+  
+
+
+ 
+
+
+  async function getAllNotices() {
+    try {
+      let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`);
+      let result = await response.data;
+      setNoticeList(result.data);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  
+  const editNotice = (noticeID) => {
+    const currentNoticeID = noticeList.find(element => {
+      return element._id == noticeID;
+    })
+    history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
+  }
+
+  const handleMenuButton = (e) => {
     const target = e.target;
-    if ((target.innerHTML = "Delete notice")) {
+    if (target.innerHTML === "Delete notice") {
       handleOpen();
     }
+    else {
+      editNotice(noticeID);
+    }
   };
+
+  useEffect(() => {
+    getAllNotices();
+
+  }, [noticeID])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -91,22 +114,25 @@ function AdminMenu({ noticeID }) {
     setAnchorEl(false);
   };
 
-  const deleteNotice = (noticeId) => {
-    axios
-    .delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete`)
-    .then(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  handleClose();
-  console.log(noticeId);
-  };
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
 
- 
+  const deleteNotice = (noticeId) => {
+
+    axios
+      .delete(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
+      .then(
+        (response) => {
+          console.log(response);
+          console.log(noticeId)
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    handleClose();
+    console.log(noticeId);
+  };
 
   return (
     <div>
@@ -150,7 +176,7 @@ function AdminMenu({ noticeID }) {
                 style={{
                   color: "#999999",
                 }}
-                onClick={deleteNoticeModal}
+                onClick={handleMenuButton}
               >
                 {linkText}
               </span>
@@ -165,7 +191,7 @@ function AdminMenu({ noticeID }) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title"><p id='header'>Delete Notice?</p></DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Delete Notice?"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Are you sure you want to delete notice, this action cannot be
@@ -197,9 +223,6 @@ function AdminMenu({ noticeID }) {
                 color: "white",
               }}
               onClick={deleteNoticeFunc}
-              // onClick={() => {
-              //   deleteNotice(noticeID);
-              // }}
             >
               Delete Notice
             </Button>
@@ -208,26 +231,28 @@ function AdminMenu({ noticeID }) {
       )}
       {loader && (
   
-    <Backdrop
-    sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    open={loader}
-    onClick={handleClose}
-  >
-    <CircularProgress color="primary" />
-    <p>Deleting...</p>
-  </Backdrop>
-     
-      )}
-      {toast && (
-          <Snackbar
-             open={() => setLoader(true)}
-             autoHideDuration={6000}
-             onClose={() => setLoader(false)}
-             message="Notice Deleted"
-             severity="success"
-            
-           />
-      )}
+  <Backdrop
+  sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loader}
+  onClick={handleClose}
+  style={{zIndex:'2'}}
+>
+  <CircularProgress color="primary" style={{color:'white'}} />
+  <p style={{color:'white'}}>Deleting...</p>
+</Backdrop>
+   
+    )}
+    {toast && (
+        <Snackbar
+           open={toast}
+           autoHideDuration={6000}
+           onClose={() => setLoader(false)}
+           message="Notice Deleted"
+           severity="success"
+           
+          
+         />
+    )}
     </div>
   );
 }
