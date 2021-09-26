@@ -5,11 +5,8 @@ import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
-<<<<<<< HEAD
 import { DataContext } from "../../../App";
-=======
 import { UserContext } from '../../../Data-fetcing';
->>>>>>> 723fcdfa81bd96ba205dd6c6fe5eee9224a17471
 
 const PinnedNotices = (props) => {
   const {people, setPeople, loading, setLoading, isError, setIsError} = useContext(UserContext)
@@ -22,7 +19,8 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
-    fetch("https://noticeboard.zuri.chat/api/v1/notices")
+    console.log(org_id)
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
