@@ -19,6 +19,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 
@@ -31,6 +33,8 @@ function AdminMenu({ noticeID }) {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList  , setNoticeList ] = useState([]);
+  const [loader, setLoader] = useState(false)
+  const [toast, setToast] = useState(false)
   const history = useHistory();
 
   const handleOpen = () => {
@@ -41,6 +45,25 @@ function AdminMenu({ noticeID }) {
     setOpenModal(false);
   };
 
+  const deleteNoticeFunc =() =>{
+    deleteNotice(noticeID);
+    setTimeout(()=>{
+      setLoader(false)
+    },3000)
+    toastPop()
+   
+  }
+
+
+  const toastPop =() =>{
+    setTimeout(() =>{
+        setToast(true)
+    },3000)
+  
+  }
+
+
+ 
 
 
   async function getAllNotices() {
@@ -111,7 +134,13 @@ function AdminMenu({ noticeID }) {
         (error) => {
           console.log(error);
         }
-      );
+      )
+      .then(()=>{
+        setLoader(true)
+      })
+      
+      
+      
     handleClose();
     console.log(noticeId);
   };
@@ -204,15 +233,37 @@ function AdminMenu({ noticeID }) {
                 backgroundColor: "red",
                 color: "white",
               }}
-              onClick={() => {
-                deleteNotice(noticeID);
-              }}
+              onClick={deleteNoticeFunc}
             >
               Delete Notice
             </Button>
           </DialogActions>
         </Dialog>
       )}
+      {loader && (
+  
+  <Backdrop
+  sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loader}
+  onClick={handleClose}
+  style={{zIndex:'2'}}
+>
+  <CircularProgress color="primary" style={{color:'white'}} />
+  <p style={{color:'white'}}>Deleting...</p>
+</Backdrop>
+   
+    )}
+    {toast && (
+        <Snackbar
+           open={toast}
+           autoHideDuration={6000}
+           onClose={() => setLoader(false)}
+           message="Notice Deleted"
+           severity="success"
+           
+          
+         />
+    )}
     </div>
   );
 }
