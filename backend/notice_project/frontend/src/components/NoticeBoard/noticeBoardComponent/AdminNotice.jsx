@@ -65,7 +65,7 @@ const PinnedNotices = (props) => {
     );
   }
 
-	if (people.length <= 0) {
+	if (people?.length <= 0) {
 		return (
 			<div className="adminnotice">
 				<div className="pinned-button-container">
@@ -136,7 +136,7 @@ const PinnedNotices = (props) => {
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
 			<section className="adminNotice-section">
-				{people.map((person) => {
+				{people?.map((person) => {
 					return <Card person={person} key={person._id} />;
 				})}
 			</section>
