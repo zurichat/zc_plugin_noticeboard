@@ -95,6 +95,34 @@ const PinnedNotices = (props) => {
 		);
 	}
 
+	if (searchSuggestions.length > 0) {
+		return (
+			<div className="adminnotice">
+				<div className="pinned-button-container">
+					<div className="pin-text">
+						<p className="text">Notices</p>
+					</div>
+					<Button className="header-button" onClick={() => props.history.push("/noticeboard/create-notice")} variant="contained" disableRipple>
+						Create Notice <img src={notice} alt="create notice" />
+					</Button>
+				</div>
+
+				<section className="adminNotice-section">
+					{searchSuggestions.map((search) => {
+						return <Card person={search} key={search._id} />;
+					})}
+					{console.log(searchSuggestions)}
+				</section>
+
+				<Link to="/noticeboard/old-notices">
+					<div className="older-notices">
+						<p className="older-notices-text">View older notices</p>
+					</div>
+				</Link>
+			</div>
+		);
+	}
+
 	return (
 		<div className="adminnotice">
 			<div className="pinned-button-container">
@@ -107,20 +135,11 @@ const PinnedNotices = (props) => {
 			</div>
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
-			{!searchingNotice ? (
-				<section className="adminNotice-section">
-					{people.map((person) => {
-						return <Card person={person} key={person._id} />;
-					})}
-				</section>
-			) : (
-				<section className="adminNotice-section">
-					{searchSuggestions.map((search) => {
-						return <Card person={search} key={search._id} />;
-					})}
-					{console.log(searchSuggestions)}
-				</section>
-			)}
+			<section className="adminNotice-section">
+				{people.map((person) => {
+					return <Card person={person} key={person._id} />;
+				})}
+			</section>
 
 			<Link to="/noticeboard/old-notices">
 				<div className="older-notices">

@@ -25,12 +25,8 @@ const Header = () => {
 		loadNotices();
 	}, [searchResult]);
 
-	setInterval(() => {
-		loadNotices();
-	}, 30000);
-
-	const onChangeHandler = (e) => {
-		setSearchText(e.target.value);
+	const onChangeHandler = (targetText) => {
+		setSearchText(targetText);
 
 		let matches = [];
 		if (searchText.length > 0) {
@@ -66,7 +62,13 @@ const Header = () => {
 							<path d="M15.7496 15.75L11.8496 11.85" stroke="#333333" strokeWidth="1.22693" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>
 					</div>
-					<input className="header__form-input" type="text" onChange={onChangeHandler} value={searchText} placeholder="Search your workspace" />
+					<input
+						className="header__form-input"
+						type="text"
+						onChange={(e) => onChangeHandler(e.target.value)}
+						value={searchText}
+						placeholder="Search your workspace"
+					/>
 				</form>
 			</div>
 		</header>
