@@ -6,7 +6,6 @@ from django.utils import timezone
 class NoticeboardRoom(serializers.Serializer):
     title = serializers.CharField()
     unread = serializers.IntegerField()
-    members = serializers.IntegerField()
     icon = serializers.URLField()
     action = serializers.CharField()
 

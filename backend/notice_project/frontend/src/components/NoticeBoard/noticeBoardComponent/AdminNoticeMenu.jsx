@@ -23,6 +23,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
+import { UserContext } from "../../../Data-fetcing";
 
 
 function AdminMenu({ noticeID }) {
@@ -41,46 +42,53 @@ function AdminMenu({ noticeID }) {
     setOpenModal(true);
   };
 
+  const _globalData = useContext(DataContext);
+  const {selectedNotice, setSelectedNotice} = useContext(UserContext)
+  const org_id = _globalData.Organizations[0];
+
   const handleClose = () => {
     setOpenModal(false);
   };
 
   const deleteNoticeFunc =() =>{
     deleteNotice(noticeID);
-    setTimeout(()=>{
-      setLoader(false)
-    },3000)
-    toastPop()
+    setLoader(true)
+    setTimeout(() =>{
+      setToast(true)
+  },5000)
    
   }
 
 
-  const toastPop =() =>{
-    setTimeout(() =>{
-        setToast(true)
-    },3000)
-  
-  }
 
 
- 
 
+  const fetching = () => {
+    fetch(
+  `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+    )
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          return res.json();
+        } else {
+          setLoading(false);
+          setIsError(true);
+        }
+      })
+      .then((data) => {
+        setNoticeList(data.data);
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  };
 
-  async function getAllNotices() {
-    try {
-      let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`);
-      let result = await response.data;
-      setNoticeList(result.data);
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  
   const editNotice = (noticeID) => {
-    const currentNoticeID = noticeList.find(element => {
+    
+    const currentNoticeID = noticeList?.find(element => {
       return element._id == noticeID;
     })
+    console.log(currentNoticeID, "here")
+    setSelectedNotice(currentNoticeID)
     history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
   }
 
@@ -95,9 +103,13 @@ function AdminMenu({ noticeID }) {
   };
 
   useEffect(() => {
-    getAllNotices();
+    fetching();
 
   }, [noticeID])
+  useEffect(() => {
+    fetching();
+
+  }, [])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -119,8 +131,7 @@ function AdminMenu({ noticeID }) {
     setAnchorEl(false);
   };
 
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
+
 
   const deleteNotice = (noticeId) => {
 
@@ -135,12 +146,6 @@ function AdminMenu({ noticeID }) {
           console.log(error);
         }
       )
-      .then(()=>{
-        setLoader(true)
-      })
-      
-      
-      
     handleClose();
     console.log(noticeId);
   };
