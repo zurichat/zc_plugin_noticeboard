@@ -92,20 +92,21 @@ function CreateNotice() {
 		document.getElementById("messageError").innerHTML = "";
 	};
 
-	// Read Organization ID
-	const _globalData = useContext(DataContext);
-	const org_id = _globalData.Organizations[0];
+  // Read Organization ID
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+  const should_send = true;
 
 	//CREATE NOTICE API CALL STARTS
 	const api = axios.create({
 		baseURL: "https://noticeboard.zuri.chat/api/v1",
 	});
 
-	const onSubmitHandler = async (values) => {
-		if (isChecked) {
-			fetch("https://noticeboard.zuri.chat/api/v1/sendemail?sendemail={should_send}&org={org_id}");
-		}
-
+  const onSubmitHandler = async (values) => {
+      if (isChecked){
+        fetch(`https://noticeboard.zuri.chat/api/v1/sendemail?sendemail=${should_send}&org=${org_id}`);
+      }
+    
 		values.message = draftToMarkdown(convertToRaw(editorState.getCurrentContent()));
 		const request = {
 			title: values.title,
