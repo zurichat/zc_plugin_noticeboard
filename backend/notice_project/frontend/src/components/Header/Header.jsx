@@ -67,7 +67,7 @@ const Header = () => {
 						type="text"
 						onChange={(e) => onChangeHandler(e.target.value)}
 						value={searchText}
-						placeholder="Search your workspace"
+						placeholder="Search notices"
 					/>
 				</form>
 			</div>
