@@ -136,7 +136,7 @@ const PinnedNotices = (props) => {
 			{/* the is the beginning of the section where the card for each notice starts from */}
 
 			<section className="adminNotice-section">
-				{people?.reverse().map((person) => {
+				{people?.map((person) => {
 					return <Card person={person} key={person._id} />;
 				})}
 			</section>
