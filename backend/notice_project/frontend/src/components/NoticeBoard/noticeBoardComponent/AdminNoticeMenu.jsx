@@ -18,8 +18,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import Backdrop from "@material-ui/core/Backdrop";
+import Snackbar from "@material-ui/core/Snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
+
+
+
+
+
 
 function AdminMenu({ noticeID }) {
   const menu = [
@@ -28,14 +34,9 @@ function AdminMenu({ noticeID }) {
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
-  const [preloader, setPreloader] = useState(false)
 
-
-  const test = () =>{
-    setInterval(()=>{
-      setPreloader(true)
-    },3000)
-  }
+  const [loader, setLoader] = useState(false)
+  const [toast, setToast] = useState(false)
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -44,6 +45,24 @@ function AdminMenu({ noticeID }) {
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const deleteNoticeFunc =() =>{
+    deleteNotice(noticeID);
+    setLoader(true)
+    setTimeout(()=>{
+      setLoader(false)
+    },3000)
+    toastPop()
+    setTimeout(()=>{
+      setToast(false)
+    },2000)
+  }
+
+  const toastPop =() =>{
+    setTimeout(() =>{
+        setToast(true)
+    },4000)
+  }
 
   const deleteNoticeModal = (e) => {
     const target = e.target;
@@ -74,19 +93,20 @@ function AdminMenu({ noticeID }) {
 
   const deleteNotice = (noticeId) => {
     axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete`)
-      .then(
-        (response) => {
-          test()
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    handleClose();
-    console.log(noticeId);
+    .delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete`)
+    .then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  handleClose();
+  console.log(noticeId);
   };
+
+ 
 
   return (
     <div>
@@ -145,7 +165,7 @@ function AdminMenu({ noticeID }) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Delete Notice?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title"><p id='header'>Delete Notice?</p></DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Are you sure you want to delete notice, this action cannot be
@@ -176,24 +196,37 @@ function AdminMenu({ noticeID }) {
                 backgroundColor: "red",
                 color: "white",
               }}
-              onClick={() => {
-                deleteNotice(noticeID);
-              }}
+              onClick={deleteNoticeFunc}
+              // onClick={() => {
+              //   deleteNotice(noticeID);
+              // }}
             >
               Delete Notice
             </Button>
           </DialogActions>
         </Dialog>
       )}
-
-      { preloader && (
-         <Backdrop
-         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-         open={open}
-         onClick={handleClose}
-       >
-         <CircularProgress color="inherit" />
-       </Backdrop>
+      {loader && (
+  
+    <Backdrop
+    sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    open={loader}
+    onClick={handleClose}
+  >
+    <CircularProgress color="primary" />
+    <p>Deleting...</p>
+  </Backdrop>
+     
+      )}
+      {toast && (
+          <Snackbar
+             open={() => setLoader(true)}
+             autoHideDuration={6000}
+             onClose={() => setLoader(false)}
+             message="Notice Deleted"
+             severity="success"
+            
+           />
       )}
     </div>
   );
