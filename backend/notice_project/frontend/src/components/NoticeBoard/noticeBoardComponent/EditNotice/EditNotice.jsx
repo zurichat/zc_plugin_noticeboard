@@ -93,7 +93,7 @@ const EditNotice = () => {
     async function getAllNotices() {
         
         try {
-            let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices`);
+            let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices`);
             let result = await response.data;
             const currentNoticeElement = result.data.find(element => {
                 return element._id == currentNoticeID;
@@ -132,7 +132,7 @@ const EditNotice = () => {
             formik.values.message = draftToMarkdown(
                 convertToRaw(editorState.getCurrentContent())
             );
-            await axios.put(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices/${noticeID}/edit`, { title: formik.values.title, message: formik.values.message });
+            await axios.put(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeID}/edit`, { title: formik.values.title, message: formik.values.message });
             return setOpenSuccessDialog(true);
         }
         catch (err) {

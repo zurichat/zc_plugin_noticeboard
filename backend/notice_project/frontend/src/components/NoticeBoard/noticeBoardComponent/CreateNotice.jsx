@@ -129,7 +129,7 @@ function CreateNotice() {
 
     try {
       const res = await api.post(
-        `organisation​/614679ee1a5607b13c00bcb7/create`,
+        "/organisation/614679ee1a5607b13c00bcb7/create",
         request
       );
       //Return input field to blank

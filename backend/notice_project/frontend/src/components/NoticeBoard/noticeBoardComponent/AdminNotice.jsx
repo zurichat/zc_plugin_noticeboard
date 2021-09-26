@@ -37,6 +37,7 @@ const PinnedNotices = (props) => {
             (notice) => notice.created.substring(8, 10) === date.toString()
           )
         );
+          console.log(data.data)
         setLoading(false);
       })
       .catch((error) => console.log(error));
