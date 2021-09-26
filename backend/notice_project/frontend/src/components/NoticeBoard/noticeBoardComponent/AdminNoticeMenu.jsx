@@ -19,6 +19,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
@@ -32,6 +34,8 @@ function AdminMenu({ noticeID }) {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList  , setNoticeList ] = useState([]);
+  const [loader, setLoader] = useState(false)
+  const [toast, setToast] = useState(false)
   const history = useHistory();
 
   const handleOpen = () => {
@@ -47,28 +51,25 @@ function AdminMenu({ noticeID }) {
   };
 
   console.log(org_id, "here")
-  const api = axios.create({
-    baseURL: `https://noticeboard.zuri.chat`,
-    headers: {
-      "Access-Control-Allow-Headers": 'Origin, X-Requested-With, Content-Type, Accept',
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json'
-    },
-  });
+  const deleteNoticeFunc =() =>{
+    deleteNotice(noticeID);
+    setTimeout(()=>{
+      setLoader(false)
+    },3000)
+    toastPop()
+   
+  }
+
+
+  const toastPop =() =>{
+    setTimeout(() =>{
+        setToast(true)
+    },3000)
   
+  }
 
 
-  // async function getAllNotices() {
-  //   try {
-  //     let response = await api.get(`/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices`);
-  //     console.log(response, "herew")
-  //     let result = await response.data;
-  //     setNoticeList(result.data);
-  //   }
-  //   catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+
   const fetching = () => {
     fetch(
   `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
@@ -142,7 +143,7 @@ function AdminMenu({ noticeID }) {
   const deleteNotice = (noticeId) => {
 
     axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
+      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
       .then(
         (response) => {
           console.log(response);
@@ -151,7 +152,13 @@ function AdminMenu({ noticeID }) {
         (error) => {
           console.log(error);
         }
-      );
+      )
+      .then(()=>{
+        setLoader(true)
+      })
+      
+      
+      
     handleClose();
     console.log(noticeId);
   };
@@ -244,15 +251,37 @@ function AdminMenu({ noticeID }) {
                 backgroundColor: "red",
                 color: "white",
               }}
-              onClick={() => {
-                deleteNotice(noticeID);
-              }}
+              onClick={deleteNoticeFunc}
             >
               Delete Notice
             </Button>
           </DialogActions>
         </Dialog>
       )}
+      {loader && (
+  
+  <Backdrop
+  sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loader}
+  onClick={handleClose}
+  style={{zIndex:'2'}}
+>
+  <CircularProgress color="primary" style={{color:'white'}} />
+  <p style={{color:'white'}}>Deleting...</p>
+</Backdrop>
+   
+    )}
+    {toast && (
+        <Snackbar
+           open={toast}
+           autoHideDuration={6000}
+           onClose={() => setLoader(false)}
+           message="Notice Deleted"
+           severity="success"
+           
+          
+         />
+    )}
     </div>
   );
 }
