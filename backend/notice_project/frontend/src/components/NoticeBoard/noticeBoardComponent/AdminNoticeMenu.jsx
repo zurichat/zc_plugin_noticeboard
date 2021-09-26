@@ -20,6 +20,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useHistory } from "react-router";
+import { DataContext } from "../../../App";
 
 
 function AdminMenu({ noticeID }) {
@@ -44,7 +45,7 @@ function AdminMenu({ noticeID }) {
 
   async function getAllNotices() {
     try {
-      let response = await axios.get("https://noticeboard.zuri.chat/api/v1/notices");
+      let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`);
       let result = await response.data;
       setNoticeList(result.data);
     }
@@ -95,9 +96,12 @@ function AdminMenu({ noticeID }) {
     setAnchorEl(false);
   };
 
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+
   const deleteNotice = (noticeId) => {
     axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/notices/${noticeId}/delete`)
+      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}/notices/${noticeId}/delete`)
       .then(
         (response) => {
           console.log(response);

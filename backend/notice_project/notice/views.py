@@ -4,11 +4,12 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer
-from rest_framework.generics import ListAPIView
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer, AddMemberToRoom
+from rest_framework.generics import ListAPIView, CreateAPIView
 from .email import sendmassemail
 import re
-
+from .utils import user_rooms
+from django.http.response import JsonResponse
 
 @api_view(['GET'])
 def sidebar(request):
@@ -208,20 +209,15 @@ class ViewNoticeAPI(views.APIView):
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
-        if notice["data"] != None:
-            get_data=notice["data"]
-            reversed_list = get_data[::-1]
-            print(reversed_list)
-            notice.update(data=reversed_list)
-            if notice['status'] == 200:
-                print(notice)
-                return Response(notice, status=status.HTTP_200_OK)
-            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            if notice['status'] == 200:
-                print(notice)
-                return Response(notice, status=status.HTTP_200_OK)
-            return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class NoticeDetail(views.APIView):
@@ -332,3 +328,92 @@ class Unsubscribe(views.APIView):
             except:
                 return Response({"success": False,"message": "Delete Operation Failed. Object does not exist in the database"},status=status.HTTP_404_NOT_FOUND)
         return Response({"status": False, "message": "Check your query parameter"})
+
+
+# ADDITIONS OR PATCHINGS DUE TO SIDEBAR
+@api_view(['GET'])
+def sidebar_info(request):
+    org_id = request.GET.get('org')
+    user_id = request.GET.get('user')
+
+    if org_id and user_id:
+        sidebar = {
+            "name": "Noticeboard Plugin",
+            "description": "Displays Information On A Noticeboard",
+            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "organisation_id": f"{org_id}",
+            "user_id": f"{user_id}",
+            "group_name": "Noticeboard",
+            "show_group": False,
+            "public_rooms": [],
+            "joined_rooms": user_rooms(org_id, user_id)
+        }
+        return Response(sidebar)
+    return Response({"message": "org id or user id is None"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateNoticeView(CreateAPIView):
+    serializer_class = CreateNoticeSerializer
+
+    def post(self, request):
+        org_id = request.GET.get("org")
+        room_id = request.GET.get("room_id")
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        notice = serializer.data
+
+        # adding a soft-foreign-key relationship between notices and room
+        notice["room_id"] = room_id
+        db.save("test_noticeboard", org_id, notice_data=notice)
+
+        # db.post_to_centrifugo(serializer.data)
+        return Response(notice, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def room_noticeboard_list(request, room_id):
+    if request.method == 'GET':
+        org_id = request.GET.get('org')
+        room_notices_list = db.read("test_noticeboard", org_id, {"room_id": room_id})
+        return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+    
+
+@api_view(['POST'])
+def create_room_view(request):
+    if request.method == 'POST':
+        org_id = request.GET.get('org')
+        user_id = request.GET.get('user')
+
+        serializer = NoticeboardRoom(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        new_room_data = serializer.data
+        new_room_data["member_ids"] = [user_id]
+        db.save("test_noticeboard_room", org_id, new_room_data)
+        return Response(new_room_data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+def add_member_to_room(request):
+    room_id = request.GET.get('room_id')
+    org_id = request.GET.get('org')
+
+    serializer = AddMemberToRoom(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    member_id = serializer.data["member_id"]
+
+    # retrieving room data
+    room_data = db.read("test_noticeboard_room", org_id, {"_id": room_id})["data"]
+    
+    if room_data:
+        del room_data["_id"]
+        member_ids = room_data["member_ids"]
+
+        # updating member_ids field in room_data 
+        if member_id in member_ids:
+            return Response({"message": "user already exists in room"}, status=status.HTTP_409_CONFLICT)
+
+        member_ids.append(member_id)
+        db.update("test_noticeboard_room", org_id, room_data, room_id)
+        return Response({"message": "success", "data": room_data}, status=status.HTTP_200_OK)
+    return Response({"message": "requested room not found"}, status=status.HTTP_404_NOT_FOUND)
