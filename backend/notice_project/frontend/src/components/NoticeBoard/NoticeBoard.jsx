@@ -40,9 +40,9 @@ function NoticeBoard() {
 		centrifuge.connect();
 	
 		centrifuge.subscribe("noticeboard", (ctx) => {
-		  console.log(ctx);
-		  
-		  const fetching = () =>{
+
+		  dataFetching = () =>{
+
 		    fetch(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`)
 		  .then((res) => {
 		    if (res.status >= 200 && res.status <= 299) {
@@ -59,7 +59,8 @@ function NoticeBoard() {
 		  .catch((error) => console.log(error));
 		  } 
 
-		  fetching()
+		  dataFetching()
+		  console.log(ctx);
 	
 		});
 	
