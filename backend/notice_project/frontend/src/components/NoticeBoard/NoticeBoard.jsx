@@ -41,11 +41,9 @@ function NoticeBoard() {
 
     centrifuge.subscribe("noticeboard", (ctx) => {
       const message = ctx.data.data;
-      setPeople(
         setPeople(
           message.filter(
             (notice) => notice.created.substring(8, 10) === date.toString()
-          )
         )
       );
 
