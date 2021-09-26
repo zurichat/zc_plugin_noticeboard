@@ -110,7 +110,7 @@ function CreateNotice() {
 
   const onSubmitHandler = async (values) => {
       if (isChecked){
-        fetch('http://noticeboard.zuri.chat/api/v1/sendemail?sendemail={should_send}&org={org_id}');
+        fetch('https://noticeboard.zuri.chat/api/v1/sendemail?sendemail=True&org=6145b49e285e4a18402073bc');
       }
     
     values.message = draftToMarkdown(
