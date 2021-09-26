@@ -62,10 +62,6 @@ function AdminMenu({ noticeID }) {
   
   }
 
-
- 
-
-
   async function getAllNotices() {
     try {
       let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`);
@@ -142,7 +138,7 @@ function AdminMenu({ noticeID }) {
     handleClose();
     console.log(noticeId);
 
-    
+
   };
 
   return (

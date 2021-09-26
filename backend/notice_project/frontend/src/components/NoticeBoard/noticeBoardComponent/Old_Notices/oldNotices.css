@@ -1,3 +1,8 @@
+p {
+  margin-bottom: 0px !important;
+  font-size: 16px !important;
+}
+
 .preloader {
   text-align: center;
   display: grid;
@@ -96,6 +101,8 @@
 .sort-oldNotice-option {
   padding: 0.5em;
   color: #999999;
+  font-size: 16px !important;
+  margin-bottom: 0px !important;
 }
 
 .sort-oldNotice-option:hover {
@@ -113,3 +120,5 @@
 .backImageOldNotice > img {
   width: 1.2em;
 }
+
+cd 
