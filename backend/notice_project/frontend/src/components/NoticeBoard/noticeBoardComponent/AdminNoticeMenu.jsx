@@ -50,23 +50,16 @@ function AdminMenu({ noticeID }) {
     setOpenModal(false);
   };
 
-  console.log(org_id, "here")
   const deleteNoticeFunc =() =>{
     deleteNotice(noticeID);
-    setTimeout(()=>{
-      setLoader(false)
-    },3000)
-    toastPop()
+    setLoader(true)
+    setTimeout(() =>{
+      setToast(true)
+  },5000)
    
   }
 
 
-  const toastPop =() =>{
-    setTimeout(() =>{
-        setToast(true)
-    },3000)
-  
-  }
 
 
 
@@ -153,12 +146,6 @@ function AdminMenu({ noticeID }) {
           console.log(error);
         }
       )
-      .then(()=>{
-        setLoader(true)
-      })
-      
-      
-      
     handleClose();
     console.log(noticeId);
   };
