@@ -51,7 +51,6 @@ const PinnedNotices = (props) => {
 		);
 	}
 
-	/*
   if (isError) {
     return (
       <div className="preloader">
@@ -65,7 +64,7 @@ const PinnedNotices = (props) => {
         <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
-  }*/
+  }
 
 	if (people.length <= 0) {
 		return (
