@@ -73,8 +73,6 @@ def install(request):
 
     data = {
         "title": "noticeboard",
-        "unread": "0",
-        "members": "0",
         "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-kPo-vAmp_GrCZbnmqT6PMU5Wi5BLwgvPQ&usqp=CAU",
         "action": "open"
     }
@@ -99,7 +97,6 @@ class CreateNewNotices(views.APIView):
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         
-        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
@@ -109,7 +106,9 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            db.post_to_centrifugo(serializer.data)
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -123,6 +122,11 @@ class UpdateNoticeAPIView(views.APIView):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+
             return Response(
                 {
                     "success": True,
@@ -134,45 +138,6 @@ class UpdateNoticeAPIView(views.APIView):
             {
                 "success": False,
                 "message": "Notice not updated, Please Try Again"
-            },
-            status=status.HTTP_400_BAD_REQUEST)
-
-
-class search(ListAPIView):
-    def get(self, request, org_id):
-
-        # org_id = "613a1a3b59842c7444fb0220"
-
-        notice = db.read("noticeboard", org_id)
-        if notice['status'] == 200:
-            all_notice = notice['data']
-
-            def func(data, keyword):
-                new_data = []
-                for d in data:
-                    if keyword.lower() in d['title'].lower() or keyword.lower() in d['message'].lower():
-                        new_data.append(d)
-                return new_data
-
-            query = request.GET.get("q")
-
-            if query:
-                all_notice = func(all_notice, query)
-                # print(all_notices)
-                # all_notice = list(
-                #     filter(lambda x: x['title'].lower().startswith(query.lower()), all_notice))
-                
-            return Response(
-                {
-                    "status": True,
-                    "data": all_notice,
-                    "message": "Successfully retrieved"
-                },
-                status=status.HTTP_200_OK)
-        return Response(
-            {
-                "success": False,
-                "message": "Failed"
             },
             status=status.HTTP_400_BAD_REQUEST)
 
@@ -189,6 +154,11 @@ class DeleteNotice(views.APIView):
                 org_id=org_id,
                 object_id=object_id
             )
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+
             return Response(
                 {
                     "success": True,
