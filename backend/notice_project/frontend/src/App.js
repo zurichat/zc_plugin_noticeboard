@@ -79,13 +79,8 @@ function App() {
             </span>
           </div>
         </div>
-<<<<<<< HEAD
       </Router>
     </DataContext.Provider>
-=======
-      </UserProvider>
-    </Router>
->>>>>>> 723fcdfa81bd96ba205dd6c6fe5eee9224a17471
   );
 }
 
