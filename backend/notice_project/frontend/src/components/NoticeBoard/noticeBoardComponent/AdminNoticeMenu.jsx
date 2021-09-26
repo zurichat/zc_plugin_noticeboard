@@ -28,8 +28,8 @@ import { UserContext } from "../../../Data-fetcing";
 
 function AdminMenu({ noticeID }) {
   const menu = [
-    { icon: EditIcon, linkText: "Edit notice" },
-    { icon: DeleteIcon, linkText: "Delete notice" },
+    { icon: EditIcon, linkText: "Edit notice", id:"1"},
+    { icon: DeleteIcon, linkText: "Delete notice", id:"2" },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -91,8 +91,8 @@ function AdminMenu({ noticeID }) {
   }
 
   const handleMenuButton = (e) => {
-    const target = e.target;
-    if (target.innerHTML === "Delete notice") {
+    const target = e.currentTarget;
+    if (target.id === "2") {
       handleOpen();
     }
     else {
@@ -170,20 +170,22 @@ function AdminMenu({ noticeID }) {
           horizontal: "right",
         }}
       >
-        {menu.map(({ icon, linkText }) => (
+        {menu.map(({ icon, linkText, id }) => (
           <MenuItem
             key={linkText}
             onClick={closeMenu}
             className="overrideHeight"
             disableRipple
           >
-            <div style={AdminMenuStyle}>
+            <div style={AdminMenuStyle}
+                  onClick={handleMenuButton}
+                  key={id}
+            >
               <img src={icon} alt={linkText} style={MenuIconStyle} />
               <span
                 style={{
                   color: "#999999",
                 }}
-                onClick={handleMenuButton}
               >
                 {linkText}
               </span>
