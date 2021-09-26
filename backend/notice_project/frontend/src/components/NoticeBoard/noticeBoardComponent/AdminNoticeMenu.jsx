@@ -19,8 +19,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
+import { UserContext } from "../../../Data-fetcing";
 
 
 function AdminMenu({ noticeID }) {
@@ -31,33 +34,61 @@ function AdminMenu({ noticeID }) {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList  , setNoticeList ] = useState([]);
+  const [loader, setLoader] = useState(false)
+  const [toast, setToast] = useState(false)
   const history = useHistory();
 
   const handleOpen = () => {
     setOpenModal(true);
   };
 
+  const _globalData = useContext(DataContext);
+  const {selectedNotice, setSelectedNotice} = useContext(UserContext)
+  const org_id = _globalData.Organizations[0];
+
   const handleClose = () => {
     setOpenModal(false);
   };
 
-
-
-  async function getAllNotices() {
-    try {
-      let response = await axios.get(`https://noticeboard.zuri.chat/api/v1/organisation​/${org_id}​/notices`);
-      let result = await response.data;
-      setNoticeList(result.data);
-    }
-    catch (err) {
-      console.log(err);
-    }
+  const deleteNoticeFunc =() =>{
+    deleteNotice(noticeID);
+    setLoader(true)
+    setTimeout(() =>{
+      setToast(true)
+  },5000)
+   
   }
-  
+
+
+
+
+
+  const fetching = () => {
+    fetch(
+  `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+    )
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          return res.json();
+        } else {
+          setLoading(false);
+          setIsError(true);
+        }
+      })
+      .then((data) => {
+        setNoticeList(data.data);
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  };
+
   const editNotice = (noticeID) => {
-    const currentNoticeID = noticeList.find(element => {
+    
+    const currentNoticeID = noticeList?.find(element => {
       return element._id == noticeID;
     })
+    console.log(currentNoticeID, "here")
+    setSelectedNotice(currentNoticeID)
     history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
   }
 
@@ -72,9 +103,13 @@ function AdminMenu({ noticeID }) {
   };
 
   useEffect(() => {
-    getAllNotices();
+    fetching();
 
   }, [noticeID])
+  useEffect(() => {
+    fetching();
+
+  }, [])
 
   const AdminMenuStyle = {
     display: "flex",
@@ -96,13 +131,12 @@ function AdminMenu({ noticeID }) {
     setAnchorEl(false);
   };
 
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
+
 
   const deleteNotice = (noticeId) => {
 
     axios
-      .delete(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
+      .delete(`https://noticeboard.zuri.chat/api/v1/organisation​/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`)
       .then(
         (response) => {
           console.log(response);
@@ -111,7 +145,7 @@ function AdminMenu({ noticeID }) {
         (error) => {
           console.log(error);
         }
-      );
+      )
     handleClose();
     console.log(noticeId);
   };
@@ -204,15 +238,37 @@ function AdminMenu({ noticeID }) {
                 backgroundColor: "red",
                 color: "white",
               }}
-              onClick={() => {
-                deleteNotice(noticeID);
-              }}
+              onClick={deleteNoticeFunc}
             >
               Delete Notice
             </Button>
           </DialogActions>
         </Dialog>
       )}
+      {loader && (
+  
+  <Backdrop
+  sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loader}
+  onClick={handleClose}
+  style={{zIndex:'2'}}
+>
+  <CircularProgress color="primary" style={{color:'white'}} />
+  <p style={{color:'white'}}>Deleting...</p>
+</Backdrop>
+   
+    )}
+    {toast && (
+        <Snackbar
+           open={toast}
+           autoHideDuration={6000}
+           onClose={() => setLoader(false)}
+           message="Notice Deleted"
+           severity="success"
+           
+          
+         />
+    )}
     </div>
   );
 }

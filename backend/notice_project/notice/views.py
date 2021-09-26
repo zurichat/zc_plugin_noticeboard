@@ -11,47 +11,12 @@ import re
 from .utils import user_rooms
 from django.http.response import JsonResponse
 
-@api_view(['GET'])
-def sidebar(request):
-
-    org_id = request.GET.get('org')
-    user_id = request.GET.get('user')
-
-    if org_id and user_id:
-
-        # headers = {"Content-Type":"application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpVd09EWXhOWHhIZDNkQlIwUlplRTVIVlhoWlYwMHpXbXBOZUZsVVl6QmFWRUV5VDBkVk1GcEVUWGhPZHowOWZBOVRBS2xoaHVZNjhELWRwa3ZEcTVjeDJ4UWZGaXhDc1FGRG9RRHZIblMwIiwiZW1haWwiOiJwYXBham9uYXR1czEwQHp1cmkuY2hhdCIsImlkIjoiNjE0ZTFhYzdmMzFhNzRlMDY4ZTRkMzE3Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6NzkzOTY4NjE3NSwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.NyfVxOLNDSCy0hUYJ5V4m0SbXZkwAD5_2nDG_z0OzsU"}
-
-        res = requests.get(
-            # f"https://api.zuri.chat/organizations/{org_id}/members/{user_id}", headers=headers).json()
-            f"https://api.zuri.chat/organizations/{org_id}/members/{user_id}").json()
-
-        if res['status'] == 200:
-
-            # res = requests.get("noticeboard_room", org_id).json()
-            # if res['status'] == 200 and res is not None:
-            #     public_rooms = res['data']
-            # else:
-            #     public_rooms = []
-
-            sidebar = {
-                "name": "Noticeboard Plugin",
-                "description": "Displays Information On A Noticeboard",
-                        "plugin_id": "613fc3ea6173056af01b4b3e",
-                        "organisation_id": f"{org_id}",
-                        "user_id": f"{user_id}",
-                        "group_name": "Noticeboard",
-                        "show_group": False,
-                        "joined_rooms": [],
-                        # "public_rooms": public_rooms
-            }
-            return Response({"status": True, "data": sidebar}, status=status.HTTP_200_OK)
-        return Response({"status": res['status'], "message": res["message"]}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({"status": False, "message": "Check your query parameter"})
 
 
 @api_view(['POST'])
-def create_room(request):
-    org_id = "6145b49e285e4a18402073bc"
+def create_room(request, org_id):
+    # org_id = "6145b49e285e4a18402073bc"
+    org_id = "614679ee1a5607b13c00bcb7"
     serializer = NoticeboardRoom(data=request.data)
     if serializer.is_valid():
         db.save("noticeboard_room", org_id, serializer.data)
@@ -62,32 +27,32 @@ def create_room(request):
 @api_view(['GET'])
 def get_room(request):
     # org_id = "613a1a3b59842c7444fb0220"
-    org_id = "6145b49e285e4a18402073bc"
+    # org_id = "6145b49e285e4a18402073bc"
+    org_id = "614679ee1a5607b13c00bcb7"
     data = db.read("noticeboard_room", org_id)
     return Response(data)
 
 
 @api_view(['GET'])
 def install(request):
-    org_id = "613a1a3b59842c7444fb0220"
+    # org_id = "613a1a3b59842c7444fb0220"
+    org_id = "614679ee1a5607b13c00bcb7"
 
     data = {
         "title": "noticeboard",
-        "unread": "0",
-        "members": "0",
         "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-kPo-vAmp_GrCZbnmqT6PMU5Wi5BLwgvPQ&usqp=CAU",
         "action": "open"
     }
 
-    requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
-    # requests.post("http://localhost:8000/api/v1/create-room", data=data)
+    response = requests.post(f"https://noticeboard.zuri.chat/api/v1/{org_id}/create-room", data=data)
+    # response = requests.post("http://localhost:8000/api/v1/614679ee1a5607b13c00bcb7/create-room", data=data)
 
     install = {
         "name": "Noticeboard Plugin",
         "description": "Creates Notice",
         "plugin_id": "613fc3ea6173056af01b4b3e",
     }
-    return Response(install)
+    return Response({"response": response, "install": install})
 
 
 class CreateNewNotices(views.APIView):
@@ -99,7 +64,6 @@ class CreateNewNotices(views.APIView):
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         
-        headers={}
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
@@ -109,7 +73,9 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            db.post_to_centrifugo(serializer.data)
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -123,6 +89,11 @@ class UpdateNoticeAPIView(views.APIView):
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+
             return Response(
                 {
                     "success": True,
@@ -134,45 +105,6 @@ class UpdateNoticeAPIView(views.APIView):
             {
                 "success": False,
                 "message": "Notice not updated, Please Try Again"
-            },
-            status=status.HTTP_400_BAD_REQUEST)
-
-
-class search(ListAPIView):
-    def get(self, request, org_id):
-
-        # org_id = "613a1a3b59842c7444fb0220"
-
-        notice = db.read("noticeboard", org_id)
-        if notice['status'] == 200:
-            all_notice = notice['data']
-
-            def func(data, keyword):
-                new_data = []
-                for d in data:
-                    if keyword.lower() in d['title'].lower() or keyword.lower() in d['message'].lower():
-                        new_data.append(d)
-                return new_data
-
-            query = request.GET.get("q")
-
-            if query:
-                all_notice = func(all_notice, query)
-                # print(all_notices)
-                # all_notice = list(
-                #     filter(lambda x: x['title'].lower().startswith(query.lower()), all_notice))
-                
-            return Response(
-                {
-                    "status": True,
-                    "data": all_notice,
-                    "message": "Successfully retrieved"
-                },
-                status=status.HTTP_200_OK)
-        return Response(
-            {
-                "success": False,
-                "message": "Failed"
             },
             status=status.HTTP_400_BAD_REQUEST)
 
@@ -189,6 +121,11 @@ class DeleteNotice(views.APIView):
                 org_id=org_id,
                 object_id=object_id
             )
+
+            updated_data = db.read("noticeboard", org_id)
+
+            db.post_to_centrifugo(updated_data)
+
             return Response(
                 {
                     "success": True,
@@ -376,7 +313,10 @@ def room_noticeboard_list(request, room_id):
     if request.method == 'GET':
         org_id = request.GET.get('org')
         room_notices_list = db.read("test_noticeboard", org_id, {"room_id": room_id})
-        return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+
+        if room_notices_list["status"] == 200:
+            return Response(room_notices_list["data"], status=status.HTTP_200_OK)
+        return Response({"error": room_notices_list["message"]}, status=room_notices_list["status"])
     
 
 @api_view(['POST'])

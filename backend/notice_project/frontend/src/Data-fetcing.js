@@ -7,6 +7,7 @@ export const UserProvider = (props) => {
 	const [loading, setLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
 	const [allUsers, setAllUsers] = useState(null);
+	const [selectedNotice, setSelectedNotice] = useState({});
 	const [searchText, setSearchText] = useState();
 	const [filteredNotice, setFilteredNotice] = useState(people);
 
@@ -21,6 +22,8 @@ export const UserProvider = (props) => {
 				setLoading,
 				isError,
 				setIsError,
+				selectedNotice,
+				setSelectedNotice,
 				searchText,
 				setSearchText,
 				filteredNotice,
