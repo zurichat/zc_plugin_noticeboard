@@ -14,9 +14,13 @@ import { UserContext } from "../../Data-fetcing";
 import Centrifuge from "centrifuge";
 import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function NoticeBoard() {
   const { setPeople } = useContext(UserContext);
+  const [toast, setToast] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [cent, setCent] = useState(false);
 
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
@@ -33,10 +37,20 @@ function NoticeBoard() {
     const date = today.getDate();
 
     centrifuge.on("connect", function (ctx) {
-      console.log("connected", ctx);
+      setCent(true)
+      setToast(true)
+      setTimeout(() => {
+        setToast(false);
+      }, 5000) 
+      
     });
 
     centrifuge.on("disconnect", function (ctx) {
+      setCent(false)
+
+      setTimeout(() => {
+        setToast(true);
+      })
       console.log("disconnected", ctx);
     });
 
@@ -101,6 +115,21 @@ function NoticeBoard() {
       this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
     </Route> */}
       </Switch>
+
+      <Snackbar
+          open={toast}
+          autoHideDuration={5000}
+          onClose={() => setLoader(false)}
+          message={cent == true
+                    ?"Centrifugo Connected"
+                    :"Centrifugo Disconnected"
+                  }
+          severity={cent == true
+            ?"success"
+            :"error"
+          }
+          
+        />
     </div>
   );
 }
