@@ -15,7 +15,7 @@ class CreateNoticeSerializer(serializers.Serializer):
     message = serializers.CharField()
 
 class UnsubscribeSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length=255)
+    email = serializers.CharField(max_length=30)
     user_id = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now)
 
