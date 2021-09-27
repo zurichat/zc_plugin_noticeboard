@@ -26,7 +26,6 @@ const EmailUnsubscription = () => {
       .get(`https://api.zuri.chat/organizations/${orgId}/members`)
       .then((res) => {
         const result = res.data.data.filter((data) => data._id === userId)[0];
-        console.log(res);
         if (Boolean(result)) {
           if (result.length !== 0) {
             axios
