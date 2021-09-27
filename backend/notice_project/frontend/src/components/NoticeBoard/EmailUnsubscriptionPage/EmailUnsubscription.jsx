@@ -56,7 +56,7 @@ const EmailUnsubscription = () => {
                         setLoading(true);
                         setSubscribed(false);
                         setMessage(
-                          "You have successfully Unsubcribed from our mailing list"
+                          "You have successfully unsubcribed from our mailing list"
                         );
                       } else {
                         setLoading(true);
@@ -114,7 +114,7 @@ const EmailUnsubscription = () => {
 
             {loading && (
               <button disabled style={{ cursor: "not-allowed" }}>
-                Unsubscribing
+                Unsubscribing...
               </button>
             )}
             {!loading && (
