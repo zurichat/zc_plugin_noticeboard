@@ -37,7 +37,6 @@ const EmailUnsubscription = () => {
                 const check = res.data.data.filter(
                   (data) => data.user_id === userId
                 );
-                console.log(res.data);
                 if (check.length === 0) {
                   axios
                     .post(
@@ -48,7 +47,6 @@ const EmailUnsubscription = () => {
                       }
                     )
                     .then((res) => {
-                      console.log(res);
                       if (
                         res.data.Message ===
                         "You have successfully Unsubscribed"
