@@ -41,7 +41,7 @@
 }
 
 .unsubscribe .content p {
-  font-size: 18px;
+  font-size: 18px !important;
   margin: 10px 0;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .unsubscribe .content .big {
-  font-size: 30px;
+  font-size: 20px !important;
   font-weight: 700;
 }
 
@@ -95,14 +95,19 @@
 }
 
 .unsubscribe .unsubscribed img {
-  margin: 0 auto;
-  padding: 0;
+  margin: 0 auto !important;
+  padding: 0 !important;
 }
 
 .unsubscribe .unsubscribed p {
-  font-size: 20px;
-  margin: 0;
-  margin-bottom: 20px;
+  font-size: 20px !important;
+  margin: 0 !important;
+  margin: 10px !important;
+}
+
+.unsubscribe .unsubscribed .envelope {
+  max-width: 100px;
+  display: block;
 }
 
 @media (max-width: 760px) {
@@ -112,11 +117,11 @@
   }
 
   .unsubscribe .unsubscribed p {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   .unsubscribe .content .big {
-    font-size: 20px;
+    font-size: 20px !important;
   }
 }
 
@@ -128,11 +133,11 @@
   }
 
   .unsubscribe p {
-    font-size: 16px;
+    font-size: 16px !important;
     padding: 0 10px;
   }
   .unsubscribe .content .big {
-    font-size: 18px;
+    font-size: 18px !important;
   }
 
   .unsubscribe .header {
