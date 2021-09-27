@@ -1,48 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import "./Header.css";
-import axios from "axios";
-import profileIcon from "./images/profile_icon_img_x2.png";
-import SearchResult from "../NoticeBoard/noticeBoardComponent/SearchResult";
-import { SearchContext } from "../../noticeContext";
+import { UserContext } from "../../Data-fetcing";
 
 const Header = () => {
-  const api = axios.create({
-    baseURL: "https://noticeboard.zuri.chat/api/v1",
-  });
-
-  // For Searching On Change
-  const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchSuggestions, setSearchSuggestions] = useContext(SearchContext);
-  const [searchingNotice, setSearchingNotice] = useContext(SearchContext);
-  const org_id = "614679ee1a5607b13c00bcb7";
+  const { people, setFilteredNotice, searchText, setSearchText } =
+    useContext(UserContext);
 
   useEffect(() => {
-    const loadNotices = async () => {
-      const response = await api.get(`/organisation/${org_id}/notices`);
-      setSearchResult(response.data.data);
-    };
-    loadNotices();
-  }, [searchResult]);
-
-  const onChangeHandler = (targetText) => {
-    setSearchText(targetText);
-
-    let matches = [];
-    if (searchText.length > 0) {
-      matches = searchResult.filter((result) => {
-        setSearchingNotice(true);
-        const regex = new RegExp(`${searchText}`, "gi");
-        return result.title.match(regex) + result.message.match(regex);
-      });
-
-      setSearchSuggestions(matches);
-    } else if (searchText.length == 0) {
-      setSearchingNotice(false);
-      setSearchSuggestions([]);
-    }
-    console.log(matches);
-  };
+    const filterNotice = people?.filter((title) =>
+      title.title.toLowerCase().includes(searchText?.toLowerCase())
+    );
+    setFilteredNotice(filterNotice);
+  }, [searchText]);
 
   return (
     <header className="header">
@@ -75,8 +44,7 @@ const Header = () => {
           <input
             className="header__form-input"
             type="text"
-            onChange={(e) => onChangeHandler(e.target.value)}
-            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
             placeholder="Search your workspace"
           />
         </form>
