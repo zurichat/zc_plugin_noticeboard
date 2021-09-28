@@ -1,6 +1,5 @@
 import React from "react";
 import dot from "../../../assets/Ellipse135.svg";
-import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
@@ -32,7 +31,7 @@ const Card = ({ person, people }) => {
   const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
 
   return (
-    <div>
+    <>
       <article className="card-adminNotice">
         <div className="card-header-adminNotice">
           <div className="profile-adminNotice">
@@ -61,26 +60,17 @@ const Card = ({ person, people }) => {
         </div>
         {/* body of card */}
         <div className="card-body-adminNotice">
-          <h5 className="card-title-adminNotice">
+          <h3 className="card-title-adminNotice">
             {person.title.replace(/<[^>]+>/g, "")}
-          </h5>
+          </h3>
           <p className="card-info-adminNotice">
             {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
         <div className="icon-button-tray-adminNotice">
-          <div className="icon-tray-adminNotice">
-            {/* the seen feature was removed */}
-            {/* <div>
-              <img src={see} alt="" />
-              <p className="number">{person.views}</p>
-            </div> */}
-          </div>
           <button
             className="card-button-adminNotice"
-            variant="outlined"
-            color="primary"
             onClick={() => filterUsers(person._id)}
           >
             View Notice
@@ -90,7 +80,7 @@ const Card = ({ person, people }) => {
       {openModal && (
         <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
       )}
-    </div>
+    </>
   );
 };
 

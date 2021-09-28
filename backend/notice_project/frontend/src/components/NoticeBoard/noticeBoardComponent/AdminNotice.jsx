@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
@@ -85,6 +85,7 @@ const PinnedNotices = (props) => {
           </div>
           <Button
             className="header-button"
+            color="primary"
             onClick={() => props.history.push("/noticeboard/create-notice")}
             variant="contained"
             disableRipple
