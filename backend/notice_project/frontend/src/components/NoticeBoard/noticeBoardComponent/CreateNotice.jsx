@@ -1,155 +1,148 @@
-import React, { useState, useContext } from "react";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import TextField from "@material-ui/core/TextField";
-import draftToMarkdown from "draftjs-to-markdown";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
-import { Formik } from "formik";
-import { EditorState, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useContext } from 'react'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Hidden from '@material-ui/core/Hidden'
+import TextField from '@material-ui/core/TextField'
+import draftToMarkdown from 'draftjs-to-markdown'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import { Formik } from 'formik'
+import { EditorState, convertToRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
+import { makeStyles } from '@material-ui/core/styles'
 
-import imageIcon from "./Text-editor/icons/attachment.svg";
-import ErrorDialog from "./CreateNoticeDialogs/ErrorDialog";
-import SuccessDialog from "./CreateNoticeDialogs/SuccessDialog";
-import {
-  MentionAdder,
-  ToggleToolbar,
-} from "./Text-editor/Text_editor_features";
-import "../noticeBoardComponent/Text-editor/Text-editor.css";
-import "./CreateNotice.css";
+import imageIcon from './Text-editor/icons/attachment.svg'
+import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
+import SuccessDialog from './CreateNoticeDialogs/SuccessDialog'
+import { MentionAdder, ToggleToolbar } from './Text-editor/Text_editor_features'
+import '../noticeBoardComponent/Text-editor/Text-editor.css'
+import './CreateNotice.css'
 
-import { DataContext } from "../../../App";
+import { DataContext } from '../../../App'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   headerText: {
     flexGrow: 1,
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "30px",
-    [theme.breakpoints.down("md")]: {
-      display: "flex",
-      justifyContent: "center",
-      fontSize: "30px",
-    },
+    alignItems: 'center',
+    fontWeight: 'bold',
+    fontSize: '30px',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      justifyContent: 'center',
+      fontSize: '30px'
+    }
   },
   header: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center'
   },
   page: {
-    backgroundColor: "white",
-    [theme.breakpoints.down("md")]: {
-      padding: "30px 20px 0px 20px",
-    },
+    backgroundColor: 'white',
+    [theme.breakpoints.down('md')]: {
+      padding: '30px 20px 0px 20px'
+    }
   },
   form: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   formControl: {
-    width: "100%",
+    width: '100%'
   },
   button: {
-    color: "white",
+    color: 'white'
   },
   recipient: {
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
   },
   buttonSubmit: {
-    color: "white",
-  },
-}));
+    color: 'white'
+  }
+}))
 
 const initialValues = {
-  title: "",
-  recipient: "",
-  message: "",
-};
+  title: '',
+  recipient: '',
+  message: ''
+}
 
-const maxChars = 1000;
+const maxChars = 1000
 
-function CreateNotice() {
-  const classes = useStyles();
-  const [errorTitle, setErrorTitle] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [openErrorDialog, setOpenErrorDialog] = useState(false);
-  const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+function CreateNotice () {
+  const classes = useStyles()
+  const { push } = useHistory()
+  const [errorTitle, setErrorTitle] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [openErrorDialog, setOpenErrorDialog] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
-  );
+  )
 
   const handleCloseErrorDialog = () => {
-    setOpenErrorDialog(false);
-  };
+    setOpenErrorDialog(false)
+  }
 
-  const handleCloseSuccessDialog = () => {
-    setOpenSuccessDialog(false);
-  };
-
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-    setErrorMessage("");
-    document.getElementById("messageError").innerHTML = "";
-  };
+  const onEditorStateChange = editorState => {
+    setEditorState(editorState)
+    setErrorMessage('')
+    document.getElementById('messageError').innerHTML = ''
+  }
 
   // Read Organization ID
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
-  const should_send = true;
+  const _globalData = useContext(DataContext)
+  const org_id = _globalData.Organizations[0]
+  const should_send = true
 
   //CREATE NOTICE API CALL STARTS
   const api = axios.create({
-    baseURL: "https://noticeboard.zuri.chat/api/v1",
-  });
+    baseURL: 'https://noticeboard.zuri.chat/api/v1'
+  })
 
-  const onSubmitHandler = async (values) => {
+  const onSubmitHandler = async values => {
     if (isChecked) {
       fetch(
         `https://noticeboard.zuri.chat/api/v1/sendemail?sendemail=${should_send}&org=${org_id}`
-      );
+      )
     }
 
     values.message = draftToMarkdown(
       convertToRaw(editorState.getCurrentContent())
-    );
+    )
     const request = {
       title: values.title,
-      message: values.message,
-    };
-    if (values.title === "" || setEditorState === "") {
+      message: values.message
+    }
+    if (values.title === '' || setEditorState === '') {
       return (
-        setErrorMessage("Field cannot be empty"),
-        setErrorTitle("Field cannot be empty")
-      );
+        setErrorMessage('Field cannot be empty'),
+        setErrorTitle('Field cannot be empty')
+      )
     }
 
     try {
       const res = await api.post(
-        "/organisation/614679ee1a5607b13c00bcb7/create",
+        '/organisation/614679ee1a5607b13c00bcb7/create',
         request
-      );
+      )
       //Return input field to blank
-      values.title = "";
-      setEditorState("");
-
-      return setOpenSuccessDialog(true);
+      values.title = ''
+      setEditorState('')
+      return push('/noticeboard')
     } catch (err) {
       // console.log(err)
-      setOpenErrorDialog(true);
+      setOpenErrorDialog(true)
     }
-  };
+  }
 
-  const _handleBeforeInput = (input) => {
-    const inputLength = editorState.getCurrentContent().getPlainText().length;
+  const _handleBeforeInput = input => {
+    const inputLength = editorState.getCurrentContent().getPlainText().length
     if (input && inputLength >= maxChars) {
-      return "handled";
+      return 'handled'
     }
-  };
+  }
 
   //validation for pasted text
 
@@ -163,7 +156,7 @@ function CreateNotice() {
   // };
 
   return (
-    <div className="dashboard-container">
+    <div className='dashboard-container'>
       <Box className={classes.page}>
         <Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
           {({
@@ -171,39 +164,39 @@ function CreateNotice() {
             handleSubmit,
             handleBlur,
             values,
-            isSubmitting,
+            isSubmitting
           }) => (
             <form onSubmit={handleSubmit}>
               <Box className={classes.header}>
                 <Box className={classes.headerText}>Create Notice</Box>
                 <Box
-                  display="flex"
-                  margin="0 auto"
-                  flexDirection="column"
-                  width="fit-content"
-                  justifyContent="center"
+                  display='flex'
+                  margin='0 auto'
+                  flexDirection='column'
+                  width='fit-content'
+                  justifyContent='center'
                 >
                   <Hidden mdDown>
                     <Button
-                      type="submit"
-                      variant="contained"
+                      type='submit'
+                      variant='contained'
                       className={classes.button}
-                      color="primary"
+                      color='primary'
                       disableRipple
                     >
                       {isSubmitting ? (
                         <CircularProgress className={classes.buttonSubmit} />
                       ) : (
-                        "Publish Notice"
+                        'Publish Notice'
                       )}
                     </Button>
                     <br />
                     <p>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={isChecked}
-                        onChange={(e) =>
-                          setIsChecked((prevIsChecked) => !prevIsChecked)
+                        onChange={e =>
+                          setIsChecked(prevIsChecked => !prevIsChecked)
                         }
                       />
                       &nbsp; Notify Members Via Email
@@ -213,47 +206,47 @@ function CreateNotice() {
               </Box>
               <Box className={classes.recipient}>
                 <Box
-                  width="100%"
-                  pt="30px"
-                  display="flex"
-                  flexDirection="column"
+                  width='100%'
+                  pt='30px'
+                  display='flex'
+                  flexDirection='column'
                   className={classes.form}
                 >
-                  <Box pb="10px">
-                    <Box fontWeight="fontWeightBold">Title/Subject:</Box>
+                  <Box pb='10px'>
+                    <Box fontWeight='fontWeightBold'>Title/Subject:</Box>
                   </Box>
                   <TextField
-                    id="title"
-                    name="title"
+                    id='title'
+                    name='title'
                     value={values.title}
-                    onChange={(e) => {
-                      handleChange(e);
-                      setErrorTitle("");
+                    onChange={e => {
+                      handleChange(e)
+                      setErrorTitle('')
                     }}
                     onBlur={handleBlur}
-                    placeholder="Enter the subject of your notice"
-                    type="text"
-                    variant="outlined"
+                    placeholder='Enter the subject of your notice'
+                    type='text'
+                    variant='outlined'
                     inputProps={{
                       minLength: 5,
-                      maxLength: 30,
+                      maxLength: 30
                     }}
                     // helperText="You can type 30 characters or less"
                   />
-                  <p id="titleError" style={{ color: "red", fontSize: "14px" }}>
+                  <p id='titleError' style={{ color: 'red', fontSize: '14px' }}>
                     {errorTitle}
                   </p>
                 </Box>
               </Box>
-              <Box pt="30px" pb="50px">
-                <Box pb="10px">
-                  <Box fontWeight="fontWeightBold">Message:</Box>
+              <Box pt='30px' pb='50px'>
+                <Box pb='10px'>
+                  <Box fontWeight='fontWeightBold'>Message:</Box>
                 </Box>
                 <Editor
-                  placeholder="Enter the content of your notice(Max 1000)"
-                  wrapperClassName="text-editor"
-                  editorClassName="textarea"
-                  toolbarClassName="toolbarClass"
+                  placeholder='Enter the content of your notice(Max 1000)'
+                  wrapperClassName='text-editor'
+                  editorClassName='textarea'
+                  toolbarClassName='toolbarClass'
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
                   handleBeforeInput={_handleBeforeInput}
@@ -261,31 +254,31 @@ function CreateNotice() {
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
-                      "fontSize",
-                      "inline",
-                      "list",
-                      "textAlign",
-                      "link",
-                      "image",
-                      "emoji",
+                      'fontSize',
+                      'inline',
+                      'list',
+                      'textAlign',
+                      'link',
+                      'image',
+                      'emoji'
                     ],
                     inline: {
-                      options: ["bold", "italic", "underline", "strikethrough"],
-                      className: "rdw-invisible",
+                      options: ['bold', 'italic', 'underline', 'strikethrough'],
+                      className: 'rdw-invisible'
                     },
                     fontSize: {
-                      className: "rdw-invisible",
+                      className: 'rdw-invisible'
                     },
                     link: {
-                      className: "rdw-invisible",
-                      options: ["link"],
+                      className: 'rdw-invisible',
+                      options: ['link']
                     },
                     textAlign: {
-                      className: "rdw-invisible",
+                      className: 'rdw-invisible'
                     },
                     list: {
-                      className: "rdw-invisible",
-                      options: ["unordered", "ordered"],
+                      className: 'rdw-invisible',
+                      options: ['unordered', 'ordered']
                     },
                     emoji: {},
                     image: {
@@ -294,62 +287,62 @@ function CreateNotice() {
                       urlEnabled: true,
                       // uploadCallback: this.uploadImageCallback,
                       inputAccept:
-                        "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-                    },
+                        'image/gif,image/jpeg,image/jpg,image/png,image/svg'
+                    }
                   }}
                   mention={{
-                    separator: " ",
-                    trigger: "@",
+                    separator: ' ',
+                    trigger: '@',
                     suggestions: [
-                      { text: "APPLE", value: "apple", url: "apple" },
-                      { text: "BANANA", value: "banana", url: "banana" },
-                      { text: "CHERRY", value: "cherry", url: "cherry" },
-                      { text: "DURIAN", value: "durian", url: "durian" },
-                      { text: "EGGFRUIT", value: "eggfruit", url: "eggfruit" },
-                      { text: "FIG", value: "fig", url: "fig" },
+                      { text: 'APPLE', value: 'apple', url: 'apple' },
+                      { text: 'BANANA', value: 'banana', url: 'banana' },
+                      { text: 'CHERRY', value: 'cherry', url: 'cherry' },
+                      { text: 'DURIAN', value: 'durian', url: 'durian' },
+                      { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
+                      { text: 'FIG', value: 'fig', url: 'fig' },
                       {
-                        text: "GRAPEFRUIT",
-                        value: "grapefruit",
-                        url: "grapefruit",
+                        text: 'GRAPEFRUIT',
+                        value: 'grapefruit',
+                        url: 'grapefruit'
                       },
-                      { text: "HONEYDEW", value: "honeydew", url: "honeydew" },
-                    ],
+                      { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' }
+                    ]
                   }}
                 />
-                <p id="messageError" style={{ color: "red", fontSize: "14px" }}>
+                <p id='messageError' style={{ color: 'red', fontSize: '14px' }}>
                   {errorMessage}
                 </p>
               </Box>
               <Hidden lgUp>
                 <Box
-                  pt="20px"
-                  pb="30px"
-                  display="flex"
-                  margin="0 auto"
-                  flexDirection="column"
-                  width="fit-content"
-                  justifyContent="center"
+                  pt='20px'
+                  pb='30px'
+                  display='flex'
+                  margin='0 auto'
+                  flexDirection='column'
+                  width='fit-content'
+                  justifyContent='center'
                 >
                   <Button
-                    type="submit"
-                    variant="contained"
+                    type='submit'
+                    variant='contained'
                     className={classes.button}
-                    color="primary"
+                    color='primary'
                     disableRipple
                   >
                     {isSubmitting ? (
                       <CircularProgress className={classes.buttonSubmit} />
                     ) : (
-                      "Publish Notice"
+                      'Publish Notice'
                     )}
                   </Button>
                   <br />
                   <p>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       checked={isChecked}
-                      onChange={(e) =>
-                        setIsChecked((prevIsChecked) => !prevIsChecked)
+                      onChange={e =>
+                        setIsChecked(prevIsChecked => !prevIsChecked)
                       }
                     />
                     &nbsp; Notify Members Via Email
@@ -364,12 +357,8 @@ function CreateNotice() {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
-      <SuccessDialog
-        open={openSuccessDialog}
-        handleClose={handleCloseSuccessDialog}
-      />
     </div>
-  );
+  )
 }
 
-export default CreateNotice;
+export default CreateNotice
