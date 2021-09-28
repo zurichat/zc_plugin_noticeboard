@@ -16,6 +16,24 @@ def sidebar_info(request):
     org_id = request.GET.get('org')
     user_id = request.GET.get('user')
 
+    data = {
+        "title": "Noticeboard",
+        "icon": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
+        "action": "open",
+    }
+
+    room = db.read('noticeboard_room', org_id)
+
+    if room['status'] == 200:
+        if room['data']:
+            room = room['data'][0]
+        else:
+            requests.post(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room", data=data)
+            # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
+    else:
+        requests.post(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room", data=data)
+        # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
+
     if org_id and user_id:
         sidebar = {
             "name": "Noticeboard Plugin",
@@ -53,35 +71,13 @@ def get_room(request, org_id):
 
 
 @api_view(['GET'])
-def install(request, org_id):
-    # org_id = "613a1a3b59842c7444fb0220"
-    # org_id = "614679ee1a5607b13c00bcb7"
-
-
-    data = {
-        "title": "Noticeboard",
-        "icon": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
-        "action": "open",
-    }
-
-    room = db.read('noticeboard_room', org_id)
-
-    if room['status'] == 200:
-        if room['data']:
-            room = room['data'][0]
-        else:
-            response = requests.post(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room", data=data)
-            # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-    else:
-        response = requests.post(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room", data=data)
-        # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-
+def install(request):
     install = {
         "name": "Noticeboard Plugin",
         "description": "Creates Notice",
         "plugin_id": settings.PLUGIN_ID,
     }
-    return Response({"response": room, "install": install})
+    return Response(install)
 
 
 class CreateNewNotices(views.APIView):
@@ -103,9 +99,8 @@ class CreateNewNotices(views.APIView):
             )
 
             updated_data = db.read("noticeboard", org_id)
-            room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id=room_id, data=updated_data)
+            db.post_to_centrifugo(updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -121,9 +116,8 @@ class UpdateNoticeAPIView(views.APIView):
             db.update("noticeboard", org_id, serializer.data, object_id=id)
 
             updated_data = db.read("noticeboard", org_id)
-            room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id=room_id, data=updated_data)
+            db.post_to_centrifugo(updated_data)
 
             return Response(
                 {
@@ -154,9 +148,8 @@ class DeleteNotice(views.APIView):
             )
 
             updated_data = db.read("noticeboard", org_id)
-            room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id=room_id, data=updated_data)
+            db.post_to_centrifugo(updated_data)
 
             return Response(
                 {
