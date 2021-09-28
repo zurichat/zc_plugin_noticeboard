@@ -15,6 +15,7 @@ import Centrifuge from "centrifuge";
 import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
 import Snackbar from "@material-ui/core/Snackbar";
+import axios from 'axios'
 
 function NoticeBoard() {
   const { setPeople } = useContext(UserContext);
@@ -28,7 +29,17 @@ function NoticeBoard() {
   const today = new Date();
   const date = today.getDate();
 
-  const CentrifugoConnection = () => {
+
+  const CentrifugoConnection = async() => {
+    axios
+    .get(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/get-room`)
+    .then((response) =>{
+      let channelId = response.data.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
     const centrifuge = new Centrifuge(
       "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
@@ -56,7 +67,7 @@ function NoticeBoard() {
 
     centrifuge.connect();
 
-    centrifuge.subscribe("noticeboard", (ctx) => {
+    centrifuge.subscribe(`channelId`, (ctx) => {
       const message = ctx.data.data;
         setPeople(
            message.reverse().filter(
