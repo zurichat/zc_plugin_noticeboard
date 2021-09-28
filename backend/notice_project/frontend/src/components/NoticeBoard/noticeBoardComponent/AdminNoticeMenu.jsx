@@ -52,9 +52,16 @@ function AdminMenu({ noticeID }) {
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
     setLoader(true);
+    setTimeout(()=>{
+      setLoader(false)
+    }, 4000)
     setTimeout(() => {
       setToast(true);
     }, 4000);
+
+    setTimeout(()=>{
+      setToast(false)
+    }, 7000)
   };
 
   const editNotice = (noticeID) => {
