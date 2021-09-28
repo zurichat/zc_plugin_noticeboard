@@ -111,6 +111,7 @@ h6 {
   box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);
   padding: 16px;
   margin: 0 auto 2em;
+  overflow-wrap: break-word;
 }
 
 .adminNotice-section .card-header-adminNotice {

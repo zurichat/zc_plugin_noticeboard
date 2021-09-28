@@ -9,8 +9,16 @@ import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 
 const PinnedNotices = (props) => {
-  const { people, setPeople, loading, setLoading, isError, setIsError } =
-    useContext(UserContext);
+  const {
+    people,
+    setPeople,
+    loading,
+    setLoading,
+    isError,
+    setIsError,
+    searchText,
+    filteredNotice,
+  } = useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
@@ -37,7 +45,7 @@ const PinnedNotices = (props) => {
             (notice) => notice.created.substring(8, 10) === date.toString()
           )
         );
-          console.log(data.data)
+        // console.log(data.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -53,7 +61,6 @@ const PinnedNotices = (props) => {
     );
   }
 
-  /*
   if (isError) {
     return (
       <div className="preloader">
@@ -67,9 +74,9 @@ const PinnedNotices = (props) => {
         <i className="fas fa-spinner fa-spin"></i>
       </div>
     );
-  }*/
+  }
 
-  if (people.length <= 0) {
+  if (people?.length <= 0) {
     return (
       <div className="adminnotice">
         <div className="pinned-button-container">
@@ -121,11 +128,17 @@ const PinnedNotices = (props) => {
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
+
       <section className="adminNotice-section">
-        {people.map((person) => {
-          return <Card person={person} key={person._id} />;
-        })}
+        {searchText
+          ? filteredNotice?.map((person) => {
+              return <Card person={person} key={person._id} />;
+            })
+          : people?.map((person) => {
+              return <Card person={person} key={person._id} />;
+            })}
       </section>
+
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
           <p className="older-notices-text">View older notices</p>

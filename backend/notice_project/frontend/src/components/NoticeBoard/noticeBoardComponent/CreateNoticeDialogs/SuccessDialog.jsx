@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function SuccessDialog ({ open, handleClose }) {
+export default function SuccessDialog ({ open, handleClose, type }) {
   const classes = useStyles()
   const { push } = useHistory()
 
@@ -31,7 +31,7 @@ export default function SuccessDialog ({ open, handleClose }) {
         open={open}
         handleClose={handleClose}
         imgIcon={SuccessIcon}
-        text='Notice Created'
+        text={!type ? 'Notice Created' : 'Notice Edited'}
         buttonStyles={classes.button}
         buttonText='Go to notices'
       />

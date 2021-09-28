@@ -1,49 +1,22 @@
-import React, { useState } from "react";
-import { createBrowserHistory } from "history";
+import React, { useEffect, useContext } from "react";
 import "./Header.css";
-import axios from "axios";
-import profileIcon from "./images/profile_icon_img_x2.png";
+import { UserContext } from "../../Data-fetcing";
 
 const Header = () => {
-  const [text, setText] = useState("");
+  const { people, setFilteredNotice, searchText, setSearchText } =
+    useContext(UserContext);
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-    console.log(text);
-  };
-
-  const history = createBrowserHistory({ forceRefresh: true });
-  const api = axios.create({
-    baseURL: "https://noticeboard.zuri.chat/api/v1",
-  });
-
-  // const handleSubmit = async (e) => {
-  // 	e.preventDefault();
-  // 	let res = await api.get(`/search?q=${text}`);
-  // 	console.log(res.data.data);
-  // };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await api.get(`/search?q=${text}`);
-      const searchData = response.data.data;
-      console.log(response.data.data);
-      console.log(searchData);
-      setText("");
-      history.push({
-        pathname: "/noticeboard/search",
-        state: { searchData },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    const filterNotice = people?.filter((title) =>
+      title.title.toLowerCase().includes(searchText?.toLowerCase())
+    );
+    setFilteredNotice(filterNotice);
+  }, [searchText]);
 
   return (
     <header className="header">
       <div className="header__wraps">
-        <form onSubmit={handleSubmit} className="header__form">
+        <form className="header__form">
           <div className="header__search-icon">
             <svg
               viewBox="0 0 18 18"
@@ -71,8 +44,7 @@ const Header = () => {
           <input
             className="header__form-input"
             type="text"
-            onChange={handleChange}
-            value={text}
+            onChange={(e) => setSearchText(e.target.value)}
             placeholder="Search your workspace"
           />
         </form>

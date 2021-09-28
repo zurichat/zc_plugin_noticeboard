@@ -14,57 +14,70 @@ import { UserContext } from "../../Data-fetcing";
 import Centrifuge from "centrifuge";
 import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
+import Snackbar from "@material-ui/core/Snackbar";
+import axios from 'axios'
 
 function NoticeBoard() {
-  const { setPeople, setLoading, setIsError } = useContext(UserContext);
+  const { setPeople } = useContext(UserContext);
+  const [toast, setToast] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [cent, setCent] = useState(false);
 
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  const CentrifugoConnection = () => {
+  const today = new Date();
+  const date = today.getDate();
+
+
+  const CentrifugoConnection = async() => {
+    axios
+    .get(`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/get-room`)
+    .then((response) =>{
+      let channelId = response.data.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
     const centrifuge = new Centrifuge(
       "wss://realtime.zuri.chat/connection/websocket",
       { debug: true }
     );
+    const today = new Date();
+    const date = today.getDate();
 
     centrifuge.on("connect", function (ctx) {
-      console.log("connected", ctx);
+      setCent(true)
+      setToast(true)
+      setTimeout(() => {
+        setToast(false);
+      }, 5000) 
+      
     });
 
     centrifuge.on("disconnect", function (ctx) {
+      setCent(false)
+
+      setTimeout(() => {
+        setToast(true);
+      })
       console.log("disconnected", ctx);
     });
 
     centrifuge.connect();
 
-    centrifuge.subscribe("noticeboard", (ctx) => {
-		
-      const fetching = () => {
-        fetch(
-			`https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-        )
-          .then((res) => {
-            if (res.status >= 200 && res.status <= 299) {
-              return res.json();
-            } else {
-              setLoading(false);
-              setIsError(true);
-            }
-          })
-          .then((data) => {
-            setPeople(
-              data.data.filter(
-                (notice) => notice.created.substring(8, 10) === date.toString()
-              )
-            );
-            setLoading(false);
-          })
-          .catch((error) => console.log(error));
-      };
+    centrifuge.subscribe(`channelId`, (ctx) => {
+      const message = ctx.data.data;
+      setPeople(
+        message
+          .reverse()
+          .filter(
+            (notice) => notice.created.substring(8, 10) === date.toString()
+          )
+      );
 
-      fetching();
-
-      console.log(ctx);
+      console.log(message);
     });
 
     centrifuge.on("publish", function (ctx) {
@@ -113,6 +126,21 @@ function NoticeBoard() {
       this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
     </Route> */}
       </Switch>
+
+      <Snackbar
+          open={toast}
+          autoHideDuration={5000}
+          onClose={() => setLoader(false)}
+          message={cent == true
+                    ?"Centrifugo Connected"
+                    :"Centrifugo Disconnected"
+                  }
+          severity={cent == true
+            ?"success"
+            :"error"
+          }
+          
+        />
     </div>
   );
 }

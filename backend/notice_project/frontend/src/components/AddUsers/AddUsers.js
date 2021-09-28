@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -6,6 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddUserIcon from "@material-ui/icons/PersonAdd";
 import Avatar from "@material-ui/core/Avatar";
 import Img from "./images/img1.png";
+import { UserContext } from "../../Data-fetcing";
 
 //members documents
 const ListMemberContainer = ({ Name, Img, Username, Job }) => {
@@ -28,14 +29,13 @@ const ListMemberContainer = ({ Name, Img, Username, Job }) => {
 };
 
 // Notice board component
-export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers }) => {
+export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers, setAllUsers }) => {
   const [search, setSearch] = useState();
   const [filteredUsers, setFilterUsers] = useState(allUsers);
 
     
     useEffect(() => {
-      const filterUser = allUsers?.filter(name => name.user_name.toLowerCase().includes(search.toLowerCase()))
-      console.log(filterUser, search,"usersss")
+      const filterUser = allUsers?.filter(name => name.user_name.toLowerCase().includes(search?.toLowerCase()))
       setFilterUsers(filterUser)
     }, [search])
 
@@ -67,7 +67,7 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers }) => {
       </AddUserBox> */}
       {!allUsers? (<Loading>Loading</Loading>) : ""}
       {/* list of member */}
-      {filteredUsers? filteredUsers.map((user, id) => {
+      {search? filteredUsers?.map((user, id) => {
         return <ListMemberContainer
           key={id}
           Name={user.user_name}
@@ -153,32 +153,9 @@ const AddUserNoticeboard = ({ setShowAddUser }) => {
 
 export const AddUsers = ({ setOpenModal, openModal,notice }) => {
   const [showAddUser, setShowAddUser] = useState(false);
-  const [allUsers, setAllUsers] = useState(null);
-   allUsers;
+  const {allUsers, setAllUsers} = useContext(UserContext)
 
-   //api to get all users in an organization
-  const getAllUsers = async () => {
-    try {
-      const requestOptions = {
-        method: "GET",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-      };
-      let response = await fetch(
-        "https://api.zuri.chat/organizations/6145b49e285e4a18402073bc/members",
-        requestOptions
-      );
-      let data = await response.json();
-       setAllUsers(data.data);
-    
-      //setMessage(data.message);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+
   return (
     <BackDrop>
       {showAddUser ? (
@@ -338,8 +315,9 @@ const Users = styled.div`
 `;
 
 const NoticeContainer = styled(AddUserContainer)`
-  height: unset;
+  height: 40em;
   margin: 10% auto;
+  overflow-y:scroll;
 `;
 
 const AddUserBox = styled.div`
@@ -391,6 +369,7 @@ const Remove = styled.h3`
 `;
 
 const MemberName = styled.h3`
+  font-size: 14px;
   @media (max-width: ${500}px) {
     font-size: 12px;
   }
@@ -405,6 +384,7 @@ const Status = styled.span`
 const UserName = styled.h5`
   opacity: 0.6;
   margin-left: 0.5em;
+  font-size: 14px;
   @media (max-width: ${500}px) {
     font-size: 12px;
   }
