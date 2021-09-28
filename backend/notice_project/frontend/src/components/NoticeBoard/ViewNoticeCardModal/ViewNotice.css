@@ -36,7 +36,9 @@ body {
   padding: 20px;
   position: absolute;
   top: 95px;
-  left: 35.8%;
+  /* left: 35.8%; */
+  left: auto;
+  right: auto;
   background-color: #fff;
   opacity: 1;
   overflow-wrap: break-word;
@@ -129,7 +131,7 @@ body {
 
 @media (max-width: 800px) {
   .modal-card {
-    top: 50%;
+    top: 25%;
     left: auto;
     right: auto;
   }
