@@ -51,10 +51,17 @@ function AdminMenu({ noticeID }) {
 
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
-    setLoader(true);
+     setLoader(true);
+    //  setTimeout(()=>{
+    //    setLoader(false)
+    // }, 4000)
     setTimeout(() => {
       setToast(true);
     }, 4000);
+
+    setTimeout(()=>{
+      setToast(false)
+    }, 7000)
   };
 
   const editNotice = (noticeID) => {
@@ -120,8 +127,10 @@ function AdminMenu({ noticeID }) {
       options
     )
       .then((response) => {
-        console.log(response);
+        console.log(response, );
+        setLoader(false)
       })
+      
       .catch((error) => {
         console.log(error);
       });
