@@ -2,12 +2,15 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
+import axios from 'axios'
 
 // For testing purposes
+
+
 
 const _globalData = {
 	Organizations: ["614679ee1a5607b13c00bcb7"],
@@ -29,11 +32,14 @@ const _globalData = {
 	_id: "61496769e4b2aebf8ec8cff1",
 };
 
-//const _globalData = GetUserInfo();
 
-export const DataContext = React.createContext(_globalData);
+//const _globalData = GetUserInfo();
+export const DataContext = React.createContext();
+export const UserInfoContext = React.createContext();
+
 
 function App() {
+	//let _globalData;
 	// const CentrifugoConnection = () => {
 	//   const centrifuge = new Centrifuge(
 	//     "wss://realtime.zuri.chat/connection/websocket",
@@ -67,24 +73,65 @@ function App() {
 	//   CentrifugoConnection();
 	// });
 
+	const [userData, setUserData] = useState(null)
+	const [userLoading, setUserLoading] = useState(true)
+
+	//Get ALL
+	const GetUserInfo = async () => {
+		let user = JSON.parse(sessionStorage.getItem('user'))
+		let token = sessionStorage.getItem('token')
+	  
+		if ((user && token) !== null) {
+			
+		  try {
+			const response = await axios.get(
+			  `https://api.zuri.chat/users/${user.id}`,
+			  {
+				headers: {
+				  Authorization: `Bearer ${token}`
+				}
+			  }
+			)
+			
+			setUserData(response.data.data)
+			console.log(response.data.data, "here")
+			setUserLoading(false)
+			return response.data.data
+		  } catch (err) {
+			console.log(err)
+		  }
+		} else {
+		  console.log('YOU ARE NOT LOGGED IN, PLEASE LOG IN')
+		}
+	  }
+	
+   const check = !userData && !userLoading
+	  useEffect( async() => {
+		  const use = await GetUserInfo()
+	  }, [])
+
 	return (
 		<Router basename="/noticeboard">
-			<DataContext.Provider value={_globalData}>
-				<UserProvider>
-					<SearchProvider>
-						<div className="App">
-							<div className="app__body">
-								<span className="app__bodyFlex">
-									<Header />
-									<NoticeBoard />
-								</span>
+			<UserInfoContext.Provider value={userData}>
+				<DataContext.Provider value={_globalData}>
+					<UserProvider>
+						<SearchProvider>
+							<div className="App">
+								<div className="app__body">
+									<span className="app__bodyFlex">
+										<Header />
+										<NoticeBoard />
+									</span>
+								</div>
 							</div>
-						</div>
-					</SearchProvider>
-				</UserProvider>
-			</DataContext.Provider>
+						</SearchProvider>
+					</UserProvider>
+				</DataContext.Provider>
+			</UserInfoContext.Provider>
 		</Router>
 	);
 }
+
+
 
 export default App;
