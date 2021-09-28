@@ -105,7 +105,7 @@ class CreateNewNotices(views.APIView):
             updated_data = db.read("noticeboard", org_id)
             room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo(room_id=room_id, data=updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -123,7 +123,7 @@ class UpdateNoticeAPIView(views.APIView):
             updated_data = db.read("noticeboard", org_id)
             room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo(room_id=room_id, data=updated_data)
 
             return Response(
                 {
@@ -156,7 +156,7 @@ class DeleteNotice(views.APIView):
             updated_data = db.read("noticeboard", org_id)
             room_id = updated_data['data'][0]['_id']
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo(room_id=room_id, data=updated_data)
 
             return Response(
                 {
