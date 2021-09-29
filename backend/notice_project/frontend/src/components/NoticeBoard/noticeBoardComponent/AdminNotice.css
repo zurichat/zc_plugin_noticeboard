@@ -250,12 +250,16 @@ h6 {
 
 .older-notices {
   width: max-content;
-  padding-bottom: 3px;
-  margin: 0 auto;
-  border-bottom: 2px solid #00bb7c;
+  /* padding-bottom: 3px; */
+  padding: 1em 1em;
+  border-radius: 5px;
+  margin-top: 1em!important;
+  /* border-bottom: 2px solid #00bb7c; */
+  background-color:#01b478;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin-bottom: 2em;
+  text-align: center;
 }
 
 .older-notices:hover {
@@ -263,9 +267,10 @@ h6 {
 }
 
 .older-notices-text {
-  color: #00bb7c;
+  /* color: #00bb7c;*/
+  color:white ;
   text-align: center;
-  margin-bottom: 0px !important;
+  /* margin-top: 1em!important; */
 }
 
 @media only screen and (min-width: 768px) {
@@ -303,4 +308,29 @@ h6 {
   .card-adminNotice {
     width: 100%;
   }
+}
+
+.day-notice{
+  margin-top: 4px !important
+}
+
+
+.no-notice{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 645px) {
+  .no-notice-img{
+    width: 400px;
+    margin-right: 3em;
+  }
+}
+
+
+.notice-btn-div{
+  display:flex;
+  gap:2em 
 }
