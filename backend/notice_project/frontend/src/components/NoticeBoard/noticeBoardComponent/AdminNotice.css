@@ -112,6 +112,10 @@ h6 {
   padding: 16px;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
+  min-height: 270px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .adminNotice-section .card-header-adminNotice {
@@ -172,7 +176,7 @@ h6 {
 
 .adminNotice-section .card-body-adminNotice {
   margin-top: 20px;
-  height: 6.5rem;
+  min-height: 6.5rem;
 }
 
 .adminNotice-section .card-title-adminNotice {
@@ -190,6 +194,7 @@ h6 {
 .adminNotice-section .icon-button-tray-adminNotice {
   display: flex;
   justify-content: space-between;
+  margin-top: auto;
 }
 
 .adminNotice-section .icon-tray-adminNotice {
@@ -227,6 +232,7 @@ h6 {
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
   transition: all 0.4s;
+  margin-top: 24px;
 }
 
 .card-button-adminNotice:hover {
