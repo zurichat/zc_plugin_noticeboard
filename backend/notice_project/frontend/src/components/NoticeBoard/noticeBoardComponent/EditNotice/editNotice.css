@@ -64,6 +64,7 @@ body .edit__dashboard-container button {
 
 .edit__dashboard-container button:hover {
   background-color: var(--button-hover-bg) !important;
+  padding: 3px;
 }
 
 /* .edit__dashboard-container form > div {
