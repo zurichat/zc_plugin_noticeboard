@@ -109,6 +109,7 @@ const PinnedNotices = (props) => {
             textAlign: "center",
             color: "#000",
             marginTop: "20px",
+           
           }}
         >
           

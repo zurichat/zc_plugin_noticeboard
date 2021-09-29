@@ -327,6 +327,10 @@ h6 {
     width: 400px;
     margin-right: 3em;
   }
+
+  .no-new-notices{
+    line-height: 1.6;
+  }
 }
 
 
