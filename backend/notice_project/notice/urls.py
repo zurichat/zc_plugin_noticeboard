@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('sidebar', sidebar_info, name="sidebar"), # changed sidebar to sidebar_info
 
-    path('organisation/<str:org_id>/install', install, name='install'),
+    path('install', install, name='install'),
       
     path('sendemail', emailNotificaion, name="Email Notificaion"),
 
@@ -36,8 +36,6 @@ urlpatterns = [
 
     path('organisation/<str:org_id>/get-room', get_room),
     
-    path('add_user', add_user, name='add_user'),
-
     path('organisation/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
@@ -45,7 +43,11 @@ urlpatterns = [
     path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
-    # newly added due to sidebar task -- start
+]
+
+# newly added due to sidebar task -- start
+    # path('add_user', add_user, name='add_user'),
+
     # path('create-notice', CreateNoticeView.as_view()),
 
     # path('noticeboard/<str:room_id>', room_noticeboard_list), 
@@ -54,6 +56,3 @@ urlpatterns = [
 
     # path('add-member', add_member_to_room), 
     # -- stop
-
-
-]
