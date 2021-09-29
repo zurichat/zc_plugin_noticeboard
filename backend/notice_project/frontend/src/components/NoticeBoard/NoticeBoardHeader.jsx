@@ -7,14 +7,12 @@ import Member3 from "../../assets/member-3.svg";
 import Member4 from "../../assets/member-4.svg";
 import { AddUsers } from "../AddUsers/AddUsers";
 import AddIcon from "@material-ui/icons/Add";
-import { DataContext, UserInfoContext } from "../../App";
+import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
 
 function NoticeBoardHeader() {
   const [openModal, setOpenModal] = useState(false)
-  const _globalData = useContext(DataContext)
   const {allUsers, setAllUsers} = useContext(UserContext)
-  const workspace = _globalData.Organizations[0]
   const userData = useContext(UserInfoContext)
   
   const getAllUsers = async () => {
@@ -25,23 +23,21 @@ function NoticeBoardHeader() {
         headers: { "Content-Type": "application/json" },
       };
       let response = await fetch(
-        `https://api.zuri.chat/organizations/${workspace}/members`,
+        `https://api.zuri.chat/organizations/${userData?.currentWorkspace}/members`,
         requestOptions
       );
       let data = await response.json();
        setAllUsers(data.data);
-      
-    
-      //setMessage(data.message);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   useEffect(() => {
     getAllUsers();
-    console.log(userData, "userData")
-  },[] );
+    
+  },[userData] );
 
   return (
     <div className="noticeboard-header">
