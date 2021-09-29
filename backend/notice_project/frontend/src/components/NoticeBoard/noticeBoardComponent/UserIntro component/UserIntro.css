@@ -54,8 +54,8 @@
 
 .view-notice-btn-userIntro {
   display: block;
-  background: var(--accent-color) !important;
-  color: var(--button-color) !important;
+  background: #00b87c !important;
+  color: #ffffff !important;
   font-weight: bold;
   padding: 1.1em 1.5em;
   text-transform: capitalize;
