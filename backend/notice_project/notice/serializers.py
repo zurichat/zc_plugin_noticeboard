@@ -12,8 +12,8 @@ class NoticeboardRoom(serializers.Serializer):
 class CreateNoticeSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now)
-    email = serializers.EmailField()
-    author_email = serializers.CharField()
+    author_email = serializers.EmailField()
+    author_name = serializers.CharField()
     message = serializers.CharField()
 
 class UnsubscribeSerializer(serializers.Serializer):
