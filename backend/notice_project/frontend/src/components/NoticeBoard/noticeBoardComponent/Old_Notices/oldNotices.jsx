@@ -34,7 +34,7 @@ function OldNotices() {
   //retrieving notices
   const getNotices = async () => {
     const response = await fetch(
-      "https://noticeboard.zuri.chat/api/v1/notices"
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     );
     const data = await response.json();
     setNotices(data.data);
@@ -64,7 +64,7 @@ function OldNotices() {
     <>
       <div className="old-notice-container">
         <OldNoticeHeader />
-        <section className="old-notices">
+        <section className="adminNotice-section">
           {currentNoticeData.map((notice, index) => {
             return <Card person={notice} key={index} />;
           })}

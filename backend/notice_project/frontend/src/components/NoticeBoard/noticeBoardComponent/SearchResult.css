@@ -37,6 +37,7 @@
 .user-notice-card .card-top .avatar-grp {
 	display: flex;
 	align-items: center;
+	width: 80%;
 }
 
 .user-notice-card .card-top .avatar-grp .avatar {
@@ -62,6 +63,13 @@
 	font-size: 14px;
 	font-weight: 700;
 	margin-bottom: 8px;
+}
+
+.user-notice-card .search-notice-time-stamp {
+	width: 70%;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .user-notice-card .card-top .avatar-grp .avatar-info .time-stamp {

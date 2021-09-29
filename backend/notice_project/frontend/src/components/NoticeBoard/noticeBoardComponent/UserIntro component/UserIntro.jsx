@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./UserIntro.css";
 import defaultEdit from "./default.svg";
-import { IntroButtonStyles } from "./styledComponents/IntroButtonStyles";
 import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
 import Illustration from "../../../../assets/Illustration.svg";
 
@@ -23,10 +22,10 @@ const UserIntro = () => {
             </p>
           </IntroPMobileStyles>
           <Link to="/noticeboard/admin-notice">
-            <IntroButtonStyles label="View Notice" variant="contained">
-              <span>View Notice</span>
+            <button className='view-notice-btn-userIntro' label="View Notice">
+              <span className="view-notice-btn">View Notice</span>
               <img src={defaultEdit} alt="create notice" />
-            </IntroButtonStyles>
+            </button>
           </Link>
         </div>
       </div>

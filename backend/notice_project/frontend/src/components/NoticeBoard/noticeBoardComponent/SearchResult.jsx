@@ -1,22 +1,32 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-// import UserNoticeModal from "./UserNoticeModal";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 import "./SearchResult.css";
+import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
 function SearchResult() {
 	const history = useHistory();
-	const user = history.location.state.searchData;
+	const datas = history.location.state.searchData;
 
-	console.log(user);
+	console.log(datas);
 
-	// const OpenModal = (event) => {
-	// 	const clickedButton = event.currentTarget.getAttribute("id");
-	// 	const modal_id = `modal_${clickedButton}`;
-	// 	document.getElementById(modal_id).style.display = "block";
-	// };
+	const getMonthName = (month) => {
+		const d = new Date();
+		d.setMonth(month - 1);
+		const monthName = d.toLocaleString("default", { month: "short" });
+		return monthName;
+	};
+
+	const [openModal, setOpenModal] = useState(false);
+	const [notice, setNotice] = useState();
+
+	const filterUsers = (index) => {
+		const userData = datas.filter((person) => person._id === index);
+		setNotice(userData);
+		setOpenModal(true);
+	};
+	
 
 	/*const OpenModal = (event) => {
 		const clickedButton = event.currentTarget.getAttribute("id");
@@ -32,7 +42,7 @@ function SearchResult() {
 			</div>
 
 			<div className="user-notice-post">
-				{user.map((item, id) => (
+				{datas.map((item, id) => (
 					<div key={id}>
 						<div className="user-notice-card">
 							<div className="card-top">
@@ -44,6 +54,13 @@ function SearchResult() {
 											}
 											alt="avatar"
 										/>
+									</div>
+									<div className="search-notice-time-stamp">
+										<p className="date-stamp stamp-one">{`${getMonthName(Number(item.created.substring(5, 7)))} ${item.created.substring(
+											8,
+											10
+										)} ${item.created.substring(0, 4)}`}</p>
+										<p className="date-stamp stamp-two">{item.created.substring(11, 20)}</p>
 									</div>
 								</div>
 								<div className="info-icon">
@@ -57,7 +74,7 @@ function SearchResult() {
 
 							<div className="card-buttons-grp">
 								<div>
-									<Button className="view-btn MuiButtonBase-root" id={user.id} variant="outlined" onClick={(event) => OpenModal(event)}>
+									<Button className="view-btn MuiButtonBase-root" variant="outlined" color="primary" onClick={() => filterUsers(item._id)}>
 										View notice
 									</Button>
 								</div>
@@ -66,7 +83,8 @@ function SearchResult() {
 					</div>
 				))}
 			</div>
-			{/* <UserNoticeModal user={user} /> */}
+
+			{openModal && <ViewNoticeModal persons={notice} closeModal={setOpenModal} />}
 		</div>
 	);
 }

@@ -1,5 +1,6 @@
 import requests, json
 from urllib.parse import urlencode
+from django.conf import settings
 
 
 CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
@@ -22,16 +23,15 @@ class Dbnoticeboard:
         command = {
             "method": "publish",    
             "params": {
-                "channel": "noticeboard", 
+                "channel": "noticeboard-team-aquinas-stage-10", 
                 "data": data  
                 }
             }
         try:
-            response = requests.post(url=self.centrifugo_url, headers=headers, json=command)
-            return {
-                        "status_code": response.status_code,
-                        "message": response.json()
-                    }
+            data = json.dumps(command)
+            response = requests.post(url=self.centrifugo_url, headers=headers, data=data)
+            print(response.json())
+            return response
         except Exception as e:
             print(e)
 
@@ -52,8 +52,8 @@ class Dbnoticeboard:
             print(res)
             return res
 
-        except requests.exceptions.RequestException as err:
-            print("OOps: There is a problem with the Request", err)
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
         
 
     def save(self, collection_name, org_id, notice_data):
@@ -61,7 +61,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -74,7 +74,6 @@ class Dbnoticeboard:
             r = requests.post(self.write_endpoint,data)
             print(r.text)
             r.raise_for_status()
-            self.post_to_centrifugo(notice_data)
         except requests.exceptions.RequestException as err:
             print("OOps: There is a problem with the Request", err)
         except requests.exceptions.HTTPError as errh:
@@ -88,7 +87,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -111,7 +110,7 @@ class Dbnoticeboard:
 
     def delete(self, org_id, collection_name, object_id):
         data = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_delete": False,
