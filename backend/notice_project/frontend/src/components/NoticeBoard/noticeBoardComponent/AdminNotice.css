@@ -115,6 +115,10 @@ h6 {
   padding: 1.5em 1em;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
+  min-height: 270px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .adminNotice-section .card-header-adminNotice {
@@ -230,6 +234,7 @@ h6 {
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
   transition: all 0.4s;
+  margin-top: 24px;
 }
 
 .card-button-adminNotice:hover {
