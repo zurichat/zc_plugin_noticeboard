@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
+import noNotice from "../../../assets/svg/no_notices.svg";
 import "../noticeBoardComponent/AdminNotice.css";
 import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
@@ -76,12 +77,18 @@ const PinnedNotices = (props) => {
     );
   }
 
+  
+
+
+
   if (people?.length <= 0) {
     return (
+      
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
             <p className="text">Notices</p>
+            
           </div>
           <Button
             className="header-button"
@@ -92,22 +99,34 @@ const PinnedNotices = (props) => {
             Create Notice <img src={notice} alt="create notice" />
           </Button>
         </div>
+        <div className='no-notice'>
+        <img src={noNotice} alt='no-notice' className='no-notice-img' />
         <h1
           className="no-new-notices"
           style={{
-            fontSize: "1.5rem",
+            fontSize: "1rem",
             textAlign: "center",
-            color: "#01b478",
+            color: "#000",
             marginTop: "20px",
           }}
         >
-          No new notice today
+          
+            Hey there, You have no notice for the day, they would appear here when published
         </h1>
-        <Link to="/noticeboard/old-notices">
-          <div className="older-notices">
-            <p className="older-notices-text">View older notices</p>
-          </div>
-        </Link>
+        <div className='notice-btn-div'>      
+          <Link to="/noticeboard">
+            <div className="older-notices">
+              <p className="older-notices-text">Go Back</p>
+            </div>
+          </Link>
+
+          <Link to="/noticeboard/old-notices">
+            <div className="older-notices">
+              <p className="older-notices-text">View older notices</p>
+            </div>
+          </Link>
+        </div>
+        </div>
       </div>
     );
   }
