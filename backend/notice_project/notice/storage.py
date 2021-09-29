@@ -18,12 +18,12 @@ class Dbnoticeboard:
         self.delete_endpoint = BASE_URL + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
-    def post_to_centrifugo(self, room_id, data):
+    def post_to_centrifugo(self, data):
         headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
             "params": {
-                "channel": room_id, 
+                "channel": "noticeboard-team-aquinas-stage-10", 
                 "data": data  
                 }
             }
