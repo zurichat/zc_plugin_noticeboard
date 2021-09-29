@@ -11,6 +11,15 @@
   --button-color: #fff;
 }
 
+a {
+  text-decoration: none !important;
+}
+
+a:active,
+a:visited {
+  color: transparent !important;
+}
+
 .UserIntro {
   position: relative;
   width: 85%;
@@ -66,14 +75,15 @@
   margin: 0 auto 2em;
 }
 
+.view-notice-btn-userIntro:hover {
+  cursor: pointer;
+  background-color: #03d38e !important;
+}
+
 .view-notice-btn-userIntro img {
   display: inline-block;
   vertical-align: text-bottom;
   margin-left: 10px;
-}
-
-.view-notice-btn-userIntro:hover {
-  cursor: pointer;
 }
 
 @media only screen and (min-width: 768px) {

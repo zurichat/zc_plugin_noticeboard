@@ -185,7 +185,7 @@ h6 {
 .adminNotice-section .card-title-adminNotice {
   min-height: 45px;
   font-size: 18px !important;
-  font-weight: 700;
+  font-weight: 700!important;
   text-transform: capitalize;
 }
 
@@ -239,8 +239,8 @@ h6 {
 
 .card-button-adminNotice:hover {
   border: none !important;
-  background-color: var(--accent-color) !important;
-  color: var(--button-color);
+  background-color: #00bb7c !important;
+  color: #fff;
 }
 
 .adminDot img {
