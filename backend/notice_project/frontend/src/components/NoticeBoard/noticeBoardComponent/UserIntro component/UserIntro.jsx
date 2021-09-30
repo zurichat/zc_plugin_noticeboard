@@ -16,9 +16,8 @@ const UserIntro = () => {
 
           <IntroPMobileStyles>
             <p className="userIntro-mainText">
-              👋 Hey! You have been invited to the Notice board, Create notices
-              for the workspace and different channels and you can pin important
-              notices to help everyone identify them.
+              👋 Hey! You have been invited to the Notice board. No new notices,
+              they will appear here as soon as they have been created.
             </p>
           </IntroPMobileStyles>
           <Link

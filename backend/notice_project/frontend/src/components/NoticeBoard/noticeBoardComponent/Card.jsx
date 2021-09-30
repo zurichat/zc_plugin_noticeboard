@@ -17,7 +17,7 @@ const Card = ({ person, people }) => {
   };
 
 
-  console.log(persons)
+
 
 
   const months = [
