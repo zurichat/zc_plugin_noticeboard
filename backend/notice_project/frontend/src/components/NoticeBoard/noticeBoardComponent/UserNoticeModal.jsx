@@ -2,11 +2,12 @@ import React from "react";
 import "./UserNoticeModal.css";
 import UserMenu from "./UserMenu/UserMenu";
 import { Button } from "@material-ui/core";
+import moment from "moment";
 
-function UserNoticeModal({ user }) {
-  const id = String(user.id);
+function UserNoticeModal({ person }) {
+  const id = String(person._id);
   const modal_id = `modal_${id}`;
-  const paragraphs = user.moreInfo;
+  const paragraphs = person.message;
 
   const CloseModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
@@ -14,11 +15,11 @@ function UserNoticeModal({ user }) {
     document.getElementById(modal_id).style.display = "none";
   };
 
-  document.addEventListener('keydown', (event) => {
-    if(event.key === "Escape"){
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
       document.getElementById(modal_id).style.display = "none";
     }
-  })
+  });
 
   return (
     <div className="userNoticeModal" id={modal_id}>
@@ -29,17 +30,21 @@ function UserNoticeModal({ user }) {
               <div className="userNoticeModal-imageContainer">
                 <img
                   className="userNoticeModal-image"
-                  src={user.image}
+                  src={
+                    person.author_img_url !== "null"
+                      ? person.author_img_url
+                      : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                  }
                   alt="user"
                 />
               </div>
               <div className="userNoticeModal-textContainer">
-                <h1 className="userNoticeModal-username">{user.username}</h1>
+                <h1 className="userNoticeModal-username">
+                  {person.author_username}
+                </h1>
                 <div className="userNoticeModal-timeStamp">
-                  <span className="userNoticeModal-stampDay">{user.date}</span>
-                  &#183;
-                  <span className="userNoticeModal-stampHour">
-                    {user.timestamp}
+                  <span className="userNoticeModal-stampDay">
+                    {moment(person.created).fromNow()}
                   </span>
                 </div>
               </div>
@@ -49,15 +54,10 @@ function UserNoticeModal({ user }) {
             </div>
           </div>
           <div>
-            <h2 className="userNoticeModal-title">{user.title}</h2>
+            <h2 className="userNoticeModal-title">{person.title}</h2>
           </div>
-          {paragraphs.map((paragraph, index) => {
-            return (
-              <p className="userNoticeModal-paragraph" key={index}>
-                {paragraph}
-              </p>
-            );
-          })}
+
+          <p className="userNoticeModal-paragraph">{person.message}</p>
 
           <div className="closeModalButton-container">
             <Button
