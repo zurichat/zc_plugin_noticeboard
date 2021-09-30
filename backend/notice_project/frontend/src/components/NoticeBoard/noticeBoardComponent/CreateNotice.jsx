@@ -111,7 +111,9 @@ function CreateNotice () {
     setOpenErrorDialog(false)
   }
 
-  console.log(userData)
+  if (userData === null){
+    push('/login')
+  }
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
