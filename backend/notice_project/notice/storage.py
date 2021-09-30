@@ -108,6 +108,33 @@ class Dbnoticeboard:
             print("Error Connecting:", errc)
 
 
+    def bookmark(self, collection_name, org_id, object_id):
+        """This method updates noticeboard related data as json to the Db.
+        It does this using the collection name and the serialized json
+        """
+        di = {
+            "bulk_write": False,
+            "collection_name": collection_name,
+            "filter": {},
+            "object_id": object_id,
+            "organization_id": org_id,
+            "payload": { "bookmarked": True },
+            "plugin_id": settings.PLUGIN_ID
+        }
+        
+        try:
+            res = requests.put(self.write_endpoint, json=di)
+            response = res.json()
+            print(response)
+            return response
+        except requests.exceptions.RequestException as err:
+            print("Oops: There is a problem with the Request", err)
+        except requests.exceptions.HTTPError as errh:
+            print("Http Error:", errh)
+        except requests.exceptions.ConnectionError as errc:
+            print("Error Connecting:", errc)
+
+
     def delete(self, org_id, collection_name, object_id):
         data = {
             "plugin_id": settings.PLUGIN_ID,

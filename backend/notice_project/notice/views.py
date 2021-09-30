@@ -147,7 +147,7 @@ class DeleteNotice(views.APIView):
                 object_id=object_id
             )
 
-            updated_data = db.read("noticeboard", org_id)
+            updated_data = db.read('noticeboard', org_id)
 
             db.post_to_centrifugo(updated_data)
 
@@ -164,6 +164,38 @@ class DeleteNotice(views.APIView):
                     "message": "Delete Operation Failed. Object does not exist in the database"
                 },
                 status=status.HTTP_404_NOT_FOUND)
+
+
+class BookmarkNotice(views.APIView):
+
+    """Allows user to bookmark a notice"""
+
+    def patch(self, request, object_id, org_id):
+        serializer = CreateNoticeSerializer(data=request.data)
+        try:
+            db.bookmark(
+                collection_name='noticeboard',
+                object_id=object_id,
+                org_id=org_id
+            )
+
+            updated_data = db.read('noticeboard', org_id)
+
+            db.post_to_centrifugo(updated_data)
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Bookmark operation successful"
+                },
+                status=status.HTTP_201_CREATED)
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Failed to bookmark"
+                },
+                status=status.HTTP_400_BAD_REQUEST)
 
 
 class ViewNoticeAPI(views.APIView):

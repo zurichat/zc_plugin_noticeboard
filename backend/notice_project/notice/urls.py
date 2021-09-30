@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (install, create_room, CreateNewNotices, 
-                     UpdateNoticeAPIView, DeleteNotice, get_room, 
+                     UpdateNoticeAPIView, DeleteNotice, BookmarkNotice, get_room, 
                      ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion,
                      sidebar_info 
                      )
@@ -41,6 +41,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
+
+    path('organisation/<str:org_id>/notices/<str:object_id>/bookmark', BookmarkNotice.as_view()),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
