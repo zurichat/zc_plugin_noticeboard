@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (install, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, 
-                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder
+                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder,
                      sidebar_info 
                      )
 from drf_yasg.views import get_schema_view
