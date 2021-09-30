@@ -20,7 +20,7 @@ const UserIntro = () => {
               they will appear here as soon as they have been created.
             </p>
           </IntroPMobileStyles>
-          {/* <Link
+          <Link
             to="/noticeboard/admin-notice"
             style={{ textDecoration: "none" }}
           >
@@ -28,7 +28,7 @@ const UserIntro = () => {
               <span className="view-notice-btn">View Notice</span>
               <img src={defaultEdit} alt="create notice" />
             </button>
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>
