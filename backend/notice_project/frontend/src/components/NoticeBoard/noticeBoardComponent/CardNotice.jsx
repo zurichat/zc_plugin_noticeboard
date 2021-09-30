@@ -2,9 +2,10 @@ import React from "react";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
+import moment from "moment";
 
-const CardNotice = ({ user }) => {
-  const id = String(user.id);
+const CardNotice = ({ person }) => {
+  const id = String(person._id);
 
   const OpenModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
@@ -17,16 +18,20 @@ const CardNotice = ({ user }) => {
       <div className="card-top">
         <div className="avatar-grp">
           <div className="avatar">
-            <img src={user.image} alt="user avatar" />
+            <img
+              alt="img"
+              src={
+                person.author_img_url !== "null"
+                  ? person.author_img_url
+                  : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              }
+            />
           </div>
 
           <div className="avatar-info">
-            <div className="avatar-name">{user.username}</div>
+            <div className="avatar-name">{person.author_username}</div>
 
-            <div className="time-stamp">
-              <span className="stamp-day">{user.date}</span>
-              <span className="stamp-hour">{user.timestamp}</span>
-            </div>
+            <div className="time-stamp">{moment(person.created).fromNow()}</div>
           </div>
         </div>
         <div className="info-icon">
@@ -34,8 +39,10 @@ const CardNotice = ({ user }) => {
         </div>
       </div>
       <div className="card-body">
-        <div className="notice-title">{user.title}</div>
-        <div className="notice-message">{user.info.substring(0, 120)}...</div>
+        <div className="notice-title">{person.title}</div>
+        <div className="notice-message">
+          {person.message.substring(0, 150)}...
+        </div>
       </div>
 
       <div className="card-buttons-grp">
@@ -44,7 +51,7 @@ const CardNotice = ({ user }) => {
             <img src={viewIcon} alt="" />
           </div>
 
-          <div className="views-num">{user.views}</div>
+          <div className="views-num">30</div>
         </div>
 
         <div>

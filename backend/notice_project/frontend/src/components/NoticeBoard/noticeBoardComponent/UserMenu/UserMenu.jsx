@@ -8,10 +8,8 @@ import MoreVertRoundedIcon from "@material-ui/icons/MoreVertRounded";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import bookmarkIcon from "./assets/bookmarkIcon.svg";
 import remindIcon from "./assets/remindIcon.svg";
 import copyLinkIcon from "./assets/copyLinkIcon.svg";
-import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
 
 const useStyles = makeStyles({
   listItemText: {
@@ -28,13 +26,8 @@ const useStyles = makeStyles({
 });
 
 const menuContent = [
-  {
-    img: bookmarkIcon,
-    text: "Bookmark",
-  },
   { img: remindIcon, text: "Remind me about this" },
   { img: copyLinkIcon, text: "Copy link" },
-  { img: moreMessagesIcon, text: "More messages shortcut..." },
 ];
 
 export default function UserMenu() {

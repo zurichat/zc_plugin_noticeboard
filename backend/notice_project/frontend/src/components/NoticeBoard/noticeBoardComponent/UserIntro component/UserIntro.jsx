@@ -16,12 +16,11 @@ const UserIntro = () => {
 
           <IntroPMobileStyles>
             <p className="userIntro-mainText">
-              👋 Hey! You have been invited to the Notice board, Create notices
-              for the workspace and different channels and you can pin important
-              notices to help everyone identify them.
+              👋 Hey! You have been invited to the Notice board. No new notices,
+              they will appear here as soon as they have been created.
             </p>
           </IntroPMobileStyles>
-          <Link
+          {/* <Link
             to="/noticeboard/admin-notice"
             style={{ textDecoration: "none" }}
           >
@@ -29,7 +28,7 @@ const UserIntro = () => {
               <span className="view-notice-btn">View Notice</span>
               <img src={defaultEdit} alt="create notice" />
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

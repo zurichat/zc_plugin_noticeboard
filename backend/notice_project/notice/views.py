@@ -4,7 +4,7 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer, NoticeReminderSerializer
 from .email import sendmassemail
 import re
 from .utils import user_rooms
@@ -323,6 +323,21 @@ class Unsubscribe(views.APIView):
                 return Response({"success": False,"message": "Delete Operation Failed. Object does not exist in the database"},status=status.HTTP_404_NOT_FOUND)
         return Response({"status": False, "message": "Check your query parameter"})
 
+class NoticeReminder(views.APIView):
+    '''
+        For creating reminders.
+    '''
+    def post(self, request):
+        serializer = NoticeReminderSerializer(data=request.data)
+        if serializer.is_valid():
+            db.save(
+                "noticeboard",
+                "613a1a3b59842c7444fb0220",
+                notice_data=serializer.data
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ADDITIONS OR PATCHINGS DUE TO SIDEBAR
 
