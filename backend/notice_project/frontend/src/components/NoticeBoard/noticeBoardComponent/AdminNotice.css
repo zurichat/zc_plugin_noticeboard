@@ -35,10 +35,6 @@ h6 {
   flex-direction: column;
 }
 
-.adminnotice {
-  padding: 1.5em 2.5em 2.5em;
-}
-
 .fa-spinner {
   margin: 5rem 0 !important;
 }
@@ -65,17 +61,12 @@ h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding: 0 6px;
-}
-
-.pinned-button-container .pin-text {
-  display: flex;
+  margin: 1em 0;
 }
 
 .pin-text p {
   font-weight: 900;
-  font-size: 1.5em !important;
+  font-size: 1.3em !important;
 }
 
 .pin-text img {
@@ -88,11 +79,11 @@ h6 {
   background: var(--button-bg);
   color: var(--button-color);
   font-weight: bold;
-  padding: 10px, 24px;
-  width: 187px;
+  padding: 5px;
+  width: 165px;
   height: 44px;
+  font-size: 14px;
   text-transform: capitalize;
-  font-size: 16px;
 }
 
 .header-button:hover {
@@ -103,14 +94,31 @@ h6 {
   margin-left: 16px;
 }
 
+.adminnotice {
+  padding: 0 2em 2em;
+}
+
+.pinned-button-container .header-button img {
+  margin-left: 4px;
+}
+
 /* .adminNotice-section with the cards */
+
+.adminnotice,
+.adminNotice-section {
+  width: 100%;
+}
 
 .adminNotice-section .card-adminNotice {
   border-radius: 3px;
-  padding: 16px;
   box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);
-  padding: 16px;
+  padding: 1.5em 1em;
   margin: 0 auto 2em;
+  overflow-wrap: break-word;
+  min-height: 270px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .adminNotice-section .card-header-adminNotice {
@@ -171,28 +179,28 @@ h6 {
 
 .adminNotice-section .card-body-adminNotice {
   margin-top: 20px;
-  height: 6.5rem;
+  min-height: 6em;
 }
 
 .adminNotice-section .card-title-adminNotice {
-  font-weight: 700;
+  min-height: 45px;
+  font-size: 18px !important;
+  font-weight: 700!important;
   text-transform: capitalize;
 }
 
 .adminNotice-section .card-info-adminNotice {
-  margin: 6px 0 17px;
-  font-size: 12px;
+  min-height: 7.5em;
   color: var(--main-gray);
 }
 
 /* icon-tray and stuffs */
 .adminNotice-section .icon-button-tray-adminNotice {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .adminNotice-section .icon-tray-adminNotice {
-  display: flex;
   width: 120.62px;
   align-items: flex-end;
 }
@@ -226,12 +234,13 @@ h6 {
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
   transition: all 0.4s;
+  margin-top: 24px;
 }
 
 .card-button-adminNotice:hover {
   border: none !important;
-  background-color: var(--accent-color) !important;
-  color: var(--button-color);
+  background-color: #00bb7c !important;
+  color: #fff;
 }
 
 .adminDot img {
@@ -241,12 +250,16 @@ h6 {
 
 .older-notices {
   width: max-content;
-  padding-bottom: 3px;
-  margin: 0 auto;
-  border-bottom: 2px solid #00bb7c;
+  /* padding-bottom: 3px; */
+  padding: 1em 1em;
+  border-radius: 5px;
+  margin-top: 1em!important;
+  /* border-bottom: 2px solid #00bb7c; */
+  background-color:#01b478;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin-bottom: 2em;
+  text-align: center;
 }
 
 .older-notices:hover {
@@ -254,21 +267,25 @@ h6 {
 }
 
 .older-notices-text {
-  color: #00bb7c;
+  /* color: #00bb7c;*/
+  color:white ;
   text-align: center;
-  margin-bottom: 0px!important;
+  /* margin-top: 1em!important; */
+}
+
+@media only screen and (min-width: 768px) {
+  .adminnotice {
+    padding: 1em 4em 2.5em;
+  }
+  
+  .adminNotice-section .card {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
-  .adminNotice-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0 2em;
-    margin-top: 1em;
-  }
-
   .adminnotice {
-    padding: 1.5em 6em 0;
+    padding: 1em 6em 2.5em;
   }
 
   .older-notices {
@@ -276,38 +293,44 @@ h6 {
   }
 }
 
-@media only screen and (min-width: 768px) {
-  .adminNotice-section .card {
+@media only screen and (min-width: 1440px) {
+  .adminNotice-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em 4em;
+    margin-top: 1em;
+  }
+
+  .pinned-button-container {
+    margin-top: 0px!important;
+  }
+
+  .card-adminNotice {
     width: 100%;
   }
 }
 
-@media (max-width: 410px) {
-  .pinned-button-container .header-button {
-    padding: 10px, 24px;
-    width: 165px;
-    height: 44px;
-    font-size: 12px;
+.day-notice{
+  margin-top: 4px !important
+}
+
+
+.no-notice{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 645px) {
+  .no-notice-img{
+    width: 400px;
+    margin-right: 3em;
   }
 }
 
-@media (max-width: 375px) {
-  .adminnotice {
-    padding: 0 2em 2em;
-  }
-  .pinned-button-container .pin-text {
-    display: flex;
-  }
-  .pinned-button-container .header-button {
-    padding: 10px, 24px;
-    width: 145px;
-    height: 44px;
-    font-size: 12px;
-  }
-  .pinned-button-container .header-button img {
-    margin-left: 4px;
-  }
-  .pinned-button-container {
-    margin-top: 1rem;
-  }
+
+.notice-btn-div{
+  display:flex;
+  gap:2em 
 }

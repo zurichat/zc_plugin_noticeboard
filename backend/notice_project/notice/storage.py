@@ -1,5 +1,6 @@
 import requests, json
 from urllib.parse import urlencode
+from django.conf import settings
 
 
 CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
@@ -22,7 +23,7 @@ class Dbnoticeboard:
         command = {
             "method": "publish",    
             "params": {
-                "channel": "noticeboard", 
+                "channel": "noticeboard-team-aquinas-stage-10", 
                 "data": data  
                 }
             }
@@ -60,7 +61,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -86,7 +87,7 @@ class Dbnoticeboard:
         It does this using the collection name and the serialized json
         """
         di = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_write": False,
@@ -109,7 +110,7 @@ class Dbnoticeboard:
 
     def delete(self, org_id, collection_name, object_id):
         data = {
-            "plugin_id": "613fc3ea6173056af01b4b3e",
+            "plugin_id": settings.PLUGIN_ID,
             "organization_id": org_id,
             "collection_name": collection_name,
             "bulk_delete": False,

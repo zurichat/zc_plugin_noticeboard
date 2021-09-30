@@ -15,10 +15,12 @@ import Centrifuge from "centrifuge";
 import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
 import Snackbar from "@material-ui/core/Snackbar";
+import axios from "axios";
 
 function NoticeBoard() {
   const { setPeople } = useContext(UserContext);
   const [toast, setToast] = useState(false);
+  const [channelId, setChannelId] = useState("");
   const [loader, setLoader] = useState(false);
   const [cent, setCent] = useState(false);
 
@@ -28,49 +30,61 @@ function NoticeBoard() {
   const today = new Date();
   const date = today.getDate();
 
-  const CentrifugoConnection = () => {
-    const centrifuge = new Centrifuge(
-      "wss://realtime.zuri.chat/connection/websocket",
-      { debug: true }
-    );
-    const today = new Date();
-    const date = today.getDate();
-
-    centrifuge.on("connect", function (ctx) {
-      setCent(true);
-      setToast(true);
-      setTimeout(() => {
-        setToast(false);
-      }, 5000);
-    });
-
-    centrifuge.on("disconnect", function (ctx) {
-      setCent(false);
-
-      setTimeout(() => {
-        setToast(true);
+  const CentrifugoConnection = async () => {
+    await axios
+      .get(
+        `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/get-room`
+      )
+      .then((res) => {
+        const response = res.data.data[0]._id;
+        setChannelId(response.toString());
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      console.log("disconnected", ctx);
-    });
 
-    centrifuge.connect();
-
-    centrifuge.subscribe("noticeboard", (ctx) => {
-      const message = ctx.data.data;
-      setPeople(
-        message
-          .reverse()
-          .filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
-          )
+    const Connecting = () => {
+      const centrifuge = new Centrifuge(
+        "wss://realtime.zuri.chat/connection/websocket",
+        { debug: true }
       );
 
-      console.log(message);
-    });
+      const today = new Date();
+      const date = today.getDate();
 
-    centrifuge.on("publish", function (ctx) {
-      console.log(ctx);
-    });
+      centrifuge.on("connect", function (ctx) {
+        setCent(true);
+        setToast(true);
+        setTimeout(() => {
+          setToast(false);
+        }, 5000);
+      });
+
+      centrifuge.on("disconnect", function (ctx) {
+        setCent(false);
+
+        setTimeout(() => {
+          setToast(true);
+        });
+        console.log("disconnected", ctx);
+      });
+
+      centrifuge.connect();
+
+      centrifuge.subscribe(`channelId`, (ctx) => {
+        const message = ctx.data.data;
+        setPeople(
+          message
+            .reverse()
+            .filter(
+              (notice) => notice.created.substring(8, 10) === date.toString()
+            )
+        );
+      });
+    };
+
+    Connecting();
   };
 
   useEffect(() => {
