@@ -16,7 +16,7 @@ import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
 import Snackbar from "@material-ui/core/Snackbar";
 import axios from 'axios'
-// import { SubscribeToChannel } from '@zuri/control'
+//import { SubscribeToChannel } from '@zuri/control'
 
 function NoticeBoard() {
   const { setPeople } = useContext(UserContext);
@@ -27,26 +27,10 @@ function NoticeBoard() {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  const today = new Date();
-  const date = today.getDate();
-
-  const CentrifugoConnection = () =>{  
-    
-    const centrifuge = new Centrifuge(
-      'wss://realtime.zuri.chat/connection/websocket'
-    )
-    
-    centrifuge.connect()
-    centrifuge.on('connect', function (connectCtx) {
-      console.log('connected', connectCtx)
-    })
-    
-    const SubscribeToChannel = (plugin_id, callback) => {
-      centrifuge.subscribe(plugin_id, ctx => {
-        callback(ctx)
-      })
-    }
-
+  const CentrifugoConnection = () =>{ 
+    const today = new Date();
+    const date = today.getDate(); 
+  
     const callback = () => {
       const message = ctx.data.data;
       setPeople(
@@ -58,7 +42,6 @@ function NoticeBoard() {
       );
       console.log(ctx)
     }
-
     SubscribeToChannel("noticebaord-team-aquinas-stage-10", callback ); 
   }
 
