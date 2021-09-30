@@ -34,39 +34,7 @@ const _globalData = {
 export const DataContext = React.createContext(_globalData);
 
 function App() {
-	// const CentrifugoConnection = () => {
-	//   const centrifuge = new Centrifuge(
-	//     "wss://realtime.zuri.chat/connection/websocket",
-	//     { debug: true }
-	//   );
-
-	//   centrifuge.on("connect", function (ctx) {
-	//     console.log("connected", ctx);
-	//   });
-
-	//   centrifuge.on("disconnect", function (ctx) {
-	//     console.log("disconnected", ctx);
-	//   });
-
-	//   centrifuge.connect();
-
-	//   centrifuge.subscribe("noticeboard", (ctx) => {
-	//     //       console.log(ctx.data);
-	//     //option 1 write function to re-render the component that needs re-rendering
-	//     //option 2, perform data fetch again
-	//   });
-
-	//   centrifuge.on("publish", function (ctx) {
-	//     console.log(ctx);
-	//   });
-	// };
-
 	// // console.log(GetUserInfo());
-
-	// useEffect(() => {
-	//   CentrifugoConnection();
-	// });
-
 	return (
 		<Router basename="/noticeboard">
 			<DataContext.Provider value={_globalData}>
