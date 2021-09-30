@@ -26,8 +26,8 @@ class UnsubscribeSerializer(serializers.Serializer):
 
 class NoticeReminderSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
-    time = serializers.TimeField()
+    time = serializers.TimeField(default=timezone.now)
     date = serializers.DateField()
-    
+
 # class AddMemberToRoom(serializers.Serializer):
 #     member_id = serializers.CharField(max_length=24)
