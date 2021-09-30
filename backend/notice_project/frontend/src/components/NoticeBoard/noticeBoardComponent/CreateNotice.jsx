@@ -31,13 +31,17 @@ import underline from './Text-editor/icons/underline.svg'
 import indent from './Text-editor/icons/indent.svg'
 import outdent from './Text-editor/icons/outdent.svg'
 
+
 import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
-import SuccessDialog from './CreateNoticeDialogs/SuccessDialog'
 import { MentionAdder, ToggleToolbar } from './Text-editor/Text_editor_features'
+import { UserInfoContext } from '../../../App'
+import { UserContext } from '../../../Data-fetcing'
 import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
 
 import { DataContext } from '../../../App'
+
+
 
 const useStyles = makeStyles(theme => ({
   headerText: {
@@ -89,6 +93,7 @@ const initialValues = {
 const maxChars = 1000
 
 function CreateNotice () {
+  const userData = useContext(UserInfoContext)
   const classes = useStyles()
   const { push } = useHistory()
   const [errorTitle, setErrorTitle] = useState('')
@@ -99,9 +104,14 @@ function CreateNotice () {
     EditorState.createEmpty()
   )
 
+  
+  
+
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
+
+  console.log(userData)
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
@@ -131,8 +141,12 @@ function CreateNotice () {
     )
     const request = {
       title: values.title,
-      message: values.message
+      message: values.message,
+      author_name:userData?.first_name || 'null', 
+      author_username: userData?.user_name || 'null' , 
+      author_img_url: userData?.image_url || 'null'
     }
+
     if (values.title === '' || setEditorState === '') {
       return (
         setErrorMessage('Field cannot be empty'),
