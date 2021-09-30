@@ -109,6 +109,10 @@ label {
   left: -200px !important;
 }
 
+.rdw-link-modal{
+  display: inline !important;
+}
+
 .rdw-dropdown-optionwrapper {
   top: -280px !important;
 }
@@ -128,7 +132,6 @@ label {
 }
 
 .rdw-editor-toolbar div {
-  display: inline;
   vertical-align: middle;
 }
 
