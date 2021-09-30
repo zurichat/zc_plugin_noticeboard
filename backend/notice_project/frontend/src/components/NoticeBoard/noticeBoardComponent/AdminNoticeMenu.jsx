@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import BookmarkIcon from "../../../assets/bookmark-icon.svg";
+import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
 import Active from "../../../assets/active.svg";
 import EditIcon from "../../../assets/edit-icon.svg";
 import ReminderIcon from "../../../assets/reminder-icon.svg";
@@ -36,6 +37,8 @@ function AdminMenu({ noticeID }) {
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const history = useHistory();
+  ////bookmark status state
+  const [bookmarkStatus, setBookmarkStatus] = useState();
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -128,6 +131,29 @@ function AdminMenu({ noticeID }) {
     handleClose();
   };
 
+  ///Checking if the notice was bookmarked
+  //   const checkBookmarkStatus=()=>{
+  //     fetch("https://")
+  //     .then(res=>{
+  //       if(!res.ok){
+  //       throw Error("Cound not get the status of the bookmark")
+  //       }
+  //       return res.json()
+  //     })
+  //     .then(data=>{
+  //       console.log(data)
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch(err=>{
+  //       if(err){
+  //         console.log(err)
+  //       }
+  //     })
+  //   }
+
+  //   checkBookmarkStatus();
+  //  ///////////////
+
   return (
     <div>
       <IconButton
@@ -157,6 +183,31 @@ function AdminMenu({ noticeID }) {
           horizontal: "right",
         }}
       >
+        <MenuItem
+          onClick={() => {
+            closeMenu;
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
+          <div style={AdminMenuStyle}>
+            <img
+              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
+              alt="Bookmark"
+              style={MenuIconStyle}
+            />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              onClick={() => setBookmarkStatus(!Boolean(bookmarkStatus))}
+            >
+              Bookmark
+            </span>
+          </div>
+        </MenuItem>
+
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
           <div style={AdminMenuStyle}>
             <img src={EditIcon} alt="Edit notice" style={MenuIconStyle} />
@@ -171,7 +222,39 @@ function AdminMenu({ noticeID }) {
             </span>
           </div>
         </MenuItem>
+        <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
+            <img
+              src={ReminderIcon}
+              alt="Remind me about this"
+              style={MenuIconStyle}
+            />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              onClick={openDeleteModal}
+            >
+              Remind me about this
+            </span>
+          </div>
+        </MenuItem>
 
+        <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
+            <img src={CopyLinkIcon} alt="Copy link" style={MenuIconStyle} />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              onClick={openDeleteModal}
+            >
+              Copy link
+            </span>
+          </div>
+        </MenuItem>
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
           <div style={AdminMenuStyle}>
             <img src={DeleteIcon} alt="Delete Notice" style={MenuIconStyle} />
@@ -183,6 +266,20 @@ function AdminMenu({ noticeID }) {
               onClick={openDeleteModal}
             >
               Delete Notice
+            </span>
+          </div>
+        </MenuItem>
+        <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
+            <img src={MoreMessage} alt="Copy link" style={MenuIconStyle} />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              onClick={openDeleteModal}
+            >
+              More message shortcuts...
             </span>
           </div>
         </MenuItem>

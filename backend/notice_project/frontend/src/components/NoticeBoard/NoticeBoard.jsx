@@ -37,20 +37,19 @@ function NoticeBoard() {
     const date = today.getDate();
 
     centrifuge.on("connect", function (ctx) {
-      setCent(true)
-      setToast(true)
+      setCent(true);
+      setToast(true);
       setTimeout(() => {
         setToast(false);
-      }, 5000) 
-      
+      }, 5000);
     });
 
     centrifuge.on("disconnect", function (ctx) {
-      setCent(false)
+      setCent(false);
 
       setTimeout(() => {
         setToast(true);
-      })
+      });
       console.log("disconnected", ctx);
     });
 
@@ -117,19 +116,14 @@ function NoticeBoard() {
       </Switch>
 
       <Snackbar
-          open={toast}
-          autoHideDuration={5000}
-          onClose={() => setLoader(false)}
-          message={cent == true
-                    ?"Centrifugo Connected"
-                    :"Centrifugo Disconnected"
-                  }
-          severity={cent == true
-            ?"success"
-            :"error"
-          }
-          
-        />
+        open={toast}
+        autoHideDuration={5000}
+        onClose={() => setLoader(false)}
+        message={
+          cent == true ? "Centrifugo Connected" : "Centrifugo Disconnected"
+        }
+        severity={cent == true ? "success" : "error"}
+      />
     </div>
   );
 }
