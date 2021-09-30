@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (install, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, 
-                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion,
+                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder
                      sidebar_info 
                      )
 from drf_yasg.views import get_schema_view
@@ -31,6 +31,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/create-room', create_room),
 
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
+
+    path('organisation/<str:org_id>/create-reminder', NoticeReminder.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
