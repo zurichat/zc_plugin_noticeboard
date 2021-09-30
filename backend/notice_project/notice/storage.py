@@ -18,22 +18,24 @@ class Dbnoticeboard:
         self.delete_endpoint = BASE_URL + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
-    def post_to_centrifugo(self, data):
+    def post_to_centrifugo(self, channel_name:str, data:dict):
+        '''
+        This function is used to post data to centrifugo
+        '''
         headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
             "params": {
-                "channel": "noticeboard-team-aquinas-stage-10", 
-                "data": data  
+                "channel": channel_name, 
+                "data": data
                 }
             }
-        try:
-            data = json.dumps(command)
-            response = requests.post(url=self.centrifugo_url, headers=headers, data=data)
-            print(response.json())
-            return response
-        except Exception as e:
-            print(e)
+        res = requests.post(self.centrifugo_url, headers=headers, json=command)
+        response = res.json()
+        print('-'*100)
+        print(response)
+        print('-'*100)
+        return response
 
     def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""
