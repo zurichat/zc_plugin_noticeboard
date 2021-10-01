@@ -1,4 +1,3 @@
-from django.db.models.fields import CharField
 from django.utils import timezone
 from rest_framework import serializers
 from django.utils import timezone
@@ -17,6 +16,8 @@ class CreateNoticeSerializer(serializers.Serializer):
     author_username = serializers.CharField()
     author_img_url = serializers.CharField()
     message = serializers.CharField()
+    bookmarked = serializers.BooleanField(default=False)
+    views = serializers.CharField()
 
 
 class UnsubscribeSerializer(serializers.Serializer):

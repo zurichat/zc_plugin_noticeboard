@@ -29,7 +29,7 @@ function OldNotices() {
     setPeople(notices);
     isLoading(false);
     getNotices();
-  }, [notices]);
+  }, []);
 
   //retrieving notices
   const getNotices = async () => {

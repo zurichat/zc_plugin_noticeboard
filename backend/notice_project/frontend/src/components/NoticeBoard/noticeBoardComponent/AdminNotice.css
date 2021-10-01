@@ -324,8 +324,26 @@ h6 {
 
 @media only screen and (max-width: 645px) {
   .no-notice-img{
-    width: 400px;
-    margin-right: 3em;
+    width: 260px;
+    margin-right: 1em;
+  }
+
+  .no-new-notices{
+    line-height: 1.5;
+    text-align: justify;
+    font-weight: normal;
+  }
+
+  .notice-btn-div{
+    gap:1em !important;
+  }
+
+  .older-notices{
+    padding: .8em .5em;
+  }
+
+  .older-notices-text{
+    font-size: 12px !important;
   }
 }
 
@@ -333,4 +351,15 @@ h6 {
 .notice-btn-div{
   display:flex;
   gap:2em 
+}
+
+
+.no-new-notices{
+  font-size: 1rem;
+  text-align: center;
+  color:#000;
+  margin-top: 20px;
+  max-width: 400px;
+  text-align: center;
+  line-height: 1.5 !important;
 }
