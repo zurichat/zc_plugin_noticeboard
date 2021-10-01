@@ -190,19 +190,6 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
-
-
-            get_data=notice["data"]
-            if type(get_data['views']) is str:
-                get_data['views'] = {get_data['author_name']}
-            else:
-                get_data['views'].add(get_data['author_name'])
-
-            notice.update(data=get_data)
-            serializer = CreateNoticeSerializer(data=get_data)
-            if serializer.is_valid():
-                db.update("noticeboard", org_id, serializer.data, object_id=id)
-
             return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
