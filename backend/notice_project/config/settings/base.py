@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FROM_EMAIL = 'jeremiahchukwu@gmail.com'
 PLUGIN_ID = "613fc3ea6173056af01b4b3e"
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 EMAIL_HOST = "email-smtp.us-west-2.amazonaws.com"
 EMAIL_HOST_USER = "AKIATIMXWZYEYAR6IAPG"
