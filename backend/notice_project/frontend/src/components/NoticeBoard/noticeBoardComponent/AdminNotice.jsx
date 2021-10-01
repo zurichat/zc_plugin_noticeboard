@@ -104,13 +104,7 @@ const PinnedNotices = (props) => {
         <img src={noNotice} alt='no-notice' className='no-notice-img' />
         <h1
           className="no-new-notices"
-          style={{
-            fontSize: "1rem",
-            textAlign: "center",
-            color: "#000",
-            marginTop: "20px",
-           
-          }}
+          
         >
           
             Hey there, You have no notice for the day, they would appear here when published
