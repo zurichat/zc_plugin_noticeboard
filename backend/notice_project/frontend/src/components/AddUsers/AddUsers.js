@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useCallback, useEffect, useState , useRef} from "react";
 import styled from "styled-components";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -158,10 +158,33 @@ const AddUserNoticeboard = ({ setShowAddUser }) => {
 export const AddUsers = ({ setOpenModal, openModal,notice }) => {
   const [showAddUser, setShowAddUser] = useState(false);
   const {allUsers, setAllUsers} = useContext(UserContext)
+    const modalRef = useRef();
 
+ //close modal when target is equals backdrop
+   const closeModal = (event) => {
+    if (modalRef.current === event.target) {
+      setOpenModal(false);
+    }
+  };
+
+//close modal with escape button
+  const keyPress = useCallback(
+    (event) => {
+      if (event.key === "Escape" && setOpenModal) {
+        setOpenModal(false);
+      }
+    },
+    [setOpenModal]
+  );
+
+//close on keypress
+  useEffect(() => {
+    document.addEventListener("keydown", keyPress);
+    return () => document.removeEventListener("keydown", keyPress);
+  }, [keyPress]);
 
   return (
-    <BackDrop>
+    <BackDrop ref={modalRef} onClick={closeModal}>
       {showAddUser ? (
         <AddUserNoticeboard setShowAddUser={setShowAddUser} />
       ) : (
@@ -183,7 +206,7 @@ const BackDrop = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 `;
@@ -320,12 +343,12 @@ const Users = styled.div`
 `;
 
 const NoticeContainer = styled(AddUserContainer)`
-  height: 42.5em;
+  height: 38em;
   margin: 10% auto;
   overflow-y:scroll;
   overflow-x: hidden;
   @media (max-width: ${500}px) {
-    margin: 20% auto;
+    margin: 35% auto;
   }
 `;
 
