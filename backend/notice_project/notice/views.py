@@ -9,6 +9,8 @@ from .email import sendmassemail
 import re
 from .utils import user_rooms
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 @api_view(['GET'])
@@ -22,7 +24,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard_room', org_id)
+    room = db.read('noticeboard', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -147,7 +149,7 @@ class DeleteNotice(views.APIView):
                 object_id=object_id
             )
 
-            updated_data = db.read("noticeboard", org_id)
+            updated_data = db.read('noticeboard', org_id)
 
             db.post_to_centrifugo("noticeboard-team-aquinas-stage-10", updated_data)
 
