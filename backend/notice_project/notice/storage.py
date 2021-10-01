@@ -19,9 +19,11 @@ class Dbnoticeboard:
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
     def post_to_centrifugo(self, channel_name:str, data:dict):
+        
         '''
         This function is used to post data to centrifugo
         '''
+
         headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
@@ -30,12 +32,8 @@ class Dbnoticeboard:
                 "data": data
                 }
             }
-        res = requests.post(self.centrifugo_url, headers=headers, json=command)
-        response = res.json()
-        print('-'*100)
-        print(response)
-        print('-'*100)
-        return response
+        requests.post(self.centrifugo_url, headers=headers, json=command)
+        return data
 
     def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""
