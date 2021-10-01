@@ -212,7 +212,7 @@ const AddUserHeaderContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 1em;
-  align-items: center;
+  align-items: stretch;
 `;
 
 const AddUserHeader = styled.h2`
@@ -323,6 +323,10 @@ const NoticeContainer = styled(AddUserContainer)`
   height: 42.5em;
   margin: 10% auto;
   overflow-y:scroll;
+  overflow-x: hidden;
+  @media (max-width: ${500}px) {
+    margin: 20% auto;
+  }
 `;
 
 const AddUserBox = styled.div`
