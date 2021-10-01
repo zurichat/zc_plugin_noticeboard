@@ -1,5 +1,5 @@
 import "./App.css";
-import Header from "./components/Header/Header";
+import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader"
 import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -81,7 +81,7 @@ function App() {
               <div className="App">
                 <div className="app__body">
                   <span className="app__bodyFlex">
-                    <Header />
+                    <ZuriGlobalHeader />
                     <NoticeBoard />
                   </span>
                 </div>

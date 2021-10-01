@@ -2,6 +2,8 @@ import {useContext} from 'react';
 import { SubscribeToChannel } from '@zuri/control';
 import { UserContext } from "../../Data-fetcing";
 
+// Performs subscribing to Noticeboard room on centrifugo
+
 export const CentrifugoConnection = () =>{ 
     const { setPeople } = useContext(UserContext);
     const today = new Date();

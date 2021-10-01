@@ -1,10 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 // import styled from "styled-components";
 import "./NoticeBoardHeader.css";
-// import Member1 from "../../assets/member-avatar.svg";
-// import Member2 from "../../assets/member-2.svg";
-// import Member3 from "../../assets/member-3.svg";
-// import Member4 from "../../assets/member-4.svg";
+import NoticeboardIcon from "../../assets/noticeboard.svg";
 import { AddUsers } from "../AddUsers/AddUsers";
 // import AddIcon from "@material-ui/icons/Add";
 import { UserInfoContext } from "../../App";
@@ -12,7 +9,7 @@ import { UserContext } from "../../Data-fetcing";
 import Parcel from 'single-spa-react/parcel'
 import { pluginHeader } from '@zuri/plugin-header';
 
-function NoticeBoardHeader() {
+function ZuriGlobalHeader() {
   const [openModal, setOpenModal] = useState(false)
   const {allUsers, setAllUsers} = useContext(UserContext)
   const userData = useContext(UserInfoContext)
@@ -37,7 +34,7 @@ function NoticeBoardHeader() {
 
   const headerConfig = {
     name: 'NOTICEBOARD', //Name on header
-    icon: 'https://www.pngfind.com/pngs/m/19-194225_png-file-svg-hashtag-icon-png-transparent-png.png', //Image on header
+    icon: NoticeboardIcon, //Image on header
     thumbnailUrl: [
       'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
       'https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg',
@@ -56,11 +53,11 @@ function NoticeBoardHeader() {
   }
 
   useEffect(() => {
-    getAllUsers();
+    getAllUsers(); 
   },[userData] );
 
   return (
-    <div>
+    <div className="">
             <Parcel
       config={pluginHeader}
       wrapWith="div"
@@ -74,7 +71,7 @@ function NoticeBoardHeader() {
   );
 }
 
-export default NoticeBoardHeader;
+export default ZuriGlobalHeader;
 
 
 // return (

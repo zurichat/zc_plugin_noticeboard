@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState, useContext } from "react";
+// import Header from "../Header/Header";
 import "./NoticeBoard.css";
 import NoticeBoardHeader from "./NoticeBoardHeader";
 import AdminNotice from "../NoticeBoard/noticeBoardComponent/AdminNotice";
@@ -34,7 +35,7 @@ function NoticeBoard() {
 
   return (
     <div className="notice">
-      <NoticeBoardHeader/>
+      {/* <Header/> */}
       <Switch>
         <Route exact path="/noticeboard/search">
           <SearchResult />
