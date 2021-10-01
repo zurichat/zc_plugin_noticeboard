@@ -360,4 +360,5 @@ h6 {
   margin-top: 20px;
   max-width: 400px;
   text-align: center;
+  line-height: 1.5 !important;
 }
