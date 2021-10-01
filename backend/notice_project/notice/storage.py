@@ -1,7 +1,8 @@
 import requests, json
 from urllib.parse import urlencode
 from django.conf import settings
-
+from rest_framework import response
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
 
