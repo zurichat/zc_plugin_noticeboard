@@ -324,13 +324,14 @@ h6 {
 
 @media only screen and (max-width: 645px) {
   .no-notice-img{
-    width: 280px;
+    width: 260px;
     margin-right: 1em;
   }
 
   .no-new-notices{
     line-height: 1.5;
     text-align: justify;
+    font-weight: normal;
   }
 
   .notice-btn-div{
@@ -360,4 +361,5 @@ h6 {
   margin-top: 20px;
   max-width: 400px;
   text-align: center;
+  line-height: 1.5 !important;
 }
