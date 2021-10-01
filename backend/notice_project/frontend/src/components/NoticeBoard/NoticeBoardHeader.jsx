@@ -1,20 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import "./NoticeBoardHeader.css";
-import Member1 from "../../assets/member-avatar.svg";
-import Member2 from "../../assets/member-2.svg";
-import Member3 from "../../assets/member-3.svg";
-import Member4 from "../../assets/member-4.svg";
+// import Member1 from "../../assets/member-avatar.svg";
+// import Member2 from "../../assets/member-2.svg";
+// import Member3 from "../../assets/member-3.svg";
+// import Member4 from "../../assets/member-4.svg";
 import { AddUsers } from "../AddUsers/AddUsers";
-import AddIcon from "@material-ui/icons/Add";
+// import AddIcon from "@material-ui/icons/Add";
 import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
+import Parcel from 'single-spa-react/parcel'
+import { pluginHeader } from '@zuri/plugin-header';
 
 function NoticeBoardHeader() {
   const [openModal, setOpenModal] = useState(false)
   const {allUsers, setAllUsers} = useContext(UserContext)
   const userData = useContext(UserInfoContext)
-  
+
   const getAllUsers = async () => {
     try {
       const requestOptions = {
@@ -33,72 +35,105 @@ function NoticeBoardHeader() {
     }
   };
 
-
-  
+  const headerConfig = {
+    name: 'NOTICEBOARD', //Name on header
+    icon: 'https://www.pngfind.com/pngs/m/19-194225_png-file-svg-hashtag-icon-png-transparent-png.png', //Image on header
+    thumbnailUrl: [
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
+      'https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg',
+      'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png'
+    ], //Replace with images of users
+    userCount: allUsers?.length, //User count on header
+   eventTitle: () => {
+      //Block of code to be triggered on title click
+    },
+    eventThumbnail: () => {
+      //Block of code to be triggered on thumbnail click
+      setOpenModal(true);
+      console.log(allUsers[0].image_url)
+    },
+    hasThumbnail: true //set false if you don't want thumbnail on the header
+  }
 
   useEffect(() => {
     getAllUsers();
-    
   },[userData] );
 
   return (
-    <div className="noticeboard-header">
-      <div className="noticeboard-header-container">
-        <div className="heading">Notice Board</div>
-    {
-       openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
-    }
+    <div>
+            <Parcel
+      config={pluginHeader}
+      wrapWith="div"
+      wrapStyle={{width: "100%" }}
+      headerConfig={headerConfig}
+      />
 
-        <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
-          {/* <AddIcon onClick={()=> setOpenModal(true)}/> */}
-          <div className="avatar-wrap">
-            <div className="avatar">
-              <img src={Member4} alt="avatar" />
-            </div>
+    {openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""}
 
-            <div className="avatar">
-              <img src={Member3} alt="avatar" />
-            </div>
-
-            <div className="avatar">
-              <img src={Member2} alt="avatar" />
-            </div>
-
-            <div className="avatar">
-              <img src={Member1} alt="avatar" />
-            </div>
-          </div>
-
-           <div className="member-total-count">{allUsers?.length}</div>
-        </AvatarGroup>
-      </div>
     </div>
   );
 }
 
 export default NoticeBoardHeader;
 
-const AddUserButton = styled.button`
-    color: white;
-    background-color: #00bb7c;
-    padding: 1em;
-    font-size: 16px;
-    line-height: 24px;
-    border-radius: 2px;
-    margin-top: 1.5em;
-    //width: 10em;
-    outline: none;
-    border: 0;
 
-    @media (max-width: ${500}px) {
-      //width: 100%;
-    }
-`;
+// return (
+//   <div className="noticeboard-header">
+//     <div className="noticeboard-header-container">
+//       <div className="heading">Notice Board</div>
+//   {
+//      openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
+//   }
 
-const AvatarGroup = styled.div`
-  &:hover{
-    cursor: pointer;
-    opacity: 0.5
-  }
-`;
+//       <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
+//         {/* <AddIcon onClick={()=> setOpenModal(true)}/> */}
+//         <div className="avatar-wrap">
+//           <div className="avatar">
+//             <img src={Member4} alt="avatar" />
+//           </div>
 
+//           <div className="avatar">
+//             <img src={Member3} alt="avatar" />
+//           </div>
+
+//           <div className="avatar">
+//             <img src={Member2} alt="avatar" />
+//           </div>
+
+//           <div className="avatar">
+//             <img src={Member1} alt="avatar" />
+//           </div>
+//         </div>
+
+//          <div className="member-total-count">{allUsers?.length}</div>
+//       </AvatarGroup>
+//     </div>
+//   </div>
+// );
+// }
+
+// export default NoticeBoardHeader;
+
+// const AddUserButton = styled.button`
+//   color: white;
+//   background-color: #00bb7c;
+//   padding: 1em;
+//   font-size: 16px;
+//   line-height: 24px;
+//   border-radius: 2px;
+//   margin-top: 1.5em;
+//   //width: 10em;
+//   outline: none;
+//   border: 0;
+
+//   @media (max-width: ${500}px) {
+//     //width: 100%;
+//   }
+// `;
+
+// const AvatarGroup = styled.div`
+// &:hover{
+//   cursor: pointer;
+//   opacity: 0.5
+// }
+// `;

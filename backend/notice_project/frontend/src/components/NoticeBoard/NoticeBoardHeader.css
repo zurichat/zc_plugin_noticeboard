@@ -8,10 +8,11 @@
 
 .noticeboard-header {
   font-family: "Lato", sans-serif;
-  padding: 10px 20px;
-  margin: 20px 0;
+  margin: 0px 0 20px;
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 1px 5px rgba(220, 218, 226, 0.3);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .noticeboard-header-container {
@@ -59,15 +60,15 @@
 /* Media Queries */
 
 @media screen and (min-width: 500px) {
-  .noticeboard-header {
+  /* .noticeboard-header {
     padding: 10px 35px;
-  }
+  } */
 }
 
 @media screen and (min-width: 700px) and (max-width: 1023px) {
-  .noticeboard-header {
+  /* .noticeboard-header {
     padding: 10px 20px;
-  }
+  } */
 
   .noticeboard-header-container {
     width: 95%;
@@ -76,9 +77,9 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .noticeboard-header {
+  /* .noticeboard-header {
     padding: 10px 30px;
-  }
+  } */
 
   .noticeboard-header-container {
     width: 88%;
