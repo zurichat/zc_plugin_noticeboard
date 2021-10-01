@@ -8,7 +8,7 @@
 
 .noticeboard-header {
   font-family: "Lato", sans-serif;
-  padding: 10px 20px;
+  padding: 10px 10px;
   margin: 20px 0;
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 1px 5px rgba(220, 218, 226, 0.3);
@@ -22,7 +22,7 @@
 }
 
 .noticeboard-header-container .heading {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -30,10 +30,12 @@
   border: 2px rgb(226, 233, 233) solid;
   border-radius: 3px;
   padding: 5px;
-
+  height: 2.5em;
+  width: 6em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+ 
 }
 
 .noticeboard-header-container .members-avatars-grp .avatar-wrap {
@@ -42,25 +44,28 @@
 }
 
 .noticeboard-header-container .members-avatars-grp .avatar {
-  height: 28px;
-  width: 28px;
+  height: 15px;
+  width: 17px;
   background-color: rgb(192, 192, 192);
   border-radius: 3px;
+  position: relative;
+  top: -.3em;
 }
 
 .noticeboard-header-container .members-avatars-grp .avatar:not(:first-child) {
-  margin-left: -4px;
+  margin-left: -5px;
 }
 
 .member-total-count {
   margin-left: 5px;
+  font-size: 11px;
 }
 
 /* Media Queries */
 
 @media screen and (min-width: 500px) {
   .noticeboard-header {
-    padding: 10px 35px;
+    padding: 10px 10px;
   }
 }
 
@@ -77,7 +82,7 @@
 
 @media screen and (min-width: 1024px) {
   .noticeboard-header {
-    padding: 10px 30px;
+    padding: 10px 20px;
   }
 
   .noticeboard-header-container {
@@ -90,10 +95,17 @@
   }
 
   .noticeboard-header-container .members-avatars-grp {
-    padding: 10px;
+    height: unset;
+    width: unset;
+  }
+  .noticeboard-header-container .members-avatars-grp .avatar {
+    height: 28px;
+    width: 28px;
+    top: 0;
   }
 
   .member-total-count {
     margin-left: 10px;
+    font-size: 1em;
   }
 }

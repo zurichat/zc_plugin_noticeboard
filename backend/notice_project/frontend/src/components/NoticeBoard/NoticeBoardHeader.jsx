@@ -44,7 +44,7 @@ function NoticeBoardHeader() {
       <div className="noticeboard-header-container">
         <div className="heading">Notice Board</div>
     {
-       openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
+       openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true} /> : ""
     }
 
         <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
@@ -60,10 +60,6 @@ function NoticeBoardHeader() {
 
             <div className="avatar">
               <img src={Member2} alt="avatar" />
-            </div>
-
-            <div className="avatar">
-              <img src={Member1} alt="avatar" />
             </div>
           </div>
 
