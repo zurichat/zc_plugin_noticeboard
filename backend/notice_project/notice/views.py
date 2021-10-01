@@ -6,7 +6,6 @@ from rest_framework import views, status, views
 from .storage import db
 from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer, NoticeReminderSerializer
 from .email import sendmassemail
-import re
 from .utils import user_rooms
 from django.conf import settings
 from django.utils.decorators import method_decorator
