@@ -4,11 +4,12 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, UnsubscribeSerializer, NoticeReminderSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer
 from .email import sendmassemail
-import re
 from .utils import user_rooms
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 @api_view(['GET'])
@@ -22,7 +23,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard_room', org_id)
+    room = db.read('noticeboard', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -100,7 +101,7 @@ class CreateNewNotices(views.APIView):
 
             updated_data = db.read("noticeboard", org_id)
 
-            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10", updated_data)
+            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10",updated_data)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -147,7 +148,7 @@ class DeleteNotice(views.APIView):
                 object_id=object_id
             )
 
-            updated_data = db.read("noticeboard", org_id)
+            updated_data = db.read('noticeboard', org_id)
 
             db.post_to_centrifugo("noticeboard-team-aquinas-stage-10", updated_data)
 
@@ -240,6 +241,43 @@ def emailNotificaion(request):
 
     return Response({"status": False, "message": "No email Sent. Check your query parameter"})
 
+
+class Subscribe(views.APIView):
+    def get(self, request):
+        org_id=request.GET.get('org')
+        if org_id:
+            notice = db.read("noticeboard_email_subscribers", org_id)
+            if notice['status'] == 200:
+                pass
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": 401, "message": "An error occured"})
+
+    def post(self, request):
+        org_id=request.GET.get('org')
+        if org_id:
+            """
+            Add Subscibers to a new table
+            """
+            notice = db.read("noticeboard_email_subscribers", org_id)
+            serializer = SubscribeSerializer(data=request.data)
+            if notice['status'] == 200:
+                if notice["data"] != None:
+                    for data in notice["data"]:
+                        if data["user_id"] == request.data["user_id"]:
+                            return Response(data={"Message":"User is already Subscribed"}, status=502)
+                        else:
+                            if serializer.is_valid():
+                                db.save(
+                                    "noticeboard_email_Subscribers",
+                                    org_id,
+                                    notice_data=serializer.data
+                                )
+                            return Response(data={"Message":"You have successfully Subscribed"}, status=status.HTTP_201_CREATED)
+                else:
+                    if serializer.is_valid():
+                        db.save("noticeboard_email_subscribers", org_id, notice_data=serializer.data)
+                        return Response(data={"Message":"You have successfully Subscribed"}, status=status.HTTP_201_CREATED)
+        return Response({"status": False, "message": "Check your query parameter"})
 
 
 class Unsubscribe(views.APIView):

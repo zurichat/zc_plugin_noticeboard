@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (install, create_room, CreateNewNotices, 
+from .views import (Subscribe, install, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, 
                      ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder,
                      sidebar_info 
@@ -25,6 +25,8 @@ urlpatterns = [
     path('install', install, name='install'),
       
     path('sendemail', emailNotificaion, name="Email Notificaion"),
+
+    path('subscribe', Subscribe.as_view()),
 
     path('unsubscribe', Unsubscribe.as_view()),
 

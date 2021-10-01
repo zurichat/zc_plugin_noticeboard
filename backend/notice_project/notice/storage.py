@@ -1,7 +1,8 @@
 import requests, json
 from urllib.parse import urlencode
 from django.conf import settings
-
+from rest_framework import response
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
 
@@ -19,9 +20,11 @@ class Dbnoticeboard:
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
     def post_to_centrifugo(self, channel_name:str, data:dict):
+        
         '''
         This function is used to post data to centrifugo
         '''
+
         headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
@@ -30,11 +33,7 @@ class Dbnoticeboard:
                 "data": data
                 }
             }
-        res = requests.post(self.centrifugo_url, headers=headers, json=command)
-        response = res.json()
-        print('-'*100)
-        print(response)
-        print('-'*100)
+        response = requests.post(self.centrifugo_url, headers=headers, json=command)
         return response
 
     def read(self, collection_name, org_id, filter={}):
