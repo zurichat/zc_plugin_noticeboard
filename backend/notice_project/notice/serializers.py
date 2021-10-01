@@ -18,6 +18,7 @@ class CreateNoticeSerializer(serializers.Serializer):
     author_img_url = serializers.CharField()
     message = serializers.CharField()
     bookmarked = serializers.BooleanField(default=False)
+    views = serializers.CharField(allow_blank=True)
 
 
 class UnsubscribeSerializer(serializers.Serializer):
