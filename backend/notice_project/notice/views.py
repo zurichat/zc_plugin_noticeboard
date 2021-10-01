@@ -9,6 +9,8 @@ from .email import sendmassemail
 import re
 from .utils import user_rooms
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 @api_view(['GET'])
@@ -22,7 +24,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard_room', org_id)
+    room = db.read('noticeboard', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -169,14 +171,14 @@ class DeleteNotice(views.APIView):
 class BookmarkNotice(views.APIView):
 
     """Allows user to bookmark a notice"""
-
-    def patch(self, request, object_id, org_id):
-        serializer = CreateNoticeSerializer(data=request.data)
+    
+    def patch(self, object_id, org_id):
+        # org_member_id = db.getMemberByID(org_id, member_id=member_id)
         try:
-            db.bookmark(
+            db.addBookmark(
                 collection_name='noticeboard',
-                object_id=object_id,
-                org_id=org_id
+                org_id=org_id,
+                object_id=object_id
             )
 
             updated_data = db.read('noticeboard', org_id)
@@ -194,6 +196,37 @@ class BookmarkNotice(views.APIView):
                 {
                     "success": False,
                     "message": "Failed to bookmark"
+                },
+                status=status.HTTP_400_BAD_REQUEST)
+
+
+class RemoveBookmark(views.APIView):
+
+    """Allows user to bookmark a notice"""
+    
+    def patch(self, request, object_id, org_id):
+        try:
+            db.removeBookmark(
+                collection_name='noticeboard',
+                org_id=org_id,
+                object_id=object_id
+            )
+
+            updated_data = db.read('noticeboard', org_id)
+
+            db.post_to_centrifugo(updated_data)
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Bookmark removed"
+                },
+                status=status.HTTP_201_CREATED)
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Failed to remove bookmark"
                 },
                 status=status.HTTP_400_BAD_REQUEST)
 
@@ -409,3 +442,19 @@ class NoticeReminder(views.APIView):
 #         db.update("test_noticeboard_room", org_id, room_data, room_id)
 #         return Response({"message": "success", "data": room_data}, status=status.HTTP_200_OK)
 #     return Response({"message": "requested room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+
+ #IGNORE...was testing to see if it was possible to get organization member by member id ----- 
+# class GetMemberByID(views.APIView):
+
+#     def get(self, request, org_id, member_id):
+#         member = db.getMemberByID(org_id, member_id)
+#         try:
+#             return Response({"status": True, "data": member["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+#         except:
+#             return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+#IGNORE...was testing to see if it was possible to get organization member by member id ----- 
