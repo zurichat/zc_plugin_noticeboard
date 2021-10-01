@@ -90,7 +90,6 @@ function App() {
         );
         let UserData = response.data.data[0];
         UserData.currentWorkspace = currentWorkspace;
-        // console.log('getuserinfo', response.data.data)
         setUserData(UserData);
         return UserData;
       } catch (err) {
