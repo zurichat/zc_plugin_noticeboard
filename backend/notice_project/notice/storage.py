@@ -32,8 +32,8 @@ class Dbnoticeboard:
                 "data": data
                 }
             }
-        requests.post(self.centrifugo_url, headers=headers, json=command)
-        return data
+        response = requests.post(self.centrifugo_url, headers=headers, json=command)
+        return response
 
     def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""
