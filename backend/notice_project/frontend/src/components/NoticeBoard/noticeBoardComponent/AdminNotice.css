@@ -331,6 +331,7 @@ h6 {
   .no-new-notices{
     line-height: 1.5;
     text-align: justify;
+    font-weight: normal;
   }
 
   .notice-btn-div{
