@@ -135,11 +135,10 @@ function AdminMenu({ noticeID }) {
     });
 
     setSelectedNotice(currentNoticeID);
-    //history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
     navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
     
     
-  }
+  };
 
   const closeMenu = () => {
     setAnchorEl(false);
