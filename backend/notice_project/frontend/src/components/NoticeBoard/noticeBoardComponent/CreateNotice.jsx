@@ -101,7 +101,8 @@ function CreateNotice () {
   const [openErrorDialog, setOpenErrorDialog] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+    EditorState.createEmpty(),
+
   )
 
   
@@ -188,6 +189,29 @@ function CreateNotice () {
   //     return "handled";
   //   }
   // };
+
+  function uploadImageCallBack(file) {
+  return new Promise(
+    (resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`);
+    //   xhr.setRequestHeader('Authorization', 'Client-ID 713b516012986a5');
+      const data = new FormData();
+      data.append('image', file);
+      xhr.send(data);
+      xhr.addEventListener('load', () => {
+        const response = JSON.parse(xhr.responseText);
+        console.log(response)
+        resolve(response);
+      });
+      xhr.addEventListener('error', () => {
+        const error = JSON.parse(xhr.responseText);
+        console.log(error)
+        reject(error);
+      });
+    }
+  );
+}
 
   return (
     <div className='dashboard-container'>
@@ -317,7 +341,8 @@ function CreateNotice () {
                       options: ['link'],
 					  visible: true,
 					inDropdown: false,
-					addLink: { visible: true, icon: link, }
+					link: { visible: true, icon: link, },
+					unlink: { visible: true, icon: link, }
                     },
                     textAlign: {
                       className: 'rdw-invisible',
@@ -346,7 +371,9 @@ function CreateNotice () {
                       uploadEnabled: true,
                       urlEnabled: true,
 					  fileupload: true,
-                      // uploadCallback: this.uploadImageCallback,
+					  uploadCallback: uploadImageCallBack, 
+					  alt: { present: true, mandatory: false },
+
                       inputAccept:
                         'image/gif,image/jpeg,image/jpg,image/png,image/svg'
                     }

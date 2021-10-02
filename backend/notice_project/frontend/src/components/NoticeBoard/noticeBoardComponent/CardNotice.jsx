@@ -2,7 +2,7 @@ import React from "react";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
-import moment from "moment";
+// import moment from "moment";
 
 const CardNotice = ({ person }) => {
   const id = String(person._id);
