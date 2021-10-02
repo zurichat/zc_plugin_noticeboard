@@ -1,45 +1,4 @@
-import React from "react";
-import moment from 'moment'
-
-
-import dot from "../../../assets/Ellipse135.svg";
-import AdminMenu from "./AdminNoticeMenu";
-import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
-
-const Card = ({ person, people }) => {
-  const [openModal, setOpenModal] = React.useState(false);
-  const [persons, setPersons] = React.useState([person]);
-
-  const filterUsers = (index) => {
-    const user = persons.filter((person) => person._id === index);
-    setPersons(user);
-    setOpenModal(true);
-  };
-
-
-
-
-
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
-
-  return (
-    <>
-      <article className="card-adminNotice">
+<article className="card-adminNotice">
         <div className="card-header-adminNotice">
           <div className="profile-adminNotice">
             <div className="img-profile-container-adminNotice">
@@ -89,7 +48,41 @@ const Card = ({ person, people }) => {
         <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
       )}
     </>
-  );
-};
 
-export default Card;
+
+
+     {/* <Card className={classes.root} >
+      <CardHeader
+        avatar={
+          <Avatar className={classes.avatar} variant='square' src={person.author_img_url !== 'null' ? person.author_img_url : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" } />
+           
+        }
+        action={
+          <AdminMenu noticeID={person._id} />
+        }
+        title={person.author_name !== 'null' ?  person.author_name : person.author_username}
+        subheader={ moment(person.created).fromNow()}
+      />
+      <CardContent>
+      <Typography gutterBottom variant="h5" component="h2">
+      {person.title.replace(/<[^>]+>/g, "")}
+          </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+        {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
+        </Typography>
+      </CardContent>
+      <Box display='flex' justifyContent='flex-end' pr='10px'>
+      <CardActions disableSpacing>
+          <button
+            className="card-button-adminNotice"
+            onClick={() => filterUsers(person._id)}
+          >
+            View Notice
+          </button>
+      </CardActions>
+      </Box>
+      {openModal && (
+        <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
+      )}
+    </Card>
+      </> */}
