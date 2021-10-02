@@ -24,7 +24,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard', org_id)
+    room = db.read('noticeboard_room', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -123,7 +123,7 @@ class CreateNewNotices(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id,created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -153,7 +153,7 @@ class UpdateNoticeAPIView(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -195,7 +195,7 @@ class DeleteNotice(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -230,7 +230,6 @@ class ViewNoticeAPI(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class NoticeDetail(views.APIView):
     '''
     This returns the detail of a particular notice under the organisation
@@ -240,21 +239,19 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
-<<<<<<< HEAD
-            return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-=======
             try:
                 get_data=notice["data"]
-                # views = get_data['views']
-                # count = count_views(views, email)
-                # get_data['views'] = count
-                serializer = CreateNoticeSerializer(data=get_data)
-                if serializer.is_valid():
-                    db.update("noticeboard", org_id, serializer.data, object_id=id)
-                    return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+                query = request.GET.get('query')
+                if query:
+                    views = get_data['views']
+                    count = count_views(views, query)
+                    get_data['views'] = count
+                    serializer = CreateNoticeSerializer(data=get_data)
+                    if serializer.is_valid():
+                        db.update("noticeboard", org_id, serializer.data, object_id=id)
+                        return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -443,7 +440,7 @@ class CreateBookmark(views.APIView):
                 "data":serializer.data
             }
 
-            db.post_to_centrifugo(room_id, data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -469,7 +466,7 @@ class DeleteBookmarkedNotice(views.APIView):
         room_id = room["data"][0]["_id"]
         print(room_id)
 
-        db.post_to_centrifugo(room_id, data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
         if bookmarked_notice['status'] == 200:
             return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
