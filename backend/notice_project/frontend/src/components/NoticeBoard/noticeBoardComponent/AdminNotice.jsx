@@ -21,10 +21,8 @@ const PinnedNotices = (props) => {
     filteredNotice,
   } = useContext(UserContext);
 
-  // const today = new Date();
-  // const date = today.getDate();
-  const date = new Date();
-  const currentDate = date.getDate();
+  const today = new Date();
+  const date = today.getDate();
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
@@ -44,11 +42,9 @@ const PinnedNotices = (props) => {
       })
       .then((data) => {
         setPeople(
-          data.data.filter(
-            (notice) => currentDate == notice.created.slice(8, 10)
-          )
+          data.data
         );
-        console.log(data.data)
+        
         setLoading(false);
       })
       .catch((error) => console.log(error));

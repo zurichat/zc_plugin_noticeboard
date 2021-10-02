@@ -23,10 +23,10 @@ def sidebar_info(request):
     data = {
         "title": "Noticeboard",
         "icon": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
-        "action": "open"
+        "action": "open",
     }
 
-    room = db.read('noticeboard_room', org_id)
+    room = db.read('noticeboard', org_id)
 
     if room['status'] == 200:
         if room['data']:

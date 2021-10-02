@@ -10,24 +10,16 @@ html {
 
 .header {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   width: 95%;
   height: 48px;
   padding: 0.5em 0;
   margin-bottom: 10px;
-  overflow-x: hidden;
-}
-
-.header .bookmarked-notices-nav{
-  color: #161616;
 }
 
 .header__wraps {
-  width: 50%;
+  width: 80%;
   margin: 0 auto;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .header__form {
@@ -84,10 +76,10 @@ html {
 @media only screen and (min-width: 1024px) {
   .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
-    padding: 5px 16px;
+    padding: 0 2em;
   }
 
   .header__wraps {
