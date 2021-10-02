@@ -108,6 +108,7 @@ function CreateNotice() {
 
 
 
+
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
@@ -167,13 +168,13 @@ function CreateNotice() {
 
     try {
       const res = await api.post(
-        `/organisation/${userData.currentWorkspace}/create`,
+        `/organisation/${userData?.currentWorkspace}/create`,
         request
       )
       //Return input field to blank
       values.title = ''
       setEditorState('')
-      return push('/noticeboard')
+      return push('/home')
     } catch (err) {
       // console.log(err)
       setOpenErrorDialog(true)
