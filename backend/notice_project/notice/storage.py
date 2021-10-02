@@ -17,6 +17,9 @@ class Dbnoticeboard:
         self.write_endpoint = BASE_URL + "/data/write"
         self.delete_endpoint = BASE_URL + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
+        self.upload_api = BASE_URL+"/upload/file/613fc3ea6173056af01b4b3e"
+        self.upload_multiple_api = BASE_URL+"/upload/files/613fc3ea6173056af01b4b3e"
+        self.delete_file_api = BASE_URL+"/delete/file/613fc3ea6173056af01b4b3e"
 
     def post_to_centrifugo(self, channel_name:str, data:dict):
         
@@ -126,6 +129,49 @@ class Dbnoticeboard:
         except requests.exceptions.RequestException as err:
             print("OOps: There is a problem with the Request", err)
 
+    def upload(self, file, token):                   #takes in files oh, 1 file
+            url = self.upload_multiple_api
+            files = {"file":file}
+            try:
+                response = requests.post(url=url, files=files, headers={
+                    'Authorization': f'{token}'
+                    })
+            except requests.exceptions.RequestException as e:
+                print(e)
+                return None
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return {"status": response.status_code, "message": response.reason}
+    
+    def multiple_uplaod(self, files, token):
+        url = self.upload_multiple_api
+        try:
+            response = requests.post(url=url, files=files, headers={
+                'Authorization': f'{token}'
+                })
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return None
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {"status": response.status_code, "message": response.reason}
 
+    def delete_file(self, file_url):
+        url = self.delete_file_api
+        body = dict(
+            file_url=file_url
+        )
+
+        try:
+            response = requests.post(url=url, json=body)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return None
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {"status_code": response.status_code, "message": response.reason}
 
 db = Dbnoticeboard()

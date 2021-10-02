@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
-                     UpdateNoticeAPIView, DeleteNotice, get_room, 
+                     UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
                      ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice
                      )
 from drf_yasg.views import get_schema_view
@@ -54,6 +54,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view()),
 
     path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view()),
+
+    path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]

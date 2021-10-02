@@ -509,6 +509,86 @@ class ScheduleNotices(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class AttachFile(views.APIView):
+    """
+    This endpoint is an upload file endpoint that can take files, upload them
+    and return the urls to the uploaded files. The file must be passed in with the key "file"
+    """
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = db.read("noticeboard", org_id)
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def post(self, request):
+        print(request.FILES)
+        token = request.META.get("HTTP_AUTHORIZATION")
+        if request.FILES:
+            file_urls = []
+            files = request.FILES.getlist("file")
+            if len(files) == 1:
+                for file in request.FILES.getlist("file"):
+                    file_data = db.upload(file=file, token=token)
+                    if file_data["status"] == 200:
+                        for datum in file_data["data"]["files_info"]:
+                            file_urls.append(datum["file_url"])
+                    else:
+                        return Response(file_data)
+            elif len(files) > 1:
+                multiple_files = []
+                for file in files:
+                    multiple_files.append(("file", file))
+                file_data = db.multiple_uplaod(files=multiple_files, token=token)
+                if file_data["status"] == 200:
+                    for datum in file_data["data"]["files_info"]:
+                        file_urls.append(datum["file_url"])
+                else:
+                    return Response(file_data)
+        else: 
+            return Response({"success": False, "message": "No file has been attached"})
+
+    
+    def delete(self, request):
+        file_url=request.GET.get('file_url')
+        # org_id = "613a1a3b59842c7444fb0220"
+        try:
+            delete_file = db.delete_file(file_url=file_url)
+            if delete_file["status"] == 200:
+                return Response({
+                    "success": True,
+                    "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Delete Operation Failed. Object does not exist in the database"
+                },
+                status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ADDITIONS OR PATCHINGS DUE TO SIDEBAR
