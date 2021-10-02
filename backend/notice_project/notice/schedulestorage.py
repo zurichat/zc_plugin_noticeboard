@@ -1,5 +1,3 @@
-SCHEDULESTORAGES.PY
-
 import requests, json
 from urllib.parse import urlencode
 
