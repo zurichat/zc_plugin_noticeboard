@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
-                     UpdateNoticeAPIView, DeleteNotice, get_room, 
-                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice,ViewSchedule
+                     UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -46,7 +46,7 @@ urlpatterns = [
     
     path('organisation/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
-    path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
+    path('organisation/<str:org_id>/notices/<str:id>/<str:email>', NoticeDetail.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
 
@@ -55,6 +55,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view()),
 
     path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view()),
+
+    path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
