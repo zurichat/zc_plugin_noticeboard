@@ -26,7 +26,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard', org_id)
+    room = db.read('noticeboard_room', org_id)
 
     if room['status'] == 200:
         if room['data']:
