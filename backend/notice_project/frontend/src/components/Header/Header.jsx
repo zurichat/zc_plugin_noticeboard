@@ -16,8 +16,8 @@ const Header = () => {
 
   return (
     <header className="header">
+        <Link to="/bookmark"><div className="bookmarked-notices-nav">Bookmarked notices</div></Link>
       <div className="header__wraps">
-        <Link to="/noticeboard/bookmark"><div>Bookmarked notices</div></Link>
         <form className="header__form">
           <div className="header__search-icon">
             <svg

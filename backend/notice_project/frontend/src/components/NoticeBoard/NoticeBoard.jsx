@@ -40,7 +40,6 @@ function NoticeBoard() {
         <Route exact path="/noticeboard/search">
           <SearchResult />
         </Route>
-
         <Route exact path="/noticeboard/bookmark">
           <BookmarkedNotices />
         </Route>
