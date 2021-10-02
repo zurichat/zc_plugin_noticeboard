@@ -53,8 +53,14 @@ class DraftSerializer(serializers.Serializer):
 
 class SchedulesSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
-    time = serializers.TimeField(default=timezone.now)
-    date = serializers.DateField()
+    created = serializers.DateTimeField(default=timezone.now)
+    author_name = serializers.CharField()
+    author_username = serializers.CharField()
+    author_img_url = serializers.CharField()
+    message = serializers.CharField()
+    scheduled_time=serializers.CharField()
+    views = serializers.CharField(default=0)
+    org_id = serializers.CharField()
     
 # class AddMemberToRoom(serializers.Serializer):
 #     member_id = serializers.CharField(max_length=24)
