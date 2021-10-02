@@ -64,17 +64,12 @@ const PinnedNotices = (props) => {
         }
       })
       .then((data) => {
-<<<<<<< HEAD
-        setPeople(data.data);
-
-=======
         setPeople(
           data.data.filter(
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-        console.log(data.data)
->>>>>>> 625aa18a2b5c1a0a3a6e62dcd79b5b5c6dff5c85
+        console.log(data.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
