@@ -10,6 +10,7 @@ export const UserProvider = (props) => {
 	const [selectedNotice, setSelectedNotice] = useState({});
 	const [searchText, setSearchText] = useState();
 	const [filteredNotice, setFilteredNotice] = useState(people);
+	const [notices, setNotices] = useState([]);
 
 	return (
 		<UserContext.Provider
@@ -28,6 +29,8 @@ export const UserProvider = (props) => {
 				setSearchText,
 				filteredNotice,
 				setFilteredNotice,
+				notices,
+				setNotices,
 			}}>
 			{props.children}
 		</UserContext.Provider>

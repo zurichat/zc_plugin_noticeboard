@@ -5,9 +5,16 @@ import { UserContext } from "../../Data-fetcing";
 // Performs subscribing to Noticeboard room on centrifugo
 
 export const CentrifugoConnection = () =>{ 
-    const { setPeople } = useContext(UserContext);
-    const today = new Date();
-    const date = today.getDate(); 
+    const { setPeople, setNotices } = useContext(UserContext);
+    const date = new Date();
+    const currentDate = date.getDate();
+
+    let prevDate = null;
+    if (currentDate > 1) {
+      prevDate = currentDate - 1;
+    } else {
+      prevDate = 1;
+    }
   
     const callback = (ctx) => {
       const message = ctx.data.data;
@@ -15,7 +22,14 @@ export const CentrifugoConnection = () =>{
         message
           .reverse()
           .filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
+            (notice) => currentDate == notice.created.slice(8, 10)
+          )
+      );
+      setNotices(
+        message
+          .reverse()
+          .filter(
+            (notice) => prevDate >= notice.created.slice(8, 10)
           )
       );
       console.log(ctx)
