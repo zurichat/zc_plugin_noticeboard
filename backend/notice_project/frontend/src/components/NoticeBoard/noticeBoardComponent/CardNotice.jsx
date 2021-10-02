@@ -4,6 +4,9 @@ import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 // import moment from "moment";
 
+
+import imgPlaceholder from '../../../assets/noticePlaceholderImage.svg'
+
 const CardNotice = ({ person }) => {
   const id = String(person._id);
 
@@ -23,14 +26,13 @@ const CardNotice = ({ person }) => {
               src={
                 person.author_img_url !== "null"
                   ? person.author_img_url
-                  : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                  : imgPlaceholder
               }
             />
           </div>
 
           <div className="avatar-info">
             <div className="avatar-name">{person.author_username}</div>
-
             <div className="time-stamp">{moment(person.created).fromNow()}</div>
           </div>
         </div>

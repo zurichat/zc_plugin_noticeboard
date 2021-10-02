@@ -16,8 +16,10 @@ class CreateNoticeSerializer(serializers.Serializer):
     author_username = serializers.CharField()
     author_img_url = serializers.CharField()
     message = serializers.CharField()
-    bookmarked = serializers.BooleanField(default=False)
-    views = serializers.CharField()
+    media = serializers.ListField(child=serializers.URLField(), allow_empty=True, required=False, default=[])
+    # bookmarked = serializers.BooleanField(default=False)
+    views = serializers.CharField(default='me@email.com')
+
 
 
 class UnsubscribeSerializer(serializers.Serializer):
@@ -37,5 +39,19 @@ class NoticeReminderSerializer(serializers.Serializer):
     time = serializers.TimeField(default=timezone.now)
     date = serializers.DateField()
 
+class BookmarkNoticeSerializer(serializers.Serializer):
+    notice_id = serializers.CharField()
+    user_id = serializers.CharField()
+
+class DraftSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=255)
+    time = serializers.TimeField(default=timezone.now)
+    date = serializers.DateField()
+
+class SchedulesSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=255)
+    time = serializers.TimeField(default=timezone.now)
+    date = serializers.DateField()
+    
 # class AddMemberToRoom(serializers.Serializer):
 #     member_id = serializers.CharField(max_length=24)
