@@ -21,6 +21,9 @@ class CreateNoticeSerializer(serializers.Serializer):
     views = serializers.CharField(default=0)
 
 
+class SubscribeSerializer(serializers.Serializer):
+    email = serializers.CharField()
+
 
 class UnsubscribeSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=30)
