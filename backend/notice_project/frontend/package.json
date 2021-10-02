@@ -51,6 +51,7 @@
     "draftjs-to-markdown": "^0.6.0",
     "formik": "^2.2.9",
     "material-ui-icons": "^1.0.0-beta.36",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.7",

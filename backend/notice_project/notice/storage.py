@@ -1,7 +1,8 @@
 import requests, json
 from urllib.parse import urlencode
 from django.conf import settings
-
+from rest_framework import response
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 CENTRIFUGO_TOKEN = "58c2400b-831d-411d-8fe8-31b6e337738b"
 
@@ -18,22 +19,22 @@ class Dbnoticeboard:
         self.delete_endpoint = BASE_URL + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
 
-    def post_to_centrifugo(self, data):
+    def post_to_centrifugo(self, channel_name:str, data:dict):
+        
+        '''
+        This function is used to post data to centrifugo
+        '''
+
         headers = {'Content-type': 'application/json', 'Authorization': f'apikey {CENTRIFUGO_TOKEN}'}
         command = {
             "method": "publish",    
             "params": {
-                "channel": "noticeboard-team-aquinas-stage-10", 
-                "data": data  
+                "channel": channel_name, 
+                "data": data
                 }
             }
-        try:
-            data = json.dumps(command)
-            response = requests.post(url=self.centrifugo_url, headers=headers, data=data)
-            print(response.json())
-            return response
-        except Exception as e:
-            print(e)
+        response = requests.post(self.centrifugo_url, headers=headers, json=command)
+        return response
 
     def read(self, collection_name, org_id, filter={}):
         """Gets json data from the Db"""

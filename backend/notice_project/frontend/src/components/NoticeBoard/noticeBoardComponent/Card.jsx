@@ -1,6 +1,8 @@
 import React from "react";
+import moment from 'moment'
+
+
 import dot from "../../../assets/Ellipse135.svg";
-import { Button } from "@material-ui/core";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
@@ -13,6 +15,10 @@ const Card = ({ person, people }) => {
     setPersons(user);
     setOpenModal(true);
   };
+
+
+
+
 
   const months = [
     "Jan",
@@ -32,28 +38,29 @@ const Card = ({ person, people }) => {
   const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
 
   return (
-    <div>
+    <>
       <article className="card-adminNotice">
         <div className="card-header-adminNotice">
           <div className="profile-adminNotice">
             <div className="img-profile-container-adminNotice">
               <img
                 className="profile-pic-adminNotice"
-                src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                src={person.author_img_url !== 'null' ? person.author_img_url : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
                 alt="profile-pic"
               />
             </div>
             <div className="identity-adminNotice">
               {/* no user details in notices from the api */}
-              {/* <h6 className="name">{person.userName}</h6> */}
+              <h6 className="name">{person.author_name !== 'null' ?  person.author_name : person.author_username}</h6>
               <p className="time-date-adminNotice">
-                <span>
+             { moment(person.created).fromNow()}
+                {/* <span>
                   {currentMonth}&nbsp;{person.created.slice(8, 10)}
                 </span>
                 <span className="adminDot">
                   <img src={dot} alt="" />
-                </span>{" "}
-                <span>{person.created.substring(11, 20)}</span>
+                </span>{" "} */}
+                {/* <span>{person.created.substring(11, 20)}</span> */}
               </p>
             </div>
           </div>
@@ -61,26 +68,17 @@ const Card = ({ person, people }) => {
         </div>
         {/* body of card */}
         <div className="card-body-adminNotice">
-          <h5 className="card-title-adminNotice">
+          <h3 className="card-title-adminNotice">
             {person.title.replace(/<[^>]+>/g, "")}
-          </h5>
+          </h3>
           <p className="card-info-adminNotice">
             {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
         <div className="icon-button-tray-adminNotice">
-          <div className="icon-tray-adminNotice">
-            {/* the seen feature was removed */}
-            {/* <div>
-              <img src={see} alt="" />
-              <p className="number">{person.views}</p>
-            </div> */}
-          </div>
           <button
             className="card-button-adminNotice"
-            variant="outlined"
-            color="primary"
             onClick={() => filterUsers(person._id)}
           >
             View Notice
@@ -90,7 +88,7 @@ const Card = ({ person, people }) => {
       {openModal && (
         <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
       )}
-    </div>
+    </>
   );
 };
 

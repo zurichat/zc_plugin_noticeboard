@@ -40,10 +40,19 @@
 
 .rightIcons{
     float: right;
+    display: inline !important;
     cursor: pointer;
+    padding: 6px 5px;
+    height: fit-content;
 }
 
+.rdw-fontsize-option{
+    font-size: .9em;
+}
 
+.rdw-dropdown-selectedtext span{
+    font-size: .9em;
+}
 
 /* makes the tools of the toolbar invisible by default */
 .rdw-invisible{
