@@ -8,6 +8,7 @@ import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
+import Subscription from "../EmailSubscribe/Subscription";
 
 const PinnedNotices = (props) => {
 	const { people, setPeople, loading, setLoading, isError, setIsError, searchText, filteredNotice } = useContext(UserContext);
@@ -33,7 +34,7 @@ const PinnedNotices = (props) => {
 			})
 			.then((data) => {
 				setPeople(data.data.filter((notice) => currentDate == notice.created.slice(8, 10)));
-				console.log(data.data);
+
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
@@ -119,6 +120,7 @@ const PinnedNotices = (props) => {
 					<p className="older-notices-text">View older notices</p>
 				</div>
 			</Link>
+			<Subscription />
 		</div>
 	);
 };
