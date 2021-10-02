@@ -108,6 +108,7 @@ function CreateNotice() {
 
 
 
+
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
@@ -167,7 +168,7 @@ function CreateNotice() {
 
     try {
       const res = await api.post(
-        `/organisation/${userData.currentWorkspace}/create`,
+        `/organisation/${userData?.currentWorkspace}/create`,
         request
       )
       //Return input field to blank

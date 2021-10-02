@@ -49,12 +49,13 @@ const PinnedNotices = (props) => {
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-        console.log(data.data)
+     
         setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
 
+  
 
   if (loading) {
     return (
