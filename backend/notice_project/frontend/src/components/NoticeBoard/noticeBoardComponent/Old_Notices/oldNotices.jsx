@@ -45,7 +45,7 @@ function OldNotices() {
     const lastPageIndex = firstPageIndex + PageSize;
 
     const filteredNotices = notices.filter(
-      (notice) => prevDate >= notice.created.slice(8, 10)
+      (notice) => prevDate <= notice.created.slice(8, 10)
     );
 
     return filteredNotices.slice(firstPageIndex, lastPageIndex);
