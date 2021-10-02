@@ -1,8 +1,12 @@
 import React from "react";
+import moment from 'moment'
+import Box from '@material-ui/core/Box'
+
 import CancelNoticeBtn from "./CancelNoticeBtn";
-import "./ViewNotice.css";
 import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
 import dot from "../../../assets/Ellipse135.svg";
+import imgPlaceholder from '../../../assets/noticePlaceholderImage.svg'
+import "./ViewNotice.css";
 
 const ViewNoticeModal = ({ persons, closeModal }) => {
   const cancelBtn = () => {
@@ -18,6 +22,7 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
       closeModal(false);
     }
   });
+
 
   const getMonthName = (month) => {
     const d = new Date();
@@ -36,18 +41,16 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
               <div className="img-and-name-container">
                 <div className="img">
                   <img
-                    src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    src={person.author_img_url !== 'null' ? person.author_img_url : imgPlaceholder }
                     alt=""
                     className="user-picture"
                   />
                 </div>
                 <div className="name-time">
+                  <div>{person.author_name !== 'null' ? <Box fontWeight="fontWeightBold">{person.author_name}</Box> : <Box fontWeight="fontWeightBold">{person.author_username} </Box>}</div>
                   <div className="time-stamps">
-                    <p className="date-stamp stamp-one">{`${getMonthName(Number(person.created.substring(5, 7)))} ${person.created.substring(8, 10)} ${person.created.substring(0, 4)}`}</p>
-                    <p className="dot">
-                      <img src={dot} alt=""/>
-                    </p>
-                    <p className="date-stamp stamp-two">{person.created.substring(11, 20)}</p>
+                    <p className="date-stamp stamp-one">{moment(person.created).fromNow()}</p>
+                    
                   </div>
                 </div>
               </div>

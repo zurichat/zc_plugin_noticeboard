@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import "../noticeBoardComponent/AdminNotice.css";
-import Card from "../noticeBoardComponent/Card";
+import CardComponent from "../noticeBoardComponent/CardComponent";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
@@ -42,15 +42,14 @@ const PinnedNotices = (props) => {
       })
       .then((data) => {
         setPeople(
-          data.data.filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
-          )
+          data.data
         );
-        // console.log(data.data);
+        
         setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
+
 
   if (loading) {
     return (
@@ -128,7 +127,7 @@ const PinnedNotices = (props) => {
   }
 
   return (
-    <div className="adminnotice">
+    <div className="adminNotice">
       <div className="pinned-button-container">
         <div className="pin-text">
           <p className="text">Notices</p>
@@ -147,12 +146,14 @@ const PinnedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return <Card person={person} key={person._id} />;
+              return <CardComponent person={person} key={person._id} />;
             })
           : people?.map((person) => {
-              return <Card person={person} key={person._id} />;
+              return <CardComponent person={person} key={person._id} />;
             })}
       </section>
+
+     
 
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
