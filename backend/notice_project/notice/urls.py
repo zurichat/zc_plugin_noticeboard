@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
+from .views import (Subscribe, email_subscription, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
                      ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, ScheduleNoticeAPI
                      )
@@ -61,7 +61,9 @@ urlpatterns = [
 
     path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
-    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
+    path('email-subscription', email_subscription),
 ]
 
 # newly added due to sidebar task -- start

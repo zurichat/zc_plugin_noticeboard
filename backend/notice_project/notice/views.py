@@ -628,7 +628,42 @@ class AttachFile(views.APIView):
                 status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['POST'])
+def email_subscription(request):
+    if request.method == 'POST':
+        org_id = request.GET.get("org")
+        user_id = request.GET.get("user")
 
+        if org_id and user_id: # and user_id
+            serializer = SubscribeSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user_data = {
+                "user_id": user_id,
+                "email": serializer.data["email"]
+            }
+            
+            response_subscribers = db.read("test_email_subscribers", org_id)
+
+            try:
+                if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
+                    db.save("test_email_subscribers", org_id, user_data)
+                    return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
+
+                elif response_subscribers["status"] == 200 and response_subscribers["data"]:
+                    for user_obj in response_subscribers["data"]:
+                        if user_id == user_obj["user_id"]:
+                            return Response({"status": "already subscribed"}, status=status.HTTP_409_CONFLICT)
+
+                    # if user_id doesn't exist, then the user is subscribed
+                    db.save("test_email_subscribers", org_id, user_data)
+                    return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
+
+                else:
+                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+
+            except Exception as e:
+                return Response(str(e))
+        return Response({"status": "no action taken, check org and/or user parameter values"})
 
 
 
