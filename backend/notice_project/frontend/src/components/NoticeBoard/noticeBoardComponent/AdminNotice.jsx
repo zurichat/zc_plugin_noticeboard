@@ -11,6 +11,8 @@ import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
 import UserMenu from "./UserMenu/UserMenu";
 import { FlashOnOutlined } from "@material-ui/icons";
+import Subscription from "../EmailSubscribe/Subscription";
+
 const PinnedNotices = (props) => {
   const {
     people,
@@ -70,6 +72,7 @@ const PinnedNotices = (props) => {
           )
         );
         console.log(data.data);
+
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -183,6 +186,7 @@ const PinnedNotices = (props) => {
           <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
+      <Subscription />
     </div>
   );
 };

@@ -49,9 +49,9 @@ urlpatterns = [
     
     path('organisation/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
-    path('organisation/<str:org_id>/notices/<str:id>/<str:email>', NoticeDetail.as_view()),
+    path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view(), name="notice-detail"),
 
-    path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
+    path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view(), name="delete-notice"),
 
     path('organisation/<str:org_id>/user/<str:user_id>/bookmark', BookmarkNotice.as_view()),
 
