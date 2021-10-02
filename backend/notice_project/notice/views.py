@@ -240,9 +240,6 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
-<<<<<<< HEAD
-            return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-=======
             try:
                 get_data=notice["data"]
                 # views = get_data['views']
@@ -254,7 +251,6 @@ class NoticeDetail(views.APIView):
                     return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -398,18 +394,35 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    def post(self, request):
+    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
+    @swagger_auto_schema(request_body=NoticeReminderSerializer)
+    def post(self, request, org_id):
+        org_id=request.GET.get('org')
+        sendReminderEmail = request.GET.get('sendReminderEmail')
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-                "613a1a3b59842c7444fb0220",
+               org_id,
                 notice_data=serializer.data
             )
+            # Appends serializer data to newly_created_notice_reminder list
+            created_notice_reminder = serializer.data
+            self.newly_created_notice_reminder.append(created_notice_reminder)
+
+            
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
+''' Trying to send notices via email'''
+    # with mail.get_connection() as connection:
+    #     mail.EmailMessage(
+    #         newly_created_notice_reminder,
+    #         connection=connection,
+    #     ).send()
 
 class BookmarkNotice(views.APIView):
 
