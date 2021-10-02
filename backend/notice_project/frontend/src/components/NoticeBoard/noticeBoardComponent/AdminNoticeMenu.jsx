@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -151,12 +151,13 @@ function AdminMenu({
       });
     handleClose();
   };
-
-  bookmarkDetails
-    ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-      ? setBookmarkStatus(true)
-      : setBookmarked(false)
-    : "";
+  useEffect(()=>{
+    bookmarkDetails
+      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+        ? setBookmarkStatus(true)
+        : setBookmarked(false)
+      : "";
+  },[toggleBookmark])
 
   const bookmarkNotice = () => {
     axios
