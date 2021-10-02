@@ -243,16 +243,17 @@ class NoticeDetail(views.APIView):
         if notice["status"] == 200:
             try:
                 get_data=notice["data"]
-                # views = get_data['views']
-                # count = count_views(views, email)
-                # get_data['views'] = count
-                serializer = CreateNoticeSerializer(data=get_data)
-                if serializer.is_valid():
-                    db.update("noticeboard", org_id, serializer.data, object_id=id)
-                    return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+                query = request.GET.get('query')
+                if query:
+                    views = get_data['views']
+                    count = count_views(views, query)
+                    get_data['views'] = count
+                    serializer = CreateNoticeSerializer(data=get_data)
+                    if serializer.is_valid():
+                        db.update("noticeboard", org_id, serializer.data, object_id=id)
+                        return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
