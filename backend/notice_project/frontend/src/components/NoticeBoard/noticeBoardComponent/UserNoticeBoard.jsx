@@ -13,6 +13,7 @@ const UserNotice = (props) => {
 
   const today = new Date();
   const date = today.getDate();
+  console.log(people);
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
