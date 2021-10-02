@@ -25,14 +25,8 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
-import { UserInfoContext } from "../../../App";
 
-function AdminMenu({
-  noticeID,
-  bookmarkDetails,
-  setToggleBookmark,
-  toggleBookmark,
-}) {
+function AdminMenu({ noticeID }) {
   const menu = [
     { icon: EditIcon, linkText: "Edit notice", id: "1" },
     { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
@@ -45,12 +39,6 @@ function AdminMenu({
   const history = useHistory();
   ////bookmark status state
   const [bookmarkStatus, setBookmarkStatus] = useState();
-
-  const userData = useContext(UserInfoContext);
-  console.log(userData.email);
-  console.log(userData?.org_id + "orgid", userData?._id + "id frank");
-
-  /////
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -66,7 +54,7 @@ function AdminMenu({
 
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
-    setLoader(true);
+     setLoader(true);
     //  setTimeout(()=>{
     //    setLoader(false)
     // }, 4000)
@@ -74,9 +62,9 @@ function AdminMenu({
       setToast(true);
     }, 4000);
 
-    setTimeout(() => {
-      setToast(false);
-    }, 7000);
+    setTimeout(()=>{
+      setToast(false)
+    }, 7000)
   };
 
   const editNotice = (noticeID) => {
@@ -142,67 +130,38 @@ function AdminMenu({
       options
     )
       .then((response) => {
-        console.log(response);
-        setLoader(false);
+        console.log(response, );
+        setLoader(false)
       })
-
+      
       .catch((error) => {
         console.log(error);
       });
     handleClose();
   };
-  useEffect(()=>{
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  },[toggleBookmark])
 
-  const bookmarkNotice = () => {
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: UserData?._id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
+  ///Checking if the notice was bookmarked
+  //   const checkBookmarkStatus=()=>{
+  //     fetch("https://")
+  //     .then(res=>{
+  //       if(!res.ok){
+  //       throw Error("Cound not get the status of the bookmark")
+  //       }
+  //       return res.json()
+  //     })
+  //     .then(data=>{
+  //       console.log(data)
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch(err=>{
+  //       if(err){
+  //         console.log(err)
+  //       }
+  //     })
+  //   }
 
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
-
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
-  };
+  //   checkBookmarkStatus();
+  //  ///////////////
 
   return (
     <div>
@@ -251,7 +210,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={bookmarkFunction}
+              onClick={() => setBookmarkStatus(!Boolean(bookmarkStatus))}
             >
               Bookmark
             </span>
