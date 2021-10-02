@@ -5,6 +5,8 @@ import Modal from "./EmailSubscriptionModal";
 import TextInput from "./TextInput";
 import classes from "./EmailSubscription.module.css";
 import axios from "axios";
+import { DataContext, UserInfoContext } from "../../../../App";
+import { UserContext } from "../../../../Data-fetcing";
 
 const Newsletter = props => {
   const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
@@ -13,6 +15,10 @@ const Newsletter = props => {
   const [emailValue, setEmailValue] = useState("");
   const [agreementValue, setAgreementValue] = useState(false);
   const [message, setMessage] = useState();
+
+  const _globalData = useContext(DataContext)
+  const org_id = _globalData.Organizations[0]
+  const userData = useContext(UserInfoContext)
 
   const closeHandler = () => {
     setSubscriptionSuccess(false);
@@ -33,7 +39,7 @@ const Newsletter = props => {
   };
 
   const submitEmail = () => {
-      axios.post(`http://127.0.0.1:8000/api/v1/email-subscription?org=6145b49e285e4a18402073bc&user=614ebf43f31a74e068e4dae1`,
+      axios.post(`https://noticeboard.zuri.chat/api/v1/email-subscription?org=${org_id}&user=${userData}`,
       {
         email: result.email,
         user_id: result._id,
