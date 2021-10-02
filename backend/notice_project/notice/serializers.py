@@ -1,4 +1,3 @@
-from django.utils import timezone
 from rest_framework import serializers
 from django.utils import timezone
 from datetime import date
@@ -10,6 +9,8 @@ current_time = f"{time.hour + 1}:{time.minute}:{time.second}"
 # Get Current Date
 current_date = f"{time.month}-{time.day}-{time.year}"
 
+# set_time = input('Input date according to hh:min:sec : ')
+# set_date = input('Input date according to yy:mm:dd : ')
 class NoticeboardRoom(serializers.Serializer):
     title = serializers.CharField()
     icon = serializers.URLField()
