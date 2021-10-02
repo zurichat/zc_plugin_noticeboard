@@ -271,15 +271,15 @@ class NoticeDetail(views.APIView):
     This returns the detail of a particular notice under the organisation
     '''
 
-    def get(self, request, id, org_id, email):
+    def get(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
             try:
                 get_data=notice["data"]
-                views = get_data['views']
-                count = count_views(views, email)
-                get_data['views'] = count
+                # views = get_data['views']
+                # count = count_views(views, email)
+                # get_data['views'] = count
                 serializer = CreateNoticeSerializer(data=get_data)
                 if serializer.is_valid():
                     db.update("noticeboard", org_id, serializer.data, object_id=id)
