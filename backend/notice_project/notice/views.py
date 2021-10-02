@@ -8,6 +8,7 @@ from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSeria
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
+from .ScheduleStorage import schDb
 
 
 @api_view(['GET'])
