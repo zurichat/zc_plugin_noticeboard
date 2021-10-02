@@ -134,7 +134,9 @@ label {
   left: -200px !important;
 }
 
-
+.rdw-editor-toolbar div {
+  display: inline;
+}
 .rdw-emoji-modal {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr);

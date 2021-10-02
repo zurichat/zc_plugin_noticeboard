@@ -107,6 +107,7 @@ h6 {
 .adminnotice,
 .adminNotice-section {
   width: 100%;
+
 }
 
 .adminNotice-section .card-adminNotice {
@@ -115,7 +116,7 @@ h6 {
   padding: 3em 1em;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
-  min-height: 270px;
+  /* min-height: 270px; */
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -293,11 +294,11 @@ h6 {
   }
 }
 
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-width: 960px) {
   .adminNotice-section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2em 4em;
+    gap: 2em 2em;
     margin-top: 1em;
   }
 
