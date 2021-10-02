@@ -45,17 +45,10 @@ const PinnedNotices = (props) => {
       .then((data) => {
         setPeople(
           data.data.filter(
-<<<<<<< HEAD
-            (notice) => notice.created.substring(8, 10) === date.toString()
-          )
-        );
-        // console.log(data.data);
-=======
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
         console.log(data.data)
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         setLoading(false);
       })
       .catch((error) => console.log(error));
