@@ -4,16 +4,17 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer, BookmarkNoticeSerializer
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 @api_view(['GET'])
 def sidebar_info(request):
+    '''
+    Returns the room the logged in user belongs to under Noticeboard plugin
+    '''
     org_id = request.GET.get('org')
     user_id = request.GET.get('user')
 
@@ -53,6 +54,9 @@ def sidebar_info(request):
 
 @api_view(['POST'])
 def create_room(request, org_id):
+    '''
+    Creates a room for the organisation under Noticeboard plugin
+    '''
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
     serializer = NoticeboardRoom(data=request.data)
@@ -64,6 +68,9 @@ def create_room(request, org_id):
 
 @api_view(['GET'])
 def get_room(request, org_id):
+    '''
+    Gets all the rooms created under the Noticeboard plugin
+    '''
     # org_id = "613a1a3b59842c7444fb0220"
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
@@ -73,6 +80,10 @@ def get_room(request, org_id):
 
 @api_view(['GET'])
 def install(request):
+    '''
+    This endpoint is called when an organisation wants to install 
+    the Noticeboard plugin for their workspace
+    '''
     install = {
         "name": "Noticeboard Plugin",
         "description": "Creates Notice",
@@ -99,9 +110,20 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            updated_data = db.read("noticeboard", org_id)
+            # updated_data = db.read("noticeboard", org_id)
 
-            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10",updated_data)
+            created_notice = {
+                "event":"create_notice",
+                "data": serializer.data
+            }
+
+
+            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            room = response.json()
+            room_id = room["data"][0]["_id"]
+            print(room_id)
+
+            db.post_to_centrifugo(room_id,created_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -109,6 +131,9 @@ class CreateNewNotices(views.APIView):
 
 
 class UpdateNoticeAPIView(views.APIView):
+    '''
+    Update A Notice In A Database
+    '''
 
     def put(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
@@ -116,9 +141,19 @@ class UpdateNoticeAPIView(views.APIView):
         if serializer.is_valid():
             db.update("noticeboard", org_id, serializer.data, object_id=id)
 
-            updated_data = db.read("noticeboard", org_id)
+            data = db.read("noticeboard", org_id)
 
-            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10", updated_data)
+            updated_data = {
+                "event":"update_notice",
+                "data":data
+            }
+
+            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            room = response.json()
+            room_id = room["data"][0]["_id"]
+            print(room_id)
+
+            db.post_to_centrifugo(room_id, updated_data)
 
             return Response(
                 {
@@ -148,9 +183,19 @@ class DeleteNotice(views.APIView):
                 object_id=object_id
             )
 
-            updated_data = db.read('noticeboard', org_id)
+            data = db.read('noticeboard', org_id)
 
-            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10", updated_data)
+            updated_data = {
+                "event":"delete_notice",
+                "data":data
+            }
+
+            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            room = response.json()
+            room_id = room["data"][0]["_id"]
+            print(room_id)
+
+            db.post_to_centrifugo(room_id, updated_data)
 
             return Response(
                 {
@@ -168,6 +213,9 @@ class DeleteNotice(views.APIView):
 
 
 class ViewNoticeAPI(views.APIView):
+    '''
+    This endpoint returns all the notices created under a particular organisation in the database
+    '''
 
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
@@ -184,6 +232,9 @@ class ViewNoticeAPI(views.APIView):
 
 
 class NoticeDetail(views.APIView):
+    '''
+    This returns the detail of a particular notice under the organisation
+    '''
 
     def get(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
@@ -344,6 +395,71 @@ class NoticeReminder(views.APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BookmarkNotice(views.APIView):
+
+    def get(self, request, org_id, user_id):
+        '''
+        Retrieve all the notices a particular user has bookmarked
+        '''
+        bookmarked_notices = db.read('bookmark_notice', org_id, filter={"user_id":user_id})
+        if bookmarked_notices['status'] == 200:
+            return Response(bookmarked_notices, status=status.HTTP_200_OK)
+        return Response({"message":"Notice does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CreateBookmark(views.APIView):
+
+    def post(self, request, org_id):
+        '''
+        This endpoint enables a user to bookmark a notice
+        '''
+        serializer = BookmarkNoticeSerializer(data=request.data)
+        if serializer.is_valid():
+            db.save('bookmark_notice', org_id, serializer.data)
+
+            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            room = response.json()
+            room_id = room["data"][0]["_id"]
+            print(room_id)
+
+            data = {
+                "event":"create_bookmark",
+                "data":serializer.data
+            }
+
+            db.post_to_centrifugo(room_id, data)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteBookmarkedNotice(views.APIView):
+
+    def delete(self, request, org_id, id):
+        '''
+        This endpoint enables a user delete a bookmarked notice
+        '''
+        bookmarked_notice = db.delete(org_id, 'bookmark_notice', id)
+
+        bookmarked_data = db.read('bookmark_notice', org_id)
+
+        data = {
+            "event":"delete_bookmark",
+            "data":bookmarked_data
+        }
+
+        response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+        room = response.json()
+        room_id = room["data"][0]["_id"]
+        print(room_id)
+
+        db.post_to_centrifugo(room_id, data)
+
+        if bookmarked_notice['status'] == 200:
+            return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
+        return Response({"message":"could not delete bookmarked notice"}, status=status.HTTP_404_NOT_FOUND)
 
 class NoticeDraft(views.APIView):
     '''
