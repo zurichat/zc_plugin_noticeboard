@@ -35,11 +35,7 @@ const UserNotice = (props) => {
         }
       })
       .then((data) => {
-        setPeople(
-          data.data.filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
-          )
-        );
+        setPeople(data.data);
         // console.log(data.data);
         setLoading(false);
       })
