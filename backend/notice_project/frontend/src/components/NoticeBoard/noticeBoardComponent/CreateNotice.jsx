@@ -141,6 +141,12 @@ function CreateNotice() {
       )
     }
 
+    if (isChecked) {
+      fetch(
+        `http://127.0.0.1:8000/api/v1/email-notification?org=6145b49e285e4a18402073bc&user=61545a1da999ef8386e80adc&send=1`
+      )
+    }
+
     values.message = draftToMarkdown(
       convertToRaw(editorState.getCurrentContent())
     )
