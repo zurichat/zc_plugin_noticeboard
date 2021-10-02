@@ -24,7 +24,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard', org_id)
+    room = db.read('noticeboard_room', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -123,7 +123,7 @@ class CreateNewNotices(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id,created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -153,7 +153,7 @@ class UpdateNoticeAPIView(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -195,7 +195,7 @@ class DeleteNotice(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -440,7 +440,7 @@ class CreateBookmark(views.APIView):
                 "data":serializer.data
             }
 
-            db.post_to_centrifugo(room_id, data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -466,7 +466,7 @@ class DeleteBookmarkedNotice(views.APIView):
         room_id = room["data"][0]["_id"]
         print(room_id)
 
-        db.post_to_centrifugo(room_id, data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
         if bookmarked_notice['status'] == 200:
             return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
