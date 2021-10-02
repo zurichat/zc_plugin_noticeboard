@@ -3,11 +3,12 @@ import "./UserNoticeModal.css";
 import UserMenu from "./UserMenu/UserMenu";
 import { Button } from "@material-ui/core";
 import moment from "moment";
+import UserMenu from "./UserMenu/UserMenu";
 
-function UserNoticeModal({ person }) {
-  const id = String(person._id);
+function UserNoticeModal({ notice }) {
+  const id = String(notice._id);
   const modal_id = `modal_${id}`;
-  const paragraphs = person.message;
+  const paragraphs = notice.message;
 
   const CloseModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
@@ -31,8 +32,8 @@ function UserNoticeModal({ person }) {
                 <img
                   className="userNoticeModal-image"
                   src={
-                    person.author_img_url !== "null"
-                      ? person.author_img_url
+                    notice.author_img_url !== "null"
+                      ? notice.author_img_url
                       : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                   }
                   alt="user"
@@ -40,11 +41,11 @@ function UserNoticeModal({ person }) {
               </div>
               <div className="userNoticeModal-textContainer">
                 <h1 className="userNoticeModal-username">
-                  {person.author_username}
+                  {notice.author_username}
                 </h1>
                 <div className="userNoticeModal-timeStamp">
                   <span className="userNoticeModal-stampDay">
-                    {moment(person.created).fromNow()}
+                    {moment(notice.created).fromNow()}
                   </span>
                 </div>
               </div>
@@ -54,10 +55,10 @@ function UserNoticeModal({ person }) {
             </div>
           </div>
           <div>
-            <h2 className="userNoticeModal-title">{person.title}</h2>
+            <h2 className="userNoticeModal-title">{notice.title}</h2>
           </div>
 
-          <p className="userNoticeModal-paragraph">{person.message}</p>
+          <p className="userNoticeModal-paragraph">{notice.message}</p>
 
           <div className="closeModalButton-container">
             <Button

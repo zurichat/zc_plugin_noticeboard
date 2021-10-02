@@ -111,8 +111,8 @@ h6 {
 
 .adminNotice-section .card-adminNotice {
   border-radius: 3px;
-  box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);
-  padding: 1.5em 1em;
+  /* box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2); */
+  padding: 3em 1em;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
   min-height: 270px;

@@ -5,22 +5,27 @@ import UserNoticeModal from "./UserNoticeModal";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import logo from "../../../assets/svg/logo.svg";
-import UserIntro from "./UserIntro component/UserIntro";
+import noNotice from "../../../assets/svg/no_notices.svg";
+import { Link } from "react-router-dom";
+import { UserInfoContext } from "../../../App";
 
-const UserNotice = (props) => {
-  const { people, setPeople, loading, setLoading, isError, setIsError } =
-    useContext(UserContext);
+const UserNotice = () => {
+  const { loading, setLoading, isError, setIsError } = useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
 
+  const [notices, setNotices] = useState([]);
+
+  const userData = useContext(UserInfoContext);
   // Read Organization ID
   const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
     fetchNotices();
   }, []);
+
+  const org_ID = userData?.org_id;
 
   const fetchNotices = () => {
     fetch(
@@ -35,12 +40,8 @@ const UserNotice = (props) => {
         }
       })
       .then((data) => {
-        setPeople(
-          data.data.filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
-          )
-        );
-        // console.log(data.data);
+        setNotices(data.data);
+        console.log(data.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -71,8 +72,37 @@ const UserNotice = (props) => {
     );
   }
 
-  if (people?.length <= 0) {
-    return <UserIntro />;
+  if (notices?.length <= 0) {
+    return (
+      <div className="user-notice">
+        <div className="notice-heading">
+          <p>Notices</p>
+        </div>
+
+        <div className="no-notice">
+          <img src={noNotice} alt="no-notice" className="no-notice-img" />
+          <h1
+            className="no-new-notices"
+            style={{
+              fontSize: "1rem",
+              textAlign: "center",
+              color: "#000",
+              marginTop: "20px",
+            }}
+          >
+            Hey there, You have no notice for the day, they would appear here
+            when published
+          </h1>
+          <div className="notice-btn-div">
+            <Link to="/noticeboard">
+              <div className="older-notices">
+                <p className="older-notices-text">Go Back</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -82,10 +112,10 @@ const UserNotice = (props) => {
       </div>
 
       <div className="user-notice-post">
-        {people.map((person) => (
-          <div key={person._id}>
-            <CardNotice person={person} />
-            <UserNoticeModal person={person} />
+        {notices.map((notice) => (
+          <div key={notice._id}>
+            <CardNotice notice={notice} />
+            <UserNoticeModal notice={notice} />
           </div>
         ))}
       </div>
