@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import (Subscribe, install, create_room, CreateNewNotices, 
-                     UpdateNoticeAPIView, DeleteNotice, get_room, 
-                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder,
-                     sidebar_info 
+from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
+                     UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, ScheduleNoticeAPI
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -34,7 +33,15 @@ urlpatterns = [
 
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
+    path('organisation/<str:org_id>/schedule', ScheduleNoticeAPI.as_view()),
+    
     path('organisation/<str:org_id>/create-reminder', NoticeReminder.as_view()),
+
+    path('organisation/<str:org_id>/create_draft', NoticeDraft.as_view()),
+
+    path('organisation/<str:org_id>/create_schedule', ScheduleNotices.as_view()),
+
+    path('organisation/<str:org_id>/schedules', ViewSchedule.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
@@ -42,9 +49,17 @@ urlpatterns = [
     
     path('organisation/<str:org_id>/notices', ViewNoticeAPI.as_view()),
 
-    path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
+    path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view(), name="notice-detail"),
 
-    path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
+    path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view(), name="delete-notice"),
+
+    path('organisation/<str:org_id>/user/<str:user_id>/bookmark', BookmarkNotice.as_view()),
+
+    path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view()),
+
+    path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view()),
+
+    path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
