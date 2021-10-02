@@ -237,6 +237,35 @@ def count_views(data, email):
     user_string = ' '.join([str(elem) for elem in user_array])
     return user_string
 
+# option two for Maro
+class ScheduleNoticeAPI(views.APIView):
+
+     def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = db.read("noticeboard", org_id)
+
+        if notice['status'] == 200:
+
+            """
+            Don't show notice that have their reminder set to True
+            """
+            print(f"Notice Reminder: {notice['data'][0]}")
+            # if notice["data"].get("notice_reminder") is False:
+            #     return Response(notice, status=status.HTTP_200_OK)
+
+            # elif notice["data"].get("notice_reminder") is True:
+            #     permission_message = "Oof! You can not view this notice."
+            #     return Response({"message": permission_message}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+           
+            """
+            When notice schedule date and time has reached, set reminder to False
+            and show to users
+            """
+            # logic goes here
+            # more logic here
+            return Response(notice['data'], status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
 class NoticeDetail(views.APIView):
     '''
     This returns the detail of a particular notice under the organisation
@@ -400,6 +429,7 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
+    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
     def post(self, request):
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
@@ -408,10 +438,13 @@ class NoticeReminder(views.APIView):
                 "613a1a3b59842c7444fb0220",
                 notice_data=serializer.data
             )
+            # Appends serializer data to newly_created_notice_reminder list
+            created_notice_reminder = serializer.data
+            self.newly_created_notice_reminder.append(created_notice_reminder)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class BookmarkNotice(views.APIView):
 
