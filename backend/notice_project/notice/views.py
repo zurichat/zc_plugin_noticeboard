@@ -528,11 +528,7 @@ class AttachFile(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-<<<<<<< HEAD
-    def post(self, request, ):
-=======
     def post(self, request, org_id):
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         print(request.FILES)
         token = request.META.get("HTTP_AUTHORIZATION")
         if request.FILES:

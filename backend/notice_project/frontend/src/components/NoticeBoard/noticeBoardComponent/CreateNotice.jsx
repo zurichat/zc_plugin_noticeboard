@@ -376,16 +376,10 @@ var requestOptions = {
                     link: {
                       className: 'rdw-invisible',
                       options: ['link'],
-<<<<<<< HEAD
 					  visible: true,
 					inDropdown: false,
 					link: { visible: true, icon: link, },
 					unlink: { visible: true, icon: link, }
-=======
-                      visible: true,
-                      inDropdown: false,
-                      addLink: { visible: true, icon: link, }
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
                     },
                     textAlign: {
                       className: 'rdw-invisible',
@@ -413,15 +407,10 @@ var requestOptions = {
                       icon: imageIcon,
                       uploadEnabled: true,
                       urlEnabled: true,
-<<<<<<< HEAD
 					  fileupload: true,
 					  uploadCallback: uploadImageCallBack, 
 					  alt: { present: true, mandatory: false },
 
-=======
-                      fileupload: true,
-                      // uploadCallback: this.uploadImageCallback,
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
                       inputAccept:
                         'image/gif,image/jpeg,image/jpg,image/png,image/svg'
                     }
