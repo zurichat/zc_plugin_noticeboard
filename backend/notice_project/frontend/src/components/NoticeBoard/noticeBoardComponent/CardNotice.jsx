@@ -5,13 +5,8 @@ import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
 import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 
-<<<<<<< HEAD
-const CardNotice = ({ person }) => {
-  const id = String(person._id);
-=======
 const CardNotice = ({ notice }) => {
   const id = String(notice._id);
->>>>>>> c425f4a9f6c1217e462d88f969eeb9c282be4e92
 
   const OpenModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
@@ -27,28 +22,17 @@ const CardNotice = ({ notice }) => {
             <img
               alt="img"
               src={
-<<<<<<< HEAD
-                person.author_img_url !== "null"
-                  ? person.author_img_url
-=======
                 notice.author_img_url !== "null"
                   ? notice.author_img_url
->>>>>>> c425f4a9f6c1217e462d88f969eeb9c282be4e92
                   : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
               }
             />
           </div>
 
           <div className="avatar-info">
-<<<<<<< HEAD
-            <div className="avatar-name">{person.author_username}</div>
-
-            <div className="time-stamp">{moment(person.created).fromNow()}</div>
-=======
             <div className="avatar-name">{notice.author_username}</div>
 
             <div className="time-stamp">{moment(notice.created).fromNow()}</div>
->>>>>>> c425f4a9f6c1217e462d88f969eeb9c282be4e92
           </div>
         </div>
         <div className="info-icon">
