@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import Pagination from "./pagination";
 import "./oldNotices.css";
 import Card from "../Card";
 import OldNoticeHeader from "./oldNoticeHeader";
+import { UserContext } from "../../../../Data-fetcing";
 
 function OldNotices() {
-  const [people, setPeople] = useState([]);
+  // const [people, setPeople] = useState([]);
   const [loading, isLoading] = useState(true);
 
   //setting state for pagination
-  const [notices, setNotices] = useState([]);
+  const {notices, setNotices} = useContext(UserContext);
+  // const [notices, setNotices] = useState([]);
   const [filteredNotices, setFilteredNotices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   let PageSize = 9;
@@ -26,7 +28,7 @@ function OldNotices() {
   }
 
   useEffect(() => {
-    setPeople(notices);
+    // setPeople(notices);
     isLoading(false);
     getNotices();
   }, []);
@@ -38,6 +40,7 @@ function OldNotices() {
     );
     const data = await response.json();
     setNotices(data.data);
+    console.log(currentDate)
   };
 
   const currentNoticeData = useMemo(() => {
@@ -45,7 +48,7 @@ function OldNotices() {
     const lastPageIndex = firstPageIndex + PageSize;
 
     const filteredNotices = notices.filter(
-      (notice) => prevDate >= notice.created.slice(8, 10)
+      (notice) => prevDate <= notice.created.slice(8, 10)
     );
 
     return filteredNotices.slice(firstPageIndex, lastPageIndex);

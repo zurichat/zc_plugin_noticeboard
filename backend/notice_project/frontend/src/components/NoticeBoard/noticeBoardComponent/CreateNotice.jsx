@@ -40,6 +40,7 @@ import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
 
 import { DataContext } from '../../../App'
+import Subscription from '../EmailSubscribe/Subscription'
 
 
 
@@ -92,7 +93,7 @@ const initialValues = {
 
 const maxChars = 1000
 
-function CreateNotice () {
+function CreateNotice() {
   const userData = useContext(UserInfoContext)
   const classes = useStyles()
   const { push } = useHistory()
@@ -105,14 +106,14 @@ function CreateNotice () {
 
   )
 
-  
-  
+
+
 
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
 
-  if (userData === null){
+  if (userData === null) {
     push('/login')
   }
 
@@ -147,8 +148,8 @@ function CreateNotice () {
     const request = {
       title: values.title,
       message: values.message,
-      author_name:userData?.first_name || 'null', 
-      author_username: userData?.user_name || 'null' , 
+      author_name: userData?.first_name || 'null',
+      author_username: userData?.user_name || 'null',
       author_img_url: userData?.image_url || 'null'
     }
 
@@ -167,7 +168,7 @@ function CreateNotice () {
       //Return input field to blank
       values.title = ''
       setEditorState('')
-      return push('/noticeboard')
+      return push('/home')
     } catch (err) {
       // console.log(err)
       setOpenErrorDialog(true)
@@ -325,7 +326,7 @@ var requestOptions = {
                       minLength: 5,
                       maxLength: 30
                     }}
-                    // helperText="You can type 30 characters or less"
+                  // helperText="You can type 30 characters or less"
                   />
                   <p id='titleError' style={{ color: 'red', fontSize: '14px' }}>
                     {errorTitle}
@@ -348,8 +349,8 @@ var requestOptions = {
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
-						'fontSize',
-						'inline',
+                      'fontSize',
+                      'inline',
                       'list',
                       'textAlign',
                       'link',
@@ -357,59 +358,70 @@ var requestOptions = {
                       'emoji'
                     ],
                     inline: {
-						className: 'rdw-invisible',
-						visible: true,
-						inDropdown: false,
-						bold: { visible: true, icon: bold,},
-						italic: { visible: true, icon: italic,},
-						underline: { visible: true, icon: underline,},
-						strikethrough: { visible: true, icon: strikethrough,},
-						monospace: { visible: true, icon: monospace,},
-						subscript: { visible: true, icon: subscript,},
-						superscript: { visible: true, icon: superscript,}
+                      className: 'rdw-invisible',
+                      visible: true,
+                      inDropdown: false,
+                      bold: { visible: true, icon: bold, },
+                      italic: { visible: true, icon: italic, },
+                      underline: { visible: true, icon: underline, },
+                      strikethrough: { visible: true, icon: strikethrough, },
+                      monospace: { visible: true, icon: monospace, },
+                      subscript: { visible: true, icon: subscript, },
+                      superscript: { visible: true, icon: superscript, }
                     },
                     fontSize: {
-						className: 'rdw-invisible'
+                      className: 'rdw-invisible'
                     },
-					
+
                     link: {
                       className: 'rdw-invisible',
                       options: ['link'],
+<<<<<<< HEAD
 					  visible: true,
 					inDropdown: false,
 					link: { visible: true, icon: link, },
 					unlink: { visible: true, icon: link, }
+=======
+                      visible: true,
+                      inDropdown: false,
+                      addLink: { visible: true, icon: link, }
+>>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
                     },
                     textAlign: {
                       className: 'rdw-invisible',
-					  visible: true,
-					  inDropdown: false,
-					  left: { visible: true, icon: left, },
-					  center: { visible: true, icon: middle, },
-					  right: { visible: true, icon: right, },
-					  justify: { visible: true, icon: justify, }
+                      visible: true,
+                      inDropdown: false,
+                      left: { visible: true, icon: left, },
+                      center: { visible: true, icon: middle, },
+                      right: { visible: true, icon: right, },
+                      justify: { visible: true, icon: justify, }
                     },
                     list: {
-						className: 'rdw-invisible',
-						visible: true,
-						inDropdown: false,
-						unordered: { visible: true, icon: ul, },
-						ordered: { visible: true, icon: ol, },
-						indent: { visible: true, icon: indent, },
-    					outdent: { visible: true, icon: outdent, }
+                      className: 'rdw-invisible',
+                      visible: true,
+                      inDropdown: false,
+                      unordered: { visible: true, icon: ul, },
+                      ordered: { visible: true, icon: ol, },
+                      indent: { visible: true, icon: indent, },
+                      outdent: { visible: true, icon: outdent, }
                     },
                     emoji: {
-						icon: smiley,
+                      icon: smiley,
 
-					},
+                    },
                     image: {
                       icon: imageIcon,
                       uploadEnabled: true,
                       urlEnabled: true,
+<<<<<<< HEAD
 					  fileupload: true,
 					  uploadCallback: uploadImageCallBack, 
 					  alt: { present: true, mandatory: false },
 
+=======
+                      fileupload: true,
+                      // uploadCallback: this.uploadImageCallback,
+>>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
                       inputAccept:
                         'image/gif,image/jpeg,image/jpg,image/png,image/svg'
                     }
@@ -481,6 +493,7 @@ var requestOptions = {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
+      <Subscription />
     </div>
   )
 }

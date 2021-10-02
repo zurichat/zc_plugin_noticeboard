@@ -240,7 +240,21 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
+<<<<<<< HEAD
             return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+=======
+            try:
+                get_data=notice["data"]
+                # views = get_data['views']
+                # count = count_views(views, email)
+                # get_data['views'] = count
+                serializer = CreateNoticeSerializer(data=get_data)
+                if serializer.is_valid():
+                    db.update("noticeboard", org_id, serializer.data, object_id=id)
+                    return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+            except:
+                return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+>>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -514,7 +528,11 @@ class AttachFile(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+<<<<<<< HEAD
     def post(self, request, ):
+=======
+    def post(self, request, org_id):
+>>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         print(request.FILES)
         token = request.META.get("HTTP_AUTHORIZATION")
         if request.FILES:
@@ -542,7 +560,7 @@ class AttachFile(views.APIView):
             return Response({"success": False, "message": "No file has been attached"})
 
     
-    def delete(self, request):
+    def delete(self, request, org_id):
         file_url=request.GET.get('file_url')
         # org_id = "613a1a3b59842c7444fb0220"
         try:
@@ -558,8 +576,6 @@ class AttachFile(views.APIView):
                     "message": "Delete Operation Failed. Object does not exist in the database"
                 },
                 status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 
