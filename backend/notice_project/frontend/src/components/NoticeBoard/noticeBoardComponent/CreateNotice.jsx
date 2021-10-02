@@ -200,6 +200,7 @@ function CreateNotice() {
 
   return (
     <div className='dashboard-container'>
+      <Subscription />
       <Box className={classes.page}>
         <Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
           {({
@@ -427,7 +428,7 @@ function CreateNotice() {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
-      <Subscription />
+      
     </div>
   )
 }
