@@ -14,6 +14,7 @@ const UserNotice = () => {
 
   const today = new Date();
   const date = today.getDate();
+  console.log(people);
 
   const [notices, setNotices] = useState([]);
 
