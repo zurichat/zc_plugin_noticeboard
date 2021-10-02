@@ -45,7 +45,7 @@ const Newsletter = props => {
           "You have successfully Unsubscribed"
         ) {
            setMessage(
-            "You have successfully unsubcribed from our mailing list"
+            "You have successfully subcribed to our mailing list"
           );
         }
         else {
