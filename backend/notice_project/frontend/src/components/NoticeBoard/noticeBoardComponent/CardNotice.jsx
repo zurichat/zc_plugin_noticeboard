@@ -3,6 +3,7 @@ import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
+import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 
 const CardNotice = ({ notice }) => {
   const id = String(notice._id);

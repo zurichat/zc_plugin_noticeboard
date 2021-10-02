@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import notice from "../../../assets/createNotice.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import "../noticeBoardComponent/AdminNotice.css";
-import Card from "../noticeBoardComponent/Card";
+import CardComponent from "../noticeBoardComponent/CardComponent";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
@@ -21,8 +21,10 @@ const PinnedNotices = (props) => {
     filteredNotice,
   } = useContext(UserContext);
 
-  const today = new Date();
-  const date = today.getDate();
+  // const today = new Date();
+  // const date = today.getDate();
+  const date = new Date();
+  const currentDate = date.getDate();
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
@@ -43,14 +45,15 @@ const PinnedNotices = (props) => {
       .then((data) => {
         setPeople(
           data.data.filter(
-            (notice) => notice.created.substring(8, 10) === date.toString()
+            (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-        // console.log(data.data);
+        console.log(data.data)
         setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
+
 
   if (loading) {
     return (
@@ -104,22 +107,13 @@ const PinnedNotices = (props) => {
         <img src={noNotice} alt='no-notice' className='no-notice-img' />
         <h1
           className="no-new-notices"
-          style={{
-            fontSize: "1rem",
-            textAlign: "center",
-            color: "#000",
-            marginTop: "20px",
-          }}
+          
         >
           
             Hey there, You have no notice for the day, they would appear here when published
         </h1>
         <div className='notice-btn-div'>      
-          <Link to="/noticeboard">
-            <div className="older-notices">
-              <p className="older-notices-text">Go Back</p>
-            </div>
-          </Link>
+          
 
           <Link to="/noticeboard/old-notices">
             <div className="older-notices">
@@ -133,7 +127,7 @@ const PinnedNotices = (props) => {
   }
 
   return (
-    <div className="adminnotice">
+    <div className="adminNotice">
       <div className="pinned-button-container">
         <div className="pin-text">
           <p className="text">Notices</p>
@@ -152,12 +146,14 @@ const PinnedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return <Card person={person} key={person._id} />;
+              return <CardComponent person={person} key={person._id} />;
             })
           : people?.map((person) => {
-              return <Card person={person} key={person._id} />;
+              return <CardComponent person={person} key={person._id} />;
             })}
       </section>
+
+     
 
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
