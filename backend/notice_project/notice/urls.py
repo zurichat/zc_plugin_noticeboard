@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (Subscribe, install, create_room, CreateNewNotices, 
+from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, 
                      ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice
                      )
