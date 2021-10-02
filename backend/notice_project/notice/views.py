@@ -495,11 +495,8 @@ class ScheduleNotices(views.APIView):
 
 class AttachFile(views.APIView):
     """
-    This endpoint is a send message endpoint that can take files, upload them
-    and return the urls to the uploaded files to the media list in the message
-    serializer
-    This endpoint uses form data
-    The file must be passed in with the key "file"
+    This endpoint is an upload file endpoint that can take files, upload them
+    and return the urls to the uploaded files. The file must be passed in with the key "file"
     """
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
