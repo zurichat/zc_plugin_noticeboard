@@ -1,0 +1,146 @@
+@value md, xs from '../breakpoints.css';
+
+.form {
+  background: linear-gradient(to right, rgb(236, 255, 233), rgb(227, 255, 243));
+  color: #000;
+  box-shadow: 0 3px 13px 0 #ccc;
+  text-align: center;
+  hyphens: auto;
+
+  min-height: 400px;
+
+  max-width: 90vw;
+}
+
+.form > h1 {
+  height: 200px;
+  background: url("../graphics/cropped-cover.png") no-repeat center / cover;
+  color: #40680e;
+  text-shadow: 0 0 15px #fff;
+  font-family: var(--text-font-condensed);
+  padding: 1.5em;
+}
+
+.formContent {
+  padding: 40px 80px;
+}
+
+.successContent {
+  padding: 50px 80px;
+  gap: 40px;
+}
+
+.successMessage {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.fieldset {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5em 3em;
+  padding: 40px 80px;
+  border: none;
+}
+
+.fieldset label {
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+}
+
+.fieldset input[type="text"],
+.fieldset input[type="email"] {
+  flex: 1;
+}
+
+.fieldset .email,
+.agreement,
+.btnGroup {
+  grid-column: 1 / span 2;
+}
+
+.btnGroup {
+  gap: 30px;
+}
+
+.clear,
+.submit,
+.successClose {
+  width: 7.5em;
+}
+
+.clear {
+  background-color: #a0bfb2;
+}
+
+.clear:hover,
+.clear:focus {
+  background-color: #a0bfb294;
+  box-shadow: 0 0 0 3px inset #a0bfb2;
+}
+
+.clear:active {
+  color: #fff;
+  background-color: #a0bfb2;
+}
+
+.submit,
+.successClose {
+  background-color: #61d6a0;
+}
+
+.submit:hover,
+.submit:focus,
+.successClose:hover,
+.successClose:focus {
+  background-color: #61d69f67;
+  box-shadow: 0 0 0 3px inset #61d6a0;
+}
+
+.submit:active,
+.successClose:active {
+  color: #fff;
+  background-color: #61d6a0;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  background: url("../graphics/turquoisecross.svg") no-repeat center / contain;
+}
+
+@media md {
+  .fieldset {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 60px;
+  }
+
+  .fieldset .name,
+  .fieldset .company,
+  .fieldset .email {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .fieldset .name input,
+  .fieldset .company input,
+  .fieldset .email input {
+    width: 100%;
+  }
+}
+
+@media xs {
+  .fieldset {
+    padding: 30px 40px;
+  }
+}
