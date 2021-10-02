@@ -25,7 +25,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard', org_id)
+    room = db.read('noticeboard_room', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -124,7 +124,7 @@ class CreateNewNotices(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id,created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -154,7 +154,7 @@ class UpdateNoticeAPIView(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -196,7 +196,7 @@ class DeleteNotice(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -229,7 +229,6 @@ class ViewNoticeAPI(views.APIView):
             print(notice)
             return Response(notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class NoticeDetail(views.APIView):
@@ -442,7 +441,7 @@ class CreateBookmark(views.APIView):
                 "data":serializer.data
             }
 
-            db.post_to_centrifugo(room_id, data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -468,7 +467,7 @@ class DeleteBookmarkedNotice(views.APIView):
         room_id = room["data"][0]["_id"]
         print(room_id)
 
-        db.post_to_centrifugo(room_id, data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
         if bookmarked_notice['status'] == 200:
             return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
@@ -590,6 +589,46 @@ class AttachFile(views.APIView):
                     "message": "Delete Operation Failed. Object does not exist in the database"
                 },
                 status=status.HTTP_404_NOT_FOUND)
+
+
+# NEW EMAIL NOTIFICATION
+@api_view(['GET'])
+def email_notification(request):
+    if request.method == 'GET':
+        org_id = request.GET.get("org")
+        # user_id = request.GET.get("user")
+        send_email = request.GET.get("sendemail")
+
+        if org_id and send_email=='true':
+            response_subscribers = db.read("test_email_subscribers", org_id)
+
+            try:
+                if response_subscribers["status"] == 200 and response_subscribers["data"]:
+                    email_subscribers = response_subscribers["data"]
+
+                    # email sending setup
+                    url = 'https://api.zuri.chat/external/send-mail?custom_mail=1'
+
+                    for user in email_subscribers:
+                        email = user["email"]
+                        payload = {
+                            'email': email,
+                            'subject': 'notice',
+                            'content_type': 'text/html',
+                            'mail_body': '<p>Hey! <br>You have a new notice on the noticeboard plugin. <br>zuri.chat</p>'
+                        }
+                        response_email = requests.post(url=url, json=payload)
+
+                    return Response({"status": "emails sent successfully"}, status=status.HTTP_200_OK)
+
+                elif response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
+                    return Response({"status": "no subscribed users"}, status=status.HTTP_404_NOT_FOUND)
+
+                else:
+                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+            except Exception as e:
+                return Response(str(e)) 
+        return Response({"status": "no emails sent, check if org is not null or if send has a boolean value of true"})        
 
 
 @api_view(['POST'])
