@@ -582,7 +582,7 @@ class AttachFile(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def post(self, request):
+    def post(self, request, org_id):
         print(request.FILES)
         token = request.META.get("HTTP_AUTHORIZATION")
         if request.FILES:
@@ -610,7 +610,7 @@ class AttachFile(views.APIView):
             return Response({"success": False, "message": "No file has been attached"})
 
     
-    def delete(self, request):
+    def delete(self, request, org_id):
         file_url=request.GET.get('file_url')
         # org_id = "613a1a3b59842c7444fb0220"
         try:
@@ -626,8 +626,6 @@ class AttachFile(views.APIView):
                     "message": "Delete Operation Failed. Object does not exist in the database"
                 },
                 status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 
