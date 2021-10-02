@@ -25,9 +25,11 @@ const UserNotice = () => {
     fetchNotices();
   }, []);
 
+  const org_ID = userData?.org_id;
+
   const fetchNotices = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.org_id}/notices`
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
