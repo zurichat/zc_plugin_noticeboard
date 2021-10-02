@@ -4,7 +4,7 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
-from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer
+from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
@@ -344,6 +344,40 @@ class NoticeReminder(views.APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class NoticeDraft(views.APIView):
+    '''
+        For creating Drafts
+    '''
+    def post(self, request, org_id):
+        serializer = DraftSerializer(data=request.data)
+        if serializer.is_valid():
+            db.save(
+                "noticeboard",
+                org_id,
+                notice_data=serializer.data
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ScheduleNotices(views.APIView):
+    '''
+        For scheduling notices
+    '''
+    def post(self, request, org_id):
+        serializer = SchedulesSerializer(data=request.data)
+        if serializer.is_valid():
+            db.save(
+                "noticeboard",
+                org_id,
+                notice_data=serializer.data
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 # ADDITIONS OR PATCHINGS DUE TO SIDEBAR
 
