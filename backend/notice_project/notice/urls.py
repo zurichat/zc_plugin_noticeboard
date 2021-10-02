@@ -38,6 +38,7 @@ urlpatterns = [
     path('organisation/<str:org_id>/create_draft', NoticeDraft.as_view()),
 
     path('organisation/<str:org_id>/create_schedule', ScheduleNotices.as_view()),
+    path('organisation/<str:org_id>/schedules', ViewSchedule.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
