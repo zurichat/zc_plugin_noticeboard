@@ -32,7 +32,7 @@ const BookmarkedNotices = (props) => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8000/api/v1/organisation/614679ee1a5607b13c00bcb/user/614f07b8e35bb73a77bc2b0d/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/614f07b8e35bb73a77bc2b0d/bookmark`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {

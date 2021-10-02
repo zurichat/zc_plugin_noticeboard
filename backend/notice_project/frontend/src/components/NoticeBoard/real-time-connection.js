@@ -9,13 +9,13 @@ import { UserInfoContext } from '../../App'
 export const CentrifugoConnection = async() =>{ 
   const userData = useContext(UserInfoContext)
   // const _globalData = useContext(DataContext)
-  const org_id = userData.Organizations[0]
+  // const org_id = userData.Organizations[0]
   const [room_id, setRoom_id] = useState("")
 
     await axios
     // .get(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/get-room`
     // )
-    .get(`http://localhost:8000/api/v1/organisation/614679ee1a5607b13c00bcb7/get-room`
+    .get(`https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/get-room`
     )
     .then((res) => {
       let data = res.data.data[0]._id;
