@@ -1,25 +1,27 @@
 import React, { useEffect, useContext } from "react";
-import notice from "../../../assets/createNotice.svg";
-import noNotice from "../../../assets/svg/no_notices.svg";
-import "../noticeBoardComponent/AdminNotice.css";
-import CardComponent from "../noticeBoardComponent/CardComponent";
+import notice from "../../../../assets/createNotice.svg";
+import noNotice from "../../../../assets/svg/no_notices.svg";
+import "./bookmark-notice.css";
+import CardComponent from "../../noticeBoardComponent/CardComponent";
 import { Button } from "@material-ui/core";
-import logo from "../../../assets/svg/logo.svg";
+import logo from "../../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
-import { DataContext } from "../../../App";
-import { UserContext } from "../../../Data-fetcing";
+import { UserInfoContext } from "../../../../App";
+import { UserContext } from "../../../../Data-fetcing";
 
-const PinnedNotices = (props) => {
+const BookmarkedNotices = (props) => {
   const {
-    people,
-    setPeople,
     loading,
     setLoading,
     isError,
     setIsError,
     searchText,
     filteredNotice,
+    bookmark,
+		setBookmark
   } = useContext(UserContext);
+
+  const userData = useContext(UserInfoContext)
 
   // const today = new Date();
   // const date = today.getDate();
@@ -27,12 +29,10 @@ const PinnedNotices = (props) => {
   const currentDate = date.getDate();
 
   // Read Organization ID
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
 
   useEffect(() => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/614f07b8e35bb73a77bc2b0d/bookmark`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
@@ -43,12 +43,12 @@ const PinnedNotices = (props) => {
         }
       })
       .then((data) => {
-        setPeople(
+        setBookmark(
           data.data.filter(
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-        console.log(data.data)
+        
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -84,7 +84,7 @@ const PinnedNotices = (props) => {
 
 
 
-  if (people?.length <= 0) {
+  if (bookmark?.length <= 0) {
     return (
       
       <div className="adminnotice">
@@ -113,11 +113,7 @@ const PinnedNotices = (props) => {
             Hey there, You have no notice for the day, they would appear here when published
         </h1>
         <div className='notice-btn-div'>      
-          <Link to="/noticeboard">
-            <div className="older-notices">
-              <p className="older-notices-text">Go Back</p>
-            </div>
-          </Link>
+          
 
           <Link to="/noticeboard/old-notices">
             <div className="older-notices">
@@ -152,7 +148,7 @@ const PinnedNotices = (props) => {
           ? filteredNotice?.map((person) => {
               return <CardComponent person={person} key={person._id} />;
             })
-          : people?.map((person) => {
+          : bookmark?.map((person) => {
               return <CardComponent person={person} key={person._id} />;
             })}
       </section>
@@ -168,6 +164,6 @@ const PinnedNotices = (props) => {
   );
 };
 
-export default withRouter(PinnedNotices);
+export default withRouter(BookmarkedNotices);
 
 // !for some strange reason, the "userImage" path in the json data is not connecting
