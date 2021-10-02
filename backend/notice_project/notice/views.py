@@ -628,6 +628,46 @@ class AttachFile(views.APIView):
                 status=status.HTTP_404_NOT_FOUND)
 
 
+# NEW EMAIL NOTIFICATION
+@api_view(['GET'])
+def email_notification(request):
+    if request.method == 'GET':
+        org_id = request.GET.get("org")
+        # user_id = request.GET.get("user")
+        send_email = request.GET.get("sendemail")
+
+        if org_id and send_email=='true':
+            response_subscribers = db.read("test_email_subscribers", org_id)
+
+            try:
+                if response_subscribers["status"] == 200 and response_subscribers["data"]:
+                    email_subscribers = response_subscribers["data"]
+
+                    # email sending setup
+                    url = 'https://api.zuri.chat/external/send-mail?custom_mail=1'
+
+                    for user in email_subscribers:
+                        email = user["email"]
+                        payload = {
+                            'email': email,
+                            'subject': 'notice',
+                            'content_type': 'text/html',
+                            'mail_body': '<p>Hey! <br>You have a new notice on the noticeboard plugin. <br>zuri.chat</p>'
+                        }
+                        response_email = requests.post(url=url, json=payload)
+
+                    return Response({"status": "emails sent successfully"}, status=status.HTTP_200_OK)
+
+                elif response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
+                    return Response({"status": "no subscribed users"}, status=status.HTTP_404_NOT_FOUND)
+
+                else:
+                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+            except Exception as e:
+                return Response(str(e)) 
+        return Response({"status": "no emails sent, check if org is not null or if send has a boolean value of true"})        
+
+
 
 
 
