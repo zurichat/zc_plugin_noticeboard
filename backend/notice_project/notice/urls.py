@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
-                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, ScheduleNoticeAPI, email_subscription
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, ScheduleNoticeAPI, email_subscription, email_notification
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -22,10 +22,10 @@ urlpatterns = [
     path('sidebar', sidebar_info, name="sidebar"), # changed sidebar to sidebar_info
 
     path('install', install, name='install'),
-      
-    path('sendemail', emailNotificaion, name="Email Notificaion"),
 
     path('email-subscription', email_subscription),
+
+    path('email-notification', email_notification),
 
     path('unsubscribe', Unsubscribe.as_view()),
 
