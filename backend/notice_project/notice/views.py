@@ -240,9 +240,6 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
-<<<<<<< HEAD
-            return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-=======
             try:
                 get_data=notice["data"]
                 # views = get_data['views']
@@ -254,7 +251,7 @@ class NoticeDetail(views.APIView):
                     return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
->>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
+
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -495,17 +492,36 @@ class ScheduleNotices(views.APIView):
     '''
         For scheduling notices
     '''
+    @swagger_auto_schema(request_body=SchedulesSerializer)
     def post(self, request, org_id):
+        organization_id = request.POST.get('org_id')
+        print(organization_id)
         serializer = SchedulesSerializer(data=request.data)
         if serializer.is_valid():
-            db.save(
-                "noticeboard",
-                org_id,
+            schDb.scheduleSave(
+                "schedules",
                 notice_data=serializer.data
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ViewSchedule(views.APIView):
+    '''
+    This endpoint returns all the notices created under a particular organisation in the database
+    '''
+
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = schDb.scheduleRead("schedules", " ")
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AttachFile(views.APIView):
     """
