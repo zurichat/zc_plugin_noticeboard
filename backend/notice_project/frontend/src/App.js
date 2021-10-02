@@ -66,6 +66,9 @@ function App() {
     } else {
       console.log("YOU ARE NOT LOGGED IN, PLEASE LOG IN");
     }
+
+    
+    console.log(userData)
   };
 
   useEffect(async () => {

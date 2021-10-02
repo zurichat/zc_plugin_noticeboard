@@ -12,8 +12,10 @@ import { UserContext } from "../../../Data-fetcing";
 const PinnedNotices = (props) => {
 	const { people, setPeople, loading, setLoading, isError, setIsError, searchText, filteredNotice } = useContext(UserContext);
 
-	const today = new Date();
-	const date = today.getDate();
+	// const today = new Date();
+	// const date = today.getDate();
+	const date = new Date();
+	const currentDate = date.getDate();
 
 	// Read Organization ID
 	const _globalData = useContext(DataContext);
@@ -30,8 +32,8 @@ const PinnedNotices = (props) => {
 				}
 			})
 			.then((data) => {
-				setPeople(data.data);
-
+				setPeople(data.data.filter((notice) => currentDate == notice.created.slice(8, 10)));
+				console.log(data.data);
 				setLoading(false);
 			})
 			.catch((error) => console.log(error));
