@@ -430,12 +430,14 @@ class NoticeReminder(views.APIView):
         For creating reminders.
     '''
     newly_created_notice_reminder = [] # stores newly created notice reminder to a list
-    def post(self, request):
+
+    def post(self, request, org_id):
+        org_id=request.GET.get('org')
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-                "613a1a3b59842c7444fb0220",
+               org_id,
                 notice_data=serializer.data
             )
             # Appends serializer data to newly_created_notice_reminder list
