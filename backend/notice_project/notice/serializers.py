@@ -3,14 +3,6 @@ from rest_framework import serializers
 from django.utils import timezone
 
 
-# Time Zone
-time = timezone.now()
-# Get Current Time
-current_time = f"{time.hour + 1}:{time.minute}:{time.second}"
-# Get Current Date
-current_date = f"{time.month}-{time.day}-{time.year}"
-
-
 class NoticeboardRoom(serializers.Serializer):
     title = serializers.CharField()
     icon = serializers.URLField()
@@ -45,15 +37,10 @@ class SubscribeSerializer(serializers.Serializer):
     created = serializers.DateTimeField(default=timezone.now)
 
 
-
 class NoticeReminderSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
-    time_created = serializers.TimeField(default=current_date)
-    date_created = serializers.DateField(default=current_time)
-    schedule_time = serializers.TimeField()
-    schedule_date = serializers.DateField()
-    email = serializers.CharField(max_length=30)
-    user_id = serializers.CharField(max_length=255)
+    time = serializers.TimeField(default=timezone.now)
+    date = serializers.DateField()
 
 class BookmarkNoticeSerializer(serializers.Serializer):
     notice_id = serializers.CharField()

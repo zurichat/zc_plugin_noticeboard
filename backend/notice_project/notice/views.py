@@ -395,35 +395,18 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
-    @swagger_auto_schema(request_body=NoticeReminderSerializer)
-    def post(self, request, org_id):
-        org_id=request.GET.get('org')
-        sendReminderEmail = request.GET.get('sendReminderEmail')
+    def post(self, request):
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-               org_id,
+                "613a1a3b59842c7444fb0220",
                 notice_data=serializer.data
             )
-            # Appends serializer data to newly_created_notice_reminder list
-            created_notice_reminder = serializer.data
-            self.newly_created_notice_reminder.append(created_notice_reminder)
-
-            
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
-''' Trying to send notices via email'''
-    # with mail.get_connection() as connection:
-    #     mail.EmailMessage(
-    #         newly_created_notice_reminder,
-    #         connection=connection,
-    #     ).send()
 
 class BookmarkNotice(views.APIView):
 
