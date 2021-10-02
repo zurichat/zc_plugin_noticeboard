@@ -26,7 +26,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard', org_id)
+    room = db.read('noticeboard_room', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -271,15 +271,15 @@ class NoticeDetail(views.APIView):
     This returns the detail of a particular notice under the organisation
     '''
 
-    def get(self, request, id, org_id, email):
+    def get(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
             try:
                 get_data=notice["data"]
-                views = get_data['views']
-                count = count_views(views, email)
-                get_data['views'] = count
+                # views = get_data['views']
+                # count = count_views(views, email)
+                # get_data['views'] = count
                 serializer = CreateNoticeSerializer(data=get_data)
                 if serializer.is_valid():
                     db.update("noticeboard", org_id, serializer.data, object_id=id)
@@ -582,7 +582,7 @@ class AttachFile(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def post(self, request):
+    def post(self, request, org_id):
         print(request.FILES)
         token = request.META.get("HTTP_AUTHORIZATION")
         if request.FILES:
@@ -610,7 +610,7 @@ class AttachFile(views.APIView):
             return Response({"success": False, "message": "No file has been attached"})
 
     
-    def delete(self, request):
+    def delete(self, request, org_id):
         file_url=request.GET.get('file_url')
         # org_id = "613a1a3b59842c7444fb0220"
         try:
@@ -707,8 +707,6 @@ def email_notification(request):
             except Exception as e:
                 return Response(str(e)) 
         return Response({"status": "no emails sent, check if org is not null or if send has a boolean value of true"})        
-
-
 
 
 
