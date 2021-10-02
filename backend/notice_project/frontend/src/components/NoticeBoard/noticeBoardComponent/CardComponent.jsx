@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import moment from 'moment'
-
+import axios from "axios";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box'
@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 import dot from "../../../assets/Ellipse135.svg";
+import see from "../../../assets/Seen.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 import imgPlaceholder from '../../../assets/noticePlaceholderImage.svg'
@@ -37,6 +38,8 @@ const CardComponent = ({ person, people }) => {
   const classes = useStyles();
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
+  const [count, setCount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const filterUsers = (index) => {
     const user = persons.filter((person) => person._id === index);
@@ -44,9 +47,35 @@ const CardComponent = ({ person, people }) => {
     setOpenModal(true);
   };
 
+  const noticeViews = (noticeID) => {
+    setLoading(true);
+    axios
+    .get(
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeID}`
+    ).then(
+      (response) => {
+        console.log(response);
+        setLoading(false);
+      }
+    ).catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }
 
+  useEffect(() => {
+      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${person._id}`;
+      fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        setCount(data.views)
+      })
+    }, []);
 
-
+    const viewNumber = (count) => {
+    const viewss = count.split(" ").length + 1;
+    return viewss
+  }
 
   const months = [
     "Jan",
@@ -90,11 +119,21 @@ const CardComponent = ({ person, people }) => {
       </CardContent>
       <Box display='flex' justifyContent='flex-end' pr='10px'>
       <CardActions disableSpacing>
+            <div>
+              <img src={see} alt="" />
+              <p className="number"
+              >{viewNumber(count)}</p>
+            </div>
           <button
             className="card-button-adminNotice"
-            onClick={() => filterUsers(person._id)}
+            onClick={() => {
+              filterUsers(person._id);
+              noticeViews(person._id);
+            }}
           >
-            View Notice
+            {
+              loading ? "Loading..." : "View Notice"
+            }
           </button>
       </CardActions>
       </Box>
