@@ -109,11 +109,7 @@ const PinnedNotices = (props) => {
             Hey there, You have no notice for the day, they would appear here when published
         </h1>
         <div className='notice-btn-div'>      
-          <Link to="/noticeboard">
-            <div className="older-notices">
-              <p className="older-notices-text">Go Back</p>
-            </div>
-          </Link>
+          
 
           <Link to="/noticeboard/old-notices">
             <div className="older-notices">
