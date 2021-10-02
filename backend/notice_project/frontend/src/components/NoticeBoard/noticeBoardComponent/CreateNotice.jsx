@@ -167,7 +167,7 @@ function CreateNotice() {
       //Return input field to blank
       values.title = ''
       setEditorState('')
-      return push('/noticeboard')
+      return push('/home')
     } catch (err) {
       // console.log(err)
       setOpenErrorDialog(true)
