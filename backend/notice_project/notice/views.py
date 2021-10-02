@@ -511,6 +511,24 @@ class ScheduleNotices(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ViewSchedule(views.APIView):
+    '''
+    This endpoint returns all the notices created under a particular organisation in the database
+    '''
+
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = db.read("noticeboard", org_id)
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class AttachFile(views.APIView):
     """
     This endpoint is an upload file endpoint that can take files, upload them
