@@ -16,9 +16,6 @@
   --border-hover-color: rgba(0, 0, 0, 0.95);
 }
 
-#openLinkInNewWindow{
-  margin-right: 0px !important;
-}
 .dashboard-container {
   width: 85%;
   margin: 3em auto;

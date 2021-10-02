@@ -35,7 +35,11 @@ const UserNotice = (props) => {
         }
       })
       .then((data) => {
-        setPeople(data.data);
+        setPeople(
+          data.data.filter(
+            (notice) => notice.created.substring(8, 10) === date.toString()
+          )
+        );
         // console.log(data.data);
         setLoading(false);
       })

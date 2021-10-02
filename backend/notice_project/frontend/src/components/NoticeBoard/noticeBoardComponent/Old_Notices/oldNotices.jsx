@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Pagination from "./pagination";
 import "./oldNotices.css";
-import CardComponent from "../CardComponent";
+import Card from "../Card";
 import OldNoticeHeader from "./oldNoticeHeader";
 
 function OldNotices() {
@@ -66,7 +66,7 @@ function OldNotices() {
         <OldNoticeHeader />
         <section className="adminNotice-section">
           {currentNoticeData.map((notice, index) => {
-            return <CardComponent person={notice} key={index}  />;
+            return <Card person={notice} key={index} />;
           })}
         </section>
         <Pagination
