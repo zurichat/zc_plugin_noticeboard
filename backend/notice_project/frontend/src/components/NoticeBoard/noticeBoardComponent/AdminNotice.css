@@ -107,15 +107,16 @@ h6 {
 .adminnotice,
 .adminNotice-section {
   width: 100%;
+
 }
 
 .adminNotice-section .card-adminNotice {
   border-radius: 3px;
-  box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);
+  /* box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2); */
   padding: 1.5em 1em;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
-  min-height: 270px;
+  /* min-height: 270px; */
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -293,11 +294,11 @@ h6 {
   }
 }
 
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-width: 960px) {
   .adminNotice-section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2em 4em;
+    gap: 2em 2em;
     margin-top: 1em;
   }
 
@@ -324,8 +325,26 @@ h6 {
 
 @media only screen and (max-width: 645px) {
   .no-notice-img{
-    width: 400px;
-    margin-right: 3em;
+    width: 260px;
+    margin-right: 1em;
+  }
+
+  .no-new-notices{
+    line-height: 1.5;
+    text-align: justify;
+    font-weight: normal;
+  }
+
+  .notice-btn-div{
+    gap:1em !important;
+  }
+
+  .older-notices{
+    padding: .8em .5em;
+  }
+
+  .older-notices-text{
+    font-size: 12px !important;
   }
 }
 
@@ -333,4 +352,15 @@ h6 {
 .notice-btn-div{
   display:flex;
   gap:2em 
+}
+
+
+.no-new-notices{
+  font-size: 1rem;
+  text-align: center;
+  color:#000;
+  margin-top: 20px;
+  max-width: 400px;
+  text-align: center;
+  line-height: 1.5 !important;
 }

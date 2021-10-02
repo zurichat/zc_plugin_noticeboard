@@ -115,6 +115,8 @@ function CreateNotice () {
     push('/login')
   }
 
+
+
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
     setErrorMessage('')
@@ -158,7 +160,7 @@ function CreateNotice () {
 
     try {
       const res = await api.post(
-        '/organisation/614679ee1a5607b13c00bcb7/create',
+        `/organisation/${userData.currentWorkspace}/create`,
         request
       )
       //Return input field to blank

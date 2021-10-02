@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useCallback, useEffect, useState , useRef} from "react";
 import styled from "styled-components";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -9,16 +9,16 @@ import Img from "./images/img1.png";
 import { UserContext } from "../../Data-fetcing";
 
 //members documents
-const ListMemberContainer = ({ Name, Img, Username, Job }) => {
+const ListMemberContainer = ({ Name, Img,Firstname, Lastname, Username, Job }) => {
   return (
     <MembersContainer>
       <MemberDetails>
         <Avatar src={!Img ? Name[0] : Img} alt={Name.toUpperCase()} />
         <MemDetailContainer1>
           <MemDetailContainer2>
-            <MemberName>{Name}</MemberName>
+            <MemberName>{Firstname && Lastname?`${Firstname} ${Lastname}`: Name}</MemberName>
             <Status></Status>
-            <UserName>{Username}</UserName>
+            <UserName>{`@${Username}`}</UserName>
           </MemDetailContainer2>
           <Role>{Job}</Role>
         </MemDetailContainer1>
@@ -71,6 +71,8 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers, setAllUser
         return <ListMemberContainer
           key={id}
           Name={user.user_name}
+          Firstname={user.first_name}
+          Lastname={user.last_name}
           Img={user.image_url}
           Username={user.user_name}
           Job={user.role}
@@ -78,6 +80,8 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers, setAllUser
       }): (allUsers?.map((user, id) => {
         return <ListMemberContainer
           key={id}
+          Firstname={user.first_name}
+          Lastname={user.last_name}
           Name={user.user_name}
           Img={user.image_url}
           Username={user.user_name}
@@ -154,10 +158,33 @@ const AddUserNoticeboard = ({ setShowAddUser }) => {
 export const AddUsers = ({ setOpenModal, openModal,notice }) => {
   const [showAddUser, setShowAddUser] = useState(false);
   const {allUsers, setAllUsers} = useContext(UserContext)
+    const modalRef = useRef();
 
+ //close modal when target is equals backdrop
+   const closeModal = (event) => {
+    if (modalRef.current === event.target) {
+      setOpenModal(false);
+    }
+  };
+
+//close modal with escape button
+  const keyPress = useCallback(
+    (event) => {
+      if (event.key === "Escape" && setOpenModal) {
+        setOpenModal(false);
+      }
+    },
+    [setOpenModal]
+  );
+
+//close on keypress
+  useEffect(() => {
+    document.addEventListener("keydown", keyPress);
+    return () => document.removeEventListener("keydown", keyPress);
+  }, [keyPress]);
 
   return (
-    <BackDrop>
+    <BackDrop ref={modalRef} onClick={closeModal}>
       {showAddUser ? (
         <AddUserNoticeboard setShowAddUser={setShowAddUser} />
       ) : (
@@ -179,7 +206,7 @@ const BackDrop = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 `;
@@ -208,11 +235,13 @@ const AddUserHeaderContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 1em;
+  align-items: stretch;
 `;
 
 const AddUserHeader = styled.h2`
   font-size: 20px;
   font-weight: 700;
+  line-height: 1.5em;
 `;
 
 const AddUserSpan = styled.span`
@@ -261,7 +290,7 @@ const SearchUserInput = styled.input`
 
   ::placeholder {
     opacity: 0.6;
-    font-weight: 400;
+    font-weight: 500;
   }
 `;
 
@@ -269,7 +298,6 @@ const SearchUserSpan = styled.span`
   position: absolute;
   left: 0;
   padding-left: 0.5em;
-  margin-top: 0.5em;
   color: #00000059;
 `;
 
@@ -315,9 +343,13 @@ const Users = styled.div`
 `;
 
 const NoticeContainer = styled(AddUserContainer)`
-  height: 40em;
+  height: 38em;
   margin: 10% auto;
   overflow-y:scroll;
+  overflow-x: hidden;
+  @media (max-width: ${500}px) {
+    margin: 35% auto;
+  }
 `;
 
 const AddUserBox = styled.div`
@@ -346,8 +378,8 @@ const MemberDetails = styled.div`
   width: 20em;
   justify-content: flex-start;
 
-  img {
-    //height: 2em;
+  .MuiAvatar-root{
+    border-radius: 10%;
   }
 `;
 
@@ -357,7 +389,7 @@ const MemDetailContainer1 = styled.div`
 
 const MemDetailContainer2 = styled.div`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `;
 const Remove = styled.h3`
   color: #00bb7c;
@@ -370,6 +402,8 @@ const Remove = styled.h3`
 
 const MemberName = styled.h3`
   font-size: 14px;
+  line-height: 1.2;
+  text-transform: capitalize;
   @media (max-width: ${500}px) {
     font-size: 12px;
   }
@@ -380,11 +414,13 @@ const Status = styled.span`
   background-color: #00bb7c;
   border-radius: 50%;
   margin-left: 0.5em;
+
 `;
 const UserName = styled.h5`
   opacity: 0.6;
   margin-left: 0.5em;
   font-size: 14px;
+  line-height: 1.2;
   @media (max-width: ${500}px) {
     font-size: 12px;
   }
@@ -393,6 +429,8 @@ const Role = styled.h4`
   font-size: 12px;
   opacity: 0.5;
   margin-top: 0.3em;
+  margin-bottom: 0;
+  line-height:1.2;
   @media (max-width: ${500}px) {
     font-size: 11px;
   }

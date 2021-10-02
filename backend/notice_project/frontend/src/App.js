@@ -1,5 +1,5 @@
 import "./App.css";
-import Header from "./components/Header/Header";
+import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader"
 import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -36,38 +36,6 @@ export const UserInfoContext = React.createContext();
 
 function App() {
   //let _globalData;
-  // const CentrifugoConnection = () => {
-  //   const centrifuge = new Centrifuge(
-  //     "wss://realtime.zuri.chat/connection/websocket",
-  //     { debug: true }
-  //   );
-
-  //   centrifuge.on("connect", function (ctx) {
-  //     console.log("connected", ctx);
-  //   });
-
-  //   centrifuge.on("disconnect", function (ctx) {
-  //     console.log("disconnected", ctx);
-  //   });
-
-  //   centrifuge.connect();
-
-  //   centrifuge.subscribe("noticeboard", (ctx) => {
-  //     //       console.log(ctx.data);
-  //     //option 1 write function to re-render the component that needs re-rendering
-  //     //option 2, perform data fetch again
-  //   });
-
-  //   centrifuge.on("publish", function (ctx) {
-  //     console.log(ctx);
-  //   });
-  // };
-
-  // // console.log(GetUserInfo());
-
-  // useEffect(() => {
-  //   CentrifugoConnection();
-  // });
 
   const [userData, setUserData] = useState(null);
 
@@ -90,7 +58,6 @@ function App() {
         );
         let UserData = response.data.data[0];
         UserData.currentWorkspace = currentWorkspace;
-        // console.log('getuserinfo', response.data.data)
         setUserData(UserData);
         return UserData;
       } catch (err) {
@@ -114,7 +81,7 @@ function App() {
               <div className="App">
                 <div className="app__body">
                   <span className="app__bodyFlex">
-                    <Header />
+                    <ZuriGlobalHeader />
                     <NoticeBoard />
                   </span>
                 </div>
