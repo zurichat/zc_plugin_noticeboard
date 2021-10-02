@@ -1,0 +1,55 @@
+@value md, xs from './breakpoints.css';
+
+.main {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+}
+
+.main > * {
+  color: var(--base-turquoise);
+}
+
+.main > h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+
+.btn {
+  font-size: 20px;
+  background-color: #fff;
+}
+
+.btn:hover {
+  background-color: var(--base-turquoise);
+  color: #fff;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0px 3px inset #26bbbbd8;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+@media md {
+  .main > h1 {
+    font-size: 35px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+}
+
+@media xs {
+  .main > h1 {
+    font-size: 30px;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+}
