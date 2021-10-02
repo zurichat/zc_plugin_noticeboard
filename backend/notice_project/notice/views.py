@@ -8,8 +8,6 @@ from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSeria
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 
 
 @api_view(['GET'])
@@ -26,7 +24,7 @@ def sidebar_info(request):
         "action": "open",
     }
 
-    room = db.read('noticeboard_room', org_id)
+    room = db.read('noticeboard', org_id)
 
     if room['status'] == 200:
         if room['data']:
@@ -95,10 +93,11 @@ def install(request):
 
 
 class CreateNewNotices(views.APIView):
+
     '''
     Create new notices
     '''
-    @swagger_auto_schema(request_body=CreateNoticeSerializer)
+    
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         
@@ -130,11 +129,12 @@ class CreateNewNotices(views.APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class UpdateNoticeAPIView(views.APIView):
     '''
     Update A Notice In A Database
     '''
-    @swagger_auto_schema(request_body=CreateNoticeSerializer)
+
     def put(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         serializer = CreateNoticeSerializer(data=request.data)
@@ -229,42 +229,7 @@ class ViewNoticeAPI(views.APIView):
             return Response(notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
-def count_views(data, email):
-    ''' a function to count users that viewed a notice'''
-    user_list = list(data.split(" "))
-    user_list.append(email)
-    user_array = sorted(set(user_list))
-    user_string = ' '.join([str(elem) for elem in user_array])
-    return user_string
 
-# option two for Maro
-class ScheduleNoticeAPI(views.APIView):
-
-     def get(self, request, org_id):
-        # org_id = "613a1a3b59842c7444fb0220"
-        notice = db.read("noticeboard", org_id)
-
-        if notice['status'] == 200:
-
-            """
-            Don't show notice that have their reminder set to True
-            """
-            print(f"Notice Reminder: {notice['data'][0]}")
-            # if notice["data"].get("notice_reminder") is False:
-            #     return Response(notice, status=status.HTTP_200_OK)
-
-            # elif notice["data"].get("notice_reminder") is True:
-            #     permission_message = "Oof! You can not view this notice."
-            #     return Response({"message": permission_message}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
-           
-            """
-            When notice schedule date and time has reached, set reminder to False
-            and show to users
-            """
-            # logic goes here
-            # more logic here
-            return Response(notice['data'], status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 class NoticeDetail(views.APIView):
     '''
@@ -275,6 +240,9 @@ class NoticeDetail(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id, filter={"id": id})
         if notice["status"] == 200:
+<<<<<<< HEAD
+            return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+=======
             try:
                 get_data=notice["data"]
                 # views = get_data['views']
@@ -286,6 +254,7 @@ class NoticeDetail(views.APIView):
                     return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+>>>>>>> 07b8c902f019db0cff2757a5623aec52ff017f3f
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -429,24 +398,18 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
-
-    def post(self, request, org_id):
-        org_id=request.GET.get('org')
+    def post(self, request):
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-               org_id,
+                "613a1a3b59842c7444fb0220",
                 notice_data=serializer.data
             )
-            # Appends serializer data to newly_created_notice_reminder list
-            created_notice_reminder = serializer.data
-            self.newly_created_notice_reminder.append(created_notice_reminder)
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class BookmarkNotice(views.APIView):
 
@@ -516,7 +479,6 @@ class NoticeDraft(views.APIView):
     '''
         For creating Drafts
     '''
-    @swagger_auto_schema(request_body=DraftSerializer)
     def post(self, request, org_id):
         serializer = DraftSerializer(data=request.data)
         if serializer.is_valid():
@@ -533,12 +495,11 @@ class ScheduleNotices(views.APIView):
     '''
         For scheduling notices
     '''
-    @swagger_auto_schema(request_body=SchedulesSerializer)
     def post(self, request, org_id):
         serializer = SchedulesSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
-                "schedules",
+                "noticeboard",
                 org_id,
                 notice_data=serializer.data
             )
@@ -546,28 +507,13 @@ class ScheduleNotices(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ViewSchedule(views.APIView):
-    '''
-    This endpoint returns all the notices created under a particular organisation in the database
-    '''
-
-    def get(self, request, org_id):
-        # org_id = "613a1a3b59842c7444fb0220"
-        notice = db.read("noticeboard", org_id)
-        get_data=notice["data"]
-        reversed_list = get_data[::-1]
-        print(reversed_list)
-        notice.update(data=reversed_list)
-        if notice['status'] == 200:
-            print(notice)
-            return Response(notice, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class AttachFile(views.APIView):
     """
-    This endpoint is an upload file endpoint that can take files, upload them
-    and return the urls to the uploaded files. The file must be passed in with the key "file"
+    This endpoint is a send message endpoint that can take files, upload them
+    and return the urls to the uploaded files to the media list in the message
+    serializer
+    This endpoint uses form data
+    The file must be passed in with the key "file"
     """
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"

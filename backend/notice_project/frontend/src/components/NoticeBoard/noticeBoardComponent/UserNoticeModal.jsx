@@ -1,7 +1,9 @@
 import React from "react";
 import "./UserNoticeModal.css";
+import UserMenu from "./UserMenu/UserMenu";
 import { Button } from "@material-ui/core";
 import moment from "moment";
+import UserMenu from "./UserMenu/UserMenu";
 
 function UserNoticeModal({ notice }) {
   const id = String(notice._id);
