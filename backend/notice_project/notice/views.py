@@ -511,7 +511,7 @@ class AttachFile(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def post(self, request):
+    def post(self, request, org_id):
         print(request.FILES)
         token = request.META.get("HTTP_AUTHORIZATION")
         if request.FILES:
@@ -555,8 +555,6 @@ class AttachFile(views.APIView):
                     "message": "Delete Operation Failed. Object does not exist in the database"
                 },
                 status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 
