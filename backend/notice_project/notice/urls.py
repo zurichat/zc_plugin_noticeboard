@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (Subscribe, install, create_room, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, 
-                     ViewNoticeAPI, NoticeDetail,add_user, Unsubscribe, emailNotificaion, NoticeReminder,
-                     sidebar_info 
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,
+                     sidebar_info, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -45,6 +45,12 @@ urlpatterns = [
     path('organisation/<str:org_id>/notices/<str:id>', NoticeDetail.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view()),
+
+    path('organisation/<str:org_id>/user/<str:user_id>/bookmark', BookmarkNotice.as_view()),
+
+    path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view()),
+
+    path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view()),
 
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
