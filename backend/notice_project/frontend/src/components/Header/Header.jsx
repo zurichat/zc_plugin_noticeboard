@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import "./Header.css";
 import { UserContext } from "../../Data-fetcing";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { people, setFilteredNotice, searchText, setSearchText } =
@@ -16,6 +17,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header__wraps">
+        <Link to="/noticeboard/bookmark"><div>Bookmarked notices</div></Link>
         <form className="header__form">
           <div className="header__search-icon">
             <svg

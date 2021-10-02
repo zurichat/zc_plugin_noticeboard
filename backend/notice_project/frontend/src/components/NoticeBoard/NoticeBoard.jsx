@@ -1,8 +1,7 @@
 import React from "react";
 import { useEffect, useState, useContext } from "react";
-// import Header from "../Header/Header";
+import Header from "../Header/Header";
 import "./NoticeBoard.css";
-import NoticeBoardHeader from "./NoticeBoardHeader";
 import AdminNotice from "../NoticeBoard/noticeBoardComponent/AdminNotice";
 import OldNotices from "../NoticeBoard/noticeBoardComponent/Old_Notices/oldNotices";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
@@ -16,6 +15,7 @@ import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
 import { DataContext } from "../../App";
 import Snackbar from "@material-ui/core/Snackbar";
 import { CentrifugoConnection } from "./real-time-connection";
+import BookmarkedNotices from "./noticeBoardComponent/Bookmark_Notices/bookmarked-notices"
 
 function NoticeBoard() {
   // const { setPeople } = useContext(UserContext);
@@ -35,12 +35,15 @@ function NoticeBoard() {
 
   return (
     <div className="notice">
-      {/* <Header/> */}
+      <Header/>
       <Switch>
         <Route exact path="/noticeboard/search">
           <SearchResult />
         </Route>
 
+        <Route exact path="/noticeboard/bookmark">
+          <BookmarkedNotices />
+        </Route>
         <Route exact path="/noticeboard/create-notice">
           <CreateNotice />
         </Route>

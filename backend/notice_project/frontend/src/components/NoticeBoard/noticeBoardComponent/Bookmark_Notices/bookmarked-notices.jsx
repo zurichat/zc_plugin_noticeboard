@@ -1,15 +1,15 @@
 import React, { useEffect, useContext } from "react";
-import notice from "../../../assets/createNotice.svg";
-import noNotice from "../../../assets/svg/no_notices.svg";
-import "../noticeBoardComponent/AdminNotice.css";
-import Card from "../noticeBoardComponent/Card";
+// import notice from "../../../../assets/createNotice.svg";
+import noNotice from "../../../../assets/svg/no_notices.svg";
+import "../../noticeBoardComponent/AdminNotice.css";
+import Card from "../../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
-import logo from "../../../assets/svg/logo.svg";
-import { withRouter, Link } from "react-router-dom";
-import { DataContext } from "../../../App";
-import { UserContext } from "../../../Data-fetcing";
+import logo from "../../../../assets/svg/logo.svg";
+import { Link } from "react-router-dom";
+import { DataContext } from "../../../../App";
+import { UserContext } from "../../../../Data-fetcing";
 
-const PinnedNotices = (props) => {
+const BookmarkedNotices = (props) => {
   const {
     people,
     setPeople,
@@ -32,7 +32,7 @@ const PinnedNotices = (props) => {
 
   useEffect(() => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+      `https://localhost:8000/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
@@ -89,10 +89,10 @@ const PinnedNotices = (props) => {
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
-            <p className="text">Notices</p>
+            <p className="text">Bookmarked Notices</p>
             
           </div>
-          <Button
+          {/* <Button
             className="header-button"
             color="primary"
             onClick={() => props.history.push("/noticeboard/create-notice")}
@@ -100,7 +100,7 @@ const PinnedNotices = (props) => {
             disableRipple
           >
             Create Notice <img src={notice} alt="create notice" />
-          </Button>
+          </Button> */}
         </div>
         <div className='no-notice'>
         <img src={noNotice} alt='no-notice' className='no-notice-img' />
@@ -109,7 +109,7 @@ const PinnedNotices = (props) => {
           
         >
           
-            Hey there, You have no notice for the day, they would appear here when published
+            Hey there, You have no Bookmarked Notice, they would appear here when Bookmarked
         </h1>
         <div className='notice-btn-div'>      
           <Link to="/noticeboard">
@@ -165,6 +165,6 @@ const PinnedNotices = (props) => {
   );
 };
 
-export default withRouter(PinnedNotices);
+export default BookmarkedNotices;
 
 // !for some strange reason, the "userImage" path in the json data is not connecting
