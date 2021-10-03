@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import remindIcon from "./assets/remindIcon.svg";
 import copyLinkIcon from "./assets/copyLinkIcon.svg";
 import BookmarkIcon from "./assets/bookmarkIcon.svg";
-// import BookmarkIconActive from "./assets/bookmarkIconActive.svg";
+import BookmarkIconActive from "./assets/bookmark-icon-active.svg";
 // import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
 import axios from "axios";
 import { UserInfoContext } from "../../../../App";
@@ -141,7 +141,7 @@ export default function UserMenu({
         >
           <Box className={classes.MenuStyle}>
             <img
-              src={bookmarkStatus ? BookmarkIcon : BookmarkIcon}
+              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
               alt="bookmark icon"
               className={classes.MenuIconStyle}
             />
