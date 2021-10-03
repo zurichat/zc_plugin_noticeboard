@@ -110,11 +110,11 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            # updated_data = db.read("noticeboard", org_id)
+            updated_data = db.read("noticeboard", org_id)
 
             created_notice = {
                 "event":"create_notice",
-                "data": serializer.data
+                "data": updated_data
             }
 
 
@@ -227,7 +227,7 @@ class ViewNoticeAPI(views.APIView):
         if notice['status'] == 200:
             print(notice)
             return Response(notice, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class NoticeDetail(views.APIView):
@@ -252,7 +252,7 @@ class NoticeDetail(views.APIView):
                         return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
