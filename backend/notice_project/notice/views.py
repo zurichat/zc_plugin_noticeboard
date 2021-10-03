@@ -230,6 +230,13 @@ class ViewNoticeAPI(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
 
+def count_views(data, user):
+    user_list = list(data.split(" "))
+    user_list.append(user)
+    user_array = sorted(set(user_list))
+    user_string = ' '.join([str(elem) for elem in user_array])
+    return user_string
+
 class NoticeDetail(views.APIView):
     '''
     This returns the detail of a particular notice under the organisation
