@@ -245,7 +245,7 @@ var formdata = new FormData();
 formdata.append("file", file);
 
 var requestOptions = {
-	method: 'GET',
+	method: 'POST',
 	headers: myHeaders,
 	body: formdata,
 	redirect: 'follow'
