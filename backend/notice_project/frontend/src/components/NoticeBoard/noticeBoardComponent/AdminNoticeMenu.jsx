@@ -209,12 +209,13 @@ function AdminMenu({
   }, [bookmarkDetails]);
 
   const bookmarkNotice = () => {
+    let user = JSON.parse(sessionStorage.getItem("user"));
     axios
       .post(
         `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
         {
           notice_id: noticeID,
-          user_id: UserData?._id,
+          user_id: user?.id,
         }
       )
       .then((data) => {
