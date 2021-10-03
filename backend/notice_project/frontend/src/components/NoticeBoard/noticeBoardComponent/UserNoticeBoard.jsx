@@ -18,7 +18,6 @@ const UserNotice = () => {
 
   const [notices, setNotices] = useState([]);
 
-  const userData = useContext(UserInfoContext);
   // Read Organization ID
   const _globalData = useContext(DataContext);
 
