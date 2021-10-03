@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CardNotice from "./CardNotice";
 import "./UserNoticeBoard.css";
 import UserNoticeModal from "./UserNoticeModal";
@@ -48,16 +48,12 @@ const UserNotice = () => {
 
 	// For User Notice Pagination
 	const [currentPage, setCurrentPage] = useState(1);
-	let PageSize = 9;
+	let PageSize = 12;
 
-	const NoticeData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize;
-		const lastPageIndex = firstPageIndex + PageSize;
+	const firstPageIndex = (currentPage - 1) * PageSize;
+	const lastPageIndex = firstPageIndex + PageSize;
+	const NoticeData = notices.slice(firstPageIndex, lastPageIndex);
 
-		const paginatedNotice = notices.slice(firstPageIndex, lastPageIndex);
-
-		return paginatedNotice;
-	}, [currentPage, PageSize, notices]);
 	// console.log(NoticeData, "NOTICE DATA");
 
 	if (loading) {
@@ -120,7 +116,7 @@ const UserNotice = () => {
 			</div>
 
 			<div className="user-notice-post">
-				{NoticeData.map((notice) => (
+				{NoticeData?.map((notice) => (
 					<div key={notice._id}>
 						<CardNotice notice={notice} />
 						<UserNoticeModal notice={notice} />
