@@ -87,17 +87,17 @@ const BookmarkedNotices = (props) => {
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
-            <p className="text">Notices</p>
+            <p className="text">Bookmarked Notices</p>
             
           </div>
           <Button
             className="header-button"
             color="primary"
-            onClick={() => props.history.push("/noticeboard/create-notice")}
+            onClick={() => props.history.push("/noticeboard/admin-notice")}
             variant="contained"
             disableRipple
           >
-            Create Notice <img src={notice} alt="create notice" />
+            Back To Admin Notice <img src={notice} alt="Admin notice" />
           </Button>
         </div>
         <div className='no-notice'>
@@ -107,7 +107,7 @@ const BookmarkedNotices = (props) => {
           
         >
           
-            Hey there, You have no notice for the day, they would appear here when published
+            Hey there, You have no bookmarked notices, they would appear here when bookmarked
         </h1>
         <div className='notice-btn-div'>      
           
@@ -131,11 +131,11 @@ const BookmarkedNotices = (props) => {
         </div>
         <Button
           className="header-button"
-          onClick={() => props.history.push("/noticeboard/create-notice")}
+          onClick={() => props.history.push("/noticeboard/admin-notice")}
           variant="contained"
           disableRipple
         >
-          Create Notice <img src={notice} alt="create notice" />
+          Back To Admin Notice <img src={notice} alt="Admin notice" />
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
