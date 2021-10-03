@@ -428,7 +428,14 @@ class CreateBookmark(views.APIView):
         '''
         serializer = BookmarkNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            db.save('bookmark_notice', org_id, serializer.data)
+            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
+
+            bookmark_data = {
+                "user_id":serializer.data["user_id"],
+                "notice_data":notice["data"]
+            }
+
+            db.save('bookmark_notice', org_id, bookmark_data)
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
@@ -437,8 +444,9 @@ class CreateBookmark(views.APIView):
 
             data = {
                 "event":"create_bookmark",
-                "data":serializer.data
+                "data":notice["data"]
             }
+
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
