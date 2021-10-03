@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import remindIcon from "./assets/remindIcon.svg";
 import copyLinkIcon from "./assets/copyLinkIcon.svg";
-import bookmarkIcon from "./assets/bookmarkIcon.svg";
+import BookmarkIcon from "./assets/bookmarkIcon.svg";
 import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
 import axios from "axios";
 import { UserInfoContext } from "../../../../App";

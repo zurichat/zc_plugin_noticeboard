@@ -49,7 +49,7 @@ function AdminMenu({
 
   const UserData = useContext(UserInfoContext);
   // console.log(userData.email);
-  console.log(userData?.org_id + "orgid", userData?._id + "id frank");
+  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
 
   /////
 
