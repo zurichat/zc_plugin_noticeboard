@@ -101,7 +101,7 @@ class CreateNewNotices(views.APIView):
     @swagger_auto_schema(request_body=CreateNoticeSerializer)
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
-        
+        org_id = request.GET.get('org')
         serializer = CreateNoticeSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
@@ -118,6 +118,20 @@ class CreateNewNotices(views.APIView):
                 "data": serializer.data
             }
 
+            update_notice = {
+                event: "sidebar_update",
+                plugin_id: "noticeboard.zuri.chat",
+                data: {
+                    "name": "Noticeboard Plugin",
+                    "group_name": "Noticeboard",
+                    "show_group": False,
+                    "button_url": "/noticeboard/admin-notice",
+                    "public_rooms": [],
+                    "joined_rooms": [org_id]
+                }
+            }
+
+
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
@@ -125,6 +139,13 @@ class CreateNewNotices(views.APIView):
             print(room_id)
 
             db.post_to_centrifugo(room_id,created_notice)
+
+            db.post_to_centrifugo("noticeboard-team-aquinas-stage-10",updated_data)
+
+            db.post_to_centrifugo("orgID_userID_sidebar", update_notice)
+
+
+
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
