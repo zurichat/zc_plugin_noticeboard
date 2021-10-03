@@ -200,42 +200,6 @@ function CreateNotice() {
   //   }
   // };
 
-async function uploadImageCallBack2(file) {
-  return new Promise(
-    (resolve, reject) => {
-		var data = new FormData()
-		data.append('FILES', [file])
-		try {
-			let res = fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, {
-				method: 'POST',
-				body: data
-		  	})
-			console.log(res)
-		} catch (err) {
-			console.log(error)
-			reject(error);
-		}
-		
-    //   const xhr = new XMLHttpRequest();
-	//   console.log("this woeked");
-    //   xhr.open('POST', `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`);
-    // //   xhr.setRequestHeader('Authorization', 'Client-ID 713b516012986a5');
-    //   const data = new FormData();
-    //   data.append('FILES', [file]);
-    //   xhr.send(data);
-    //   xhr.addEventListener('load', () => {
-    //     const response = JSON.parse(xhr.responseText);
-    //     console.log(response)
-    //     resolve(response);
-    //   });
-    //   xhr.addEventListener('error', () => {
-    //     const error = JSON.parse(xhr.responseText);
-    //     console.log(error)
-    //     reject(error);
-    //   });
-    }
-  );
-}
 
 async function uploadImageCallBack(file) {
 	var myHeaders = new Headers();
