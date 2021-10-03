@@ -5,7 +5,12 @@ import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
 import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 
-const CardNotice = ({ notice }) => {
+const CardNotice = ({
+  notice,
+  bookmarkDetails,
+  toggleBookmark,
+  setToggleBookmark,
+}) => {
   const id = String(notice._id);
 
   const OpenModal = (event) => {
@@ -36,7 +41,12 @@ const CardNotice = ({ notice }) => {
           </div>
         </div>
         <div className="info-icon">
-          <UserMenu />
+          <UserMenu
+            noticeID={notice._id}
+            bookmarkDetails={bookmarkDetails}
+            setToggleBookmark={setToggleBookmark}
+            toggleBookmark={toggleBookmark}
+          />
         </div>
       </div>
       <div className="card-body">

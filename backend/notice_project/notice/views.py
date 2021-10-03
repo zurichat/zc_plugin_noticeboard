@@ -8,8 +8,6 @@ from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSeria
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 
 
 @api_view(['GET'])
@@ -95,10 +93,11 @@ def install(request):
 
 
 class CreateNewNotices(views.APIView):
+
     '''
     Create new notices
     '''
-    @swagger_auto_schema(request_body=CreateNoticeSerializer)
+    
     def post(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         
@@ -111,11 +110,11 @@ class CreateNewNotices(views.APIView):
                 notice_data=serializer.data
             )
 
-            # updated_data = db.read("noticeboard", org_id)
+            updated_data = db.read("noticeboard", org_id)
 
             created_notice = {
                 "event":"create_notice",
-                "data": serializer.data
+                "data": updated_data
             }
 
 
@@ -124,17 +123,18 @@ class CreateNewNotices(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id,created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class UpdateNoticeAPIView(views.APIView):
     '''
     Update A Notice In A Database
     '''
-    @swagger_auto_schema(request_body=CreateNoticeSerializer)
+
     def put(self, request, id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
         serializer = CreateNoticeSerializer(data=request.data)
@@ -153,7 +153,7 @@ class UpdateNoticeAPIView(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -195,7 +195,7 @@ class DeleteNotice(views.APIView):
             room_id = room["data"][0]["_id"]
             print(room_id)
 
-            db.post_to_centrifugo(room_id, updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
             return Response(
                 {
@@ -227,44 +227,8 @@ class ViewNoticeAPI(views.APIView):
         if notice['status'] == 200:
             print(notice)
             return Response(notice, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
-def count_views(data, email):
-    ''' a function to count users that viewed a notice'''
-    user_list = list(data.split(" "))
-    user_list.append(email)
-    user_array = sorted(set(user_list))
-    user_string = ' '.join([str(elem) for elem in user_array])
-    return user_string
-
-# option two for Maro
-class ScheduleNoticeAPI(views.APIView):
-
-     def get(self, request, org_id):
-        # org_id = "613a1a3b59842c7444fb0220"
-        notice = db.read("noticeboard", org_id)
-
-        if notice['status'] == 200:
-
-            """
-            Don't show notice that have their reminder set to True
-            """
-            print(f"Notice Reminder: {notice['data'][0]}")
-            # if notice["data"].get("notice_reminder") is False:
-            #     return Response(notice, status=status.HTTP_200_OK)
-
-            # elif notice["data"].get("notice_reminder") is True:
-            #     permission_message = "Oof! You can not view this notice."
-            #     return Response({"message": permission_message}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
-           
-            """
-            When notice schedule date and time has reached, set reminder to False
-            and show to users
-            """
-            # logic goes here
-            # more logic here
-            return Response(notice['data'], status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 class NoticeDetail(views.APIView):
     '''
@@ -277,16 +241,18 @@ class NoticeDetail(views.APIView):
         if notice["status"] == 200:
             try:
                 get_data=notice["data"]
-                # views = get_data['views']
-                # count = count_views(views, email)
-                # get_data['views'] = count
-                serializer = CreateNoticeSerializer(data=get_data)
-                if serializer.is_valid():
-                    db.update("noticeboard", org_id, serializer.data, object_id=id)
-                    return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
+                query = request.GET.get('query')
+                if query:
+                    views = get_data['views']
+                    count = count_views(views, query)
+                    get_data['views'] = count
+                    serializer = CreateNoticeSerializer(data=get_data)
+                    if serializer.is_valid():
+                        db.update("noticeboard", org_id, serializer.data, object_id=id)
+                        return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
             except:
                 return Response({"status": True, "data": notice["data"], "message": "sucessfully retrieved"}, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -429,24 +395,18 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
-
-    def post(self, request, org_id):
-        org_id=request.GET.get('org')
+    def post(self, request):
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-               org_id,
+                "613a1a3b59842c7444fb0220",
                 notice_data=serializer.data
             )
-            # Appends serializer data to newly_created_notice_reminder list
-            created_notice_reminder = serializer.data
-            self.newly_created_notice_reminder.append(created_notice_reminder)
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class BookmarkNotice(views.APIView):
 
@@ -468,7 +428,14 @@ class CreateBookmark(views.APIView):
         '''
         serializer = BookmarkNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            db.save('bookmark_notice', org_id, serializer.data)
+            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
+
+            bookmark_data = {
+                "user_id":serializer.data["user_id"],
+                "notice_data":notice["data"]
+            }
+
+            db.save('bookmark_notice', org_id, bookmark_data)
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
@@ -477,10 +444,11 @@ class CreateBookmark(views.APIView):
 
             data = {
                 "event":"create_bookmark",
-                "data":serializer.data
+                "data":notice["data"]
             }
 
-            db.post_to_centrifugo(room_id, data)
+
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -506,7 +474,7 @@ class DeleteBookmarkedNotice(views.APIView):
         room_id = room["data"][0]["_id"]
         print(room_id)
 
-        db.post_to_centrifugo(room_id, data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
         if bookmarked_notice['status'] == 200:
             return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
@@ -516,7 +484,6 @@ class NoticeDraft(views.APIView):
     '''
         For creating Drafts
     '''
-    @swagger_auto_schema(request_body=DraftSerializer)
     def post(self, request, org_id):
         serializer = DraftSerializer(data=request.data)
         if serializer.is_valid():
@@ -533,12 +500,11 @@ class ScheduleNotices(views.APIView):
     '''
         For scheduling notices
     '''
-    @swagger_auto_schema(request_body=SchedulesSerializer)
     def post(self, request, org_id):
         serializer = SchedulesSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
-                "schedules",
+                "noticeboard",
                 org_id,
                 notice_data=serializer.data
             )
@@ -546,28 +512,13 @@ class ScheduleNotices(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ViewSchedule(views.APIView):
-    '''
-    This endpoint returns all the notices created under a particular organisation in the database
-    '''
-
-    def get(self, request, org_id):
-        # org_id = "613a1a3b59842c7444fb0220"
-        notice = db.read("noticeboard", org_id)
-        get_data=notice["data"]
-        reversed_list = get_data[::-1]
-        print(reversed_list)
-        notice.update(data=reversed_list)
-        if notice['status'] == 200:
-            print(notice)
-            return Response(notice, status=status.HTTP_200_OK)
-        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class AttachFile(views.APIView):
     """
-    This endpoint is an upload file endpoint that can take files, upload them
-    and return the urls to the uploaded files. The file must be passed in with the key "file"
+    This endpoint is a send message endpoint that can take files, upload them
+    and return the urls to the uploaded files to the media list in the message
+    serializer
+    This endpoint uses form data
+    The file must be passed in with the key "file"
     """
     def get(self, request, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
@@ -594,6 +545,7 @@ class AttachFile(views.APIView):
                     if file_data["status"] == 200:
                         for datum in file_data["data"]["files_info"]:
                             file_urls.append(datum["file_url"])
+                        return Response(file_data)
                     else:
                         return Response(file_data)
             elif len(files) > 1:
@@ -604,6 +556,7 @@ class AttachFile(views.APIView):
                 if file_data["status"] == 200:
                     for datum in file_data["data"]["files_info"]:
                         file_urls.append(datum["file_url"])
+                    return Response(file_data)
                 else:
                     return Response(file_data)
         else: 
@@ -628,7 +581,82 @@ class AttachFile(views.APIView):
                 status=status.HTTP_404_NOT_FOUND)
 
 
+# NEW EMAIL NOTIFICATION
+@api_view(['GET'])
+def email_notification(request):
+    if request.method == 'GET':
+        org_id = request.GET.get("org")
+        # user_id = request.GET.get("user")
+        send_email = request.GET.get("sendemail")
 
+        if org_id and send_email=='true':
+            response_subscribers = db.read("email_subscribers", org_id)
+
+            try:
+                if response_subscribers["status"] == 200 and response_subscribers["data"]:
+                    email_subscribers = response_subscribers["data"]
+
+                    # email sending setup
+                    url = 'https://api.zuri.chat/external/send-mail?custom_mail=1'
+
+                    for user in email_subscribers:
+                        email = user["email"]
+                        payload = {
+                            'email': email,
+                            'subject': 'notice',
+                            'content_type': 'text/html',
+                            'mail_body': '<div style="background-color: chocolate; width: 100%; height: 50%;"><h1 style="color: white; text-align: center; padding: 1em">Noticeboard Plugin</h2></div><div style="margin: 0% 5% 10% 5%;"><h2>New Notice</h2><p>Hey!</p><br><p>You have a new notice!</p><p>Visit <a href="https://zuri.chat/">zuri chat</a> to view notice.</p><br><p>Cheers,</p><p>Noticeboard Plugin</p></div>'
+                        }
+                        response_email = requests.post(url=url, json=payload)
+
+                    return Response({"status": "emails sent successfully"}, status=status.HTTP_200_OK)
+
+                elif response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
+                    return Response({"status": "no subscribed users"}, status=status.HTTP_404_NOT_FOUND)
+
+                else:
+                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+            except Exception as e:
+                return Response(str(e)) 
+        return Response({"status": "no emails sent, check if org is not null or if send has a boolean value of true"})        
+
+
+@api_view(['POST'])
+def email_subscription(request):
+    if request.method == 'POST':
+        org_id = request.GET.get("org")
+        user_id = request.GET.get("user")
+
+        if org_id and user_id: # and user_id
+            serializer = SubscribeSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user_data = {
+                "user_id": user_id,
+                "email": serializer.data["email"]
+            }
+            
+            response_subscribers = db.read("email_subscribers", org_id)
+
+            try:
+                if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
+                    db.save("email_subscribers", org_id, user_data)
+                    return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
+
+                elif response_subscribers["status"] == 200 and response_subscribers["data"]:
+                    for user_obj in response_subscribers["data"]:
+                        if user_id == user_obj["user_id"]:
+                            return Response({"status": "already subscribed"}, status=status.HTTP_409_CONFLICT)
+
+                    # if user_id doesn't exist, then the user is subscribed
+                    db.save("email_subscribers", org_id, user_data)
+                    return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
+
+                else:
+                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+
+            except Exception as e:
+                return Response(str(e))
+        return Response({"status": "no action taken, check org and/or user parameter values"})
 
 
 

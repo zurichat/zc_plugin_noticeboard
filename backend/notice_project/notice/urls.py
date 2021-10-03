@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import (Subscribe, install, create_room, sidebar_info, CreateNewNotices, 
+from .views import (Subscribe, email_subscription, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
-                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, ScheduleNoticeAPI
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, email_notification
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -33,15 +33,11 @@ urlpatterns = [
 
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
-    path('organisation/<str:org_id>/schedule', ScheduleNoticeAPI.as_view()),
-    
     path('organisation/<str:org_id>/create-reminder', NoticeReminder.as_view()),
 
     path('organisation/<str:org_id>/create_draft', NoticeDraft.as_view()),
 
     path('organisation/<str:org_id>/create_schedule', ScheduleNotices.as_view()),
-
-    path('organisation/<str:org_id>/schedules', ViewSchedule.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 
@@ -61,7 +57,11 @@ urlpatterns = [
 
     path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
-    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+    path('organisation/email-notification', email_notification),
+
+    path('organisation/email-subscription', email_subscription),
+
+    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 
 # newly added due to sidebar task -- start

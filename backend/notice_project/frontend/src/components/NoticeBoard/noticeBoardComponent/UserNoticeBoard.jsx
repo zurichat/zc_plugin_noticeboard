@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import CardNotice from "./CardNotice";
 import "./UserNoticeBoard.css";
 import UserNoticeModal from "./UserNoticeModal";
@@ -8,6 +8,7 @@ import logo from "../../../assets/svg/logo.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
+import Pagination from "./Old_Notices/pagination";
 
 const UserNotice = () => {
   const { loading, setLoading, isError, setIsError } = useContext(UserContext);
@@ -46,6 +47,38 @@ const UserNotice = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  const [bookmarkDetails, setBookmarkDetails] = useState(false);
+  const [toggleBookmark, setToggleBookmark] = useState(false);
+  const UserDataContext = useContext(UserInfoContext);
+  useEffect(async () => {
+    const UserData = await UserDataContext;
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/user/${UserData?._id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          console.log(data.message);
+          console.log(data.data);
+          setBookmarkDetails(data);
+        }
+      });
+  }, [toggleBookmark]);
+
+  // For User Notice Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  let PageSize = 12;
+
+  const NoticeData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+
+    const paginatedNotice = notices.slice(firstPageIndex, lastPageIndex);
+
+    return paginatedNotice;
+  }, [currentPage, PageSize, notices]);
+  // console.log(NoticeData, "NOTICE DATA");
 
   if (loading) {
     return (
@@ -112,13 +145,25 @@ const UserNotice = () => {
       </div>
 
       <div className="user-notice-post">
-        {notices.map((notice) => (
+        {NoticeData?.map((notice) => (
           <div key={notice._id}>
-            <CardNotice notice={notice} />
+            <CardNotice
+              notice={notice}
+              bookmarkDetails={bookmarkDetails}
+              setToggleBookmark={setToggleBookmark}
+              toggleBookmark={toggleBookmark}
+            />
             <UserNoticeModal notice={notice} />
           </div>
         ))}
       </div>
+
+      <Pagination
+        totalCount={notices.length}
+        pageSize={PageSize}
+        currentPage={currentPage}
+        onPageChange={(currentPage) => setCurrentPage(currentPage)}
+      />
     </div>
   );
 };
