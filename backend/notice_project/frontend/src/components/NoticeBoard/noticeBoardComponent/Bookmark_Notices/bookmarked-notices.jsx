@@ -41,10 +41,10 @@ const BookmarkedNotices = (props) => {
         }
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data.notice_data);
         setLoading(false);
         setBookmark(
-          data.data
+          data.notice_data
         )
         console.log(userData)
       })
@@ -81,7 +81,7 @@ const BookmarkedNotices = (props) => {
 
 
 
-  if (bookmark?.length <= 0) {
+  if (bookmark == null) {
     return (
       
       <div className="adminnotice">
@@ -99,7 +99,7 @@ const BookmarkedNotices = (props) => {
             variant="contained"
             disableRipple
           >
-            Back To Admin Notice <img src={notice} alt="Admin notice" />
+            Back <img src={notice} alt="Admin notice" />
           </Button>
         </div>
         <div className='no-notice'>

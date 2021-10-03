@@ -230,6 +230,13 @@ class ViewNoticeAPI(views.APIView):
         return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_404_NOT_FOUND)
 
 
+def count_views(data, user):
+    user_list = list(data.split(" "))
+    user_list.append(user)
+    user_array = sorted(set(user_list))
+    user_string = ' '.join([str(elem) for elem in user_array])
+    return user_string
+
 class NoticeDetail(views.APIView):
     '''
     This returns the detail of a particular notice under the organisation
@@ -590,7 +597,7 @@ def email_notification(request):
         send_email = request.GET.get("sendemail")
 
         if org_id and send_email=='true':
-            response_subscribers = db.read("test_email_subscribers", org_id)
+            response_subscribers = db.read("email_subscribers", org_id)
 
             try:
                 if response_subscribers["status"] == 200 and response_subscribers["data"]:
@@ -605,7 +612,7 @@ def email_notification(request):
                             'email': email,
                             'subject': 'notice',
                             'content_type': 'text/html',
-                            'mail_body': '<p>Hey! <br>You have a new notice on the noticeboard plugin. <br>zuri.chat</p>'
+                            'mail_body': '<div style="background-color: chocolate; width: 100%; height: 50%;"><h1 style="color: white; text-align: center; padding: 1em">Noticeboard Plugin</h2></div><div style="margin: 0% 5% 10% 5%;"><h2>New Notice</h2><p>Hey!</p><br><p>You have a new notice!</p><p>Visit <a href="https://zuri.chat/">zuri chat</a> to view notice.</p><br><p>Cheers,</p><p>Noticeboard Plugin</p></div>'
                         }
                         response_email = requests.post(url=url, json=payload)
 
@@ -635,11 +642,11 @@ def email_subscription(request):
                 "email": serializer.data["email"]
             }
             
-            response_subscribers = db.read("test_email_subscribers", org_id)
+            response_subscribers = db.read("email_subscribers", org_id)
 
             try:
                 if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
-                    db.save("test_email_subscribers", org_id, user_data)
+                    db.save("email_subscribers", org_id, user_data)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 elif response_subscribers["status"] == 200 and response_subscribers["data"]:
@@ -648,7 +655,7 @@ def email_subscription(request):
                             return Response({"status": "already subscribed"}, status=status.HTTP_409_CONFLICT)
 
                     # if user_id doesn't exist, then the user is subscribed
-                    db.save("test_email_subscribers", org_id, user_data)
+                    db.save("email_subscribers", org_id, user_data)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 else:

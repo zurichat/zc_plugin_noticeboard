@@ -10,8 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import remindIcon from "./assets/remindIcon.svg";
 import copyLinkIcon from "./assets/copyLinkIcon.svg";
-import bookmarkIcon from "./assets/bookmarkIcon.svg";
-import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
+import BookmarkIcon from "./assets/bookmarkIcon.svg";
+import BookmarkIconActive from "./assets/bookmark-icon-active.svg";
+// import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
 import axios from "axios";
 import { UserInfoContext } from "../../../../App";
 
@@ -103,7 +104,7 @@ export default function UserMenu({
   };
 
   const menuContent = [
-    { img: bookmarkIcon, text: "Bookmark" },
+    { img: BookmarkIcon, text: "Bookmark" },
     { img: remindIcon, text: "Remind me about this" },
     { img: copyLinkIcon, text: "Copy link" },
   ];
@@ -198,17 +199,17 @@ export default function UserMenu({
           className="overrideHeight"
           disableRipple
         >
-          <Box className={classes.MenuStyle}>
+          {/* <Box className={classes.MenuStyle}>
             <img
               src={moreMessagesIcon}
               alt="more massage icon"
               className={classes.MenuIconStyle}
             />
-          </Box>
-          <ListItemText
+          </Box> */}
+          {/* <ListItemText
             classes={{ primary: classes.listItemText }}
             primary="More message shortcuts..."
-          />
+          /> */}
         </MenuItem>
       </Menu>
     </>
