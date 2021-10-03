@@ -9,6 +9,7 @@ import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import Subscription from "../EmailSubscribe/Subscription";
+import { UserInfoContext } from "../../../App";
 
 const PinnedNotices = (props) => {
   const {
@@ -31,6 +32,25 @@ const PinnedNotices = (props) => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
+  //Bookmark
+  const [bookmarkDetails, setBookmarkDetails] = useState(false);
+  const [toggleBookmark, setToggleBookmark] = useState(false);
+  const UserDataContext = useContext(UserInfoContext);
+  useEffect(async () => {
+    const UserData = await UserDataContext;
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/user/${UserData?._id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          console.log(data.message);
+          console.log(data.data);
+          setBookmarkDetails(data);
+        }
+      });
+  }, [toggleBookmark]);
+
   useEffect(() => {
     fetch(
       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
@@ -49,13 +69,11 @@ const PinnedNotices = (props) => {
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-     
+
         setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
-
-  
 
   if (loading) {
     return (
@@ -82,18 +100,12 @@ const PinnedNotices = (props) => {
     );
   }
 
-  
-
-
-
   if (people?.length <= 0) {
     return (
-      
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
             <p className="text">Notices</p>
-            
           </div>
           <Button
             className="header-button"
@@ -105,28 +117,25 @@ const PinnedNotices = (props) => {
             Create Notice <img src={notice} alt="create notice" />
           </Button>
         </div>
-        <div className='no-notice'>
-        <img src={noNotice} alt='no-notice' className='no-notice-img' />
-        <h1
-          className="no-new-notices"
-          
-        >
-          
-            Hey there, You have no notice for the day, they would appear here when published
-        </h1>
-        <div className='notice-btn-div'>      
-          <Link to="/noticeboard">
-            <div className="older-notices">
-              <p className="older-notices-text">Go Back</p>
-            </div>
-          </Link>
+        <div className="no-notice">
+          <img src={noNotice} alt="no-notice" className="no-notice-img" />
+          <h1 className="no-new-notices">
+            Hey there, You have no notice for the day, they would appear here
+            when published
+          </h1>
+          <div className="notice-btn-div">
+            <Link to="/noticeboard">
+              <div className="older-notices">
+                <p className="older-notices-text">Go Back</p>
+              </div>
+            </Link>
 
-          <Link to="/noticeboard/old-notices">
-            <div className="older-notices">
-              <p className="older-notices-text">View older notices</p>
-            </div>
-          </Link>
-        </div>
+            <Link to="/noticeboard/old-notices">
+              <div className="older-notices">
+                <p className="older-notices-text">View older notices</p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -152,7 +161,15 @@ const PinnedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return <Card person={person} key={person._id} />;
+              return (
+                <Card
+                  person={person}
+                  key={person._id}
+                  bookmarkDetails={bookmarkDetails}
+                  setToggleBookmark={setToggleBookmark}
+                  toggleBookmark={toggleBookmark}
+                />
+              );
             })
           : people?.map((person) => {
               return <Card person={person} key={person._id} />;
