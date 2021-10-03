@@ -25,7 +25,7 @@ import imgPlaceholder from '../../../assets/noticePlaceholderImage.svg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '500px',
+    width: '250px',
     padding:'10px'
   },
   media: {
@@ -97,7 +97,7 @@ const CardComponent = ({ person, people }) => {
 
   return (
     <>
-    <article className="card-adminNotice">
+    <Box display='flex' justifyContent='center'pb='30px'>
         <Card className={classes.root}  >
       <CardHeader
         avatar={
@@ -142,7 +142,7 @@ const CardComponent = ({ person, people }) => {
         <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
       )}
     </Card>
-      </article>
+      </Box>
       </>
      
     

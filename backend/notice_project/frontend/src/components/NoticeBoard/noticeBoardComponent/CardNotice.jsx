@@ -3,12 +3,10 @@ import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
+import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 
-
-import imgPlaceholder from '../../../assets/noticePlaceholderImage.svg'
-
-const CardNotice = ({ person }) => {
-  const id = String(person._id);
+const CardNotice = ({ notice }) => {
+  const id = String(notice._id);
 
   const OpenModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
@@ -24,16 +22,17 @@ const CardNotice = ({ person }) => {
             <img
               alt="img"
               src={
-                person.author_img_url !== "null"
-                  ? person.author_img_url
-                  : imgPlaceholder
+                notice.author_img_url !== "null"
+                  ? notice.author_img_url
+                  : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
               }
             />
           </div>
 
           <div className="avatar-info">
-            <div className="avatar-name">{person.author_username}</div>
-            <div className="time-stamp">{moment(person.created).fromNow()}</div>
+            <div className="avatar-name">{notice.author_username}</div>
+
+            <div className="time-stamp">{moment(notice.created).fromNow()}</div>
           </div>
         </div>
         <div className="info-icon">
@@ -41,9 +40,9 @@ const CardNotice = ({ person }) => {
         </div>
       </div>
       <div className="card-body">
-        <div className="notice-title">{person.title}</div>
+        <div className="notice-title">{notice.title}</div>
         <div className="notice-message">
-          {person.message.substring(0, 150)}...
+          {notice.message.substring(0, 100)}...
         </div>
       </div>
 

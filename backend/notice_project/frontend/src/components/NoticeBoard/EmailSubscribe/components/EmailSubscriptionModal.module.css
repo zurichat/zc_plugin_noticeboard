@@ -1,0 +1,9 @@
+.bg {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+}
+
+.bg > *:first-child {
+  position: relative;
+}

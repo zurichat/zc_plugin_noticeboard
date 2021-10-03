@@ -40,6 +40,7 @@ import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
 
 import { DataContext } from '../../../App'
+import Subscription from '../EmailSubscribe/Subscription'
 
 
 
@@ -92,7 +93,7 @@ const initialValues = {
 
 const maxChars = 1000
 
-function CreateNotice () {
+function CreateNotice() {
   const userData = useContext(UserInfoContext)
   const classes = useStyles()
   const { push } = useHistory()
@@ -101,17 +102,19 @@ function CreateNotice () {
   const [openErrorDialog, setOpenErrorDialog] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+    EditorState.createEmpty(),
+
   )
 
-  
-  
+
+
+
 
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
 
-  if (userData === null){
+  if (userData === null) {
     push('/login')
   }
 
@@ -140,14 +143,20 @@ function CreateNotice () {
       )
     }
 
+    if (isChecked) {
+      fetch(
+        `http://127.0.0.1:8000/api/v1/email-notification?org=6145b49e285e4a18402073bc&user=61545a1da999ef8386e80adc&send=1`
+      )
+    }
+
     values.message = draftToMarkdown(
       convertToRaw(editorState.getCurrentContent())
     )
     const request = {
       title: values.title,
       message: values.message,
-      author_name:userData?.first_name || 'null', 
-      author_username: userData?.user_name || 'null' , 
+      author_name: userData?.first_name || 'null',
+      author_username: userData?.user_name || 'null',
       author_img_url: userData?.image_url || 'null'
     }
 
@@ -160,13 +169,13 @@ function CreateNotice () {
 
     try {
       const res = await api.post(
-        `/organisation/${userData.currentWorkspace}/create`,
+        `/organisation/${userData?.currentWorkspace}/create`,
         request
       )
       //Return input field to blank
       values.title = ''
       setEditorState('')
-      return push('/noticeboard')
+      return push('/home')
     } catch (err) {
       // console.log(err)
       setOpenErrorDialog(true)
@@ -190,6 +199,63 @@ function CreateNotice () {
   //     return "handled";
   //   }
   // };
+
+async function uploadImageCallBack2(file) {
+  return new Promise(
+    (resolve, reject) => {
+		var data = new FormData()
+		data.append('FILES', [file])
+		try {
+			let res = fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, {
+				method: 'POST',
+				body: data
+		  	})
+			console.log(res)
+		} catch (err) {
+			console.log(error)
+			reject(error);
+		}
+		
+    //   const xhr = new XMLHttpRequest();
+	//   console.log("this woeked");
+    //   xhr.open('POST', `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`);
+    // //   xhr.setRequestHeader('Authorization', 'Client-ID 713b516012986a5');
+    //   const data = new FormData();
+    //   data.append('FILES', [file]);
+    //   xhr.send(data);
+    //   xhr.addEventListener('load', () => {
+    //     const response = JSON.parse(xhr.responseText);
+    //     console.log(response)
+    //     resolve(response);
+    //   });
+    //   xhr.addEventListener('error', () => {
+    //     const error = JSON.parse(xhr.responseText);
+    //     console.log(error)
+    //     reject(error);
+    //   });
+    }
+  );
+}
+
+async function uploadImageCallBack(file) {
+	var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TXpJd05UVTNNWHhIZDNkQlIwUlplRTVVYUdsYVJGRjVUVEpGZUZwVVVUVlpha1pzVGxSRk1rNVhVVE5PUVQwOWZDYmxOT0ZUR2RvbnEydVJWcXFzZlpQaEVua1NzR3U3RGNfYUh1NW0xSUo3IiwiZW1haWwiOiJwYXBham9uYXR1czEwQHp1cmkuY2hhdCIsImlkIjoiNjE1OGJkNDIzYTFlNDliMWU1MTY1ZDc0Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDQwNDY2MywiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.K7e45i25eJdsz-ObIUh6cQnYi0NffmS4Bv1jdds_s-k");
+
+var formdata = new FormData();
+formdata.append("file", file);
+
+var requestOptions = {
+	method: 'GET',
+	headers: myHeaders,
+	body: formdata,
+	redirect: 'follow'
+  };
+  
+  fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, requestOptions)
+	.then(response => response.text())
+	.then(result => console.log(result))
+	.catch(error => console.log('error', error));
+}
 
   return (
     <div className='dashboard-container'>
@@ -267,7 +333,7 @@ function CreateNotice () {
                       minLength: 5,
                       maxLength: 30
                     }}
-                    // helperText="You can type 30 characters or less"
+                  // helperText="You can type 30 characters or less"
                   />
                   <p id='titleError' style={{ color: 'red', fontSize: '14px' }}>
                     {errorTitle}
@@ -290,8 +356,8 @@ function CreateNotice () {
                   toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
                   toolbar={{
                     options: [
-						'fontSize',
-						'inline',
+                      'fontSize',
+                      'inline',
                       'list',
                       'textAlign',
                       'link',
@@ -299,56 +365,59 @@ function CreateNotice () {
                       'emoji'
                     ],
                     inline: {
-						className: 'rdw-invisible',
-						visible: true,
-						inDropdown: false,
-						bold: { visible: true, icon: bold,},
-						italic: { visible: true, icon: italic,},
-						underline: { visible: true, icon: underline,},
-						strikethrough: { visible: true, icon: strikethrough,},
-						monospace: { visible: true, icon: monospace,},
-						subscript: { visible: true, icon: subscript,},
-						superscript: { visible: true, icon: superscript,}
+                      className: 'rdw-invisible',
+                      visible: true,
+                      inDropdown: false,
+                      bold: { visible: true, icon: bold, },
+                      italic: { visible: true, icon: italic, },
+                      underline: { visible: true, icon: underline, },
+                      strikethrough: { visible: true, icon: strikethrough, },
+                      monospace: { visible: true, icon: monospace, },
+                      subscript: { visible: true, icon: subscript, },
+                      superscript: { visible: true, icon: superscript, }
                     },
                     fontSize: {
-						className: 'rdw-invisible'
+                      className: 'rdw-invisible'
                     },
-					
+
                     link: {
                       className: 'rdw-invisible',
                       options: ['link'],
 					  visible: true,
 					inDropdown: false,
-					addLink: { visible: true, icon: link, }
+					link: { visible: true, icon: link, },
+					unlink: { visible: true, icon: link, }
                     },
                     textAlign: {
                       className: 'rdw-invisible',
-					  visible: true,
-					  inDropdown: false,
-					  left: { visible: true, icon: left, },
-					  center: { visible: true, icon: middle, },
-					  right: { visible: true, icon: right, },
-					  justify: { visible: true, icon: justify, }
+                      visible: true,
+                      inDropdown: false,
+                      left: { visible: true, icon: left, },
+                      center: { visible: true, icon: middle, },
+                      right: { visible: true, icon: right, },
+                      justify: { visible: true, icon: justify, }
                     },
                     list: {
-						className: 'rdw-invisible',
-						visible: true,
-						inDropdown: false,
-						unordered: { visible: true, icon: ul, },
-						ordered: { visible: true, icon: ol, },
-						indent: { visible: true, icon: indent, },
-    					outdent: { visible: true, icon: outdent, }
+                      className: 'rdw-invisible',
+                      visible: true,
+                      inDropdown: false,
+                      unordered: { visible: true, icon: ul, },
+                      ordered: { visible: true, icon: ol, },
+                      indent: { visible: true, icon: indent, },
+                      outdent: { visible: true, icon: outdent, }
                     },
                     emoji: {
-						icon: smiley,
+                      icon: smiley,
 
-					},
+                    },
                     image: {
                       icon: imageIcon,
                       uploadEnabled: true,
                       urlEnabled: true,
 					  fileupload: true,
-                      // uploadCallback: this.uploadImageCallback,
+					  uploadCallback: uploadImageCallBack, 
+					  alt: { present: true, mandatory: false },
+
                       inputAccept:
                         'image/gif,image/jpeg,image/jpg,image/png,image/svg'
                     }
@@ -420,6 +489,7 @@ function CreateNotice () {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
+      <Subscription />
     </div>
   )
 }
