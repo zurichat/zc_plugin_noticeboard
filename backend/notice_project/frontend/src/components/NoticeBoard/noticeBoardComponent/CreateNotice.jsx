@@ -145,7 +145,7 @@ function CreateNotice() {
 
     if (isChecked) {
       fetch(
-        `https://noticeboard.zuri.chat/api/v1/email-notification?org=${org_id}&user=${userData}&send=1`
+        `https://noticeboard.zuri.chat/api/v1/organisation/email-notification?org=${org_id}&user=${userData}&sendemail=true`
       )
     }
 
