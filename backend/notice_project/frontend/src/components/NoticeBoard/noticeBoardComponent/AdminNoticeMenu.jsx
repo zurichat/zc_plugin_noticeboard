@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -25,8 +25,14 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
+import { UserInfoContext } from "../../../App";
 
-function AdminMenu({ noticeID }) {
+function AdminMenu({
+  noticeID,
+  bookmarkDetails,
+  toggleBookmark,
+  setToggleBookmark,
+}) {
   const menu = [
     { icon: EditIcon, linkText: "Edit notice", id: "1" },
     { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
@@ -37,8 +43,15 @@ function AdminMenu({ noticeID }) {
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const history = useHistory();
+
   ////bookmark status state
   const [bookmarkStatus, setBookmarkStatus] = useState();
+
+  const userData = useContext(UserInfoContext);
+  console.log(userData.email);
+  console.log(userData?.org_id + "orgid", userData?._id + "id frank");
+
+  /////
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -54,7 +67,7 @@ function AdminMenu({ noticeID }) {
 
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
-     setLoader(true);
+    setLoader(true);
     //  setTimeout(()=>{
     //    setLoader(false)
     // }, 4000)
@@ -62,9 +75,9 @@ function AdminMenu({ noticeID }) {
       setToast(true);
     }, 4000);
 
-    setTimeout(()=>{
-      setToast(false)
-    }, 7000)
+    setTimeout(() => {
+      setToast(false);
+    }, 7000);
   };
 
   const editNotice = (noticeID) => {
@@ -130,10 +143,10 @@ function AdminMenu({ noticeID }) {
       options
     )
       .then((response) => {
-        console.log(response, );
-        setLoader(false)
+        console.log(response);
+        setLoader(false);
       })
-      
+
       .catch((error) => {
         console.log(error);
       });
@@ -162,6 +175,58 @@ function AdminMenu({ noticeID }) {
 
   //   checkBookmarkStatus();
   //  ///////////////
+  useEffect(() => {
+    bookmarkDetails
+      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+        ? setBookmarkStatus(true)
+        : setBookmarked(false)
+      : "";
+  }, [bookmarkDetails]);
+
+  const bookmarkNotice = () => {
+    axios
+      .post(
+        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
+        {
+          notice_id: noticeID,
+          user_id: UserData?._id,
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        setBookmarkStatus(true);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
+
+  const deleteBookmarkNotice = () => {
+    axios
+      .delete(
+        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
+      )
+      .then((data) => {
+        console.log(data);
+        setBookmarkStatus(false);
+        setToggleBookmark(!toggleBookmark);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
+
+  const bookmarkFunction = () => {
+    if (!bookmarkStatus) {
+      bookmarkNotice();
+    } else {
+      deleteBookmarkNotice();
+    }
+  };
 
   return (
     <div>
@@ -194,7 +259,7 @@ function AdminMenu({ noticeID }) {
       >
         <MenuItem
           onClick={() => {
-            closeMenu;
+            bookmarkFunction();
           }}
           className="overrideHeight"
           disableRipple
