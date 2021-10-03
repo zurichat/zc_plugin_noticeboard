@@ -347,7 +347,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={copy(noticeID)}
+              // onClick={copy(noticeID)}
             >
               Copy link
             </span>
