@@ -402,7 +402,7 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    def post(self, request):
+    def post(self, request, org_id):
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
