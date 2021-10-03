@@ -3,12 +3,12 @@ import { useState } from "react";
 import Button from "./EmailSubscriptionButton";
 import Modal from "./EmailSubscriptionModal";
 import TextInput from "./TextInput";
-import classes from "./EmailSubscription.module.css";
+import classes from "./EmailSubscription.css";
 import axios from "axios";
 import { DataContext, UserInfoContext } from "../../../../App";
 import { UserContext } from "../../../../Data-fetcing";
 
-const Newsletter = props => {
+const EmailSubscription = props => {
   const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
   const [nameValue, setNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
@@ -63,21 +63,21 @@ const Newsletter = props => {
 
   return (
     <Modal closeHandler={closeHandler}>
-      <form className={`${classes.form}`} onSubmit={submitHandler}>
+      <form className="form"  onSubmit={submitHandler}>
         <h1 className="flex">{subscriptionSuccess ? "Thank You for Subscribing!" : "Subscribe to get notifications through your mail"}</h1>
         {subscriptionSuccess ? (
-          <div className={`flex-column ${classes.formContent} ${classes.successContent}`}>
-            <p className={classes.successMessage}>
+          <div className="form content  successContent ">
+            <p className="successMessage">
               You have successfully subscribed <em>{emailValue}</em> to Zuri Chat  oti
             </p>
-            <Button type="button" className={classes.successClose} onClick={closeHandler}>
+            <Button type="button" className="successClose" onClick={closeHandler}>
               CLOSE
             </Button>
           </div>
         ) : (
-          <fieldset onClick={closeHandler} className={`grid ${classes.formContent} ${classes.fieldset}`}>
+          <fieldset onClick={closeHandler} className="fieldset  formContent">
 
-            <label className={classes.email}>
+            <label className="email">
               E-mail:
               <TextInput
                 name="email"
@@ -88,18 +88,18 @@ const Newsletter = props => {
                 onChange={e => setEmailValue(e.target.value)}
               />
             </label>
-            <div className={`flex ${classes.btnGroup}`}>
+            <div className="btnGroup">
               {/* <Button className={classes.clear} type="reset" onClick={clearHandler}>
                 CLEAR
               </Button> */}
-              <Button className={classes.submit} onClick={submitEmail}>SUBMIT</Button>
+              <Button className="submit" onClick={submitEmail}>SUBMIT</Button>
             </div>
           </fieldset>
         )}
       </form>
-      <button className={classes.close} onClick={closeHandler} />
+      <button className="close"onClick={closeHandler} />
     </Modal>
   );
 };
 
-export default Newsletter;
+export default EmailSubscription;

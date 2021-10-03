@@ -1,8 +1,8 @@
-import classes from "./EmailSubscription.module.css";
+import "./EmailSubscription.css";
 
 const Modal = props => {
   return (
-    <div className={`flex ${classes.bg}`} onClick={props.closeHandler}>
+    <div className="bg" onClick="closeHandler">
       <div className="flex-column" onClick={e => e.stopPropagation()}>
         {props.children}
       </div>
