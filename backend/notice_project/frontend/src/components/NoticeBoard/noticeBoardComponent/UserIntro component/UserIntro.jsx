@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./UserIntro.css";
 import defaultEdit from "./default.svg";
 import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
 import Illustration from "../../../../assets/Illustration.svg";
+import { UserInfoContext } from "../../../../App";
 
 const UserIntro = () => {
+  const userData = useContext(UserInfoContext);
+
   return (
     <div>
       <div className="UserIntro">
@@ -21,7 +24,11 @@ const UserIntro = () => {
             </p>
           </IntroPMobileStyles>
           <Link
-            to="/noticeboard/admin-notice"
+            to={
+              userData?.role === "owner"
+                ? "/noticeboard/admin-notice"
+                : "/noticeboard/user-notice"
+            }
             style={{ textDecoration: "none" }}
           >
             <button className="view-notice-btn-userIntro" label="View Notice">

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import notice from "../../../../assets/createNotice.svg";
 import noNotice from "../../../../assets/svg/no_notices.svg";
 import "./bookmark-notice.css";
@@ -8,6 +8,7 @@ import logo from "../../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { UserInfoContext } from "../../../../App";
 import { UserContext } from "../../../../Data-fetcing";
+import { DataContext } from "../../../../App";
 
 const BookmarkedNotices = (props) => {
   const {
@@ -17,22 +18,19 @@ const BookmarkedNotices = (props) => {
     setIsError,
     searchText,
     filteredNotice,
-    bookmark,
-		setBookmark
+    bookmark, 
+    setBookmark
   } = useContext(UserContext);
 
-  const userData = useContext(UserInfoContext)
+  const userData = useContext(UserInfoContext);
 
-  // const today = new Date();
-  // const date = today.getDate();
-  const date = new Date();
-  const currentDate = date.getDate();
 
-  // Read Organization ID
 
   useEffect(() => {
+   
+  let user = JSON.parse(sessionStorage.getItem("user"));
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/614f07b8e35bb73a77bc2b0d/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/${user.id}/bookmark`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
@@ -43,13 +41,12 @@ const BookmarkedNotices = (props) => {
         }
       })
       .then((data) => {
-        setBookmark(
-          data.data.filter(
-            (notice) => currentDate == notice.created.slice(8, 10)
-          )
-        );
-        
+        console.log(data.data);
         setLoading(false);
+        setBookmark(
+          data.data
+        )
+        console.log(userData)
       })
       .catch((error) => console.log(error));
   }, []);
@@ -144,7 +141,7 @@ const BookmarkedNotices = (props) => {
       {/* the is the beginning of the section where the card for each notice starts from */}
 
       <section className="adminNotice-section">
-        {searchText
+      {searchText
           ? filteredNotice?.map((person) => {
               return <CardComponent person={person} key={person._id} />;
             })
