@@ -70,3 +70,24 @@ print(Database.save)
 
 
 url = "http://www.google.com/blahblah"
+
+
+SERIALIZERS.PY
+
+class SchedulesSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=255)
+    created = serializers.DateTimeField(default=timezone.now)
+    author_name = serializers.CharField()
+    author_username = serializers.CharField()
+    author_img_url = serializers.CharField()
+    message = serializers.CharField()
+    scheduled_time=serializers.CharField()
+    views = serializers.CharField(default=0)
+    org_id = serializers.CharField()
+    
+
+VIEWS.PY
+
+
+
+
