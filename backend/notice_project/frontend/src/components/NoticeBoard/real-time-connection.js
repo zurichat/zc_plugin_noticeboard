@@ -7,22 +7,6 @@ import { UserInfoContext } from '../../App'
 // Performs subscribing to Noticeboard room on centrifugo
 
 export const CentrifugoConnection = async() =>{ 
-  const userData = useContext(UserInfoContext)
-  // const _globalData = useContext(DataContext)
-  // const org_id = userData.Organizations[0]
-  const [room_id, setRoom_id] = useState("")
-
-    await axios
-    // .get(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/get-room`
-    // )
-    .get(`https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/get-room`
-    )
-    .then((res) => {
-      let data = res.data.data[0]._id;
-      return data
-    }).then((data)=>{
-      setRoom_id(data.toString())
-    }).catch((error) => console.log(error));
 
     const { setPeople, setNotices } = useContext(UserContext);
     
@@ -54,5 +38,5 @@ export const CentrifugoConnection = async() =>{
       );
       console.log(ctx)
     }
-    SubscribeToChannel(room_id, callback ); 
+    SubscribeToChannel("team-aquinas-zuri-challenge-007", callback ); 
 }

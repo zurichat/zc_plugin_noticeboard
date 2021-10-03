@@ -63,7 +63,7 @@ const CardComponent = ({ person, people }) => {
     "Dec",
   ];
 
-  const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
+  // const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
 
   return (
     <>
