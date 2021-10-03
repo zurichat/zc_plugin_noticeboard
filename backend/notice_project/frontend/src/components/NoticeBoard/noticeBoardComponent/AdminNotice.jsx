@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import notice from "../../../assets/createNotice.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import "../noticeBoardComponent/AdminNotice.css";
@@ -124,11 +124,11 @@ const PinnedNotices = (props) => {
             when published
           </h1>
           <div className="notice-btn-div">
-            <Link to="/noticeboard">
+            {/* <Link to="/noticeboard">
               <div className="older-notices">
                 <p className="older-notices-text">Go Back</p>
               </div>
-            </Link>
+            </Link> */}
 
             <Link to="/noticeboard/old-notices">
               <div className="older-notices">
