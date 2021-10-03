@@ -1,7 +1,9 @@
 from django.urls import path
 from .views import (Subscribe, email_subscription, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
-                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, email_notification
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, 
+                     BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, email_notification,
+                      ViewNoticeReminder
                      )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -34,6 +36,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
     path('organisation/<str:org_id>/create-reminder', NoticeReminder.as_view()),
+    
+    path('organisation/<str:org_id>/view-reminder', ViewNoticeReminder.as_view()),
 
     path('organisation/<str:org_id>/create_draft', NoticeDraft.as_view()),
 
