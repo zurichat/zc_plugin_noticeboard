@@ -41,7 +41,7 @@ const BookmarkedNotices = (props) => {
         }
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data.notice_data);
         setLoading(false);
         setBookmark(
           data.notice_data
