@@ -47,7 +47,7 @@ function AdminMenu({
   ////bookmark status state
   const [bookmarkStatus, setBookmarkStatus] = useState();
 
-  const userData = useContext(UserInfoContext);
+  const UserData = useContext(UserInfoContext);
   // console.log(userData.email);
   console.log(userData?.org_id + "orgid", userData?._id + "id frank");
 
@@ -300,7 +300,6 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={() => setBookmarkStatus(!Boolean(bookmarkStatus))}
             >
               Bookmark
             </span>
