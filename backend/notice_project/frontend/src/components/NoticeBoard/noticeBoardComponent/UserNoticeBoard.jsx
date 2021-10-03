@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import CardNotice from "./CardNotice";
 import "./UserNoticeBoard.css";
 import UserNoticeModal from "./UserNoticeModal";
@@ -8,6 +8,7 @@ import logo from "../../../assets/svg/logo.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
+import Pagination from "./Old_Notices/pagination";
 
 const UserNotice = () => {
 	const { loading, setLoading, isError, setIsError } = useContext(UserContext);
@@ -49,10 +50,14 @@ const UserNotice = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	let PageSize = 12;
 
-	const firstPageIndex = (currentPage - 1) * PageSize;
-	const lastPageIndex = firstPageIndex + PageSize;
-	const NoticeData = notices.slice(firstPageIndex, lastPageIndex);
+	const NoticeData = useMemo(() => {
+		const firstPageIndex = (currentPage - 1) * PageSize;
+		const lastPageIndex = firstPageIndex + PageSize;
 
+		const paginatedNotice = notices.slice(firstPageIndex, lastPageIndex);
+
+		return paginatedNotice;
+	}, [currentPage, PageSize, notices]);
 	// console.log(NoticeData, "NOTICE DATA");
 
 	if (loading) {
