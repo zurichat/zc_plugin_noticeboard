@@ -2,6 +2,13 @@ from django.utils import timezone
 from rest_framework import serializers
 from django.utils import timezone
 
+# Time Zone
+time = timezone.now()
+# Get Current Time
+current_time = f"{time.hour + 1}:{time.minute}:{time.second}"
+# Get Current Date
+current_date = f"{time.month}-{time.day}-{time.year}"
+
 
 class NoticeboardRoom(serializers.Serializer):
     title = serializers.CharField()
@@ -33,9 +40,13 @@ class UnsubscribeSerializer(serializers.Serializer):
 
 class NoticeReminderSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
-    time = serializers.TimeField(default=timezone.now)
-    date = serializers.DateField()
-
+    time_created = serializers.TimeField(default=current_date)
+    date_created = serializers.DateField(default=current_time)
+    schedule_time = serializers.TimeField()
+    schedule_date = serializers.DateField()
+    email = serializers.CharField(max_length=30)
+    user_id = serializers.CharField(max_length=255)
+    
 class BookmarkNoticeSerializer(serializers.Serializer):
     notice_id = serializers.CharField()
     user_id = serializers.CharField()
