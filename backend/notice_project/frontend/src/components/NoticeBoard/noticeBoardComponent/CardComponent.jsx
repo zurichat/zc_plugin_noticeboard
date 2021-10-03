@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import moment from 'moment'
 import axios from "axios";
+import { UserProvider } from "./Data-fetcing";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box'
@@ -64,7 +65,7 @@ const CardComponent = ({ person, people }) => {
   }
 
   useEffect(() => {
-      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${person._id}`;
+      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/?query=${user.email}`;
       fetch(apiCall)
       .then((result) => result.json())
       .then((data) => {
@@ -72,7 +73,7 @@ const CardComponent = ({ person, people }) => {
       })
     }, []);
 
-    const viewNumber = (count) => {
+    const viewNumber = () => {
     const viewss = count.split(" ").length + 1;
     return viewss
   }
