@@ -545,6 +545,7 @@ class AttachFile(views.APIView):
                     if file_data["status"] == 200:
                         for datum in file_data["data"]["files_info"]:
                             file_urls.append(datum["file_url"])
+                        return Response(file_data)
                     else:
                         return Response(file_data)
             elif len(files) > 1:
@@ -555,6 +556,7 @@ class AttachFile(views.APIView):
                 if file_data["status"] == 200:
                     for datum in file_data["data"]["files_info"]:
                         file_urls.append(datum["file_url"])
+                    return Response(file_data)
                 else:
                     return Response(file_data)
         else: 
