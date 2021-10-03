@@ -16,7 +16,9 @@ const Header = () => {
 
   return (
     <header className="header">
-        <Link to="/bookmark"><div className="bookmarked-notices-nav">Bookmarked notices</div></Link>
+      <Link to="/bookmark">
+        <div className="bookmarked-notices-nav">Bookmarked notices</div>
+      </Link>
       <div className="header__wraps">
         <form className="header__form">
           <div className="header__search-icon">
@@ -47,7 +49,7 @@ const Header = () => {
             className="header__form-input"
             type="text"
             onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search your workspace"
+            placeholder="Search notice"
           />
         </form>
       </div>
