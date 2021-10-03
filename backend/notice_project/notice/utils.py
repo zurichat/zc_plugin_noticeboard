@@ -10,7 +10,7 @@ def user_rooms(org_id, user_id):
 
     if response["status"] == 200:
         room = response["data"][0]
-        user_rooms.append({"room_name": room["title"], "room_url": "/noticeboard/admin-notice", "room_image": room["icon"]})
+        user_rooms.append({"room_name": room["title"], "room_url": "/noticeboard", "room_image": room["icon"]})
         return user_rooms
 
 

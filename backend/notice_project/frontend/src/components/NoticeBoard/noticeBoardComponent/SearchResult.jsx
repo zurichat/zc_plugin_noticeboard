@@ -28,6 +28,13 @@ function SearchResult() {
 	};
 	
 
+	/*const OpenModal = (event) => {
+		const clickedButton = event.currentTarget.getAttribute("id");
+		const modal_id = `modal_${clickedButton}`;
+		document.getElementById(modal_id).style.display = "block";
+	  };*/
+	  
+		
 	return (
 		<div className="user-notice" id="user-notice">
 			<div className="notice-heading">
@@ -81,5 +88,6 @@ function SearchResult() {
 		</div>
 	);
 }
+
 
 export default SearchResult;
