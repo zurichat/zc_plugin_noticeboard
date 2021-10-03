@@ -1,4 +1,4 @@
-import "./EmailSubscription.css";
+import classes from "./EmailSubscription.module.css";
 
 const Modal = (props) => {
   return (
