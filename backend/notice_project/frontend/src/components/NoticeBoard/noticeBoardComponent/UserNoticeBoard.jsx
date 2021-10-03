@@ -8,7 +8,6 @@ import logo from "../../../assets/svg/logo.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
-import Pagination from "./Old_Notices/pagination";
 
 const UserNotice = () => {
 	const { loading, setLoading, isError, setIsError } = useContext(UserContext);
