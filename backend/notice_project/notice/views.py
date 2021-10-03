@@ -124,7 +124,7 @@ class CreateNewNotices(views.APIView):
                 data: {
                     "name": "Noticeboard Plugin",
                     "group_name": "Noticeboard",
-                    "show_group": false,
+                    "show_group": False,
                     "button_url": "/noticeboard/admin-notice",
                     "public_rooms": [],
                     "joined_rooms": [org_id]
