@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (Subscribe, email_subscription, install, create_room, sidebar_info, CreateNewNotices, 
                      UpdateNoticeAPIView, DeleteNotice, get_room, AttachFile,
-                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,NoticeDraft, 
+                     ViewNoticeAPI, NoticeDetail, Unsubscribe, emailNotificaion, NoticeReminder,ScheduleNotices,ViewSchedule,NoticeDraft, 
                      BookmarkNotice, CreateBookmark, DeleteBookmarkedNotice, email_notification,
                       ViewNoticeReminder
                      )
@@ -42,6 +42,8 @@ urlpatterns = [
     path('organisation/<str:org_id>/create_draft', NoticeDraft.as_view()),
 
     path('organisation/<str:org_id>/create_schedule', ScheduleNotices.as_view()),
+
+    path('organisation/<str:org_id>/schedule', ViewSchedule.as_view()),
 
     path('organisation/<str:org_id>/notices/<str:id>/edit', UpdateNoticeAPIView.as_view()),
 

@@ -4,11 +4,13 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
+from .schedulestorage import schDb
 from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer, BookmarkNoticeSerializer
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 @api_view(['GET'])
 def sidebar_info(request):
@@ -526,21 +528,42 @@ class NoticeDraft(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 class ScheduleNotices(views.APIView):
     '''
         For scheduling notices
     '''
+    @swagger_auto_schema(request_body=SchedulesSerializer)
     def post(self, request, org_id):
+        organization_id = request.POST.get('org_id')
+        print(organization_id)
         serializer = SchedulesSerializer(data=request.data)
         if serializer.is_valid():
-            db.save(
-                "noticeboard",
-                org_id,
+            schDb.scheduleSave(
+                "schedules",
                 notice_data=serializer.data
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ViewSchedule(views.APIView):
+    '''
+    This endpoint returns all the notices created under a particular organisation in the database
+    '''
+
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = schDb.scheduleRead("schedules", " ")
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AttachFile(views.APIView):
     """
