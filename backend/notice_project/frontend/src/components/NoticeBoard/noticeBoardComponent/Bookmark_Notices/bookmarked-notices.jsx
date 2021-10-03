@@ -93,7 +93,9 @@ const BookmarkedNotices = (props) => {
           <Button
             className="header-button"
             color="primary"
-            onClick={() => props.history.push("/noticeboard/admin-notice")}
+            onClick={() => props.history.push(userData?.role === "owner"
+            ? "/noticeboard/admin-notice"
+            : "/noticeboard/user-notice")}
             variant="contained"
             disableRipple
           >
@@ -127,15 +129,17 @@ const BookmarkedNotices = (props) => {
     <div className="adminnotice">
       <div className="pinned-button-container">
         <div className="pin-text">
-          <p className="text">Notices</p>
+          <p className="text">Boomkarked Notices</p>
         </div>
         <Button
           className="header-button"
-          onClick={() => props.history.push("/noticeboard/admin-notice")}
+          onClick={() => props.history.push(userData?.role === "owner"
+          ? "/noticeboard/admin-notice"
+          : "/noticeboard/user-notice")}
           variant="contained"
           disableRipple
         >
-          Back To Admin Notice <img src={notice} alt="Admin notice" />
+          Back <img src={notice} alt="Admin notice" />
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
