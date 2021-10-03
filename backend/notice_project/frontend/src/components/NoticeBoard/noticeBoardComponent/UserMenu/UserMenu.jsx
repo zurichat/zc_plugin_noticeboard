@@ -5,11 +5,16 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import ListItemText from "@material-ui/core/ListItemText";
 import MoreVertRoundedIcon from "@material-ui/icons/MoreVertRounded";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import remindIcon from "./assets/remindIcon.svg";
 import copyLinkIcon from "./assets/copyLinkIcon.svg";
+import BookmarkIcon from "./assets/bookmarkIcon.svg";
+import BookmarkIconActive from "./assets/bookmark-icon-active.svg";
+// import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
+import axios from "axios";
+import { UserInfoContext } from "../../../../App";
 
 const useStyles = makeStyles({
   listItemText: {
@@ -25,12 +30,12 @@ const useStyles = makeStyles({
   },
 });
 
-const menuContent = [
-  { img: remindIcon, text: "Remind me about this" },
-  { img: copyLinkIcon, text: "Copy link" },
-];
-
-export default function UserMenu() {
+export default function UserMenu({
+  noticeID,
+  bookmarkDetails,
+  toggleBookmark,
+  setToggleBookmark,
+}) {
   const classes = useStyles();
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -41,6 +46,68 @@ export default function UserMenu() {
   const handleClose = () => {
     setOpenMenu(null);
   };
+
+  ///Bookmark
+  const [bookmarkStatus, setBookmarkStatus] = useState();
+  const UserData = useContext(UserInfoContext);
+  useEffect(() => {
+    bookmarkDetails
+      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+        ? setBookmarkStatus(true)
+        : setBookmarked(false)
+      : "";
+  }, [bookmarkDetails]);
+
+  const bookmarkNotice = () => {
+    axios
+      .post(
+        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
+        {
+          notice_id: noticeID,
+          user_id: UserData?._id,
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        setBookmarkStatus(true);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
+
+  const deleteBookmarkNotice = () => {
+    axios
+      .delete(
+        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
+      )
+      .then((data) => {
+        console.log(data);
+        setBookmarkStatus(false);
+        setToggleBookmark(!toggleBookmark);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
+
+  const bookmarkFunction = () => {
+    if (!bookmarkStatus) {
+      bookmarkNotice();
+    } else {
+      deleteBookmarkNotice();
+    }
+  };
+
+  const menuContent = [
+    { img: BookmarkIcon, text: "Bookmark" },
+    { img: remindIcon, text: "Remind me about this" },
+    { img: copyLinkIcon, text: "Copy link" },
+  ];
 
   return (
     <>
@@ -65,22 +132,85 @@ export default function UserMenu() {
           },
         }}
       >
-        {menuContent.map(({ img, text }) => (
-          <MenuItem
-            key={text}
-            onClick={handleClose}
-            disableRipple
-            className="overrideHeight"
-          >
-            <Box className={classes.MenuStyle}>
-              <img src={img} alt={text} className={classes.MenuIconStyle} />
-            </Box>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary={text}
+        <MenuItem
+          onClick={() => {
+            bookmarkFunction();
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
+          <Box className={classes.MenuStyle}>
+            <img
+              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
+              alt="bookmark icon"
+              className={classes.MenuIconStyle}
             />
-          </MenuItem>
-        ))}
+          </Box>
+          <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="Bookmark"
+          />
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
+          <Box className={classes.MenuStyle}>
+            <img
+              src={copyLinkIcon}
+              alt="Copy link"
+              className={classes.MenuIconStyle}
+            />
+          </Box>
+          <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="Copy link"
+          />
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
+          <Box className={classes.MenuStyle}>
+            <img
+              src={remindIcon}
+              alt="Remind me about this"
+              className={classes.MenuIconStyle}
+            />
+          </Box>
+          <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="Remind me about this"
+          />
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
+          {/* <Box className={classes.MenuStyle}>
+            <img
+              src={moreMessagesIcon}
+              alt="more massage icon"
+              className={classes.MenuIconStyle}
+            />
+          </Box> */}
+          {/* <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="More message shortcuts..."
+          /> */}
+        </MenuItem>
       </Menu>
     </>
   );

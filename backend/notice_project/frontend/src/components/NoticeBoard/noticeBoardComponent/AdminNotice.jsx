@@ -36,6 +36,7 @@ const PinnedNotices = (props) => {
   const [bookmarkDetails, setBookmarkDetails] = useState(false);
   const [toggleBookmark, setToggleBookmark] = useState(false);
   const UserDataContext = useContext(UserInfoContext);
+  
   useEffect(async () => {
     const UserData = await UserDataContext;
     fetch(
