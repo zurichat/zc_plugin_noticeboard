@@ -48,7 +48,7 @@ function AdminMenu({
   const [bookmarkStatus, setBookmarkStatus] = useState();
 
   const userData = useContext(UserInfoContext);
-  console.log(userData.email);
+  // console.log(userData.email);
   console.log(userData?.org_id + "orgid", userData?._id + "id frank");
 
   /////
@@ -149,8 +149,6 @@ function AdminMenu({
 
     setSelectedNotice(currentNoticeID);
     navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
-    
-    
   };
 
   const closeMenu = () => {
