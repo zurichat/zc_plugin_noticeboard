@@ -47,7 +47,7 @@
       {openModal && (
         <ViewNoticeModal persons={persons} closeModal={setOpenModal} />
       )}
-    </>
+    // </>
 
 
 
