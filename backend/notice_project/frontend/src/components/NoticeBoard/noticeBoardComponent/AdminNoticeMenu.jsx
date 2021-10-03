@@ -126,30 +126,30 @@ function AdminMenu({
     setAnchorEl(evt.currentTarget);
   };
 
-  const copy = (noticeID) => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-    )
-      .then((res) => {
-        if (res.status >= 200 && res.status <= 299) {
-          return res.json();
-        } else {
-          setLoading(false);
-          setIsError(true);
-        }
-      })
-      .then((data) => {
-        setNoticeList(data.data);
-      })
-      .catch((error) => console.log(error));
+  // const copy = (noticeID) => {
+  //   fetch(
+  //     `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+  //   )
+  //     .then((res) => {
+  //       if (res.status >= 200 && res.status <= 299) {
+  //         return res.json();
+  //       } else {
+  //         setLoading(false);
+  //         setIsError(true);
+  //       }
+  //     })
+  //     .then((data) => {
+  //       setNoticeList(data.data);
+  //     })
+  //     .catch((error) => console.log(error));
 
-    const currentNoticeID = noticeList?.find((element) => {
-      return element._id === noticeID;
-    });
+  //   const currentNoticeID = noticeList?.find((element) => {
+  //     return element._id === noticeID;
+  //   });
 
-    setSelectedNotice(currentNoticeID);
-    navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
-  };
+  //   setSelectedNotice(currentNoticeID);
+  //   navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
+  // };
 
   const closeMenu = () => {
     setAnchorEl(false);
