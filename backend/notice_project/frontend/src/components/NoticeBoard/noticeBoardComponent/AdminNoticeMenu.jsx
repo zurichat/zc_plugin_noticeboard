@@ -49,7 +49,7 @@ function AdminMenu({
 
   const UserData = useContext(UserInfoContext);
   // console.log(userData.email);
-  console.log(userData?.org_id + "orgid", userData?._id + "id frank");
+  console.log(UserData?.org_id + "orgid", UserData?._id + "id");
 
   /////
 
@@ -178,28 +178,6 @@ function AdminMenu({
     handleClose();
   };
 
-  ///Checking if the notice was bookmarked
-  //   const checkBookmarkStatus=()=>{
-  //     fetch("https://")
-  //     .then(res=>{
-  //       if(!res.ok){
-  //       throw Error("Cound not get the status of the bookmark")
-  //       }
-  //       return res.json()
-  //     })
-  //     .then(data=>{
-  //       console.log(data)
-  //       setBookmarkStatus(true);
-  //     })
-  //     .catch(err=>{
-  //       if(err){
-  //         console.log(err)
-  //       }
-  //     })
-  //   }
-
-  //   checkBookmarkStatus();
-  //  ///////////////
   useEffect(() => {
     bookmarkDetails
       ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
