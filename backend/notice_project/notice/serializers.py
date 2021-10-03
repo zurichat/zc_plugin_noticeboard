@@ -25,7 +25,7 @@ class CreateNoticeSerializer(serializers.Serializer):
     message = serializers.CharField()
     media = serializers.ListField(child=serializers.URLField(), allow_empty=True, required=False, default=[])
     # bookmarked = serializers.BooleanField(default=False)
-    views = serializers.CharField(default=0)
+    views = serializers.ListField(child=serializers.URLField(), default=[], required=False, allow_empty=True)
 
 
 class SubscribeSerializer(serializers.Serializer):
