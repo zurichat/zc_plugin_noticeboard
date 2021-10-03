@@ -1,4 +1,4 @@
-import classes from "./TextInput.module.css";
+import "./TextInput.css";
 
 const TextInput = (props) => {
   return <input {...props} className={`${props.className ?? ""}`} />;
