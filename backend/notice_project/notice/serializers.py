@@ -31,12 +31,6 @@ class UnsubscribeSerializer(serializers.Serializer):
     created = serializers.DateTimeField(default=timezone.now)
 
 
-class SubscribeSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length=30)
-    user_id = serializers.CharField(max_length=255)
-    created = serializers.DateTimeField(default=timezone.now)
-
-
 class NoticeReminderSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
     time = serializers.TimeField(default=timezone.now)

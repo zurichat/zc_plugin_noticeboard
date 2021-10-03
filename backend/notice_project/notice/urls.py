@@ -22,8 +22,6 @@ urlpatterns = [
     path('sidebar', sidebar_info, name="sidebar"), # changed sidebar to sidebar_info
 
     path('install', install, name='install'),
-
-    path('email-notification', email_notification),
       
     path('sendemail', emailNotificaion, name="Email Notificaion"),
 
@@ -59,9 +57,11 @@ urlpatterns = [
 
     path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
-    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('organisation/email-notification', email_notification),
 
-    path('email-subscription', email_subscription),
+    path('organisation/email-subscription', email_subscription),
+
+    path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 
 # newly added due to sidebar task -- start
