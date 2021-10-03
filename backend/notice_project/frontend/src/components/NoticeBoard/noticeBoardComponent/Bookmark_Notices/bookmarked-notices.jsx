@@ -124,7 +124,7 @@ const BookmarkedNotices = (props) => {
   }
 
   return (
-    <div className="adminNotice">
+    <div className="adminnotice">
       <div className="pinned-button-container">
         <div className="pin-text">
           <p className="text">Notices</p>
