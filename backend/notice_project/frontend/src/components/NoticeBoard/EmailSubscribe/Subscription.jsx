@@ -1,12 +1,12 @@
 import { useState } from "react";
-import "./Subscription.css";
+import classes from "./Subscription.module.css";
 import EmailSubscription from "./components/EmailSubscription";
 
 function Subscription() {
   const [showNewsletter, setShowNewsletter] = useState(false);
 
   return (
-    <main className={`flex-column`}>
+    <main>
       <EmailSubscription closeHandler={() => setShowNewsletter(false)} />
     </main>
   );
