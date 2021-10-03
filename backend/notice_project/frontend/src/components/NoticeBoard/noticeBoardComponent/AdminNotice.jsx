@@ -45,6 +45,7 @@ const PinnedNotices = (props) => {
       .then((data) => {
         if (data.message === "success") {
           console.log(data.message);
+          console.log(data.data);
           setBookmarkDetails(data);
         }
       });
