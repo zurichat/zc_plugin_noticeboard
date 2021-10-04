@@ -1,28 +1,41 @@
 @value md, xs from '../breakpoints.css';
 
 .form {
-  background: linear-gradient(to right, rgb(236, 255, 233), rgb(227, 255, 243));
+  /* background: linear-gradient(to right, rgb(236, 255, 233), rgb(227, 255, 243)); */
   color: #000;
   box-shadow: 0 3px 13px 0 #ccc;
   text-align: center;
   hyphens: auto;
-
-  min-height: 400px;
-
-  max-width: 90vw;
+  min-height: 250px;
+  max-width: 80%;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 80px;
+  
 }
 
 .form > h1 {
-  height: 200px;
-  background: url("../graphics/cropped-cover.png") no-repeat center / cover;
-  color: #40680e;
+  height: 100px;
+  /* background: url("../graphics/cropped-cover.png") no-repeat center / cover; */
+  color: #03d38e;
   text-shadow: 0 0 15px #fff;
   font-family: var(--text-font-condensed);
   padding: 1.5em;
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.modal1 {
+  justify-content: center;
+  align-items: center;
+  padding-left: 80px;
+  margin-bottom: 150px;
 }
 
 .formContent {
-  padding: 40px 80px;
+  padding: 40px 0px;
 }
 
 .successContent {
@@ -36,25 +49,45 @@
 }
 
 .fieldset {
-  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-columns: repeat(2, 1fr); */
   gap: 1.5em 3em;
-  padding: 40px 80px;
+  padding: 0px 20px;
   border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
 }
 
 .fieldset label {
-  font-weight: 300;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   gap: 1em;
-  width: 100%;
 }
 
-.fieldset input[type="text"],
+.email-text {
+  color: #03d38e;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.email-input {
+  font-size: 18px;
+  border-radius: 8px;
+  border: 1px solid black;
+  background-color: transparent;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* .fieldset input[type="text"],
 .fieldset input[type="email"] {
   flex: 1;
-}
+} */
 
 .fieldset .email,
 .agreement,
@@ -89,7 +122,8 @@
 
 .submit,
 .successClose {
-  background-color: #61d6a0;
+  background-color: #03d38e;
+  color: #fff;
 }
 
 .submit:hover,
@@ -108,7 +142,8 @@
 
 .close {
   position: absolute;
-  top: 20px;
+  bottom: 400px;
+  right: 80px;
   right: 30px;
   width: 20px;
   height: 20px;
