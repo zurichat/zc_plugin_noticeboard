@@ -199,7 +199,7 @@ class DeleteNotice(views.APIView):
             object_id=object_id
         )
 
-        # data = db.read('noticeboard', org_id)
+        data = db.read('noticeboard', org_id)
 
         # updated_data = {
         #     "event":"delete_notice",
@@ -212,6 +212,7 @@ class DeleteNotice(views.APIView):
         
 
         # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
         if deleted_data['status'] == 200:
             return Response({"success": True, "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
