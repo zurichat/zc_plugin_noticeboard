@@ -46,7 +46,6 @@ class NoticeReminderSerializer(serializers.Serializer):
     schedule_date = serializers.DateField()
     email = serializers.CharField(max_length=30)
     user_id = serializers.CharField(max_length=255)
-    notice_id = serializers.CharField()
     
 class BookmarkNoticeSerializer(serializers.Serializer):
     notice_id = serializers.CharField()
