@@ -459,6 +459,7 @@ class ViewNoticeReminder(views.APIView):
             return Response(remind_notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "There are no notices to be reminded of."}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class BookmarkNotice(views.APIView):
 
     def get(self, request, org_id, user_id):
@@ -479,19 +480,20 @@ class CreateBookmark(views.APIView):
         '''
         serializer = BookmarkNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
 
-            bookmark_data = {
-                "user_id":serializer.data["user_id"],
-                "notice_data":notice["data"]
-            }
+            # bookmark_data = {
+            #     "user_id":serializer.data["user_id"],
+            #     "notice_data":notice["data"]
+            # }
 
-            db.save('bookmark_notice', org_id, bookmark_data)
+            db.save('bookmark_notice', org_id, serializer.data)
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
             room_id = room["data"][0]["_id"]
             print(room_id)
+
+            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
 
             data = {
                 "event":"create_bookmark",
