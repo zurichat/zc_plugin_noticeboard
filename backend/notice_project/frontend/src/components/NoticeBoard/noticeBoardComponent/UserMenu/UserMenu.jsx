@@ -48,42 +48,10 @@ function AdminMenu({ noticeID }) {
     setOpenModal(false);
   };
 
-<<<<<<< HEAD
-  ///Bookmark
-  const [bookmarkStatus, setBookmarkStatus] = useState();
-  const UserData = useContext(UserInfoContext);
-  // useEffect(() => {
-  //   bookmarkDetails
-  //     ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-  //       ? setBookmarkStatus(true)
-  //       : setBookmarked(false)
-  //     : "";
-  // }, [bookmarkDetails]);
-
-  const bookmarkNotice = () => {
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: UserData?._id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-=======
   const AdminMenuStyle = {
     width: "100%",
     display: "flex",
     alignItems: "center",
->>>>>>> fc52f79c95cb1b05a938a036874395d1a3b5bdc9
   };
 
   const DialogStyle = {
