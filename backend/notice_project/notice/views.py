@@ -193,40 +193,29 @@ class DeleteNotice(views.APIView):
 
     def delete(self, request, object_id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
-        try:
-            db.delete(
-                collection_name='noticeboard',
-                org_id=org_id,
-                object_id=object_id
-            )
+        deleted_data =  db.delete(
+            collection_name='noticeboard',
+            org_id=org_id,
+            object_id=object_id
+        )
 
-            data = db.read('noticeboard', org_id)
+        data = db.read('noticeboard', org_id)
 
-            updated_data = {
-                "event":"delete_notice",
-                "data":data
-            }
+        updated_data = {
+            "event":"delete_notice",
+            "data":data
+        }
 
-            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-            room = response.json()
-            room_id = room["data"][0]["_id"]
-            
+        response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+        room = response.json()
+        room_id = room["data"][0]["_id"]
+        
 
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
-            return Response(
-                {
-                    "success": True,
-                    "message": "Delete Operation Successful"
-                },
-                status=status.HTTP_200_OK)
-        except:
-            return Response(
-                {
-                    "success": False,
-                    "message": "Delete Operation Failed. Object does not exist in the database"
-                },
-                status=status.HTTP_404_NOT_FOUND)
+        if deleted_data['status'] == 200:
+            return Response({"success": True, "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
+        return Response({"success": False, "message": "Delete Operation Failed. Object does not exist in the database"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ViewNoticeAPI(views.APIView):
