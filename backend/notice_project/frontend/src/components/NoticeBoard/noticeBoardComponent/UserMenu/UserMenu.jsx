@@ -1,52 +1,54 @@
+import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
-import Fade from "@material-ui/core/Fade";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Box from "@material-ui/core/Box";
-import ListItemText from "@material-ui/core/ListItemText";
-import MoreVertRoundedIcon from "@material-ui/icons/MoreVertRounded";
-import { useState, useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-
-import remindIcon from "./assets/remindIcon.svg";
-import copyLinkIcon from "./assets/copyLinkIcon.svg";
-import BookmarkIcon from "./assets/bookmarkIcon.svg";
-import BookmarkIconActive from "./assets/bookmark-icon-active.svg";
-// import moreMessagesIcon from "./assets/moreMessagesIcon.svg";
+import BookmarkIcon from "../../../../assets/bookmark-icon.svg";
+import BookmarkIconActive from "../../../../assets/bookmark-icon-active.svg";
+import Active from "../../../../assets/active.svg";
+// import EditIcon from "../../../assets/edit-icon.svg";
+import ReminderIcon from "../../../../assets/reminder-icon.svg";
+import CopyLinkIcon from "../../../../assets/copy-link-icon.svg";
+// import DeleteIcon from "../../../assets/delete-icon.svg";
+// import MoreMessage from "../../../assets/more-messages-icon.svg";
+import "./UserMenu.css";
 import axios from "axios";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
+import { useHistory } from "react-router";
+import { DataContext } from "../../../../App";
+import { UserContext } from "../../../../Data-fetcing";
 import { UserInfoContext } from "../../../../App";
+import { UserBookmarkContext } from "../UserBookmarkContext";
+import UserBookmarkButton from "./UserBookmarkButton";
 
-const useStyles = makeStyles({
-  listItemText: {
-    color: "#999999",
-    weight: 400,
-  },
-  MenuStyle: {
-    display: "flex",
-    alignItems: "center",
-  },
-  MenuIconStyle: {
-    paddingRight: "10px",
-  },
-});
+function AdminMenu({ noticeID }) {
+  const _globalData = useContext(DataContext);
+  const { selectedNotice, setSelectedNotice } = useContext(UserContext);
+  const org_id = _globalData.Organizations[0];
 
-export default function UserMenu({
-  noticeID,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) {
-  const classes = useStyles();
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [noticeList, setNoticeList] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [toast, setToast] = useState(false);
+  const history = useHistory();
 
-  const handleOpen = (event) => {
-    setOpenMenu(event.currentTarget);
+  const openDeleteModal = () => {
+    setOpenModal(true);
   };
 
   const handleClose = () => {
-    setOpenMenu(null);
+    setOpenModal(false);
   };
 
+<<<<<<< HEAD
   ///Bookmark
   const [bookmarkStatus, setBookmarkStatus] = useState();
   const UserData = useContext(UserInfoContext);
@@ -76,142 +78,195 @@ export default function UserMenu({
           console.log(err);
         }
       });
+=======
+  const AdminMenuStyle = {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+>>>>>>> fc52f79c95cb1b05a938a036874395d1a3b5bdc9
   };
 
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+  const DialogStyle = {
+    padding: "1em",
   };
 
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
+  const MenuIconStyle = {
+    paddingRight: "10px",
   };
 
-  const menuContent = [
-    { img: BookmarkIcon, text: "Bookmark" },
-    { img: remindIcon, text: "Remind me about this" },
-    { img: copyLinkIcon, text: "Copy link" },
-  ];
+  const [anchorEl, setAnchorEl] = useState(false);
+  const open = Boolean(anchorEl);
+
+  const openMenu = (evt) => {
+    setAnchorEl(evt.currentTarget);
+  };
+
+  // const copy = (noticeID) => {
+  //   fetch(
+  //     `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+  //   )
+  //     .then((res) => {
+  //       if (res.status >= 200 && res.status <= 299) {
+  //         return res.json();
+  //       } else {
+  //         setLoading(false);
+  //         setIsError(true);
+  //       }
+  //     })
+  //     .then((data) => {
+  //       setNoticeList(data.data);
+  //     })
+  //     .catch((error) => console.log(error));
+
+  //   const currentNoticeID = noticeList?.find((element) => {
+  //     return element._id === noticeID;
+  //   });
+
+  //   setSelectedNotice(currentNoticeID);
+  //   navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
+  // };
+
+  const closeMenu = () => {
+    setAnchorEl(false);
+  };
 
   return (
-    <>
-      <IconButton onClick={handleOpen} disableRipple>
-        <MoreVertRoundedIcon style={{ color: "#00bb7c" }} />
+    <div>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={openMenu}
+        disableRipple
+      >
+        <img src={Active} alt="active" />
       </IconButton>
       <Menu
-        anchorEl={openMenu}
+        id="long-menu"
+        anchorEl={anchorEl}
         keepMounted
-        open={openMenu}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        open={open}
+        onClose={closeMenu}
         PaperProps={{
           style: {
-            marginTop: "30px",
+            width: "16rem",
             boxShadow:
               "0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 3px 3px 1px rgb(0 0 0 / 14%), 0px 3px 10px 2px rgb(0 0 0 / 12%)",
           },
         }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          <Box className={classes.MenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="bookmark icon"
-              className={classes.MenuIconStyle}
-            />
-          </Box>
-          <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="Bookmark"
-          />
+        <MenuItem className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
+            <UserBookmarkButton noticeID={noticeID} />
+          </div>
+        </MenuItem>
+        <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
+            <img src={CopyLinkIcon} alt="Copy link" style={MenuIconStyle} />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              // onClick={copy(noticeID)}
+            >
+              Copy link
+            </span>
+          </div>
         </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            handleClose();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          <Box className={classes.MenuStyle}>
+        <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
+          <div style={AdminMenuStyle}>
             <img
-              src={copyLinkIcon}
-              alt="Copy link"
-              className={classes.MenuIconStyle}
-            />
-          </Box>
-          <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="Copy link"
-          />
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleClose();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          <Box className={classes.MenuStyle}>
-            <img
-              src={remindIcon}
+              src={ReminderIcon}
               alt="Remind me about this"
-              className={classes.MenuIconStyle}
+              style={MenuIconStyle}
             />
-          </Box>
-          <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="Remind me about this"
-          />
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleClose();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          {/* <Box className={classes.MenuStyle}>
-            <img
-              src={moreMessagesIcon}
-              alt="more massage icon"
-              className={classes.MenuIconStyle}
-            />
-          </Box> */}
-          {/* <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="More message shortcuts..."
-          /> */}
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+              onClick={openDeleteModal}
+            >
+              Remind me about this
+            </span>
+          </div>
         </MenuItem>
       </Menu>
-    </>
+      {openModal && (
+        <Dialog
+          open={openModal}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Delete Notice?"}</DialogTitle>
+          <DialogContent style={DialogStyle}>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete notice, this action cannot be
+              undone once you delete it. Kindly proceed while you click on the
+              delete button
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleClose}
+              color="primary"
+              style={{
+                textTransform: "none",
+                padding: "1em 3em",
+                backgroundColor: "#FCF8F7",
+                color: "black",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              autoFocus
+              style={{
+                textTransform: "none",
+                padding: "1em 2em",
+                backgroundColor: "red",
+                color: "white",
+              }}
+              onClick={deleteNoticeFunc}
+            >
+              Delete Notice
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+      {loader && (
+        <Backdrop
+          sx={{ color: "#000", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loader}
+          onClick={handleClose}
+          style={{ zIndex: "2" }}
+        >
+          <CircularProgress color="primary" style={{ color: "white" }} />
+
+          <p style={{ color: "white" }}>
+            Please wait, this might take few seconds.{" "}
+          </p>
+        </Backdrop>
+      )}
+      {toast && (
+        <Snackbar
+          open={toast}
+          autoHideDuration={6000}
+          onClose={() => setLoader(false)}
+          message="Notice Deleted"
+          severity="success"
+        />
+      )}
+    </div>
   );
 }
+export default AdminMenu;

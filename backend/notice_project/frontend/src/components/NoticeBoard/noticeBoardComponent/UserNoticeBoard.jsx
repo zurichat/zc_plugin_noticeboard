@@ -9,6 +9,7 @@ import noNotice from "../../../assets/svg/no_notices.svg";
 import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
 import Pagination from "./Old_Notices/pagination";
+import { UserBookmarkContext } from "./UserBookmarkContext";
 
 const UserNotice = () => {
   const { loading, setLoading, isError, setIsError, notices, setNotices } = useContext(UserContext);
@@ -18,15 +19,33 @@ const UserNotice = () => {
 
   // const [notices, setNotices] = useState([]);
 
-  const userData = useContext(UserInfoContext);
   // Read Organization ID
   const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+
+  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
+    useContext(UserBookmarkContext);
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarked = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          setBookmarkDetails(data);
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchBookmarked();
+    console.log(bookmarkDetails);
+  }, [toggleBookmark]);
 
   useEffect(() => {
     fetchNotices();
   }, []);
-
-  const org_ID = userData?.org_id;
 
   const fetchNotices = () => {
     fetch(
@@ -47,24 +66,6 @@ const UserNotice = () => {
       })
       .catch((error) => console.log(error));
   };
-
-  const [bookmarkDetails, setBookmarkDetails] = useState(false);
-  const [toggleBookmark, setToggleBookmark] = useState(false);
-  const UserDataContext = useContext(UserInfoContext);
-  useEffect(async () => {
-    const UserData = await UserDataContext;
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/user/${UserData?._id}/bookmark`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "success") {
-          console.log(data.message);
-          console.log(data.data);
-          setBookmarkDetails(data);
-        }
-      });
-  }, [toggleBookmark]);
 
   // For User Notice Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -147,12 +148,7 @@ const UserNotice = () => {
       <div className="user-notice-post">
         {NoticeData?.map((notice) => (
           <div key={notice._id}>
-            <CardNotice
-              notice={notice}
-              bookmarkDetails={bookmarkDetails}
-              setToggleBookmark={setToggleBookmark}
-              toggleBookmark={toggleBookmark}
-            />
+            <CardNotice notice={notice} />
             <UserNoticeModal notice={notice} />
           </div>
         ))}

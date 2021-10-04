@@ -1,5 +1,5 @@
 import "./App.css";
-import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader"
+import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader";
 import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,8 @@ import React, { useEffect, useState } from "react";
 import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
 import axios from "axios";
-
+import BookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/BookmarkContext";
+import UserBookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/UserBookmarkContext";
 // For testing purposes
 
 const _globalData = {
@@ -47,7 +48,7 @@ function App() {
     let user = JSON.parse(sessionStorage.getItem("user"));
 
     if ((user && token) !== null) {
-      setUserData('loading')
+      setUserData("loading");
       try {
         const response = await axios.get(
           `https://api.zuri.chat/organizations/${currentWorkspace}/members/?query=${user.email}`,
@@ -68,8 +69,7 @@ function App() {
       console.log("YOU ARE NOT LOGGED IN, PLEASE LOG IN");
     }
 
-    
-    console.log(userData)
+    console.log(userData);
   };
 
   useEffect(() => {
@@ -86,7 +86,11 @@ function App() {
                 <div className="app__body">
                   <span className="app__bodyFlex">
                     <ZuriGlobalHeader />
-                    <NoticeBoard />
+                    <BookmarkContextProvider>
+                      <UserBookmarkContextProvider>
+                        <NoticeBoard />
+                      </UserBookmarkContextProvider>
+                    </BookmarkContextProvider>
                   </span>
                 </div>
               </div>
