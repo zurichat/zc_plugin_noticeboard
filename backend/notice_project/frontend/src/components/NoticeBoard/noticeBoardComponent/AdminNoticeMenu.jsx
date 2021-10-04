@@ -26,17 +26,18 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
+import { BookmarkContext } from "./BookmarkContext";
+import BookmarkButton from "./BookmarkButton";
 
-function AdminMenu({
-  noticeID,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) {
+function AdminMenu({ noticeID }) {
   const menu = [
     { icon: EditIcon, linkText: "Edit notice", id: "1" },
     { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
   ];
+
+  const _globalData = useContext(DataContext);
+  const { selectedNotice, setSelectedNotice } = useContext(UserContext);
+  const org_id = _globalData.Organizations[0];
 
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
@@ -44,22 +45,9 @@ function AdminMenu({
   const [toast, setToast] = useState(false);
   const history = useHistory();
 
-  ////bookmark status state
-  const [bookmarkStatus, setBookmarkStatus] = useState();
-
-  const UserData = useContext(UserInfoContext);
-  // console.log(userData.email);
-  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
-
-  /////
-
   const openDeleteModal = () => {
     setOpenModal(true);
   };
-
-  const _globalData = useContext(DataContext);
-  const { selectedNotice, setSelectedNotice } = useContext(UserContext);
-  const org_id = _globalData.Organizations[0];
 
   const handleClose = () => {
     setOpenModal(false);
@@ -187,82 +175,6 @@ function AdminMenu({
     handleClose();
   };
 
-  ///Checking if the notice was bookmarked
-  //   const checkBookmarkStatus=()=>{
-  //     fetch("https://")
-  //     .then(res=>{
-  //       if(!res.ok){
-  //       throw Error("Cound not get the status of the bookmark")
-  //       }
-  //       return res.json()
-  //     })
-  //     .then(data=>{
-  //       console.log(data)
-  //       setBookmarkStatus(true);
-  //     })
-  //     .catch(err=>{
-  //       if(err){
-  //         console.log(err)
-  //       }
-  //     })
-  //   }
-
-  //   checkBookmarkStatus();
-  //  ///////////////
-  useEffect(() => {
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  }, [bookmarkDetails]);
-
-  const bookmarkNotice = () => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: user?.id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
-
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
-
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
-  };
-
   return (
     <div>
       <IconButton
@@ -292,27 +204,9 @@ function AdminMenu({
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
+        <MenuItem className="overrideHeight" disableRipple>
           <div style={AdminMenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="Bookmark"
-              style={MenuIconStyle}
-            />
-            <span
-              style={{
-                color: "#999999",
-                width: "100%",
-              }}
-            >
-              Bookmark
-            </span>
+            <BookmarkButton noticeID={noticeID} />
           </div>
         </MenuItem>
 
