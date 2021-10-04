@@ -201,7 +201,7 @@ function CreateNotice() {
   // };
 
 
-async function uploadImageCallBack(file) {
+function uploadImageCallBack(file) {
 	var myHeaders = new Headers();
 myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TXpJd05UVTNNWHhIZDNkQlIwUlplRTVVYUdsYVJGRjVUVEpGZUZwVVVUVlpha1pzVGxSRk1rNVhVVE5PUVQwOWZDYmxOT0ZUR2RvbnEydVJWcXFzZlpQaEVua1NzR3U3RGNfYUh1NW0xSUo3IiwiZW1haWwiOiJwYXBham9uYXR1czEwQHp1cmkuY2hhdCIsImlkIjoiNjE1OGJkNDIzYTFlNDliMWU1MTY1ZDc0Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDQwNDY2MywiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.K7e45i25eJdsz-ObIUh6cQnYi0NffmS4Bv1jdds_s-k");
 
@@ -215,9 +215,16 @@ var requestOptions = {
 	redirect: 'follow'
   };
   
-  fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, requestOptions)
-	.then(response => response.text())
-	.then(result => console.log(result))
+  return fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, requestOptions)
+	.then(response => response.json())
+	.then(result => {
+    console.log(result.data.files_info[0].file_url)
+    return new Promise(
+      (resolve, reject) => {
+        resolve({ data: { link: result.data.files_info[0].file_url } });
+      }
+    );
+  })
 	.catch(error => console.log('error', error));
 }
 
@@ -378,9 +385,10 @@ var requestOptions = {
                       icon: imageIcon,
                       uploadEnabled: true,
                       urlEnabled: true,
-					  fileupload: true,
-					  uploadCallback: uploadImageCallBack, 
-					  alt: { present: true, mandatory: false },
+                      fileupload: true,
+                      previewImage: true,
+                      uploadCallback: uploadImageCallBack, 
+                      alt: { present: true, mandatory: false },
 
                       inputAccept:
                         'image/gif,image/jpeg,image/jpg,image/png,image/svg'
