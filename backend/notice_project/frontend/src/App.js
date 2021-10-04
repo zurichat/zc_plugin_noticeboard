@@ -1,5 +1,5 @@
 import "./App.css";
-import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader"
+import ZuriGlobalHeader from "./components/NoticeBoard/NoticeBoardHeader";
 import NoticeBoard from "./components/NoticeBoard/NoticeBoard";
 import { BrowserRouter as Router } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
 import axios from "axios";
+import BookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/BookmarkContext";
 
 // For testing purposes
 
@@ -67,8 +68,7 @@ function App() {
       console.log("YOU ARE NOT LOGGED IN, PLEASE LOG IN");
     }
 
-    
-    console.log(userData)
+    console.log(userData);
   };
 
   useEffect(async () => {
@@ -85,7 +85,9 @@ function App() {
                 <div className="app__body">
                   <span className="app__bodyFlex">
                     <ZuriGlobalHeader />
-                    <NoticeBoard />
+                    <BookmarkContextProvider>
+                      <NoticeBoard />
+                    </BookmarkContextProvider>
                   </span>
                 </div>
               </div>

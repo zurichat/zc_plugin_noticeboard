@@ -11,6 +11,8 @@ import { UserContext } from "../../../Data-fetcing";
 import Subscription from "../EmailSubscribe/Subscription";
 import { UserInfoContext } from "../../../App";
 
+import { BookmarkContext } from "./BookmarkContext";
+
 const PinnedNotices = (props) => {
   const {
     people,
@@ -33,14 +35,14 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   //Bookmark
-  const [bookmarkDetails, setBookmarkDetails] = useState(false);
-  const [toggleBookmark, setToggleBookmark] = useState(false);
-  const UserDataContext = useContext(UserInfoContext);
-  
-  useEffect(async () => {
-    const UserData = await UserDataContext;
+  const userData = useContext(UserInfoContext);
+
+  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
+    useContext(BookmarkContext);
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarked = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/user/${UserData?._id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -50,7 +52,7 @@ const PinnedNotices = (props) => {
           setBookmarkDetails(data);
         }
       });
-  }, [toggleBookmark]);
+  };
 
   useEffect(() => {
     fetch(
@@ -75,6 +77,12 @@ const PinnedNotices = (props) => {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    console.log("useffect ran");
+    fetchBookmarked();
+    console.log(bookmarkDetails);
+  }, [toggleBookmark]);
 
   if (loading) {
     return (
@@ -162,15 +170,7 @@ const PinnedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return (
-                <Card
-                  person={person}
-                  key={person._id}
-                  bookmarkDetails={bookmarkDetails}
-                  setToggleBookmark={setToggleBookmark}
-                  toggleBookmark={toggleBookmark}
-                />
-              );
+              return <Card person={person} key={person._id} />;
             })
           : people?.map((person) => {
               return <Card person={person} key={person._id} />;
