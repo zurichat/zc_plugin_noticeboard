@@ -119,6 +119,22 @@ class CreateNewNotices(views.APIView):
                 "data": updated_data
             }
 
+            org_id = request.GET.get('org')
+            user_id = request.GET.get('user')
+
+            update_notice = {
+                event: "sidebar_update",
+                plugin_id: "noticeboard.zuri.chat",
+                data: {
+                    "name": "Noticeboard Plugin",
+                    "group_name": "Noticeboard",
+                    "show_group": False,
+                    "button_url": "/noticeboard/admin-notice",
+                    "public_rooms": [],
+                    "joined_rooms": user_rooms(org_id, user_id)
+                }
+            }
+
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
@@ -126,6 +142,7 @@ class CreateNewNotices(views.APIView):
             print(room_id)
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -406,9 +423,10 @@ class NoticeReminder(views.APIView):
     '''
     newly_created_notice_reminder = [] # stores newly created notice reminder to a list
 
-            
-    def post(self, request, org_id):
+    @swagger_auto_schema(request_body=NoticeReminderSerializer)       
+    def post(self, request, org_id, notice_id):
         org_id=request.GET.get('org')
+        notice_id=request.GET.get('notice')
         # sendReminderEmail = request.GET.get('sendReminderEmail')
 
         serializer = NoticeReminderSerializer(data=request.data)
@@ -416,6 +434,7 @@ class NoticeReminder(views.APIView):
             db.save(
                 "noticeboard",
                 org_id,
+                notice_id,
                 notice_data=serializer.data
             )
             # Appends serializer data to newly_created_notice_reminder list

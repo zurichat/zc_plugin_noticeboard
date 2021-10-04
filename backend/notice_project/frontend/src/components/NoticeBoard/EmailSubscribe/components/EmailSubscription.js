@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import Button from "./EmailSubscriptionButton";
 import Modal from "./EmailSubscriptionModal";
 import TextInput from "./TextInput";
-import "./EmailSubscription.css";
+import classes from "./EmailSubscription.module.css";
 import axios from "axios";
-import { DataContext, UserInfoContext } from "../../../../App";
 
 const EmailSubscription = (props) => {
   const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
@@ -14,10 +13,6 @@ const EmailSubscription = (props) => {
   const [emailValue, setEmailValue] = useState("");
   const [agreementValue, setAgreementValue] = useState(false);
   const [message, setMessage] = useState();
-
-  const _globalData = useContext(DataContext)
-  const org_id = _globalData.Organizations[0]
-  const userData = useContext(UserInfoContext)
 
   const closeHandler = () => {
     setSubscriptionSuccess(false);
@@ -30,7 +25,7 @@ const EmailSubscription = (props) => {
     console.log({
       name: nameValue,
       company: companyValue,
-      email,
+      email: emailValue,
       agreement: agreementValue,
     });
   };
@@ -45,10 +40,10 @@ const EmailSubscription = (props) => {
   const submitEmail = () => {
     axios
       .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/email-subscription?org=${org_id}&user=${userData}`,
+        `http://127.0.0.1:8000/api/v1/email-subscription?org=6145b49e285e4a18402073bc&user=614ebf43f31a74e068e4dae1`,
         {
-          email: email,
-          
+          email: result.email,
+          user_id: result._id,
         }
       )
       .then((res) => {
@@ -63,25 +58,25 @@ const EmailSubscription = (props) => {
 
   return (
     <Modal closeHandler={closeHandler}>
-      <form onSubmit={submitHandler} className="form">
-        <h1>
+      <form onSubmit={submitHandler}>
+        <h1 className="flex">
           {subscriptionSuccess
             ? "Thank You for Subscribing!"
             : "Subscribe to get notifications through your mail"}
         </h1>
         {subscriptionSuccess ? (
-          <div className="form content  successContent ">
-            <p className="successMessage">
+          <div>
+            <p>
               You have successfully subscribed <em>{emailValue}</em> to Zuri
-              Chat 
+              Chat oti
             </p>
-            <Button type="button" className="successClose" onClick={closeHandler}>
+            <Button type="button" onClick={closeHandler}>
               CLOSE
             </Button>
           </div>
         ) : (
-          <fieldset onClick={closeHandler} className="fieldset">
-            <label className="email-input">
+          <fieldset onClick={closeHandler}>
+            <label>
               E-mail:
               <TextInput
                 name="email"
@@ -92,16 +87,16 @@ const EmailSubscription = (props) => {
                 onChange={(e) => setEmailValue(e.target.value)}
               />
             </label>
-            <div className="btnGroup">
+            <div>
               {/* <Button className={classes.clear} type="reset" onClick={clearHandler}>
                 CLEAR
               </Button> */}
-              <Button className="submit" onClick={submitEmail}>SUBMIT</Button>
+              <Button onClick={submitEmail}>SUBMIT</Button>
             </div>
           </fieldset>
         )}
       </form>
-      <span  onClick={closeHandler} />
+      <button onClick={closeHandler} />
     </Modal>
   );
 };
