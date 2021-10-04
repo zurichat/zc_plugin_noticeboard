@@ -40,7 +40,6 @@ import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
 
 import { DataContext } from '../../../App'
-import Subscription from '../EmailSubscribe/Subscription'
 
 
 
@@ -453,7 +452,6 @@ var requestOptions = {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
-      <Subscription />
     </div>
   )
 }

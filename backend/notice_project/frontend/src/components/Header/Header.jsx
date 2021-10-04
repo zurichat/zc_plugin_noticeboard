@@ -1,7 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import "./Header.css";
 import { UserContext } from "../../Data-fetcing";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { UserInfoContext } from "../../App";
 
 const Header = () => {
   const { people, setFilteredNotice, searchText, setSearchText } =
@@ -13,6 +15,31 @@ const Header = () => {
     );
     setFilteredNotice(filterNotice);
   }, [searchText]);
+
+  const userData = useContext(UserInfoContext);
+  const request = {
+    email: userData?.email,
+  };
+  const [subscriptionState, setSubscriptionState] = useState("Subscribe")
+
+  const submitEmail = () => {
+    console.log(userData?.org_id,"Kemi");
+    console.log(userData?.email, "kemi");
+    console.log(userData?._id, "kemi");
+    axios
+    .post(
+      `https://noticeboard.zuri.chat/api/v1/organisation/email-subscription?org=${userData?.org_id}&user=${userData?._id}`,
+      request
+    )
+    .then((res) => {
+      res.status == "201" ? setSubscriptionState("Unsubscribe") : setSubscriptionState("Subscribe")
+      console.log(res);
+    })
+    .catch((err) => {
+      err == "409" ? setSubscriptionState("Unsubscribe") : setSubscriptionState("Subscribe")
+      console.log(err);
+    });
+  };
 
   return (
     <header className="header">
@@ -53,6 +80,12 @@ const Header = () => {
           />
         </form>
       </div>
+
+      <button
+      style={{backgroundColor:"#00bb7c", color:"white", padding:"20px"}}
+      onClick={submitEmail}
+      >{subscriptionState}</button>
+
     </header>
   );
 };
