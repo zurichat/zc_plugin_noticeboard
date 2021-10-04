@@ -1,5 +1,6 @@
 from django.conf import settings
 import json
+import requests
 from notice.views import NoticeReminder
 
 # Initialize NoticeReminder class
