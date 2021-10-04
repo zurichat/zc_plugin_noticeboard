@@ -8,7 +8,6 @@ import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
-import Subscription from "../EmailSubscribe/Subscription";
 import { UserInfoContext } from "../../../App";
 
 const PinnedNotices = (props) => {
@@ -182,7 +181,7 @@ const PinnedNotices = (props) => {
           <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
-      <Subscription />
+      
     </div>
   );
 };

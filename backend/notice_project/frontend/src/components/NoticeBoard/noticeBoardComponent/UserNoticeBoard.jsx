@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
 import Pagination from "./Old_Notices/pagination";
 
+
 const UserNotice = () => {
   const { loading, setLoading, isError, setIsError, notices, setNotices } = useContext(UserContext);
 
@@ -157,6 +158,7 @@ const UserNotice = () => {
           </div>
         ))}
       </div>
+      
 
       <Pagination
         totalCount={notices.length}
