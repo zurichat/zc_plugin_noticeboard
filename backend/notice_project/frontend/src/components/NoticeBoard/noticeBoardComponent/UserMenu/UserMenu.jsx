@@ -50,13 +50,13 @@ export default function UserMenu({
   ///Bookmark
   const [bookmarkStatus, setBookmarkStatus] = useState();
   const UserData = useContext(UserInfoContext);
-  useEffect(() => {
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  }, [bookmarkDetails]);
+  // useEffect(() => {
+  //   bookmarkDetails
+  //     ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+  //       ? setBookmarkStatus(true)
+  //       : setBookmarked(false)
+  //     : "";
+  // }, [bookmarkDetails]);
 
   const bookmarkNotice = () => {
     axios
