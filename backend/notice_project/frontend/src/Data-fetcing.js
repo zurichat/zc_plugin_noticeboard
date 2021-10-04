@@ -11,7 +11,7 @@ export const UserProvider = (props) => {
 	const [searchText, setSearchText] = useState();
 	const [filteredNotice, setFilteredNotice] = useState(people);
 	const [notices, setNotices] = useState([]);
-	const [bookmark, setBookmark] = useState([])
+	const [bookmark, setBookmark] = useState(null);
 
 	return (
 		<UserContext.Provider

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -30,8 +30,8 @@ import { UserInfoContext } from "../../../App";
 function AdminMenu({
   noticeID,
   bookmarkDetails,
-  setToggleBookmark,
   toggleBookmark,
+  setToggleBookmark,
 }) {
   const menu = [
     { icon: EditIcon, linkText: "Edit notice", id: "1" },
@@ -43,12 +43,13 @@ function AdminMenu({
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const history = useHistory();
+
   ////bookmark status state
   const [bookmarkStatus, setBookmarkStatus] = useState();
 
-  const userData = useContext(UserInfoContext);
-  console.log(userData.email);
-  console.log(userData?.org_id + "orgid", userData?._id + "id frank");
+  const UserData = useContext(UserInfoContext);
+  // console.log(userData.email);
+  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
 
   /////
 
@@ -125,6 +126,31 @@ function AdminMenu({
     setAnchorEl(evt.currentTarget);
   };
 
+  // const copy = (noticeID) => {
+  //   fetch(
+  //     `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+  //   )
+  //     .then((res) => {
+  //       if (res.status >= 200 && res.status <= 299) {
+  //         return res.json();
+  //       } else {
+  //         setLoading(false);
+  //         setIsError(true);
+  //       }
+  //     })
+  //     .then((data) => {
+  //       setNoticeList(data.data);
+  //     })
+  //     .catch((error) => console.log(error));
+
+  //   const currentNoticeID = noticeList?.find((element) => {
+  //     return element._id === noticeID;
+  //   });
+
+  //   setSelectedNotice(currentNoticeID);
+  //   navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
+  // };
+
   const closeMenu = () => {
     setAnchorEl(false);
   };
@@ -151,21 +177,45 @@ function AdminMenu({
       });
     handleClose();
   };
-  useEffect(()=>{
+
+  ///Checking if the notice was bookmarked
+  //   const checkBookmarkStatus=()=>{
+  //     fetch("https://")
+  //     .then(res=>{
+  //       if(!res.ok){
+  //       throw Error("Cound not get the status of the bookmark")
+  //       }
+  //       return res.json()
+  //     })
+  //     .then(data=>{
+  //       console.log(data)
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch(err=>{
+  //       if(err){
+  //         console.log(err)
+  //       }
+  //     })
+  //   }
+
+  //   checkBookmarkStatus();
+  //  ///////////////
+  useEffect(() => {
     bookmarkDetails
       ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
         ? setBookmarkStatus(true)
         : setBookmarked(false)
       : "";
-  },[toggleBookmark])
+  }, [bookmarkDetails]);
 
   const bookmarkNotice = () => {
+    let user = JSON.parse(sessionStorage.getItem("user"));
     axios
       .post(
         `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
         {
           notice_id: noticeID,
-          user_id: UserData?._id,
+          user_id: user?.id,
         }
       )
       .then((data) => {
@@ -235,7 +285,7 @@ function AdminMenu({
       >
         <MenuItem
           onClick={() => {
-            closeMenu;
+            bookmarkFunction();
           }}
           className="overrideHeight"
           disableRipple
@@ -251,7 +301,6 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={bookmarkFunction}
             >
               Bookmark
             </span>
@@ -299,7 +348,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              // onClick={copy(noticeID)}
             >
               Copy link
             </span>

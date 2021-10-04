@@ -6,6 +6,5 @@ class NoticeConfig(AppConfig):
     name = 'notice'
 
     def ready(self):
-        from  jobs import updater
+        from jobs import updater 
         updater.start()
-

@@ -36,6 +36,9 @@ class Dbnoticeboard:
                 }
             }
         response = requests.post(self.centrifugo_url, headers=headers, json=command)
+        print("="*50)
+        print(response)
+        print("="*50)
         return response
 
     def read(self, collection_name, org_id, filter={}):

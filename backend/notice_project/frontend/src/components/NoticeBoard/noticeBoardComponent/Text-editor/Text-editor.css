@@ -116,6 +116,10 @@ label {
   left: -200px !important;
 }
 
+.rdw-link-modal{
+  height: fit-content;
+}
+
 .rdw-dropdown-optionwrapper {
   top: -280px !important;
 }
@@ -134,16 +138,16 @@ label {
   left: -200px !important;
 }
 
-.rdw-editor-toolbar div {
-  display: inline;
-}
+
 .rdw-emoji-modal {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr);
 }
 .rdw-link-modal-buttonsection, .rdw-image-modal-btn-section{
   display: flex;
+  margin: 0 !important;
 }
+
 .rdw-link-modal-btn, .rdw-image-modal-btn{
   width: 5em !important;
   height: 2em !important;

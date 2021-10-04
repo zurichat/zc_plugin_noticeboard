@@ -1,17 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import notice from "../../../assets/createNotice.svg";
 import noNotice from "../../../assets/svg/no_notices.svg";
 import "../noticeBoardComponent/AdminNotice.css";
-import CardComponent from "../noticeBoardComponent/CardComponent";
+import Card from "../noticeBoardComponent/Card";
 import { Button } from "@material-ui/core";
 import logo from "../../../assets/svg/logo.svg";
 import { withRouter, Link } from "react-router-dom";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
-import { UserInfoContext } from "../../../App";
-import UserMenu from "./UserMenu/UserMenu";
-import { FlashOnOutlined } from "@material-ui/icons";
 import Subscription from "../EmailSubscribe/Subscription";
+import { UserInfoContext } from "../../../App";
 
 const PinnedNotices = (props) => {
   const {
@@ -34,10 +32,11 @@ const PinnedNotices = (props) => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  ///Bookmark
+  //Bookmark
   const [bookmarkDetails, setBookmarkDetails] = useState(false);
   const [toggleBookmark, setToggleBookmark] = useState(false);
   const UserDataContext = useContext(UserInfoContext);
+  
   useEffect(async () => {
     const UserData = await UserDataContext;
     fetch(
@@ -47,11 +46,11 @@ const PinnedNotices = (props) => {
       .then((data) => {
         if (data.message === "success") {
           console.log(data.message);
+          console.log(data.data);
           setBookmarkDetails(data);
         }
       });
   }, [toggleBookmark]);
-  ///
 
   useEffect(() => {
     fetch(
@@ -71,7 +70,6 @@ const PinnedNotices = (props) => {
             (notice) => currentDate == notice.created.slice(8, 10)
           )
         );
-        console.log(data.data);
 
         setLoading(false);
       })
@@ -127,6 +125,12 @@ const PinnedNotices = (props) => {
             when published
           </h1>
           <div className="notice-btn-div">
+            {/* <Link to="/noticeboard">
+              <div className="older-notices">
+                <p className="older-notices-text">Go Back</p>
+              </div>
+            </Link> */}
+
             <Link to="/noticeboard/old-notices">
               <div className="older-notices">
                 <p className="older-notices-text">View older notices</p>
@@ -139,7 +143,7 @@ const PinnedNotices = (props) => {
   }
 
   return (
-    <div className="adminNotice">
+    <div className="adminnotice">
       <div className="pinned-button-container">
         <div className="pin-text">
           <p className="text">Notices</p>
@@ -159,7 +163,7 @@ const PinnedNotices = (props) => {
         {searchText
           ? filteredNotice?.map((person) => {
               return (
-                <CardComponent
+                <Card
                   person={person}
                   key={person._id}
                   bookmarkDetails={bookmarkDetails}
@@ -169,15 +173,7 @@ const PinnedNotices = (props) => {
               );
             })
           : people?.map((person) => {
-              return (
-                <CardComponent
-                  person={person}
-                  key={person._id}
-                  bookmarkDetails={bookmarkDetails}
-                  setToggleBookmark={setToggleBookmark}
-                  toggleBookmark={toggleBookmark}
-                />
-              );
+              return <Card person={person} key={person._id} />;
             })}
       </section>
 

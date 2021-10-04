@@ -107,7 +107,6 @@ h6 {
 .adminnotice,
 .adminNotice-section {
   width: 100%;
-
 }
 
 .adminNotice-section .card-adminNotice {
@@ -116,7 +115,7 @@ h6 {
   padding: 3em 1em;
   margin: 0 auto 2em;
   overflow-wrap: break-word;
-  /* min-height: 270px; */
+  min-height: 250px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -179,19 +178,19 @@ h6 {
 /* card body */
 
 .adminNotice-section .card-body-adminNotice {
-  margin-top: 20px;
+  margin-top: 18px;
   min-height: 6em;
 }
 
 .adminNotice-section .card-title-adminNotice {
-  min-height: 45px;
+  min-height: 42px;
   font-size: 18px !important;
   font-weight: 700!important;
   text-transform: capitalize;
 }
 
 .adminNotice-section .card-info-adminNotice {
-  min-height: 7.5em;
+  min-height: 6em;
   color: var(--main-gray);
 }
 
@@ -235,7 +234,7 @@ h6 {
   text-transform: capitalize;
   box-shadow: 0 0 26 0 hsla(256, 90%, 84%, 0.25);
   transition: all 0.4s;
-  margin-top: 24px;
+  margin-top: 18px;
 }
 
 .card-button-adminNotice:hover {
@@ -265,6 +264,7 @@ h6 {
 
 .older-notices:hover {
   transform: scale(1.1);
+  
 }
 
 .older-notices-text {
@@ -294,11 +294,11 @@ h6 {
   }
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 1440px) {
   .adminNotice-section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2em 2em;
+    gap: 2em 4em;
     margin-top: 1em;
   }
 
