@@ -422,19 +422,20 @@ class NoticeReminder(views.APIView):
     newly_created_notice_reminder = [] # stores newly created notice reminder to a list
 
     @swagger_auto_schema(request_body=NoticeReminderSerializer)       
-    def post(self, request, org_id, notice_id):
+    def post(self, request, org_id):
         org_id=request.GET.get('org')
-        notice_id=request.GET.get('notice')
+        # notice_id=request.GET.get('notice')
         # sendReminderEmail = request.GET.get('sendReminderEmail')
 
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
-                "noticeboard",
+                "reminders",
                 org_id,
-                notice_id,
+                # notice_id,
                 notice_data=serializer.data
             )
+
             # Appends serializer data to newly_created_notice_reminder list
             created_notice_reminder = serializer.data
             self.newly_created_notice_reminder.append(created_notice_reminder)
@@ -453,6 +454,7 @@ class ViewNoticeReminder(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         
         remind_notice = db.read("reminders", org_id)
+        print(remind_notice)
         if remind_notice['status'] == 200:
             return Response(remind_notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "There are no notices to be reminded of."}, status=status.HTTP_400_BAD_REQUEST)
