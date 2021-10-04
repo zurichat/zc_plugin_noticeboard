@@ -35,7 +35,7 @@ class Dbnoticeboard:
                 "data": data
                 }
             }
-        response = requests.post(self.centrifugo_url, headers=headers, json=command)
+        response = requests.post(self.centrifugo_url, headers=headers, json=command).json()
         print("="*50)
         print(response)
         print("="*50)
