@@ -1,10 +1,12 @@
+
 import React, {useContext} from "react";
+import moment from "moment";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
 import { UserInfoContext } from "../../../App";
-import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
+import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 
 const CardNotice = ({
   notice,
@@ -48,7 +50,7 @@ const CardNotice = ({
               src={
                 notice.author_img_url !== "null"
                   ? notice.author_img_url
-                  : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                  : noticePlaceholderImage
               }
             />
           </div>
