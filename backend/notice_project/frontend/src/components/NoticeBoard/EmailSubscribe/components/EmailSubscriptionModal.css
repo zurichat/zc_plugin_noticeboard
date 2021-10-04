@@ -1,9 +1,9 @@
 .bg {
   position: fixed;
-  height: 100vh;
+  min-height: 250px;
   width: 100vw;
 }
 
 .bg > *:first-child {
-  position: relative;
+  position: absolute;
 }
