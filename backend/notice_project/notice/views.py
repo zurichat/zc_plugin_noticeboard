@@ -4,11 +4,13 @@ from rest_framework.response import Response
 import requests
 from rest_framework import views, status, views
 from .storage import db
+from .schedulestorage import schDb
 from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer, BookmarkNoticeSerializer
 from .email import sendmassemail
 from .utils import user_rooms
 from django.conf import settings
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 @api_view(['GET'])
 def sidebar_info(request):
@@ -117,13 +119,28 @@ class CreateNewNotices(views.APIView):
                 "data": updated_data
             }
 
+            user_id = request.GET.get('user')
+
+            update_notice = {
+                "event": "sidebar_update",
+                "plugin_id": "noticeboard.zuri.chat",
+                "data": {
+                    "name": "Noticeboard Plugin",
+                    "group_name": "Noticeboard",
+                    "show_group": False,
+                    "button_url": "/noticeboard",
+                    "public_rooms": [],
+                    "joined_rooms": user_rooms(org_id, user_id)
+                }
+            }
+
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
             room_id = room["data"][0]["_id"]
-            print(room_id)
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
+            db.post_to_centrifugo(f"{org_id}_{user_id}_sidebar", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -151,7 +168,7 @@ class UpdateNoticeAPIView(views.APIView):
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
             room_id = room["data"][0]["_id"]
-            print(room_id)
+            
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
@@ -193,7 +210,7 @@ class DeleteNotice(views.APIView):
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
             room_id = room["data"][0]["_id"]
-            print(room_id)
+            
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
@@ -402,17 +419,43 @@ class NoticeReminder(views.APIView):
     '''
         For creating reminders.
     '''
-    def post(self, request):
+    newly_created_notice_reminder = [] # stores newly created notice reminder to a list
+
+    @swagger_auto_schema(request_body=NoticeReminderSerializer)       
+    def post(self, request, org_id, notice_id):
+        org_id=request.GET.get('org')
+        notice_id=request.GET.get('notice')
+        # sendReminderEmail = request.GET.get('sendReminderEmail')
+
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
                 "noticeboard",
-                "613a1a3b59842c7444fb0220",
+                org_id,
+                notice_id,
                 notice_data=serializer.data
             )
+            # Appends serializer data to newly_created_notice_reminder list
+            created_notice_reminder = serializer.data
+            self.newly_created_notice_reminder.append(created_notice_reminder)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ViewNoticeReminder(views.APIView):
+    '''
+    This endpoint enables user view notices to be reminded of
+    '''
+
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        
+        remind_notice = db.read("reminders", org_id)
+        if remind_notice['status'] == 200:
+            return Response(remind_notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "There are no notices to be reminded of."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class BookmarkNotice(views.APIView):
@@ -435,19 +478,20 @@ class CreateBookmark(views.APIView):
         '''
         serializer = BookmarkNoticeSerializer(data=request.data)
         if serializer.is_valid():
-            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
 
-            bookmark_data = {
-                "user_id":serializer.data["user_id"],
-                "notice_data":notice["data"]
-            }
+            # bookmark_data = {
+            #     "user_id":serializer.data["user_id"],
+            #     "notice_data":notice["data"]
+            # }
 
-            db.save('bookmark_notice', org_id, bookmark_data)
+            db.save('bookmark_notice', org_id, serializer.data)
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
             room = response.json()
             room_id = room["data"][0]["_id"]
-            print(room_id)
+            
+
+            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
 
             data = {
                 "event":"create_bookmark",
@@ -479,7 +523,7 @@ class DeleteBookmarkedNotice(views.APIView):
         response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
         room = response.json()
         room_id = room["data"][0]["_id"]
-        print(room_id)
+        
 
         db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
@@ -503,21 +547,42 @@ class NoticeDraft(views.APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 class ScheduleNotices(views.APIView):
     '''
         For scheduling notices
     '''
+    @swagger_auto_schema(request_body=SchedulesSerializer)
     def post(self, request, org_id):
+        organization_id = request.POST.get('org_id')
+        print(organization_id)
         serializer = SchedulesSerializer(data=request.data)
         if serializer.is_valid():
-            db.save(
-                "noticeboard",
-                org_id,
+            schDb.scheduleSave(
+                "schedules",
                 notice_data=serializer.data
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ViewSchedule(views.APIView):
+    '''
+    This endpoint returns all the notices created under a particular organisation in the database
+    '''
+
+    def get(self, request, org_id):
+        # org_id = "613a1a3b59842c7444fb0220"
+        notice = schDb.scheduleRead("schedules", " ")
+        get_data=notice["data"]
+        reversed_list = get_data[::-1]
+        print(reversed_list)
+        notice.update(data=reversed_list)
+        if notice['status'] == 200:
+            print(notice)
+            return Response(notice, status=status.HTTP_200_OK)
+        return Response({"status": False, "message": "retrieved unsuccessfully"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AttachFile(views.APIView):
     """

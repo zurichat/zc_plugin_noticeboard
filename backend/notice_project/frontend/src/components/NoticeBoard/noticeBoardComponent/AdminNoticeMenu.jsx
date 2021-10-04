@@ -59,13 +59,13 @@ function AdminMenu({ noticeID }) {
     //  setTimeout(()=>{
     //    setLoader(false)
     // }, 4000)
-    setTimeout(() => {
-      setToast(true);
-    }, 4000);
+    // setTimeout(() => {
+    //   setToast(true);
+    // }, 4000);
 
-    setTimeout(() => {
-      setToast(false);
-    }, 7000);
+    // setTimeout(() => {
+    //   setToast(false);
+    // }, 7000);
   };
 
   const editNotice = (noticeID) => {
@@ -157,7 +157,16 @@ function AdminMenu({ noticeID }) {
     )
       .then((response) => {
         console.log(response);
-        setLoader(false);
+        setLoader(false)
+        console.log(noticeId)
+      })
+      .then((response)=>{
+        setToast(true)
+
+        setTimeout(()=>{
+          setToast(false)
+        }, 2000)
+
       })
 
       .catch((error) => {
@@ -330,7 +339,10 @@ function AdminMenu({ noticeID }) {
           style={{ zIndex: "2" }}
         >
           <CircularProgress color="primary" style={{ color: "white" }} />
-          <p style={{ color: "white" }}>Deleting...</p>
+        
+          <p style={{ color: "white" }}>Please wait, this might take few seconds. </p>
+        
+       
         </Backdrop>
       )}
       {toast && (

@@ -35,7 +35,7 @@ class Dbnoticeboard:
                 "data": data
                 }
             }
-        response = requests.post(self.centrifugo_url, headers=headers, json=command)
+        response = requests.post(self.centrifugo_url, headers=headers, json=command).json()
         print("="*50)
         print(response)
         print("="*50)
@@ -80,12 +80,8 @@ class Dbnoticeboard:
             r = requests.post(self.write_endpoint,data)
             print(r.text)
             r.raise_for_status()
-        except requests.exceptions.RequestException as err:
-            print("OOps: There is a problem with the Request", err)
-        except requests.exceptions.HTTPError as errh:
-            print("Http Error:", errh)
-        except requests.exceptions.ConnectionError as errc:
-            print("Error Connecting:", errc)
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
 
 
     def update(self, collection_name, org_id, notice_data, object_id):
@@ -106,12 +102,8 @@ class Dbnoticeboard:
             response = res.json()
             print(response)
             return response
-        except requests.exceptions.RequestException as err:
-            print("Oops: There is a problem with the Request", err)
-        except requests.exceptions.HTTPError as errh:
-            print("Http Error:", errh)
-        except requests.exceptions.ConnectionError as errc:
-            print("Error Connecting:", errc)
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
 
 
     def delete(self, org_id, collection_name, object_id):
@@ -129,8 +121,8 @@ class Dbnoticeboard:
             response = res.json()
             print(response)
             return response
-        except requests.exceptions.RequestException as err:
-            print("OOps: There is a problem with the Request", err)
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
 
     def upload(self, file, token):                   #takes in files oh, 1 file
             url = self.upload_multiple_api
@@ -139,9 +131,8 @@ class Dbnoticeboard:
                 response = requests.post(url=url, files=files, headers={
                     'Authorization': f'{token}'
                     })
-            except requests.exceptions.RequestException as e:
-                print(e)
-                return None
+            except Exception as e:
+                print("OOps: There is a problem with the Request", e)
             if response.status_code == 200:
                 return response.json()
             else:
@@ -153,9 +144,8 @@ class Dbnoticeboard:
             response = requests.post(url=url, files=files, headers={
                 'Authorization': f'{token}'
                 })
-        except requests.exceptions.RequestException as e:
-            print(e)
-            return None
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
         if response.status_code == 200:
             return response.json()
         else:
@@ -169,9 +159,8 @@ class Dbnoticeboard:
 
         try:
             response = requests.post(url=url, json=body)
-        except requests.exceptions.RequestException as e:
-            print(e)
-            return None
+        except Exception as e:
+            print("OOps: There is a problem with the Request", e)
         if response.status_code == 200:
             return response.json()
         else:

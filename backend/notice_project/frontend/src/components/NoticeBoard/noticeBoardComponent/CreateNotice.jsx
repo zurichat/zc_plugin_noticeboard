@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
@@ -95,17 +95,22 @@ const maxChars = 1000
 
 function CreateNotice() {
   const userData = useContext(UserInfoContext)
+  const { people, setFilteredNotice, searchText, setSearchText } =
+    useContext(UserContext);
   const classes = useStyles()
   const { push } = useHistory()
   const [errorTitle, setErrorTitle] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [openErrorDialog, setOpenErrorDialog] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
+  const [authorDetails , setAuthorDetails] = useState({})
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(),
 
   )
 
+
+  
 
 
 
@@ -113,11 +118,6 @@ function CreateNotice() {
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false)
   }
-
-  if (userData === null) {
-    push('/login')
-  }
-
 
 
   const onEditorStateChange = editorState => {
@@ -137,6 +137,11 @@ function CreateNotice() {
   })
 
   const onSubmitHandler = async values => {
+
+    if (userData === null)
+    return push('/login')
+
+
     if (isChecked) {
       fetch(
         `https://noticeboard.zuri.chat/api/v1/sendemail?sendemail=${should_send}&org=${org_id}`
@@ -155,10 +160,12 @@ function CreateNotice() {
     const request = {
       title: values.title,
       message: values.message,
-      author_name: userData?.first_name || 'null',
-      author_username: userData?.user_name || 'null',
-      author_img_url: userData?.image_url || 'null'
+      author_name: userData.first_name || 'null',
+      author_username: userData.user_name || 'null',
+      author_img_url: userData.image_url || 'null'
     }
+
+
 
     if (values.title === '' || setEditorState === '') {
       return (
@@ -169,7 +176,7 @@ function CreateNotice() {
 
     try {
       const res = await api.post(
-        `/organisation/${userData?.currentWorkspace}/create`,
+        `/organisation/${userData.currentWorkspace}/create`,
         request
       )
       //Return input field to blank
@@ -200,42 +207,6 @@ function CreateNotice() {
   //   }
   // };
 
-async function uploadImageCallBack2(file) {
-  return new Promise(
-    (resolve, reject) => {
-		var data = new FormData()
-		data.append('FILES', [file])
-		try {
-			let res = fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`, {
-				method: 'POST',
-				body: data
-		  	})
-			console.log(res)
-		} catch (err) {
-			console.log(error)
-			reject(error);
-		}
-		
-    //   const xhr = new XMLHttpRequest();
-	//   console.log("this woeked");
-    //   xhr.open('POST', `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/attachfile`);
-    // //   xhr.setRequestHeader('Authorization', 'Client-ID 713b516012986a5');
-    //   const data = new FormData();
-    //   data.append('FILES', [file]);
-    //   xhr.send(data);
-    //   xhr.addEventListener('load', () => {
-    //     const response = JSON.parse(xhr.responseText);
-    //     console.log(response)
-    //     resolve(response);
-    //   });
-    //   xhr.addEventListener('error', () => {
-    //     const error = JSON.parse(xhr.responseText);
-    //     console.log(error)
-    //     reject(error);
-    //   });
-    }
-  );
-}
 
 async function uploadImageCallBack(file) {
 	var myHeaders = new Headers();
