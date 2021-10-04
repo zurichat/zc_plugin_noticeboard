@@ -4,7 +4,6 @@ import moment from "moment";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
-import moment from "moment";
 import { UserInfoContext } from "../../../App";
 import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 
