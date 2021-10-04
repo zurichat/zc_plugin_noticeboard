@@ -1,12 +1,7 @@
-import React from 'react'
+import classes from "./TextInput.module.css";
 
-function TextInput(props) {
-  return (
-    <div>
-    <input {...props} className={`${props.className ?? ""} "input"`} />;
-    </div>
-  )
-}
+const TextInput = (props) => {
+  return <input {...props} className={`${props.className ?? ""}`} />;
+};
 
-export default TextInput
-
+export default TextInput;
