@@ -457,6 +457,7 @@ class ViewNoticeReminder(views.APIView):
             return Response(remind_notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "There are no notices to be reminded of."}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class BookmarkNotice(views.APIView):
 
     def get(self, request, org_id, user_id):
