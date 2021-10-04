@@ -182,7 +182,7 @@ const PinnedNotices = (props) => {
           <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
-      <Subscription />
+      
     </div>
   );
 };

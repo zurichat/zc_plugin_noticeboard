@@ -19,6 +19,9 @@
   text-shadow: 0 0 15px #fff;
   font-family: var(--text-font-condensed);
   padding: 1.5em;
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .formContent {
@@ -51,10 +54,15 @@
   width: 100%;
 }
 
-.fieldset input[type="text"],
+.email-input {
+  flex: 1;
+  font-size: 18px;
+}
+
+/* .fieldset input[type="text"],
 .fieldset input[type="email"] {
   flex: 1;
-}
+} */
 
 .fieldset .email,
 .agreement,
@@ -108,7 +116,8 @@
 
 .close {
   position: absolute;
-  top: 20px;
+  bottom: 400px;
+  right: 80px;
   right: 30px;
   width: 20px;
   height: 20px;

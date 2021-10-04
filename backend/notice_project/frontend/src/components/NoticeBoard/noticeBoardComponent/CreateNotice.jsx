@@ -137,15 +137,11 @@ function CreateNotice() {
   })
 
   const onSubmitHandler = async values => {
-    if (isChecked) {
-      fetch(
-        `https://noticeboard.zuri.chat/api/v1/sendemail?sendemail=${should_send}&org=${org_id}`
-      )
-    }
+    
 
     if (isChecked) {
       fetch(
-        `http://127.0.0.1:8000/api/v1/email-notification?org=6145b49e285e4a18402073bc&user=61545a1da999ef8386e80adc&send=1`
+        `https://noticeboard.zuri.chat/api/v1/organisation/email-notification?org=${org_id}&user=${userData}&sendemail=true`
       )
     }
 
