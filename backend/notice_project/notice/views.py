@@ -199,19 +199,19 @@ class DeleteNotice(views.APIView):
             object_id=object_id
         )
 
-        data = db.read('noticeboard', org_id)
+        # data = db.read('noticeboard', org_id)
 
-        updated_data = {
-            "event":"delete_notice",
-            "data":data
-        }
+        # updated_data = {
+        #     "event":"delete_notice",
+        #     "data":data
+        # }
 
-        response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-        room = response.json()
-        room_id = room["data"][0]["_id"]
+        # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+        # room = response.json()
+        # room_id = room["data"][0]["_id"]
         
 
-        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+        # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
 
         if deleted_data['status'] == 200:
             return Response({"success": True, "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
