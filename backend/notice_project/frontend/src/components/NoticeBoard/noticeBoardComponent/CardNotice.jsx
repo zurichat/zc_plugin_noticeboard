@@ -1,11 +1,11 @@
-import React from "react";
+
+import React, {useContext} from "react";
 import moment from "moment";
-
-
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
-
+import moment from "moment";
+import { UserInfoContext } from "../../../App";
 import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 
 const CardNotice = ({
@@ -22,6 +22,24 @@ const CardNotice = ({
     document.getElementById(modal_id).style.display = "block";
   };
 
+   // Functinality for the number of views
+   const UserData = useContext(UserInfoContext);
+   const updateView = (noticeID) => {
+   
+      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+      fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log("View count data", data);
+
+      })
+      console.log(UserData.org_id);
+    };
+    // function converting the views from strings to numbers
+    const viewNumber = (count) => {
+    const viewss = count.split(" ").length + 1;
+    return viewss
+  }
   return (
     <div className="user-notice-card">
       <div className="card-top">
@@ -65,7 +83,9 @@ const CardNotice = ({
             <img src={viewIcon} alt="" />
           </div>
 
-          <div className="views-num">30</div>
+          <div className="views-num">
+            {viewNumber(notice.views)}
+          </div>
         </div>
 
         <div>
@@ -73,7 +93,10 @@ const CardNotice = ({
             className="view-btn MuiButtonBase-root"
             id={id}
             variant="outlined"
-            onClick={(event) => OpenModal(event)}
+            onClick={(event) => {
+              OpenModal(event); 
+              updateView(notice._id);
+            }}
           >
             View notice
           </Button>
