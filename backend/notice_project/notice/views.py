@@ -128,7 +128,7 @@ class CreateNewNotices(views.APIView):
                     "name": "Noticeboard Plugin",
                     "group_name": "Noticeboard",
                     "show_group": False,
-                    "button_url": "/noticeboard/admin-notice",
+                    "button_url": "/noticeboard",
                     "public_rooms": [],
                     "joined_rooms": user_rooms(org_id, user_id)
                 }
@@ -140,7 +140,7 @@ class CreateNewNotices(views.APIView):
             room_id = room["data"][0]["_id"]
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", update_notice)
+            db.post_to_centrifugo(f"{org_id}_{user_id}_sidebar", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
