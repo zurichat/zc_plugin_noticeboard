@@ -12,12 +12,12 @@ import Pagination from "./Old_Notices/pagination";
 import { UserBookmarkContext } from "./UserBookmarkContext";
 
 const UserNotice = () => {
-  const { loading, setLoading, isError, setIsError } = useContext(UserContext);
+  const { loading, setLoading, isError, setIsError, notices, setNotices } = useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
 
-  const [notices, setNotices] = useState([]);
+  // const [notices, setNotices] = useState([]);
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
