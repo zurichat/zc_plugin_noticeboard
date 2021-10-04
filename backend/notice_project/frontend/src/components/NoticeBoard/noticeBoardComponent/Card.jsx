@@ -1,13 +1,24 @@
 import React from "react";
 import moment from "moment";
 
+
 import dot from "../../../assets/Ellipse135.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
+import noticePlaceholderImage from '../../../assets/noticePlaceholderImage.svg'
 
-const Card = ({ person, people }) => {
+const Card = ({
+  person,
+  people,
+  bookmarkDetails,
+  toggleBookmark,
+  setToggleBookmark,
+}) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
+
+
+
 
   const filterUsers = (index) => {
     const user = persons.filter((person) => person._id === index);
@@ -32,6 +43,8 @@ const Card = ({ person, people }) => {
 
   const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
 
+ 
+
   return (
     <>
       <article className="card-adminNotice">
@@ -43,7 +56,7 @@ const Card = ({ person, people }) => {
                 src={
                   person.author_img_url !== "null"
                     ? person.author_img_url
-                    : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    : noticePlaceholderImage
                 }
                 alt="profile-pic"
               />
@@ -67,7 +80,12 @@ const Card = ({ person, people }) => {
               </p>
             </div>
           </div>
-          <AdminMenu noticeID={person._id} />
+          <AdminMenu
+            noticeID={person._id}
+            bookmarkDetails={bookmarkDetails}
+            setToggleBookmark={setToggleBookmark}
+            toggleBookmark={toggleBookmark}
+          />
         </div>
         {/* body of card */}
         <div className="card-body-adminNotice">
@@ -75,7 +93,7 @@ const Card = ({ person, people }) => {
             {person.title.replace(/<[^>]+>/g, "")}
           </h3>
           <p className="card-info-adminNotice">
-            {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
+          {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
           </p>
         </div>
         {/* icons tray */}
