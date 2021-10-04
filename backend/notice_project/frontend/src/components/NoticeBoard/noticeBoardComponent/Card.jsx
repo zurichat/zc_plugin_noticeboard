@@ -5,7 +5,13 @@ import dot from "../../../assets/Ellipse135.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
 
-const Card = ({ person, people }) => {
+const Card = ({
+  person,
+  people,
+  bookmarkDetails,
+  toggleBookmark,
+  setToggleBookmark,
+}) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
 
@@ -67,7 +73,12 @@ const Card = ({ person, people }) => {
               </p>
             </div>
           </div>
-          <AdminMenu noticeID={person._id} />
+          <AdminMenu
+            noticeID={person._id}
+            bookmarkDetails={bookmarkDetails}
+            setToggleBookmark={setToggleBookmark}
+            toggleBookmark={toggleBookmark}
+          />
         </div>
         {/* body of card */}
         <div className="card-body-adminNotice">
