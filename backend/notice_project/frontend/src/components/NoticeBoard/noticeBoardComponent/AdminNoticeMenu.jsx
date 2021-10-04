@@ -68,9 +68,9 @@ function AdminMenu({
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
     setLoader(true);
-    //  setTimeout(()=>{
-    //    setLoader(false)
-    // }, 4000)
+     setTimeout(()=>{
+       setLoader(false)
+    }, 4000)
     setTimeout(() => {
       setToast(true);
     }, 4000);
@@ -169,7 +169,8 @@ function AdminMenu({
     )
       .then((response) => {
         console.log(response);
-        setLoader(false);
+        
+        console.log(noticeId)
       })
 
       .catch((error) => {

@@ -53,27 +53,29 @@ const PinnedNotices = (props) => {
   }, [toggleBookmark]);
 
   useEffect(() => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-    )
-      .then((res) => {
-        if (res.status >= 200 && res.status <= 299) {
-          return res.json();
-        } else {
+    setInterval(() =>{
+      fetch(
+        `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+      )
+        .then((res) => {
+          if (res.status >= 200 && res.status <= 299) {
+            return res.json();
+          } else {
+            setLoading(false);
+            setIsError(true);
+          }
+        })
+        .then((data) => {
+          setPeople(
+            data.data.filter(
+              (notice) => currentDate == notice.created.slice(8, 10)
+            )
+          );
+  
           setLoading(false);
-          setIsError(true);
-        }
-      })
-      .then((data) => {
-        setPeople(
-          data.data.filter(
-            (notice) => currentDate == notice.created.slice(8, 10)
-          )
-        );
-
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error))
+    }, 5000)
   }, []);
 
   if (loading) {
