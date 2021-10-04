@@ -1,11 +1,8 @@
 import React from "react";
-import moment from "moment";
-
 import CancelNoticeBtn from "./CancelNoticeBtn";
-import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
-import noticePlaceholderImage from '../../../assets/noticePlaceholderImage.svg'
-
 import "./ViewNotice.css";
+import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
+import dot from "../../../assets/Ellipse135.svg";
 
 const ViewNoticeModal = ({ persons, closeModal }) => {
   const cancelBtn = () => {
@@ -39,21 +36,18 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
               <div className="img-and-name-container">
                 <div className="img">
                   <img
-                    src={ person.author_img_url !== "null"
-                    ? person.author_img_url
-                    : noticePlaceholderImage}
+                    src="https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                     alt=""
                     className="user-picture"
                   />
                 </div>
                 <div className="name-time">
-                  <div style={{fontWeight: 'bold'}} >
-                {person.author_name !== "null"
-                  ? person.author_name
-                  : person.author_username}
-                  </div>
                   <div className="time-stamps">
-                  {moment(person.created).fromNow()}
+                    <p className="date-stamp stamp-one">{`${getMonthName(Number(person.created.substring(5, 7)))} ${person.created.substring(8, 10)} ${person.created.substring(0, 4)}`}</p>
+                    <p className="dot">
+                      <img src={dot} alt=""/>
+                    </p>
+                    <p className="date-stamp stamp-two">{person.created.substring(11, 20)}</p>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext,  } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
@@ -12,7 +12,6 @@ import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Subscription from '../EmailSubscribe/Subscription'
 import imageIcon from './Text-editor/icons/attachment.svg'
 import bold from './Text-editor/icons/bold.svg'
 import italic from './Text-editor/icons/italic.svg'
@@ -31,12 +30,16 @@ import ul from './Text-editor/icons/ul.svg'
 import underline from './Text-editor/icons/underline.svg'
 import indent from './Text-editor/icons/indent.svg'
 import outdent from './Text-editor/icons/outdent.svg'
+
+
 import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
 import { MentionAdder, ToggleToolbar } from './Text-editor/Text_editor_features'
 import { UserInfoContext } from '../../../App'
-import { DataContext } from '../../../App'
+import { UserContext } from '../../../Data-fetcing'
 import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
+
+import { DataContext } from '../../../App'
 
 
 
@@ -91,6 +94,8 @@ const maxChars = 1000
 
 function CreateNotice() {
   const userData = useContext(UserInfoContext)
+  const { people, setFilteredNotice, searchText, setSearchText } =
+    useContext(UserContext);
   const classes = useStyles()
   const { push } = useHistory()
   const [errorTitle, setErrorTitle] = useState('')

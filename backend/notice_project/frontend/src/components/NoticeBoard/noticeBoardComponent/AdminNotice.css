@@ -294,7 +294,7 @@ h6 {
   }
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 1440px) {
   .adminNotice-section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
