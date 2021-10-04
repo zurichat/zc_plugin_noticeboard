@@ -423,10 +423,9 @@ class NoticeReminder(views.APIView):
     '''
     newly_created_notice_reminder = [] # stores newly created notice reminder to a list
 
-    @swagger_auto_schema(request_body=NoticeReminderSerializer)       
-    def post(self, request, org_id, notice_id):
+            
+    def post(self, request, org_id):
         org_id=request.GET.get('org')
-        notice_id=request.GET.get('notice')
         # sendReminderEmail = request.GET.get('sendReminderEmail')
 
         serializer = NoticeReminderSerializer(data=request.data)
@@ -434,7 +433,6 @@ class NoticeReminder(views.APIView):
             db.save(
                 "noticeboard",
                 org_id,
-                notice_id,
                 notice_data=serializer.data
             )
             # Appends serializer data to newly_created_notice_reminder list
