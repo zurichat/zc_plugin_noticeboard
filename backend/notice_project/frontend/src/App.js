@@ -47,6 +47,7 @@ function App() {
     let user = JSON.parse(sessionStorage.getItem("user"));
 
     if ((user && token) !== null) {
+      setUserData('loading')
       try {
         const response = await axios.get(
           `https://api.zuri.chat/organizations/${currentWorkspace}/members/?query=${user.email}`,

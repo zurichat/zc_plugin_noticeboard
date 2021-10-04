@@ -1,5 +1,5 @@
 import React from 'react'
-import './CreateNotice.css'
+import './CreateNoticeModal.css'
 import calender from "../../../../assets/svgbx_bx-calendar.svg"
 import dropdown from "../../../../assets/svgzuridropdown.svg"
 import Clock from "../../../../assets/svgclock.svg" 
