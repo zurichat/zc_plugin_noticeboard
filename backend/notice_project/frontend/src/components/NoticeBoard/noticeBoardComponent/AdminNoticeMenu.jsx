@@ -27,17 +27,9 @@ import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
 import { BookmarkContext } from "./BookmarkContext";
-import BookmarkButton from "./BookmarkButton";
 
 function AdminMenu({ noticeID }) {
-  const menu = [
-    { icon: EditIcon, linkText: "Edit notice", id: "1" },
-    { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
-  ];
-
-  const _globalData = useContext(DataContext);
-  const { selectedNotice, setSelectedNotice } = useContext(UserContext);
-  const org_id = _globalData.Organizations[0];
+  const { setBookmarkDetails } = useContext(BookmarkContext);
 
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
@@ -48,6 +40,10 @@ function AdminMenu({ noticeID }) {
   const openDeleteModal = () => {
     setOpenModal(true);
   };
+
+  const _globalData = useContext(DataContext);
+  const { selectedNotice, setSelectedNotice } = useContext(UserContext);
+  const org_id = _globalData.Organizations[0];
 
   const handleClose = () => {
     setOpenModal(false);
@@ -157,16 +153,15 @@ function AdminMenu({ noticeID }) {
     )
       .then((response) => {
         console.log(response);
-        setLoader(false)
-        console.log(noticeId)
+        setLoader(false);
+        console.log(noticeId);
       })
-      .then((response)=>{
-        setToast(true)
+      .then((response) => {
+        setToast(true);
 
-        setTimeout(()=>{
-          setToast(false)
-        }, 2000)
-
+        setTimeout(() => {
+          setToast(false);
+        }, 2000);
       })
 
       .catch((error) => {
@@ -174,6 +169,27 @@ function AdminMenu({ noticeID }) {
       });
     handleClose();
   };
+
+  //Bookkmark
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarkedNotice = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/bookmark/${user?.id}`
+    )
+      .then((res) => {
+        res.json();
+      })
+      .then((data) => {
+        if (res.message === "success") {
+          setBookmarkDetails(data);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchBookmarkedNotice();
+  }, [toggleBookmark]);
 
   return (
     <div>
@@ -204,9 +220,27 @@ function AdminMenu({ noticeID }) {
           horizontal: "right",
         }}
       >
-        <MenuItem className="overrideHeight" disableRipple>
+        <MenuItem
+          onClick={() => {
+            bookmarkFunction();
+          }}
+          className="overrideHeight"
+          disableRipple
+        >
           <div style={AdminMenuStyle}>
-            <BookmarkButton noticeID={noticeID} />
+            <img
+              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
+              alt="Bookmark"
+              style={MenuIconStyle}
+            />
+            <span
+              style={{
+                color: "#999999",
+                width: "100%",
+              }}
+            >
+              Bookmark
+            </span>
           </div>
         </MenuItem>
 
@@ -339,10 +373,10 @@ function AdminMenu({ noticeID }) {
           style={{ zIndex: "2" }}
         >
           <CircularProgress color="primary" style={{ color: "white" }} />
-        
-          <p style={{ color: "white" }}>Please wait, this might take few seconds. </p>
-        
-       
+
+          <p style={{ color: "white" }}>
+            Please wait, this might take few seconds.{" "}
+          </p>
         </Backdrop>
       )}
       {toast && (

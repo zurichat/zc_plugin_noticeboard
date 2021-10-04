@@ -4,16 +4,14 @@ import BookmarkIconActive from "../../../../assets/bookmark-icon-active.svg";
 import { UserBookmarkContext } from "../UserBookmarkContext";
 import { DataContext } from "../../../../App";
 import axios from "axios";
-import Box from "@material-ui/core/Box";
-import ListItemText from "@material-ui/core/ListItemText";
 
-const BookmarkButton = ({ noticeID }) => {
+const UserBookmarkButton = ({ noticeID }) => {
   const { bookmarkDetails, setToggleBookmark, toggleBookmark } =
     useContext(UserBookmarkContext);
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
   let user = JSON.parse(sessionStorage.getItem("user"));
 
-  const AdminMenuStyle = {
+  const UserMenuStyle = {
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -107,4 +105,4 @@ const BookmarkButton = ({ noticeID }) => {
   );
 };
 
-export default BookmarkButton;
+export default UserBookmarkButton;

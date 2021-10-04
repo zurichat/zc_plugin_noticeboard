@@ -6,9 +6,10 @@ import React, { useEffect, useState } from "react";
 // import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
+import BookmarkContextProvider from "./components/NoticeBoard/NoticeBoard/noticeBoardComponent";
+import UserBookmarkContexProvider from "./components/NoticeBoard/NoticeBoard/noticeBoardComponent/UserMenu";
 import axios from "axios";
-import BookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/BookmarkContext";
-import UserBookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/UserBookmarkContext";
+
 // For testing purposes
 
 const _globalData = {
