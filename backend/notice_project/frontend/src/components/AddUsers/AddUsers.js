@@ -401,7 +401,7 @@ const Remove = styled.h3`
 `;
 
 const MemberName = styled.h3`
-  font-weight: 600:  
+  font-weight: 600; 
   font-size: 14px;
   line-height: 1.2;
   text-transform: capitalize;

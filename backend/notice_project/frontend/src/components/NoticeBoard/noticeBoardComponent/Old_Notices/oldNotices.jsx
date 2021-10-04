@@ -10,8 +10,7 @@ function OldNotices() {
   const [loading, isLoading] = useState(true);
 
   //setting state for pagination
-  const {notices, setNotices} = useContext(UserContext);
-  // const [notices, setNotices] = useState([]);
+  const {oldnotices, setOldnotices} = useContext(UserContext);
   const [filteredNotices, setFilteredNotices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   let PageSize = 9;
@@ -39,7 +38,7 @@ function OldNotices() {
       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     );
     const data = await response.json();
-    setNotices(data.data);
+    setOldnotices(data.data);
     console.log(currentDate)
   };
 
@@ -47,12 +46,12 @@ function OldNotices() {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
 
-    const filteredNotices = notices.filter(
+    const filteredNotices = oldnotices.filter(
       (notice) => prevDate <= notice.created.slice(8, 10)
     );
 
     return filteredNotices.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, PageSize, notices, prevDate]);
+  }, [currentPage, PageSize, oldnotices, prevDate]);
 
   if (loading) {
     return (
@@ -73,7 +72,7 @@ function OldNotices() {
           })}
         </section>
         <Pagination
-          totalCount={notices.length}
+          totalCount={oldnotices.length}
           pageSize={PageSize}
           currentPage={currentPage}
           onPageChange={(currentPage) => setCurrentPage(currentPage)}
