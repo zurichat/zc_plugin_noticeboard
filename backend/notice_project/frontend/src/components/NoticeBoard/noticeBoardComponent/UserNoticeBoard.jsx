@@ -11,12 +11,12 @@ import { UserInfoContext } from "../../../App";
 import Pagination from "./Old_Notices/pagination";
 
 const UserNotice = () => {
-  const { loading, setLoading, isError, setIsError } = useContext(UserContext);
+  const { loading, setLoading, isError, setIsError, notices, setNotices } = useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
 
-  const [notices, setNotices] = useState([]);
+  // const [notices, setNotices] = useState([]);
 
   const userData = useContext(UserInfoContext);
   // Read Organization ID
