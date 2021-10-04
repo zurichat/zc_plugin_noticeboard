@@ -406,7 +406,7 @@ class NoticeReminder(views.APIView):
     '''
     newly_created_notice_reminder = [] # stores newly created notice reminder to a list
 
-            
+    @swagger_auto_schema(request_body=NoticeReminderSerializer)       
     def post(self, request, org_id, notice_id):
         org_id=request.GET.get('org')
         notice_id=request.GET.get('notice')
