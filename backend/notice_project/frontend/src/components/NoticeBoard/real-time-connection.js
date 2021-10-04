@@ -6,7 +6,7 @@ import { UserContext } from "../../Data-fetcing";
 
 export const CentrifugoConnection = async() =>{ 
 
-    // const { setPeople, setNotices, setOldnotices } = useContext(UserContext);
+    const { setPeople, setNotices, setOldnotices } = useContext(UserContext);
     
     const date = new Date();
     const currentDate = date.getDate();
@@ -23,29 +23,29 @@ export const CentrifugoConnection = async() =>{
       console.log(ctx);
       console.log(message);
 
-      // setPeople(
-      //   message
-      //     .reverse()
-      //     .filter(
-      //       (notice) => currentDate == notice.created.slice(8, 10)
-      //     )
-      // )
+      setPeople(
+        message
+          .reverse()
+          .filter(
+            (notice) => currentDate == notice.created.slice(8, 10)
+          )
+      )
 
-      // setOldnotices(
-      //   message
-      //     .reverse()
-      //     .filter(
-      //       (notice) => prevDate >= notice.created.slice(8, 10)
-      //     )
-      // )
+      setOldnotices(
+        message
+          .reverse()
+          .filter(
+            (notice) => prevDate >= notice.created.slice(8, 10)
+          )
+      )
 
-      // setNotices(
-      //   message
-      //     // .reverse()
-      //     // .filter(
-      //     //   (notice) => prevDate >= notice.created.slice(8, 10)
-      //     // )
-      // )
+      setNotices(
+        message
+          // .reverse()
+          // .filter(
+          //   (notice) => prevDate >= notice.created.slice(8, 10)
+          // )
+      )
       }
        ); 
 }
