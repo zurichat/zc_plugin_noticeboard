@@ -123,9 +123,9 @@ class CreateNewNotices(views.APIView):
             user_id = request.GET.get('user')
 
             update_notice = {
-                event: "sidebar_update",
-                plugin_id: "noticeboard.zuri.chat",
-                data: {
+                "event": "sidebar_update",
+                "plugin_id": "noticeboard.zuri.chat",
+                "data": {
                     "name": "Noticeboard Plugin",
                     "group_name": "Noticeboard",
                     "show_group": False,
