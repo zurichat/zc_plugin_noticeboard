@@ -71,8 +71,8 @@ function App() {
     console.log(userData)
   };
 
-  useEffect(async () => {
-    await GetUserInfo();
+  useEffect(() => {
+    GetUserInfo();
   }, []);
 
   return (
