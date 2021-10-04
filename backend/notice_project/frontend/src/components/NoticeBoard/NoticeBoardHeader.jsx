@@ -6,13 +6,13 @@ import { AddUsers } from "../AddUsers/AddUsers";
 // import AddIcon from "@material-ui/icons/Add";
 import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
-import Parcel from 'single-spa-react/parcel'
-import { pluginHeader } from '@zuri/plugin-header';
+import Parcel from "single-spa-react/parcel";
+import { pluginHeader } from "@zuri/plugin-header";
 
 function ZuriGlobalHeader() {
-  const [openModal, setOpenModal] = useState(false)
-  const {allUsers, setAllUsers} = useContext(UserContext)
-  const userData = useContext(UserInfoContext)
+  const [openModal, setOpenModal] = useState(false);
+  const { allUsers, setAllUsers } = useContext(UserContext);
+  const userData = useContext(UserInfoContext);
 
   const getAllUsers = async () => {
     try {
@@ -26,53 +26,59 @@ function ZuriGlobalHeader() {
         requestOptions
       );
       let data = await response.json();
-       setAllUsers(data.data);
+      setAllUsers(data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   const headerConfig = {
-    name: 'NOTICEBOARD', //Name on header
+    name: "NOTICEBOARD", //Name on header
     icon: NoticeboardIcon, //Image on header
     thumbnailUrl: [
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-      'https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg',
-      'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png'
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+      "https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg",
+      "https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png",
     ], //Replace with images of users
     userCount: allUsers?.length, //User count on header
-   eventTitle: () => {
+    eventTitle: () => {
       //Block of code to be triggered on title click
     },
     eventThumbnail: () => {
       //Block of code to be triggered on thumbnail click
       setOpenModal(true);
-      console.log(allUsers[0].image_url)
+      console.log(allUsers[0].image_url);
     },
-    hasThumbnail: true //set false if you don't want thumbnail on the header
-  }
+    hasThumbnail: true, //set false if you don't want thumbnail on the header
+  };
 
   useEffect(() => {
-    getAllUsers(); 
-  },[userData] );
+    getAllUsers();
+  }, [userData]);
 
   return (
     <div className="">
-            <Parcel
-      config={pluginHeader}
-      wrapWith="div"
-      wrapStyle={{width: "100%" }}
-      headerConfig={headerConfig}
+      <Parcel
+        config={pluginHeader}
+        wrapWith="div"
+        wrapStyle={{ width: "100%" }}
+        headerConfig={headerConfig}
       />
 
-    {openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""}
-
+      {openModal ? (
+        <AddUsers
+          setOpenModal={setOpenModal}
+          openModal={openModal}
+          notice={true}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
 
 export default ZuriGlobalHeader;
-
 
 // return (
 //   <div className="noticeboard-header">
