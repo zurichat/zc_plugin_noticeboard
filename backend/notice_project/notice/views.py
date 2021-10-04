@@ -119,21 +119,21 @@ class CreateNewNotices(views.APIView):
                 "data": updated_data
             }
 
-            org_id = request.GET.get('org')
-            user_id = request.GET.get('user')
+#             org_id = request.GET.get('org')
+#             user_id = request.GET.get('user')
 
-            update_notice = {
-                "event": "sidebar_update",
-                "plugin_id": "noticeboard.zuri.chat",
-                "data": {
-                    "name": "Noticeboard Plugin",
-                    "group_name": "Noticeboard",
-                    "show_group": False,
-                    "button_url": "/noticeboard/admin-notice",
-                    "public_rooms": [],
-                    "joined_rooms": user_rooms(org_id, user_id)
-                }
-            }
+#             update_notice = {
+#                 "event": "sidebar_update",
+#                 "plugin_id": "noticeboard.zuri.chat",
+#                 "data": {
+#                     "name": "Noticeboard Plugin",
+#                     "group_name": "Noticeboard",
+#                     "show_group": False,
+#                     "button_url": "/noticeboard/admin-notice",
+#                     "public_rooms": [],
+#                     "joined_rooms": user_rooms(org_id, user_id)
+#                 }
+#             }
 
 
             response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
@@ -142,7 +142,7 @@ class CreateNewNotices(views.APIView):
             print(room_id)
 
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", update_notice)
+#             db.post_to_centrifugo("team-aquinas-zuri-challenge-007", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
