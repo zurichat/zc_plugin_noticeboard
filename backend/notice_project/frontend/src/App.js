@@ -8,7 +8,7 @@ import { UserProvider } from "./Data-fetcing";
 import { SearchProvider } from "./noticeContext";
 import axios from "axios";
 import BookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/BookmarkContext";
-
+import UserBookmarkContextProvider from "./components/NoticeBoard/noticeBoardComponent/UserBookmarkContext";
 // For testing purposes
 
 const _globalData = {
@@ -48,7 +48,7 @@ function App() {
     let user = JSON.parse(sessionStorage.getItem("user"));
 
     if ((user && token) !== null) {
-      setUserData('loading')
+      setUserData("loading");
       try {
         const response = await axios.get(
           `https://api.zuri.chat/organizations/${currentWorkspace}/members/?query=${user.email}`,
@@ -87,7 +87,9 @@ function App() {
                   <span className="app__bodyFlex">
                     <ZuriGlobalHeader />
                     <BookmarkContextProvider>
-                      <NoticeBoard />
+                      <UserBookmarkContextProvider>
+                        <NoticeBoard />
+                      </UserBookmarkContextProvider>
                     </BookmarkContextProvider>
                   </span>
                 </div>

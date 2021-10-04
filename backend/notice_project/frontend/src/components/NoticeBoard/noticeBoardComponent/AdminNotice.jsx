@@ -35,8 +35,6 @@ const PinnedNotices = (props) => {
   const org_id = _globalData.Organizations[0];
 
   //Bookmark
-  const userData = useContext(UserInfoContext);
-
   const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
     useContext(BookmarkContext);
   let user = JSON.parse(sessionStorage.getItem("user"));
@@ -47,8 +45,6 @@ const PinnedNotices = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "success") {
-          console.log(data.message);
-          console.log(data.data);
           setBookmarkDetails(data);
         }
       });
@@ -75,11 +71,10 @@ const PinnedNotices = (props) => {
 
         setLoading(false);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
-    console.log("useffect ran");
     fetchBookmarked();
     console.log(bookmarkDetails);
   }, [toggleBookmark]);

@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from "react";
-import BookmarkIcon from "../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
-import { BookmarkContext } from "./BookmarkContext";
-import { DataContext } from "../../../App";
+import BookmarkIcon from "../../../../assets/bookmark-icon.svg";
+import BookmarkIconActive from "../../../../assets/bookmark-icon-active.svg";
+import { UserBookmarkContext } from "../UserBookmarkContext";
+import { DataContext } from "../../../../App";
 import axios from "axios";
+import Box from "@material-ui/core/Box";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const BookmarkButton = ({ noticeID }) => {
   const { bookmarkDetails, setToggleBookmark, toggleBookmark } =
-    useContext(BookmarkContext);
+    useContext(UserBookmarkContext);
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
   let user = JSON.parse(sessionStorage.getItem("user"));
 
@@ -86,7 +88,7 @@ const BookmarkButton = ({ noticeID }) => {
         bookmarkFunction();
       }}
     >
-      <div style={AdminMenuStyle}>
+      <div>
         <img
           src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
           alt="Bookmark"

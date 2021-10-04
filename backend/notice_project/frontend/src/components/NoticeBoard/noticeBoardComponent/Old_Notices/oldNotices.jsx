@@ -10,7 +10,7 @@ function OldNotices() {
   const [loading, isLoading] = useState(true);
 
   //setting state for pagination
-  const {notices, setNotices} = useContext(UserContext);
+  const { notices, setNotices } = useContext(UserContext);
   // const [notices, setNotices] = useState([]);
   const [filteredNotices, setFilteredNotices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +40,7 @@ function OldNotices() {
     );
     const data = await response.json();
     setNotices(data.data);
-    console.log(currentDate)
+    console.log(currentDate);
   };
 
   const currentNoticeData = useMemo(() => {
