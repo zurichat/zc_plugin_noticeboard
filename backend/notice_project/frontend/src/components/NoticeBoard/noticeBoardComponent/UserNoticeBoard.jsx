@@ -9,6 +9,7 @@ import noNotice from "../../../assets/svg/no_notices.svg";
 import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
 import Pagination from "./Old_Notices/pagination";
+import Subscription from '../EmailSubscribe/Subscription'
 
 const UserNotice = () => {
   const { loading, setLoading, isError, setIsError } = useContext(UserContext);
@@ -157,6 +158,7 @@ const UserNotice = () => {
           </div>
         ))}
       </div>
+      <Subscription />
 
       <Pagination
         totalCount={notices.length}

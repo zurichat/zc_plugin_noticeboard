@@ -35,12 +35,11 @@ import outdent from './Text-editor/icons/outdent.svg'
 import ErrorDialog from './CreateNoticeDialogs/ErrorDialog'
 import { MentionAdder, ToggleToolbar } from './Text-editor/Text_editor_features'
 import { UserInfoContext } from '../../../App'
-import { UserContext } from '../../../Data-fetcing'
+
 import '../noticeBoardComponent/Text-editor/Text-editor.css'
 import './CreateNotice.css'
-
 import { DataContext } from '../../../App'
-import Subscription from '../EmailSubscribe/Subscription'
+
 
 
 
@@ -449,7 +448,7 @@ var requestOptions = {
         open={openErrorDialog}
         handleClose={handleCloseErrorDialog}
       />
-      <Subscription />
+     
     </div>
   )
 }
