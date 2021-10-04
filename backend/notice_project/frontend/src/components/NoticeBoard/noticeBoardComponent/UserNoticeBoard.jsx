@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 import { UserInfoContext } from "../../../App";
 import Pagination from "./Old_Notices/pagination";
 
-
 const UserNotice = () => {
-  const { loading, setLoading, isError, setIsError, notices, setNotices } = useContext(UserContext);
+  const { loading, setLoading, isError, setIsError, notices, setNotices } =
+    useContext(UserContext);
 
   const today = new Date();
   const date = today.getDate();
@@ -29,10 +29,10 @@ const UserNotice = () => {
 
   const org_ID = userData?.org_id;
 
+  console.log(org_ID, "Miss");
+
   const fetchNotices = () => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-    )
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_ID}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
@@ -158,7 +158,6 @@ const UserNotice = () => {
           </div>
         ))}
       </div>
-      
 
       <Pagination
         totalCount={notices.length}

@@ -20,25 +20,30 @@ const Header = () => {
   const request = {
     email: userData?.email,
   };
-  const [subscriptionState, setSubscriptionState] = useState("Subscribe")
+  const [subscriptionState, setSubscriptionState] =
+    useState("Subscribe Email ");
 
   const submitEmail = () => {
-    console.log(userData?.org_id,"Kemi");
-    console.log(userData?.email, "kemi");
-    console.log(userData?._id, "kemi");
+    // console.log(userData?.org_id,"Kemi");
+    // console.log(userData?.email, "kemi");
+    // console.log(userData?._id, "kemi");
     axios
-    .post(
-      `https://noticeboard.zuri.chat/api/v1/organisation/email-subscription?org=${userData?.org_id}&user=${userData?._id}`,
-      request
-    )
-    .then((res) => {
-      res.status == "201" ? setSubscriptionState("Unsubscribe") : setSubscriptionState("Subscribe")
-      console.log(res);
-    })
-    .catch((err) => {
-      err == "409" ? setSubscriptionState("Unsubscribe") : setSubscriptionState("Subscribe")
-      console.log(err);
-    });
+      .post(
+        `https://noticeboard.zuri.chat/api/v1/organisation/email-subscription?org=${userData?.org_id}&user=${userData?._id}`,
+        request
+      )
+      .then((res) => {
+        res.status == "201"
+          ? setSubscriptionState("Unsubscribe Email")
+          : setSubscriptionState("Subscribe Email");
+        console.log(res);
+      })
+      .catch((err) => {
+        err == "409"
+          ? setSubscriptionState("Unsubscribe Email")
+          : setSubscriptionState("Subscribe Email");
+        console.log(err);
+      });
   };
 
   return (
@@ -46,6 +51,7 @@ const Header = () => {
       <Link to="/bookmark">
         <div className="bookmarked-notices-nav">Bookmarked notices</div>
       </Link>
+
       <div className="header__wraps">
         <form className="header__form">
           <div className="header__search-icon">
@@ -81,11 +87,9 @@ const Header = () => {
         </form>
       </div>
 
-      <button
-      style={{backgroundColor:"#00bb7c", color:"white", padding:"20px"}}
-      onClick={submitEmail}
-      >{subscriptionState}</button>
-
+      <button className="subscribe-btn" onClick={submitEmail}>
+        {subscriptionState}
+      </button>
     </header>
   );
 };
