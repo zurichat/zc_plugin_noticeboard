@@ -10,16 +10,16 @@ html {
 
 .header {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 95%;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 95%; */
   height: 48px;
   padding: 0.5em 0;
   margin-bottom: 10px;
   overflow-x: hidden;
 }
 
-.header .bookmarked-notices-nav{
+.header .bookmarked-notices-nav {
   color: #161616;
 }
 
@@ -74,10 +74,31 @@ html {
   width: 15px;
 }
 
+/* subscribe button */
+.subscribe-btn {
+  background-color: #00bb7c;
+  color: white;
+  font-size: 10px;
+  padding: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.subscribe-btn:hover {
+  background-color: #00724c;
+}
+
 @media only screen and (min-width: 768px) {
   .header__wraps {
     width: 60%;
     margin: 0 auto;
+  }
+
+  .subscribe-btn {
+    padding: 10px 20px;
+    font: 16px;
   }
 }
 
@@ -112,5 +133,10 @@ html {
   .header__search-icon {
     color: #e6e6e6;
     opacity: 0.4;
+  }
+
+  .subscribe-btn {
+    padding: 10px 20px;
+    font-size: 16px;
   }
 }
