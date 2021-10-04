@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState, useContext} from "react";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
 import UserMenu from "./UserMenu/UserMenu";
 import moment from "moment";
 import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
-
+import { UserInfoContext } from "../../../App";
 const CardNotice = ({
   notice,
   bookmarkDetails,
@@ -13,11 +13,31 @@ const CardNotice = ({
 }) => {
   const id = String(notice._id);
 
+
   const OpenModal = (event) => {
     const clickedButton = event.currentTarget.getAttribute("id");
     const modal_id = `modal_${clickedButton}`;
     document.getElementById(modal_id).style.display = "block";
   };
+
+  // Functinality for the number of views
+   const UserData = useContext(UserInfoContext);
+   const updateView = (noticeID) => {
+   
+      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+      fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log("View count data", data);
+
+      })
+      console.log(UserData.org_id);
+    };
+    // function to convert the string from the backend to number for the views
+    const viewNumber = (count) => {
+    const viewss = count.split(" ").length + 1;
+    return viewss
+  }
 
   return (
     <div className="user-notice-card">
@@ -62,7 +82,7 @@ const CardNotice = ({
             <img src={viewIcon} alt="" />
           </div>
 
-          <div className="views-num">30</div>
+          <div className="views-num">{viewNumber(notice.views)}</div>
         </div>
 
         <div>
@@ -70,7 +90,10 @@ const CardNotice = ({
             className="view-btn MuiButtonBase-root"
             id={id}
             variant="outlined"
-            onClick={(event) => OpenModal(event)}
+            onClick={(event) => {
+              OpenModal(event);
+              updateView(notice._id);
+            }}
           >
             View notice
           </Button>
