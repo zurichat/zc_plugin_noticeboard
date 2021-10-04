@@ -10,6 +10,7 @@ export const UserProvider = (props) => {
 	const [selectedNotice, setSelectedNotice] = useState({});
 	const [searchText, setSearchText] = useState();
 	const [filteredNotice, setFilteredNotice] = useState(people);
+	const [oldnotices, setOldnotices] = useState([]);
 	const [notices, setNotices] = useState([]);
 	const [bookmark, setBookmark] = useState(null);
 
@@ -30,8 +31,10 @@ export const UserProvider = (props) => {
 				setSearchText,
 				filteredNotice,
 				setFilteredNotice,
-				notices,
+				notices, 
 				setNotices,
+				oldnotices,
+				setOldnotices,
 				bookmark,
 				setBookmark
 			}}>

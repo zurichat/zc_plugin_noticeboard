@@ -5,7 +5,7 @@ import "./bookmark-notice.css";
 import CardComponent from "../../noticeBoardComponent/CardComponent";
 import { Button } from "@material-ui/core";
 import logo from "../../../../assets/svg/logo.svg";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, history } from "react-router-dom";
 import { UserInfoContext } from "../../../../App";
 import { UserContext } from "../../../../Data-fetcing";
 import { DataContext } from "../../../../App";
@@ -93,9 +93,7 @@ const BookmarkedNotices = (props) => {
           <Button
             className="header-button"
             color="primary"
-            onClick={() => props.history.push(userData?.role === "owner"
-            ? "/noticeboard/admin-notice"
-            : "/noticeboard/user-notice")}
+            onClick={() => {props.history.goBack()}}
             variant="contained"
             disableRipple
           >
