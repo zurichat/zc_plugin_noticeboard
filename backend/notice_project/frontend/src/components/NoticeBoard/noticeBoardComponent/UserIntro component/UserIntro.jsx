@@ -5,7 +5,7 @@ import defaultEdit from "./default.svg";
 import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
 import Illustration from "../../../../assets/Illustration.svg";
 import { UserInfoContext } from "../../../../App";
-import Subscription from '../../EmailSubscribe/Subscription'
+// import Subscription from '../../EmailSubscribe/Subscription'
 
 const UserIntro = () => {
   const userData = useContext(UserInfoContext);
@@ -39,7 +39,7 @@ const UserIntro = () => {
           </Link>
         </div>
       </div>
-      <Subscription />
+      {/* <Subscription /> */}
     </div>
   );
 };
