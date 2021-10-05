@@ -120,6 +120,14 @@ body .dashboard-container button {
   display: none;
 }
 
+.create-notice-buttons{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
 @media screen and (max-width: 768px) {
   .dashboard-container {
     width: 85%;

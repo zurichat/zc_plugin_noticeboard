@@ -5,25 +5,30 @@
     font-family: 'Lato', sans-serif;
 }
 
+
 .main-container{
-    width: 1440px;
-    height: 900px;
+    width: 100%;
+    height: 100%;
     background-color: hsla(252, 44%, 9%, 0.5);
-    
+    position: fixed;
+    display: none;
+    inset: 0; 
 }
 
 .schedule-container{
-     display: flex;
+    display: flex;
     justify-content: center;
     align-items: center; 
     flex-direction: column;
+    gap: 20px;
     width: 700px;
-    height: 200px;
+    height: fit-content;
     background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 24px;
 }
 
 .text-car{
@@ -37,18 +42,20 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    left: -90px;
+    gap: 8px;
+    width: 100vh;
+
 }
 
 .schedule-notice> h5{
     font-size: 15px;
     font-weight: 900;
+    line-height: 0.5;
 }
 
 .schedule-notice> p{
     font-size: 10px;
     opacity: .5;
-    padding-top: 5px;
 }
 
 .time-zone{
@@ -91,6 +98,7 @@
 
 .box-bars{
     display: flex;
+    align-items: center;
     padding: 10px;
     position: relative;
     left: -40px;
@@ -98,8 +106,10 @@
 }
 
 .calender{
+    display: flex;
+    align-items: center;
     width: 370px;
-    height: 35px;
+    height: 48px;
     background-color: white;
     border: 1px solid hsla(0, 0%, 90%, 1);
     position: relative;
@@ -109,59 +119,55 @@
 
 .calender>.calender2{
     position: absolute;
-    top: 7px;
     left: 10px;
     width: 20px;
-    height: 20px;
+    height: 100%;
 }
 
 .calender>.dropdown{
     position: relative;
-   left: 330px;
-    top: -5px;
+    left: 80%;
     width: 14px;
-    height: 14px;
+    height: 100%;
 }
 
 .calender>p{
     position: relative;
-    top: 10px;
     left: 38px;
     color: hsla(0, 0%, 60%, 1);
 }
 
 .time{
     width: 260px;
-    height: 35px;
+    height: 48px;
     background-color: white;
     position: relative;
     left: 55px;
     align-items: center;
     border: 1px solid hsla(0, 0%, 90%, 1);
     border-radius: 3px;
+    display: flex;
+    align-items: center;
 }
 
 .time>p{
     position: relative;
-    top: 9px;
-    left: 35px;
+    left: 38px;
     color: hsla(0, 0%, 60%, 1);
 }
 
 .time>.clock{
     position: absolute;
     left: 12px;
-    top: 7px;
     width: 16px;
-    height: 16px;
+    height: 100%;
 }
 
 .time>.dropdown2{
     position: relative;
-    top: -5px;
-    left: 230px;
+    left: 80%;
     width: 14px;
-    height: 14px;
+    height: 100%;
 }
 
 
@@ -176,7 +182,7 @@
 
 .cancel{
     width: 130px;
-    height: 30px;
+    height: 46px;
     background-color:hsla(0, 0%, 97%, 1);
     display: flex;
     align-items: center;
@@ -186,11 +192,17 @@
     position: relative;
     right: 30px;
     border-radius: 3px;
+    cursor: pointer;
+}
+
+.cancel:hover{
+    background-color:rgb(114, 114, 114);
+    color: #fff
 }
 
 .schedule-notice2{
     width: 180px;
-    height: 30px;
+    height: 46px;
     background-color: hsla(160, 100%, 37%, 1);
     font-size: 12px;
     text-align: center;

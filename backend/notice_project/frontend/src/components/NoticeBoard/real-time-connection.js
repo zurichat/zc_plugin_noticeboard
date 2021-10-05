@@ -19,7 +19,7 @@ export const CentrifugoConnection = async() =>{
     }
 
     SubscribeToChannel("team-aquinas-zuri-challenge-007", (ctx) => {
-      const message = ctx.data.data.data;
+      const message = ctx.data.data;
       console.log(ctx);
       console.log(message);
 
@@ -41,6 +41,7 @@ export const CentrifugoConnection = async() =>{
 
       setNotices(
         message
+        .slice(firstPageIndex, lastPageIndex)
           // .reverse()
           // .filter(
           //   (notice) => prevDate >= notice.created.slice(8, 10)
