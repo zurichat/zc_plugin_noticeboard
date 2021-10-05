@@ -132,7 +132,7 @@ const PinnedNotices = (props) => {
 
             <Link to="/noticeboard/old-notices">
               <div className="older-notices">
-                <p className="older-notices-text">View older notices</p>
+                <p className="older-notices-text"><span>View older notices</span></p>
               </div>
             </Link>
           </div>

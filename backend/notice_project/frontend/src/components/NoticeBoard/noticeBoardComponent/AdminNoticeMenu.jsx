@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import  React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -26,6 +26,11 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
+
+
+
+
+
 
 function AdminMenu({
   noticeID,
@@ -68,16 +73,7 @@ function AdminMenu({
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
     setLoader(true);
-    //  setTimeout(()=>{
-    //    setLoader(false)
-    // }, 4000)
-    // setTimeout(() => {
-    //   setToast(true);
-    // }, 4000);
-
-    // setTimeout(() => {
-    //   setToast(false);
-    // }, 7000);
+    
   };
 
   const editNotice = (noticeID) => {
@@ -162,12 +158,9 @@ function AdminMenu({
         "Content-type": "application/json",
       },
     };
-
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`,
-      options
-    )
-      .then((response) => {
+      URL = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`
+    fetch(URL,options)
+       .then((response) => {
         console.log(response);
         setLoader(false)
         console.log(noticeId)
@@ -177,7 +170,7 @@ function AdminMenu({
 
         setTimeout(()=>{
           setToast(false)
-        }, 2000)
+        }, 3000)
 
       })
 
@@ -185,6 +178,9 @@ function AdminMenu({
         console.log(error);
       });
     handleClose();
+
+    
+  
   };
 
   ///Checking if the notice was bookmarked
@@ -453,6 +449,7 @@ function AdminMenu({
       )}
       {toast && (
         <Snackbar
+         
           open={toast}
           autoHideDuration={6000}
           onClose={() => setLoader(false)}
