@@ -13,7 +13,7 @@ const UserBookmarkButton = ({ noticeID }) => {
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
   let user = JSON.parse(sessionStorage.getItem("user"));
 
-  const AdminMenuStyle = {
+  const UserMenuStyle = {
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -82,7 +82,7 @@ const UserBookmarkButton = ({ noticeID }) => {
 
   return (
     <div
-      style={{ width: "100%" }}
+      style={UserMenuStyle}
       onClick={() => {
         bookmarkFunction();
       }}
