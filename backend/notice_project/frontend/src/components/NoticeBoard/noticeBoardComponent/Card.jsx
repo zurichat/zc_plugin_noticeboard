@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 
+import viewIcon from "../../../assets/Seen.svg";
 import dot from "../../../assets/Ellipse135.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
+import { UserInfoContext } from "../../../App";
 
 const Card = ({ person, people }) => {
   const [openModal, setOpenModal] = React.useState(false);
@@ -31,6 +33,23 @@ const Card = ({ person, people }) => {
   ];
 
   const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
+
+  // Functinality for the number of views
+  const UserData = useContext(UserInfoContext);
+  const updateView = (noticeID) => {
+    const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+    fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log("View count data", data);
+      });
+    console.log(UserData.org_id);
+  };
+  // function converting the views from strings to numbers
+  const viewNumber = (count) => {
+    const viewss = count.split(" ").length - 1;
+    return viewss;
+  };
 
   return (
     <>
@@ -80,9 +99,22 @@ const Card = ({ person, people }) => {
         </div>
         {/* icons tray */}
         <div className="icon-button-tray-adminNotice">
+          <div className="view-icon-grp">
+            <div>
+              <img src={viewIcon} alt="" />
+            </div>
+
+            <div className="views-num">
+              {viewNumber(person.views)}
+            </div>
+          </div>
           <button
             className="card-button-adminNotice"
-            onClick={() => filterUsers(person._id)}
+            onClick={() => {
+              filterUsers(person._id);
+              updateView(person._id);
+
+            }}
           >
             View Notice
           </button>
