@@ -6,7 +6,7 @@ from rest_framework import views, status, views
 from .storage import db
 from .schedulestorage import schDb
 from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer, BookmarkNoticeSerializer
-from .email import sendmassemail
+from .email import sendmassemail, subscription_success_mail
 from .utils import user_rooms
 from django.conf import settings
 from drf_yasg import openapi
@@ -697,16 +697,18 @@ def email_subscription(request):
         if org_id and user_id: # and user_id
             serializer = SubscribeSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+            user_email = serializer.data["email"]
             user_data = {
                 "user_id": user_id,
-                "email": serializer.data["email"]
+                "email": user_email
             }
             
-            response_subscribers = db.read("email_subscribers", org_id)
+            response_subscribers = db.read("test_email_subscribers", org_id)
 
             try:
                 if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
-                    db.save("email_subscribers", org_id, user_data)
+                    db.save("test_email_subscribers", org_id, user_data)
+                    subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 elif response_subscribers["status"] == 200 and response_subscribers["data"]:
@@ -715,11 +717,12 @@ def email_subscription(request):
                             return Response({"status": "already subscribed"}, status=status.HTTP_409_CONFLICT)
 
                     # if user_id doesn't exist, then the user is subscribed
-                    db.save("email_subscribers", org_id, user_data)
+                    db.save("test_email_subscribers", org_id, user_data)
+                    subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 else:
-                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+                    return Response({"status": response_subscribers["message"]}, status=response_subscribers["status"])
 
             except Exception as e:
                 return Response(str(e))
