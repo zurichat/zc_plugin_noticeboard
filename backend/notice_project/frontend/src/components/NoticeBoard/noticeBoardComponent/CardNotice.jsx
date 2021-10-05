@@ -1,5 +1,4 @@
-
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 import viewIcon from "../../../assets/Seen.svg";
 import Button from "@material-ui/core/Button";
@@ -7,12 +6,7 @@ import UserMenu from "./UserMenu/UserMenu";
 import { UserInfoContext } from "../../../App";
 import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 
-const CardNotice = ({
-  notice,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) => {
+const CardNotice = ({ notice }) => {
   const id = String(notice._id);
 
   const OpenModal = (event) => {
@@ -21,24 +15,22 @@ const CardNotice = ({
     document.getElementById(modal_id).style.display = "block";
   };
 
-   // Functinality for the number of views
-   const UserData = useContext(UserInfoContext);
-   const updateView = (noticeID) => {
-   
-      const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
-      fetch(apiCall)
+  // Functinality for the number of views
+  const UserData = useContext(UserInfoContext);
+  const updateView = (noticeID) => {
+    const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+    fetch(apiCall)
       .then((result) => result.json())
       .then((data) => {
         console.log("View count data", data);
-
-      })
-      console.log(UserData.org_id);
-    };
-    // function converting the views from strings to numbers
-    const viewNumber = (count) => {
+      });
+    console.log(UserData.org_id);
+  };
+  // function converting the views from strings to numbers
+  const viewNumber = (count) => {
     const viewss = count.split(" ").length + 1;
-    return viewss
-  }
+    return viewss;
+  };
   return (
     <div className="user-notice-card">
       <div className="card-top">
@@ -61,12 +53,7 @@ const CardNotice = ({
           </div>
         </div>
         <div className="info-icon">
-          <UserMenu
-            noticeID={notice._id}
-            bookmarkDetails={bookmarkDetails}
-            setToggleBookmark={setToggleBookmark}
-            toggleBookmark={toggleBookmark}
-          />
+          <UserMenu noticeID={notice._id} />
         </div>
       </div>
       <div className="card-body">
@@ -82,9 +69,7 @@ const CardNotice = ({
             <img src={viewIcon} alt="" />
           </div>
 
-          <div className="views-num">
-            {viewNumber(notice.views)}
-          </div>
+          <div className="views-num">{viewNumber(notice.views)}</div>
         </div>
 
         <div>
@@ -93,7 +78,7 @@ const CardNotice = ({
             id={id}
             variant="outlined"
             onClick={(event) => {
-              OpenModal(event); 
+              OpenModal(event);
               updateView(notice._id);
             }}
           >
