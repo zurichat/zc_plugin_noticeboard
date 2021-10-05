@@ -35,7 +35,7 @@ urlpatterns = [
 
     path('organisation/<str:org_id>/create', CreateNewNotices.as_view()),
 
-    path('organisation/<str:org_id>/create-reminder', NoticeReminder.as_view()),
+    path('organisation/<str:org_id>/create-reminder/<str:notice_id>', NoticeReminder.as_view()),
     
     path('organisation/<str:org_id>/view-reminder', ViewNoticeReminder.as_view()),
 

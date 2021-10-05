@@ -114,10 +114,10 @@ class CreateNewNotices(views.APIView):
 
             updated_data = db.read("noticeboard", org_id)
 
-            created_notice = {
-                "event":"create_notice",
-                "data": updated_data
-            }
+            # created_notice = {
+            #     "event":"create_notice",
+            #     "data": updated_data
+            # }
 
             user_id = request.GET.get('user')
 
@@ -135,11 +135,12 @@ class CreateNewNotices(views.APIView):
             }
 
 
-            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-            room = response.json()
-            room_id = room["data"][0]["_id"]
+            # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            # room = response.json()
+            # room_id = room["data"][0]["_id"]
 
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
+            # db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007",updated_data)
             db.post_to_centrifugo(f"{org_id}_{user_id}_sidebar", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -160,17 +161,18 @@ class UpdateNoticeAPIView(views.APIView):
 
             data = db.read("noticeboard", org_id)
 
-            updated_data = {
-                "event":"update_notice",
-                "data":data
-            }
+            # updated_data = {
+            #     "event":"update_notice",
+            #     "data":data
+            # }
 
-            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-            room = response.json()
-            room_id = room["data"][0]["_id"]
+            # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            # room = response.json()
+            # room_id = room["data"][0]["_id"]
             
 
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+            # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
             return Response(
                 {
@@ -193,40 +195,30 @@ class DeleteNotice(views.APIView):
 
     def delete(self, request, object_id, org_id):
         # org_id = "613a1a3b59842c7444fb0220"
-        try:
-            db.delete(
-                collection_name='noticeboard',
-                org_id=org_id,
-                object_id=object_id
-            )
+        deleted_data =  db.delete(
+            collection_name='noticeboard',
+            org_id=org_id,
+            object_id=object_id
+        )
 
-            data = db.read('noticeboard', org_id)
+        data = db.read('noticeboard', org_id)
 
-            updated_data = {
-                "event":"delete_notice",
-                "data":data
-            }
+        # updated_data = {
+        #     "event":"delete_notice",
+        #     "data":data
+        # }
 
-            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-            room = response.json()
-            room_id = room["data"][0]["_id"]
-            
+        # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+        # room = response.json()
+        # room_id = room["data"][0]["_id"]
+        
 
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+        # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", updated_data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
 
-            return Response(
-                {
-                    "success": True,
-                    "message": "Delete Operation Successful"
-                },
-                status=status.HTTP_200_OK)
-        except:
-            return Response(
-                {
-                    "success": False,
-                    "message": "Delete Operation Failed. Object does not exist in the database"
-                },
-                status=status.HTTP_404_NOT_FOUND)
+        if deleted_data['status'] == 200:
+            return Response({"success": True, "message": "Delete Operation Successful"}, status=status.HTTP_200_OK)
+        return Response({"success": False, "message": "Delete Operation Failed. Object does not exist in the database"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ViewNoticeAPI(views.APIView):
@@ -423,18 +415,18 @@ class NoticeReminder(views.APIView):
 
     @swagger_auto_schema(request_body=NoticeReminderSerializer)       
     def post(self, request, org_id, notice_id):
-        org_id=request.GET.get('org')
-        notice_id=request.GET.get('notice')
+        # notice_id=request.GET.get('notice')
         # sendReminderEmail = request.GET.get('sendReminderEmail')
 
         serializer = NoticeReminderSerializer(data=request.data)
         if serializer.is_valid():
             db.save(
-                "noticeboard",
+                "reminders",
                 org_id,
-                notice_id,
+                # notice_id,
                 notice_data=serializer.data
             )
+
             # Appends serializer data to newly_created_notice_reminder list
             created_notice_reminder = serializer.data
             self.newly_created_notice_reminder.append(created_notice_reminder)
@@ -453,6 +445,7 @@ class ViewNoticeReminder(views.APIView):
         # org_id = "613a1a3b59842c7444fb0220"
         
         remind_notice = db.read("reminders", org_id)
+        print(remind_notice)
         if remind_notice['status'] == 200:
             return Response(remind_notice, status=status.HTTP_200_OK)
         return Response({"status": False, "message": "There are no notices to be reminded of."}, status=status.HTTP_400_BAD_REQUEST)
@@ -484,22 +477,23 @@ class CreateBookmark(views.APIView):
             #     "notice_data":notice["data"]
             # }
 
-            db.save('bookmark_notice', org_id, serializer.data)
+            bookmarked_data = db.save('bookmark_notice', org_id, serializer.data)
 
-            response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-            room = response.json()
-            room_id = room["data"][0]["_id"]
+            # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+            # room = response.json()
+            # room_id = room["data"][0]["_id"]
             
 
-            notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
+            # notice = db.read('noticeboard',org_id, filter={"_id":serializer.data["notice_id"]})
 
-            data = {
-                "event":"create_bookmark",
-                "data":notice["data"]
-            }
+            # data = {
+            #     "event":"create_bookmark",
+            #     "data":notice["data"]
+            # }
 
 
-            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
+            # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
+            db.post_to_centrifugo("team-aquinas-zuri-challenge-007", bookmarked_data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -515,17 +509,18 @@ class DeleteBookmarkedNotice(views.APIView):
 
         bookmarked_data = db.read('bookmark_notice', org_id)
 
-        data = {
-            "event":"delete_bookmark",
-            "data":bookmarked_data
-        }
+        # data = {
+        #     "event":"delete_bookmark",
+        #     "data":bookmarked_data
+        # }
 
-        response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
-        room = response.json()
-        room_id = room["data"][0]["_id"]
+        # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
+        # room = response.json()
+        # room_id = room["data"][0]["_id"]
         
 
-        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
+        # db.post_to_centrifugo("team-aquinas-zuri-challenge-007", data)
+        db.post_to_centrifugo("team-aquinas-zuri-challenge-007", bookmarked_data)
 
         if bookmarked_notice['status'] == 200:
             return Response({"message":"successfully deleted bookmarked notice"}, status=status.HTTP_200_OK)
