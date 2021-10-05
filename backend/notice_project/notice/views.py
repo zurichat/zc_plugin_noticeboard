@@ -703,11 +703,11 @@ def email_subscription(request):
                 "email": user_email
             }
             
-            response_subscribers = db.read("test_email_subscribers", org_id)
+            response_subscribers = db.read("email_subscribers", org_id)
 
             try:
                 if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
-                    db.save("test_email_subscribers", org_id, user_data)
+                    db.save("email_subscribers", org_id, user_data)
                     subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
@@ -717,7 +717,7 @@ def email_subscription(request):
                             return Response({"status": "already subscribed"}, status=status.HTTP_409_CONFLICT)
 
                     # if user_id doesn't exist, then the user is subscribed
-                    db.save("test_email_subscribers", org_id, user_data)
+                    db.save("email_subscribers", org_id, user_data)
                     subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
