@@ -13,13 +13,7 @@ current_time = f"{time.hour + 1}:{time.minute}:{time.second}"
 current_date = f"{time.month}-{time.day}-{time.year}"
 scheduled_date_and_time = f'{time.hour + 1}:{time.minute}:{time.second + 30}'
 
-def notice_me():
-    notice_remind = notice_reminder.newly_created_notice_reminder
-    
-    if notice_remind:
-        print(notice_remind)
-    else:
-        print("No recent notice reminders!")
+
 
 """
 The dummy data should not be deleted.
@@ -31,6 +25,14 @@ dynamic_data = [
         "schedule_date": "10-3-2021"
     }
 ]
+
+def notice_me():
+    notice_remind = notice_reminder.newly_created_notice_reminder
+    
+    if notice_remind:
+        print(notice_remind)
+    else:
+        return dynamic_data
 
 print(dynamic_data[0].get("schedule_date"))
 # Get Date and Time Dynamically
@@ -46,12 +48,14 @@ def start():
     scheduler = BackgroundScheduler()
     scheduler.add_job(
     notice_me,
-    "interval",
-    seconds = 30
-    # "date",
+    "date",
+    run_date = f"{dynamic_date}"
+    
+    # "interval",
+    # seconds = 30
     # # run_date = "2021-10-2 19:54:00"
     # run_date = f"{scheduled_date_and_time}"
-    # run_date = f"{dynamic_date}"
+
     )
     scheduler.start()
 
