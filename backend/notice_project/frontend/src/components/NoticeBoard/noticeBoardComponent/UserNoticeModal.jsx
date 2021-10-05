@@ -50,7 +50,7 @@ function UserNoticeModal({ notice }) {
               </div>
             </div>
             <div>
-              <UserMenu />
+              <UserMenu noticeID={notice._id} />
             </div>
           </div>
           <div>

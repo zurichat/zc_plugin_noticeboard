@@ -4,6 +4,8 @@ import "./oldNotices.css";
 import Card from "../Card";
 import OldNoticeHeader from "./oldNoticeHeader";
 import { UserContext } from "../../../../Data-fetcing";
+import { DataContext } from "../../../../App";
+import {BookmarkContext} from "../BookmarkContext"
 
 function OldNotices() {
   // const [people, setPeople] = useState([]);
@@ -52,6 +54,33 @@ function OldNotices() {
 
     return filteredNotices.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, PageSize, oldnotices, prevDate]);
+
+  
+
+  // Read Organization ID
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+  
+  //Bookmark
+  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
+    useContext(BookmarkContext);
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarked = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          setBookmarkDetails(data);
+          console.log("fethed" + data)
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchBookmarked();
+  }, [toggleBookmark]);
 
   if (loading) {
     return (

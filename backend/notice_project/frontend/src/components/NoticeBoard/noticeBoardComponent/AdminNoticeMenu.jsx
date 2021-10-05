@@ -2,8 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import BookmarkIcon from "../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
+
 import Active from "../../../assets/active.svg";
 import EditIcon from "../../../assets/edit-icon.svg";
 import ReminderIcon from "../../../assets/reminder-icon.svg";
@@ -11,7 +10,6 @@ import CopyLinkIcon from "../../../assets/copy-link-icon.svg";
 import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
-import axios from "axios";
 
 import ReminderModal from "./Notice_Reminder/reminderModal";
 import Dialog from "@material-ui/core/Dialog";
@@ -27,33 +25,15 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
+import BookmarkButton from "./BookmarkButton";
 
-function AdminMenu({
-  noticeID,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) {
-  const menu = [
-    { icon: EditIcon, linkText: "Edit notice", id: "1" },
-    { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
-  ];
-
+function AdminMenu({ noticeID }) {
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const [reminderModal, setReminderModal] = useState(false);
   const history = useHistory();
-
-  ////bookmark status state
-  const [bookmarkStatus, setBookmarkStatus] = useState();
-
-  const UserData = useContext(UserInfoContext);
-  // console.log(userData.email);
-  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
-
-  /////
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -128,31 +108,6 @@ function AdminMenu({
     setAnchorEl(evt.currentTarget);
   };
 
-  // const copy = (noticeID) => {
-  //   fetch(
-  //     `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-  //   )
-  //     .then((res) => {
-  //       if (res.status >= 200 && res.status <= 299) {
-  //         return res.json();
-  //       } else {
-  //         setLoading(false);
-  //         setIsError(true);
-  //       }
-  //     })
-  //     .then((data) => {
-  //       setNoticeList(data.data);
-  //     })
-  //     .catch((error) => console.log(error));
-
-  //   const currentNoticeID = noticeList?.find((element) => {
-  //     return element._id === noticeID;
-  //   });
-
-  //   setSelectedNotice(currentNoticeID);
-  //   navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
-  // };
-
   const closeMenu = () => {
     setAnchorEl(false);
   };
@@ -189,7 +144,6 @@ function AdminMenu({
   };
 
   const openReminderModal = () => {
-    console.log("openModal");
     setReminderModal(true);
   };
 
@@ -298,28 +252,8 @@ function AdminMenu({
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          <div style={AdminMenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="Bookmark"
-              style={MenuIconStyle}
-            />
-            <span
-              style={{
-                color: "#999999",
-                width: "100%",
-              }}
-            >
-              Bookmark
-            </span>
-          </div>
+        <MenuItem className="overrideHeight" disableRipple>
+          <BookmarkButton noticeID={noticeID} />
         </MenuItem>
 
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
@@ -363,7 +297,6 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              // onClick={copy(noticeID)}
             >
               Copy link
             </span>
@@ -377,7 +310,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick= { openDeleteModal }
             >
               Delete Notice
             </span>
@@ -391,13 +324,13 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
             >
               More message shortcuts...
             </span>
           </div>
         </MenuItem>
       </Menu>
+      
       {openModal && (
         <Dialog
           open={openModal}

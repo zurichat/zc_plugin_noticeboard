@@ -6,7 +6,7 @@ from rest_framework import views, status, views
 from .storage import db
 from .schedulestorage import schDb
 from .serializers import NoticeboardRoom, CreateNoticeSerializer, SubscribeSerializer, UnsubscribeSerializer, NoticeReminderSerializer,DraftSerializer,SchedulesSerializer, BookmarkNoticeSerializer
-from .email import sendmassemail
+from .email import sendmassemail, subscription_success_mail
 from .utils import user_rooms
 from django.conf import settings
 from drf_yasg import openapi
@@ -119,20 +119,20 @@ class CreateNewNotices(views.APIView):
             #     "data": updated_data
             # }
 
-            # user_id = request.GET.get('user')
+            user_id = request.GET.get('user')
 
-            # update_notice = {
-            #     "event": "sidebar_update",
-            #     "plugin_id": "noticeboard.zuri.chat",
-            #     "data": {
-            #         "name": "Noticeboard Plugin",
-            #         "group_name": "Noticeboard",
-            #         "show_group": False,
-            #         "button_url": "/noticeboard",
-            #         "public_rooms": [],
-            #         "joined_rooms": user_rooms(org_id, user_id)
-            #     }
-            # }
+            update_notice = {
+                "event": "sidebar_update",
+                "plugin_id": "noticeboard.zuri.chat",
+                "data": {
+                    "name": "Noticeboard Plugin",
+                    "group_name": "Noticeboard",
+                    "show_group": False,
+                    "button_url": "/noticeboard",
+                    "public_rooms": [],
+                    "joined_rooms": user_rooms(org_id, user_id)
+                }
+            }
 
 
             # response = requests.get(f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/get-room")
@@ -141,7 +141,7 @@ class CreateNewNotices(views.APIView):
 
             # db.post_to_centrifugo("team-aquinas-zuri-challenge-007",created_notice)
             db.post_to_centrifugo("team-aquinas-zuri-challenge-007",updated_data)
-            # db.post_to_centrifugo(f"{org_id}_{user_id}_sidebar", update_notice)
+            db.post_to_centrifugo(f"{org_id}_{user_id}_sidebar", update_notice)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -697,9 +697,10 @@ def email_subscription(request):
         if org_id and user_id: # and user_id
             serializer = SubscribeSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+            user_email = serializer.data["email"]
             user_data = {
                 "user_id": user_id,
-                "email": serializer.data["email"]
+                "email": user_email
             }
             
             response_subscribers = db.read("email_subscribers", org_id)
@@ -707,6 +708,7 @@ def email_subscription(request):
             try:
                 if response_subscribers["message"]=="collection not found" or response_subscribers["data"]==None:
                     db.save("email_subscribers", org_id, user_data)
+                    subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 elif response_subscribers["status"] == 200 and response_subscribers["data"]:
@@ -716,10 +718,11 @@ def email_subscription(request):
 
                     # if user_id doesn't exist, then the user is subscribed
                     db.save("email_subscribers", org_id, user_data)
+                    subscription_success_mail(email=user_email)
                     return Response({"status": "subscription successful", "data": user_data}, status=status.HTTP_201_CREATED)
 
                 else:
-                    return Response({"error": response_subscribers["message"]}, status=response_subscribers["status"])
+                    return Response({"status": response_subscribers["message"]}, status=response_subscribers["status"])
 
             except Exception as e:
                 return Response(str(e))
