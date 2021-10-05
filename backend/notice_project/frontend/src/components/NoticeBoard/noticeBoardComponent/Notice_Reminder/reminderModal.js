@@ -16,15 +16,7 @@ const rangeOfNumbers = (min, max) => {
 };
 
 const ReminderModal = ({ setReminderModal }) => {
-  /*const minDateArray = [];
-  const currentDate = new Date();
-  const localeCurrentDate = currentDate.toLocaleDateString();
-  const reverseDateFormat = localeCurrentDate.split("/").reverse();
-  minDateArray.push(reverseDateFormat[0]);
-  minDateArray.push(reverseDateFormat[2]);
-  minDateArray.push(reverseDateFormat[1]);
-  const minDate = minDateArray.join("-");*/
-
+  
   const hours = rangeOfNumbers(0, 23);
   const minutes = rangeOfNumbers(0, 59);
   const UserDataContext = useContext(UserInfoContext);
