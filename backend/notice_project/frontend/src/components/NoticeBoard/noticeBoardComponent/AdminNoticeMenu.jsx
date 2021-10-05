@@ -13,6 +13,7 @@ import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
 import axios from "axios";
 
+import ReminderModal from "./Notice_Reminder/reminderModal";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -42,6 +43,7 @@ function AdminMenu({
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
+  const [reminderModal, setReminderModal] = useState(false);
   const history = useHistory();
 
   ////bookmark status state
@@ -169,22 +171,26 @@ function AdminMenu({
     )
       .then((response) => {
         console.log(response);
-        setLoader(false)
-        console.log(noticeId)
+        setLoader(false);
+        console.log(noticeId);
       })
-      .then((response)=>{
-        setToast(true)
+      .then((response) => {
+        setToast(true);
 
-        setTimeout(()=>{
-          setToast(false)
-        }, 2000)
-
+        setTimeout(() => {
+          setToast(false);
+        }, 2000);
       })
 
       .catch((error) => {
         console.log(error);
       });
     handleClose();
+  };
+
+  const openReminderModal = () => {
+    console.log("openModal");
+    setReminderModal(true);
   };
 
   ///Checking if the notice was bookmarked
@@ -342,7 +348,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick={openReminderModal}
             >
               Remind me about this
             </span>
@@ -445,10 +451,10 @@ function AdminMenu({
           style={{ zIndex: "2" }}
         >
           <CircularProgress color="primary" style={{ color: "white" }} />
-        
-          <p style={{ color: "white" }}>Please wait, this might take few seconds. </p>
-        
-       
+
+          <p style={{ color: "white" }}>
+            Please wait, this might take few seconds.{" "}
+          </p>
         </Backdrop>
       )}
       {toast && (
@@ -460,7 +466,9 @@ function AdminMenu({
           severity="success"
         />
       )}
+      {reminderModal && <ReminderModal setReminderModal={setReminderModal} />}
     </div>
   );
 }
+
 export default AdminMenu;

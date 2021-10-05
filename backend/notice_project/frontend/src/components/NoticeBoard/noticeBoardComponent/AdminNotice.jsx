@@ -182,6 +182,7 @@ const PinnedNotices = (props) => {
         </div>
       </Link>
       
+      
     </div>
   );
 };

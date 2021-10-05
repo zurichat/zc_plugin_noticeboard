@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 // import styled from "styled-components";
 import "./NoticeBoardHeader.css";
 import NoticeboardIcon from "../../assets/noticeboard.svg";
+import noNotification from "../../assets/noNotification.svg";
 import { AddUsers } from "../AddUsers/AddUsers";
 // import AddIcon from "@material-ui/icons/Add";
 import { UserInfoContext } from "../../App";
@@ -57,7 +58,7 @@ function ZuriGlobalHeader() {
   }, [userData]);
 
   return (
-    <div className="">
+    <div className="zuriMain-header">
       <Parcel
         config={pluginHeader}
         wrapWith="div"
@@ -74,6 +75,10 @@ function ZuriGlobalHeader() {
       ) : (
         ""
       )}
+
+      <div className="noNotification-container">
+        <img src={noNotification} alt="noNotification" />
+      </div>
     </div>
   );
 }

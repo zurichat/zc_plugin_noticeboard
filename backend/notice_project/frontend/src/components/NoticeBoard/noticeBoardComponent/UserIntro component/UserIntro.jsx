@@ -33,7 +33,7 @@ const UserIntro = () => {
             style={{ textDecoration: "none" }}
           >
             <button className="view-notice-btn-userIntro" label="View Notice">
-              <span className="view-notice-btn">View Notice!!</span>
+              <span className="view-notice-btn">View Notice</span>
               <img src={defaultEdit} alt="create notice" />
             </button>
           </Link>

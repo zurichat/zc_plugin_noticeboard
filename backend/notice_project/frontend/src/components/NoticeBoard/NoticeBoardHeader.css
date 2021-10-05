@@ -10,3 +10,53 @@
   overflow-x: hidden;
   width: 100%;
 }
+
+.zuriMain-header {
+  position: relative;
+}
+
+.noNotification-container {
+  position: absolute;
+  top: calc(100% - 35px);
+  left: calc(100% - 10em);
+  cursor: pointer;
+}
+
+/* Overriding css modules from zuri main*/
+
+.plugin__header--tLUmw__header-module {
+  padding: 5px 10px !important;
+}
+
+.plugin__header__text--JUQHp__header-module {
+  font-weight: 400 !important;
+  font-size: 1.2em !important;
+}
+
+.plugin__thumbnail--jo7eI__header-module > img {
+  display: none !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .noNotification-container {
+    position: absolute;
+    top: calc(100% - 35px);
+    left: calc(100% - 13em);
+    cursor: pointer;
+  }
+
+  /* Overriding css modules from zuri main*/
+
+  .plugin__thumbnail--jo7eI__header-module > img {
+    display: block !important;
+  }
+
+  .plugin__header--tLUmw__header-module {
+    padding: 5px 20px !important;
+  }
+
+  .plugin__header__text--JUQHp__header-module {
+    font-weight: 600 !important;
+    font-size: 1.8em !important;
+  }
+}
