@@ -17,6 +17,7 @@ html {
   padding: 0.5em 0;
   margin-bottom: 10px;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .header .bookmarked-notices-nav {
