@@ -225,7 +225,6 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={closeMenu}
             >
               Remind me about this
             </span>
@@ -240,7 +239,6 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              // onClick={copy(noticeID)}
             >
               Copy link
             </span>
@@ -268,7 +266,6 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={closeMenu}
             >
               More message shortcuts...
             </span>
