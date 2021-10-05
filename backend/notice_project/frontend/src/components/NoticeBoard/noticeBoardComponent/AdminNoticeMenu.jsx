@@ -1,4 +1,4 @@
-import  React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -26,37 +26,15 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
+import BookmarkButton from "./BookmarkButton";
 
 
-
-
-
-
-function AdminMenu({
-  noticeID,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) {
-  const menu = [
-    { icon: EditIcon, linkText: "Edit notice", id: "1" },
-    { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
-  ];
-
+function AdminMenu({ noticeID }) {
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const history = useHistory();
-
-  ////bookmark status state
-  const [bookmarkStatus, setBookmarkStatus] = useState();
-
-  const UserData = useContext(UserInfoContext);
-  // console.log(userData.email);
-  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
-
-  /////
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -73,7 +51,16 @@ function AdminMenu({
   const deleteNoticeFunc = () => {
     deleteNotice(noticeID);
     setLoader(true);
-    
+    //  setTimeout(()=>{
+    //    setLoader(false)
+    // }, 4000)
+    // setTimeout(() => {
+    //   setToast(true);
+    // }, 4000);
+
+    // setTimeout(() => {
+    //   setToast(false);
+    // }, 7000);
   };
 
   const editNotice = (noticeID) => {
@@ -158,106 +145,30 @@ function AdminMenu({
         "Content-type": "application/json",
       },
     };
-      URL = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`
-    fetch(URL,options)
-       .then((response) => {
+
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeId}/delete`,
+      options
+    )
+      .then((response) => {
         console.log(response);
-        setLoader(false)
-        console.log(noticeId)
+        setLoader(false);
+        console.log(noticeId);
       })
-      .then((response)=>{
-        setToast(true)
+      .then((response) => {
+        setToast(true);
 
-        setTimeout(()=>{
-          setToast(false)
-        }, 3000)
-
+        setTimeout(() => {
+          setToast(false);
+        }, 2000);
       })
 
       .catch((error) => {
         console.log(error);
       });
     handleClose();
-
-    
-  
   };
 
-  ///Checking if the notice was bookmarked
-  //   const checkBookmarkStatus=()=>{
-  //     fetch("https://")
-  //     .then(res=>{
-  //       if(!res.ok){
-  //       throw Error("Cound not get the status of the bookmark")
-  //       }
-  //       return res.json()
-  //     })
-  //     .then(data=>{
-  //       console.log(data)
-  //       setBookmarkStatus(true);
-  //     })
-  //     .catch(err=>{
-  //       if(err){
-  //         console.log(err)
-  //       }
-  //     })
-  //   }
-
-  //   checkBookmarkStatus();
-  //  ///////////////
-  useEffect(() => {
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  }, [bookmarkDetails]);
-
-  const bookmarkNotice = () => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: user?.id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
-
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
-
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
-  };
 
   return (
     <div>
@@ -288,27 +199,9 @@ function AdminMenu({
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
+        <MenuItem className="overrideHeight" disableRipple>
           <div style={AdminMenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="Bookmark"
-              style={MenuIconStyle}
-            />
-            <span
-              style={{
-                color: "#999999",
-                width: "100%",
-              }}
-            >
-              Bookmark
-            </span>
+            <BookmarkButton noticeID={noticeID} />
           </div>
         </MenuItem>
 
@@ -338,7 +231,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              
             >
               Remind me about this
             </span>
@@ -353,7 +246,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              // onClick={copy(noticeID)}
+             
             >
               Copy link
             </span>
@@ -381,7 +274,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+             
             >
               More message shortcuts...
             </span>
@@ -441,15 +334,14 @@ function AdminMenu({
           style={{ zIndex: "2" }}
         >
           <CircularProgress color="primary" style={{ color: "white" }} />
-        
-          <p style={{ color: "white" }}>Please wait, this might take few seconds. </p>
-        
-       
+
+          <p style={{ color: "white" }}>
+            Please wait, this might take few seconds.{" "}
+          </p>
         </Backdrop>
       )}
       {toast && (
         <Snackbar
-         
           open={toast}
           autoHideDuration={6000}
           onClose={() => setLoader(false)}
