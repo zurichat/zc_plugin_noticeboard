@@ -2,8 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import BookmarkIcon from "../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
+
 import Active from "../../../assets/active.svg";
 import EditIcon from "../../../assets/edit-icon.svg";
 import ReminderIcon from "../../../assets/reminder-icon.svg";
@@ -11,7 +10,6 @@ import CopyLinkIcon from "../../../assets/copy-link-icon.svg";
 import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
-import axios from "axios";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -27,7 +25,6 @@ import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
 import BookmarkButton from "./BookmarkButton";
-
 
 function AdminMenu({ noticeID }) {
   const [openModal, setOpenModal] = React.useState(false);
@@ -169,7 +166,6 @@ function AdminMenu({ noticeID }) {
     handleClose();
   };
 
-
   return (
     <div>
       <IconButton
@@ -200,9 +196,7 @@ function AdminMenu({ noticeID }) {
         }}
       >
         <MenuItem className="overrideHeight" disableRipple>
-          <div style={AdminMenuStyle}>
-            <BookmarkButton noticeID={noticeID} />
-          </div>
+          <BookmarkButton noticeID={noticeID} />
         </MenuItem>
 
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
@@ -231,7 +225,7 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick={closeMenu}
             >
               Remind me about this
             </span>
@@ -274,7 +268,7 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick={closeMenu}
             >
               More message shortcuts...
             </span>

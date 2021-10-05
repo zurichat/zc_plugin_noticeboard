@@ -87,7 +87,7 @@ function UserMenu({ noticeID }) {
     history.push(`/noticeboard/edit-notice/${currentNoticeID._id}`);
   };
 
-  const AdminMenuStyle = {
+  const UserMenuStyle = {
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -168,7 +168,6 @@ function UserMenu({ noticeID }) {
     handleClose();
   };
 
-
   return (
     <div>
       <IconButton
@@ -199,13 +198,11 @@ function UserMenu({ noticeID }) {
         }}
       >
         <MenuItem className="overrideHeight" disableRipple>
-          <div style={AdminMenuStyle}>
-            <UserBookmarkButton noticeID={noticeID} />
-          </div>
+          <UserBookmarkButton noticeID={noticeID} />
         </MenuItem>
 
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
-          <div style={AdminMenuStyle}>
+          <div style={UserMenuStyle}>
             <img src={CopyLinkIcon} alt="Copy link" style={MenuIconStyle} />
             <span
               style={{
@@ -219,7 +216,7 @@ function UserMenu({ noticeID }) {
           </div>
         </MenuItem>
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
-          <div style={AdminMenuStyle}>
+          <div style={UserMenuStyle}>
             <img
               src={ReminderIcon}
               alt="Remind me about this"
@@ -230,7 +227,7 @@ function UserMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick={handleClose}
             >
               Remind me about this
             </span>
