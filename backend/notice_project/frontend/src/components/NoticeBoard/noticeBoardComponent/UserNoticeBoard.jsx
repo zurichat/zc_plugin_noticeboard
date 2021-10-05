@@ -24,25 +24,7 @@ const UserNotice = () => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
-    useContext(UserBookmarkContext);
-  let user = JSON.parse(sessionStorage.getItem("user"));
-  const fetchBookmarked = () => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "success") {
-          setBookmarkDetails(data);
-        }
-      });
-  };
-
-  useEffect(() => {
-    fetchBookmarked();
-    console.log(bookmarkDetails);
-  }, [toggleBookmark]);
+  
 
   useEffect(() => {
     fetchNotices();
@@ -67,6 +49,26 @@ const UserNotice = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  //Bookmarks
+  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
+    useContext(UserBookmarkContext);
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarked = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          setBookmarkDetails(data);
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchBookmarked();
+  }, [toggleBookmark]);
 
   // For User Notice Pagination
   const [currentPage, setCurrentPage] = useState(1);

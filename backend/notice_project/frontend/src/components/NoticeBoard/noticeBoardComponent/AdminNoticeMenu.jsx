@@ -26,11 +26,10 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
-import { BookmarkContext } from "./BookmarkContext";
+import BookmarkButton from "./BookmarkButton";
+
 
 function AdminMenu({ noticeID }) {
-  const { setBookmarkDetails } = useContext(BookmarkContext);
-
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -170,26 +169,6 @@ function AdminMenu({ noticeID }) {
     handleClose();
   };
 
-  //Bookkmark
-  let user = JSON.parse(sessionStorage.getItem("user"));
-  const fetchBookmarkedNotice = () => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/bookmark/${user?.id}`
-    )
-      .then((res) => {
-        res.json();
-      })
-      .then((data) => {
-        if (res.message === "success") {
-          setBookmarkDetails(data);
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
-  useEffect(() => {
-    fetchBookmarkedNotice();
-  }, [toggleBookmark]);
 
   return (
     <div>
@@ -220,27 +199,9 @@ function AdminMenu({ noticeID }) {
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
+        <MenuItem className="overrideHeight" disableRipple>
           <div style={AdminMenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="Bookmark"
-              style={MenuIconStyle}
-            />
-            <span
-              style={{
-                color: "#999999",
-                width: "100%",
-              }}
-            >
-              Bookmark
-            </span>
+            <BookmarkButton noticeID={noticeID} />
           </div>
         </MenuItem>
 

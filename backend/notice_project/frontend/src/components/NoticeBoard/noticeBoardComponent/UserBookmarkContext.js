@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 export const UserBookmarkContext = createContext();
 
 const UserBookmarkContextProvider = (props) => {
-  const [bookmarkDetails, setBookmarkDetails] = useState("");
+  const [bookmarkDetails, setBookmarkDetails] = useState();
   const [toggleBookmark, setToggleBookmark] = useState(false);
   return (
     <UserBookmarkContext.Provider

@@ -4,6 +4,8 @@ import BookmarkIconActive from "../../../../assets/bookmark-icon-active.svg";
 import { UserBookmarkContext } from "../UserBookmarkContext";
 import { DataContext } from "../../../../App";
 import axios from "axios";
+import Box from "@material-ui/core/Box";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const UserBookmarkButton = ({ noticeID }) => {
   const { bookmarkDetails, setToggleBookmark, toggleBookmark } =
@@ -11,7 +13,7 @@ const UserBookmarkButton = ({ noticeID }) => {
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
   let user = JSON.parse(sessionStorage.getItem("user"));
 
-  const UserMenuStyle = {
+  const AdminMenuStyle = {
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -32,7 +34,7 @@ const UserBookmarkButton = ({ noticeID }) => {
         setBookmarkStatus(false);
       }
     }
-  }, []);
+  });
 
   const bookmarkNotice = () => {
     axios
@@ -44,7 +46,6 @@ const UserBookmarkButton = ({ noticeID }) => {
         }
       )
       .then((data) => {
-        console.log(data);
         setBookmarkStatus(true);
         setToggleBookmark(!toggleBookmark);
       })
@@ -58,7 +59,7 @@ const UserBookmarkButton = ({ noticeID }) => {
   const deleteBookmarkNotice = () => {
     axios
       .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${_globalData.Organizations[0]}/bookmark/${bookmarkedNoticeID._id}/delete`
+        `https://noticeboard.zuri.chat/api/v1/organisation/${_globalData.Organizations[0]}/bookmark/${bookmarkedNoticeID?._id}/delete`
       )
       .then((data) => {
         setBookmarkStatus(false);
