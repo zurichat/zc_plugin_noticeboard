@@ -1,0 +1,110 @@
+body {
+  position: relative;
+}
+
+.reminderModal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.reminderModal-innerContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 90%;
+  padding: 1em;
+}
+
+.reminderModal-innerContainer > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reminderModal-header {
+  font-size: 1.5em !important;
+  font-weight: 700 !important;
+  margin-bottom: 0 !important;
+}
+
+.reminderModal-image {
+  cursor: pointer;
+}
+
+.reminderModal-text {
+  color: #999999;
+  margin: 1em 0 2em !important;
+  text-align: start!important;
+}
+
+.reminder-label {
+  display: block;
+  margin-top: 1em;
+}
+
+.reminder-input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #a1a1a1;
+  border-radius: 3px;
+}
+
+.reminder-input:focus {
+  border-color: #00bb7c;
+}
+
+.reminder-time-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reminder-time {
+  width: 49%;
+  padding: 0.5em;
+  border: 1px solid #a1a1a1;
+  border-radius: 3px;
+}
+
+.reminder-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reminder-button {
+  margin-top: 2em;
+  background: #00bb7c !important;
+  color: white !important;
+  outline: none;
+  border: none;
+  padding: 14px 24px;
+}
+
+input[type="date"]:focus,
+input[type="date"]:focus-visible,
+input[type="date"]:focus-within,
+input[type="date"]:invalidd::-webkit-datetime-edit {
+  color: #999999;
+}
+
+@media only screen and (min-width: 768px) {
+  .reminderModal-innerContainer {
+    width: 70%;
+    padding: 1.5em;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .reminderModal-innerContainer {
+    position: fixed;
+    top: 55%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+  }
+}

@@ -2,8 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import BookmarkIcon from "../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
+
 import Active from "../../../assets/active.svg";
 import EditIcon from "../../../assets/edit-icon.svg";
 import ReminderIcon from "../../../assets/reminder-icon.svg";
@@ -11,8 +10,9 @@ import CopyLinkIcon from "../../../assets/copy-link-icon.svg";
 import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
-import axios from "axios";
 
+import SuccessMessage from "./Notice_Reminder/successMessage";
+import ReminderModal from "./Notice_Reminder/reminderModal";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -26,32 +26,18 @@ import { useHistory } from "react-router";
 import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
+import BookmarkButton from "./BookmarkButton";
 
-function AdminMenu({
-  noticeID,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) {
-  const menu = [
-    { icon: EditIcon, linkText: "Edit notice", id: "1" },
-    { icon: DeleteIcon, linkText: "Delete notice", id: "2" },
-  ];
-
+function AdminMenu({ noticeID }) {
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
+  const [reminderModal, setReminderModal] = useState(false);
+  const [sucessMessage, setSucessMessage] = useState(false);
   const history = useHistory();
 
-  ////bookmark status state
-  const [bookmarkStatus, setBookmarkStatus] = useState();
-
-  const UserData = useContext(UserInfoContext);
-  // console.log(userData.email);
-  // console.log(userData?.org_id + "orgid", userData?._id + "id frank");
-
-  /////
+  console.log(noticeID);
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -126,31 +112,6 @@ function AdminMenu({
     setAnchorEl(evt.currentTarget);
   };
 
-  // const copy = (noticeID) => {
-  //   fetch(
-  //     `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-  //   )
-  //     .then((res) => {
-  //       if (res.status >= 200 && res.status <= 299) {
-  //         return res.json();
-  //       } else {
-  //         setLoading(false);
-  //         setIsError(true);
-  //       }
-  //     })
-  //     .then((data) => {
-  //       setNoticeList(data.data);
-  //     })
-  //     .catch((error) => console.log(error));
-
-  //   const currentNoticeID = noticeList?.find((element) => {
-  //     return element._id === noticeID;
-  //   });
-
-  //   setSelectedNotice(currentNoticeID);
-  //   navigator.clipboard.writeText(location.href`/${currentNoticeID._id}`);
-  // };
-
   const closeMenu = () => {
     setAnchorEl(false);
   };
@@ -169,22 +130,25 @@ function AdminMenu({
     )
       .then((response) => {
         console.log(response);
-        setLoader(false)
-        console.log(noticeId)
+        setLoader(false);
+        console.log(noticeId);
       })
-      .then((response)=>{
-        setToast(true)
+      .then((response) => {
+        setToast(true);
 
-        setTimeout(()=>{
-          setToast(false)
-        }, 2000)
-
+        setTimeout(() => {
+          setToast(false);
+        }, 2000);
       })
 
       .catch((error) => {
         console.log(error);
       });
     handleClose();
+  };
+
+  const openReminderModal = () => {
+    setReminderModal(true);
   };
 
   ///Checking if the notice was bookmarked
@@ -209,59 +173,59 @@ function AdminMenu({
 
   //   checkBookmarkStatus();
   //  ///////////////
-  useEffect(() => {
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  }, [bookmarkDetails]);
+  // useEffect(() => {
+  //   bookmarkDetails
+  //     ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+  //       ? setBookmarkStatus(true)
+  //       : setBookmarked(false)
+  //     : "";
+  // }, [bookmarkDetails]);
 
-  const bookmarkNotice = () => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: user?.id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
+  // const bookmarkNotice = () => {
+  //   let user = JSON.parse(sessionStorage.getItem("user"));
+  //   axios
+  //     .post(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
+  //       {
+  //         notice_id: noticeID,
+  //         user_id: user?.id,
+  //       }
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
 
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
+  // const deleteBookmarkNotice = () => {
+  //   axios
+  //     .delete(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(false);
+  //       setToggleBookmark(!toggleBookmark);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
 
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
-  };
+  // const bookmarkFunction = () => {
+  //   if (!bookmarkStatus) {
+  //     bookmarkNotice();
+  //   } else {
+  //     deleteBookmarkNotice();
+  //   }
+  // };
 
   return (
     <div>
@@ -292,28 +256,8 @@ function AdminMenu({
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            bookmarkFunction();
-          }}
-          className="overrideHeight"
-          disableRipple
-        >
-          <div style={AdminMenuStyle}>
-            <img
-              src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-              alt="Bookmark"
-              style={MenuIconStyle}
-            />
-            <span
-              style={{
-                color: "#999999",
-                width: "100%",
-              }}
-            >
-              Bookmark
-            </span>
-          </div>
+        <MenuItem className="overrideHeight" disableRipple>
+          <BookmarkButton noticeID={noticeID} />
         </MenuItem>
 
         <MenuItem onClick={closeMenu} className="overrideHeight" disableRipple>
@@ -342,7 +286,7 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
+              onClick={openReminderModal}
             >
               Remind me about this
             </span>
@@ -357,7 +301,6 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              // onClick={copy(noticeID)}
             >
               Copy link
             </span>
@@ -385,13 +328,13 @@ function AdminMenu({
                 color: "#999999",
                 width: "100%",
               }}
-              onClick={openDeleteModal}
             >
               More message shortcuts...
             </span>
           </div>
         </MenuItem>
       </Menu>
+
       {openModal && (
         <Dialog
           open={openModal}
@@ -445,10 +388,10 @@ function AdminMenu({
           style={{ zIndex: "2" }}
         >
           <CircularProgress color="primary" style={{ color: "white" }} />
-        
-          <p style={{ color: "white" }}>Please wait, this might take few seconds. </p>
-        
-       
+
+          <p style={{ color: "white" }}>
+            Please wait, this might take few seconds.{" "}
+          </p>
         </Backdrop>
       )}
       {toast && (
@@ -460,7 +403,16 @@ function AdminMenu({
           severity="success"
         />
       )}
+      {reminderModal && (
+        <ReminderModal
+          noticeID={noticeID}
+          setSucessMessage={setSucessMessage}
+          setReminderModal={setReminderModal}
+        />
+      )}
+      {sucessMessage && <SuccessMessage />}
     </div>
   );
 }
+
 export default AdminMenu;
