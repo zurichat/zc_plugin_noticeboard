@@ -14,6 +14,11 @@ function ZuriGlobalHeader() {
   const [openModal, setOpenModal] = useState(false);
   const { allUsers, setAllUsers } = useContext(UserContext);
   const userData = useContext(UserInfoContext);
+  const [notificationTab, setNotificationTab] = useState(false);
+
+  const toggleNotificationTab = () => {
+    setNotificationTab(!notificationTab);
+  };
 
   const getAllUsers = async () => {
     try {
@@ -77,11 +82,36 @@ function ZuriGlobalHeader() {
       )}
 
       <div className="noNotification-container">
-        <img src={noNotification} alt="noNotification" />
+        <img
+          src={noNotification}
+          alt="noNotification"
+          onClick={toggleNotificationTab}
+        />
       </div>
+
+      {notificationTab && <NotificationTab />}
     </div>
   );
 }
+
+const NotificationTab = () => {
+  return (
+    <div className="notificationTab">
+      <div className="notificationTab-innerContainer">
+        <p className="notificationTab-intro">
+          You set a reminder for this notice
+        </p>
+        <div className="notificationTab-title-time">
+          <h3 className="notificationTab-title">Staff Meeting</h3>
+          <p className="notificationTab-time">13:00</p>
+        </div>
+        <div>
+          <button className="notificationTab-button">View Notice</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default ZuriGlobalHeader;
 
