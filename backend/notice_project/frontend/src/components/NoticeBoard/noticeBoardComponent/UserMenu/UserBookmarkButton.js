@@ -88,21 +88,19 @@ const UserBookmarkButton = ({ noticeID }) => {
         bookmarkFunction();
       }}
     >
-      <div>
-        <img
-          src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
-          alt="Bookmark"
-          style={{ paddingRight: "10px" }}
-        />
-        <span
-          style={{
-            color: "#999999",
-            width: "100%",
-          }}
-        >
-          Bookmark
-        </span>
-      </div>
+      <img
+        src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
+        alt="Bookmark"
+        style={{ paddingRight: "10px" }}
+      />
+      <span
+        style={{
+          color: "#999999",
+          width: "100%",
+        }}
+      >
+        Bookmark
+      </span>
     </div>
   );
 };
