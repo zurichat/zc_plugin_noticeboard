@@ -11,6 +11,8 @@ import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
 
+import SuccessMessage from "./Notice_Reminder/successMessage";
+import ReminderModal from "./Notice_Reminder/reminderModal";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -31,7 +33,11 @@ function AdminMenu({ noticeID }) {
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
+  const [reminderModal, setReminderModal] = useState(false);
+  const [sucessMessage, setSucessMessage] = useState(false);
   const history = useHistory();
+
+  console.log(noticeID);
 
   const openDeleteModal = () => {
     setOpenModal(true);
@@ -141,6 +147,86 @@ function AdminMenu({ noticeID }) {
     handleClose();
   };
 
+  const openReminderModal = () => {
+    setReminderModal(true);
+  };
+
+  ///Checking if the notice was bookmarked
+  //   const checkBookmarkStatus=()=>{
+  //     fetch("https://")
+  //     .then(res=>{
+  //       if(!res.ok){
+  //       throw Error("Cound not get the status of the bookmark")
+  //       }
+  //       return res.json()
+  //     })
+  //     .then(data=>{
+  //       console.log(data)
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch(err=>{
+  //       if(err){
+  //         console.log(err)
+  //       }
+  //     })
+  //   }
+
+  //   checkBookmarkStatus();
+  //  ///////////////
+  // useEffect(() => {
+  //   bookmarkDetails
+  //     ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+  //       ? setBookmarkStatus(true)
+  //       : setBookmarked(false)
+  //     : "";
+  // }, [bookmarkDetails]);
+
+  // const bookmarkNotice = () => {
+  //   let user = JSON.parse(sessionStorage.getItem("user"));
+  //   axios
+  //     .post(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
+  //       {
+  //         notice_id: noticeID,
+  //         user_id: user?.id,
+  //       }
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
+
+  // const deleteBookmarkNotice = () => {
+  //   axios
+  //     .delete(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(false);
+  //       setToggleBookmark(!toggleBookmark);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
+
+  // const bookmarkFunction = () => {
+  //   if (!bookmarkStatus) {
+  //     bookmarkNotice();
+  //   } else {
+  //     deleteBookmarkNotice();
+  //   }
+  // };
+
   return (
     <div>
       <IconButton
@@ -200,6 +286,7 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
+              onClick={openReminderModal}
             >
               Remind me about this
             </span>
@@ -227,7 +314,7 @@ function AdminMenu({ noticeID }) {
                 color: "#999999",
                 width: "100%",
               }}
-              onClick= { openDeleteModal }
+              onClick={openDeleteModal}
             >
               Delete Notice
             </span>
@@ -247,7 +334,7 @@ function AdminMenu({ noticeID }) {
           </div>
         </MenuItem>
       </Menu>
-      
+
       {openModal && (
         <Dialog
           open={openModal}
@@ -316,7 +403,16 @@ function AdminMenu({ noticeID }) {
           severity="success"
         />
       )}
+      {reminderModal && (
+        <ReminderModal
+          noticeID={noticeID}
+          setSucessMessage={setSucessMessage}
+          setReminderModal={setReminderModal}
+        />
+      )}
+      {sucessMessage && <SuccessMessage />}
     </div>
   );
 }
+
 export default AdminMenu;

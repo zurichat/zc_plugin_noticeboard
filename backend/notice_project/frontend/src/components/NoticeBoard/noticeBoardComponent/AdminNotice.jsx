@@ -183,5 +183,3 @@ const PinnedNotices = (props) => {
 };
 
 export default withRouter(PinnedNotices);
-
-// !for some strange reason, the "userImage" path in the json data is not connecting
