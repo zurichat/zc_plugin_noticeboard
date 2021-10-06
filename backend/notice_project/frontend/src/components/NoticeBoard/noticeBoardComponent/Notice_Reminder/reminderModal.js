@@ -15,13 +15,28 @@ const rangeOfNumbers = (min, max) => {
   return range;
 };
 
-const ReminderModal = ({ setReminderModal }) => {
-  
+const formatDate = (dateArray) => {
+  const newFormattedDate = [];
+  newFormattedDate.push(dateArray[2]);
+  newFormattedDate.push(dateArray[0]);
+  newFormattedDate.push(dateArray[1]);
+  newFormattedDate.join("-");
+  return newFormattedDate;
+};
+
+
+const ReminderModal = ({ setReminderModal, setSuccessMessage, noticeID }) => {
   const hours = rangeOfNumbers(0, 23);
   const minutes = rangeOfNumbers(0, 59);
-  const UserDataContext = useContext(UserInfoContext);
+  const UserData = useContext(UserInfoContext);
 
-  const setReminder = async () => {
+  const setReminder = () => {
+    let user = JSON.parse(sessionStorage.getItem("user"));
+    const dateObject = new Date();
+
+    const time_created = dateObject.toLocaleTimeString().slice(0, 8);
+    const date_created_Array = dateObject.toLocaleDateString().split("/");
+    const date_created = formatDate(date_created_Array);
     const title = document.getElementById("title").value;
     const date = document.getElementById("date").value;
     const hour = document.getElementById("hours").value;
@@ -30,8 +45,13 @@ const ReminderModal = ({ setReminderModal }) => {
 
     const data = {
       title: title,
-      date: date,
-      time: time,
+      time_created: time_created,
+      date_created: date_created,
+      schedule_time: time,
+      schedule_date: date,
+      email: UserData?.email,
+      user_id: user?.id,
+      notice_id: noticeID,
     };
 
     const options = {
@@ -43,9 +63,18 @@ const ReminderModal = ({ setReminderModal }) => {
     };
 
     fetch(
-      `https://noticeboard.zuri.chat/organisation/${UserDataContext?.org_id}/create-reminder/${UserDataContext?._id}`,
+      `https://noticeboard.zuri.chat/organisation/${userData?.org_id}/create-reminder/${userData?._id}`,
       options
-    );
+    )
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          setSuccessMessage(true);
+          console.log("SUCCESSFUL POST");
+        }
+      })
+      .then((err) => {
+        console.log(err.statusText);
+      });
   };
 
   return (
@@ -118,7 +147,7 @@ const ReminderModal = ({ setReminderModal }) => {
             <button
               type="submit"
               className="reminder-button"
-              onSubmit={() => setReminder}
+              onSubmit={setReminder}
             >
               Set Reminder
             </button>
