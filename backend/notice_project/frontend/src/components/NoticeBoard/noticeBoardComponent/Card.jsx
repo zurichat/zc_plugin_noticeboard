@@ -4,6 +4,7 @@ import moment from "moment";
 import dot from "../../../assets/Ellipse135.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
+import noticePlaceholderImage from '../../../assets/noticePlaceholderImage.svg'
 
 const Card = ({ person, people }) => {
   const [openModal, setOpenModal] = React.useState(false);
@@ -43,27 +44,19 @@ const Card = ({ person, people }) => {
                 src={
                   person.author_img_url !== "null"
                     ? person.author_img_url
-                    : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    : noticePlaceholderImage
                 }
                 alt="profile-pic"
               />
             </div>
             <div className="identity-adminNotice">
-              {/* no user details in notices from the api */}
-              <h6 className="name">
+              <div className='name'>
                 {person.author_name !== "null"
                   ? person.author_name
                   : person.author_username}
-              </h6>
+                  </div>
               <p className="time-date-adminNotice">
                 {moment(person.created).fromNow()}
-                {/* <span>
-                  {currentMonth}&nbsp;{person.created.slice(8, 10)}
-                </span>
-                <span className="adminDot">
-                  <img src={dot} alt="" />
-                </span>{" "} */}
-                {/* <span>{person.created.substring(11, 20)}</span> */}
               </p>
             </div>
           </div>
