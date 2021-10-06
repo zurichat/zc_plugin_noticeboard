@@ -170,7 +170,7 @@ function CreateNotice() {
       //Return input field to blank
       values.title = "";
       setEditorState("");
-      push.push("/noticeboard/admin-notice");
+      push("/noticeboard/admin-notice");
     } catch (err) {
       // console.log(err)
       setOpenErrorDialog(true);
