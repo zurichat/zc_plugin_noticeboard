@@ -41,6 +41,7 @@
 .notificationTab-intro {
   color: #999 !important;
   font-weight: normal !important;
+  text-align: start!important;
 }
 
 .notificationTab-title-time {

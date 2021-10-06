@@ -40,6 +40,7 @@ body {
 .reminderModal-text {
   color: #999999;
   margin: 1em 0 2em !important;
+  text-align: start!important;
 }
 
 .reminder-label {
