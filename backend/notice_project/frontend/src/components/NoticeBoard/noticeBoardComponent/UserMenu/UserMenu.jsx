@@ -13,6 +13,7 @@ import MoreMessage from "../../../../assets/more-messages-icon.svg";
 import "./UserMenu.css";
 import axios from "axios";
 import ReminderModal from "../Notice_Reminder/reminderModal";
+import SuccessMessage from "../Notice_Reminder/successMessage";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -33,8 +34,9 @@ function UserMenu({ noticeID }) {
   const [openModal, setOpenModal] = React.useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [loader, setLoader] = useState(false);
-   const [reminderModal, setReminderModal] = useState(false);
+  const [reminderModal, setReminderModal] = useState(false);
   const [toast, setToast] = useState(false);
+  const [sucessMessage, setSucessMessage] = useState(false);
   const history = useHistory();
 
   const openDeleteModal = () => {
@@ -308,7 +310,14 @@ function UserMenu({ noticeID }) {
           severity="success"
         />
       )}
-      {reminderModal && <ReminderModal setReminderModal={setReminderModal} />}
+      {reminderModal && (
+        <ReminderModal
+          noticeID={noticeID}
+          setSucessMessage={setSucessMessage}
+          setReminderModal={setReminderModal}
+        />
+      )}
+      {sucessMessage && <SuccessMessage />}
     </div>
   );
 }
