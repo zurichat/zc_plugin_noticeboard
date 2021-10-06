@@ -1,8 +1,11 @@
 import React from "react";
-import "./UserNoticeModal.css";
-import UserMenu from "./UserMenu/UserMenu";
-import { Button } from "@material-ui/core";
+import Button  from "@material-ui/core/Button";
 import moment from "moment";
+
+
+import noticePlaceholderImage from '../../../assets/noticePlaceholderImage.svg'
+import UserMenu from "./UserMenu/UserMenu";
+import "./UserNoticeModal.css";
 
 function UserNoticeModal({ notice }) {
   const id = String(notice._id);
@@ -33,7 +36,7 @@ function UserNoticeModal({ notice }) {
                   src={
                     notice.author_img_url !== "null"
                       ? notice.author_img_url
-                      : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                      : noticePlaceholderImage
                   }
                   alt="user"
                 />

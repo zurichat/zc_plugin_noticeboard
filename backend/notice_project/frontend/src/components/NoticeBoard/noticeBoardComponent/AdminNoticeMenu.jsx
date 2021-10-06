@@ -173,59 +173,59 @@ function AdminMenu({ noticeID }) {
 
   //   checkBookmarkStatus();
   //  ///////////////
-  useEffect(() => {
-    bookmarkDetails
-      ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
-        ? setBookmarkStatus(true)
-        : setBookmarked(false)
-      : "";
-  }, [bookmarkDetails]);
+  // useEffect(() => {
+  //   bookmarkDetails
+  //     ? bookmarkDetails.data.filter((data) => data.notice_id === noticeID)
+  //       ? setBookmarkStatus(true)
+  //       : setBookmarked(false)
+  //     : "";
+  // }, [bookmarkDetails]);
 
-  const bookmarkNotice = () => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    axios
-      .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
-        {
-          notice_id: noticeID,
-          user_id: user?.id,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(true);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
+  // const bookmarkNotice = () => {
+  //   let user = JSON.parse(sessionStorage.getItem("user"));
+  //   axios
+  //     .post(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark`,
+  //       {
+  //         notice_id: noticeID,
+  //         user_id: user?.id,
+  //       }
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(true);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
 
-  const deleteBookmarkNotice = () => {
-    axios
-      .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
-      )
-      .then((data) => {
-        console.log(data);
-        setBookmarkStatus(false);
-        setToggleBookmark(!toggleBookmark);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  };
+  // const deleteBookmarkNotice = () => {
+  //   axios
+  //     .delete(
+  //       `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/bookmark/${bookmarkDetails?._id}/delete`
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBookmarkStatus(false);
+  //       setToggleBookmark(!toggleBookmark);
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     });
+  // };
 
-  const bookmarkFunction = () => {
-    if (!bookmarkStatus) {
-      bookmarkNotice();
-    } else {
-      deleteBookmarkNotice();
-    }
-  };
+  // const bookmarkFunction = () => {
+  //   if (!bookmarkStatus) {
+  //     bookmarkNotice();
+  //   } else {
+  //     deleteBookmarkNotice();
+  //   }
+  // };
 
   return (
     <div>
