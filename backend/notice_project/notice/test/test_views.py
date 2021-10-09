@@ -25,4 +25,4 @@ class BookmarkTest(APITestCase):
         bookmark_id = "6161836c45f4970635487e70"
         bookmark_delete_url = reverse('delete-bookmark', args=[org_id, bookmark_id])
         response = self.client.delete(bookmark_delete_url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code)
