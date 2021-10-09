@@ -55,11 +55,11 @@ urlpatterns = [
 
     path('organisation/<str:org_id>/notices/<str:object_id>/delete', DeleteNotice.as_view(), name="delete-notice"),
 
-    path('organisation/<str:org_id>/user/<str:user_id>/bookmark', BookmarkNotice.as_view()),
+    path('organisation/<str:org_id>/user/<str:user_id>/bookmark', BookmarkNotice.as_view(), name="list-bookmark"),
 
-    path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view()),
+    path('organisation/<str:org_id>/bookmark',CreateBookmark.as_view(), name="create-bookmark"),
 
-    path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view()),
+    path('organisation/<str:org_id>/bookmark/<str:id>/delete',DeleteBookmarkedNotice.as_view(), name="delete-bookmark"),
 
     path("organisation/<str:org_id>/attachfile", AttachFile.as_view(), name="media_files",),
 
