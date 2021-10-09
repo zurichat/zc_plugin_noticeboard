@@ -85,5 +85,5 @@ jobs:
             python3 manage.py collectstatic --noinput
             cd /var/www/zc_plugin_noticeboard/backend/notice_project
             source venv/bin/activate
-            /bin/sh sudo systemctl restart noticeboard
+            /bin/sh start.sh
 #          gunicorn --bind 0.0.0.0:8000 noticeboard.wsgi --daemon
