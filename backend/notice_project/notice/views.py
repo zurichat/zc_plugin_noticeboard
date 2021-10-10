@@ -20,6 +20,8 @@ from .serializers import (
 from .storage import db
 from .utils import user_rooms
 
+# this is a comment
+
 
 @api_view(["GET"])
 def sidebar_info(request):
@@ -30,7 +32,11 @@ def sidebar_info(request):
 
     data = {
         "title": "Noticeboard",
-        "icon": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
+        "icon": (
+            "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-"
+            "trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h="
+            "DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c="
+        ),
         "action": "open",
     }
 
