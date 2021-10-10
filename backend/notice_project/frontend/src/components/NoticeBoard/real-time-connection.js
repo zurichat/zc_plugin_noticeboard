@@ -4,10 +4,10 @@ import { UserContext } from "../../Data-fetcing";
 
 // Performs subscribing to Noticeboard room on centrifugo
 
-export const CentrifugoConnection = async() =>{ 
+export const CentrifugoConnection = async() =>{
 
     const { setPeople, setNotices, setOldnotices } = useContext(UserContext);
-    
+
     const date = new Date();
     const currentDate = date.getDate();
 
@@ -48,5 +48,5 @@ export const CentrifugoConnection = async() =>{
           // )
       )
       }
-       ); 
+       );
 }

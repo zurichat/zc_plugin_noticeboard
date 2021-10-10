@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 
+import viewIcon from "../../../assets/Seen.svg";
 import dot from "../../../assets/Ellipse135.svg";
 import AdminMenu from "./AdminNoticeMenu";
 import ViewNoticeModal from "../ViewNoticeCardModal/ViewNoticeModal";
+import noticePlaceholderImage from '../../../assets/noticePlaceholderImage.svg'
+import { UserInfoContext } from "../../../App";
 
-const Card = ({
-  person,
-  people,
-  bookmarkDetails,
-  toggleBookmark,
-  setToggleBookmark,
-}) => {
+const Card = ({ person, people }) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
 
@@ -38,6 +35,23 @@ const Card = ({
 
   const currentMonth = months[Number(person.created.slice(5, 7)) - 1];
 
+  // Functinality for the number of views
+  const UserData = useContext(UserInfoContext);
+  const updateView = (noticeID) => {
+    const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+    fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log("View count data", data);
+      });
+    console.log(UserData.org_id);
+  };
+  // function converting the views from strings to numbers
+  const viewNumber = (count) => {
+    const viewss = count.split(" ").length - 1;
+    return viewss;
+  };
+
   return (
     <>
       <article className="card-adminNotice">
@@ -49,36 +63,23 @@ const Card = ({
                 src={
                   person.author_img_url !== "null"
                     ? person.author_img_url
-                    : "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFjZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    : noticePlaceholderImage
                 }
                 alt="profile-pic"
               />
             </div>
             <div className="identity-adminNotice">
-              {/* no user details in notices from the api */}
-              <h6 className="name">
+              <div className='name'>
                 {person.author_name !== "null"
                   ? person.author_name
                   : person.author_username}
-              </h6>
+                  </div>
               <p className="time-date-adminNotice">
                 {moment(person.created).fromNow()}
-                {/* <span>
-                  {currentMonth}&nbsp;{person.created.slice(8, 10)}
-                </span>
-                <span className="adminDot">
-                  <img src={dot} alt="" />
-                </span>{" "} */}
-                {/* <span>{person.created.substring(11, 20)}</span> */}
               </p>
             </div>
           </div>
-          <AdminMenu
-            noticeID={person._id}
-            bookmarkDetails={bookmarkDetails}
-            setToggleBookmark={setToggleBookmark}
-            toggleBookmark={toggleBookmark}
-          />
+          <AdminMenu noticeID={person._id} />
         </div>
         {/* body of card */}
         <div className="card-body-adminNotice">
@@ -91,9 +92,22 @@ const Card = ({
         </div>
         {/* icons tray */}
         <div className="icon-button-tray-adminNotice">
+          <div className="view-icon-grp">
+            <div>
+              <img src={viewIcon} alt="" />
+            </div>
+
+            <div className="views-num">
+              {viewNumber(person.views)}
+            </div>
+          </div>
           <button
             className="card-button-adminNotice"
-            onClick={() => filterUsers(person._id)}
+            onClick={() => {
+              filterUsers(person._id);
+              updateView(person._id);
+
+            }}
           >
             View Notice
           </button>

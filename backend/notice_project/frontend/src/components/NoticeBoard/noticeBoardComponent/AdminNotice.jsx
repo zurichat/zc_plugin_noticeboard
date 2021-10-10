@@ -10,6 +10,8 @@ import { DataContext } from "../../../App";
 import { UserContext } from "../../../Data-fetcing";
 import { UserInfoContext } from "../../../App";
 
+import { BookmarkContext } from "./BookmarkContext";
+
 const PinnedNotices = (props) => {
   const {
     people,
@@ -31,25 +33,6 @@ const PinnedNotices = (props) => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  //Bookmark
-  const [bookmarkDetails, setBookmarkDetails] = useState(false);
-  const [toggleBookmark, setToggleBookmark] = useState(false);
-  const UserDataContext = useContext(UserInfoContext);
-  
-  useEffect(async () => {
-    const UserData = await UserDataContext;
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/user/${UserData?._id}/bookmark`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "success") {
-          console.log(data.message);
-          console.log(data.data);
-          setBookmarkDetails(data);
-        }
-      });
-  }, [toggleBookmark]);
 
   useEffect(() => {
     fetch(
@@ -72,8 +55,30 @@ const PinnedNotices = (props) => {
 
         setLoading(false);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
   }, []);
+
+
+  //Bookmark
+  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
+    useContext(BookmarkContext);
+  let user = JSON.parse(sessionStorage.getItem("user"));
+  const fetchBookmarked = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          setBookmarkDetails(data);
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchBookmarked();
+  }, [toggleBookmark]);
+
 
   if (loading) {
     return (
@@ -132,7 +137,7 @@ const PinnedNotices = (props) => {
 
             <Link to="/noticeboard/old-notices">
               <div className="older-notices">
-                <p className="older-notices-text">View older notices</p>
+                <p className="older-notices-text"><span>View older notices</span></p>
               </div>
             </Link>
           </div>
@@ -161,15 +166,7 @@ const PinnedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return (
-                <Card
-                  person={person}
-                  key={person._id}
-                  bookmarkDetails={bookmarkDetails}
-                  setToggleBookmark={setToggleBookmark}
-                  toggleBookmark={toggleBookmark}
-                />
-              );
+              return <Card person={person} key={person._id} />;
             })
           : people?.map((person) => {
               return <Card person={person} key={person._id} />;
@@ -181,11 +178,8 @@ const PinnedNotices = (props) => {
           <p className="older-notices-text">View older notices</p>
         </div>
       </Link>
-      
     </div>
   );
 };
 
 export default withRouter(PinnedNotices);
-
-// !for some strange reason, the "userImage" path in the json data is not connecting

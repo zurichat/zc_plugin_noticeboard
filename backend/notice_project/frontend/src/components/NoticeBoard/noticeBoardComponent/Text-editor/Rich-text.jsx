@@ -23,7 +23,7 @@ class TextEditor extends Component {
   };
 
   render() {
-    
+
 
     return (
       <div className="text-editor-wrapper">
@@ -36,7 +36,7 @@ class TextEditor extends Component {
           toolbarClassName="toolbarClass"
           onEditorStateChange={this.onEditorStateChange}
           toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
-          
+
 
           toolbar={{
             options: ['fontSize', 'inline', 'list', 'textAlign', 'link', 'image', 'emoji'],
@@ -59,7 +59,7 @@ class TextEditor extends Component {
               options: ['unordered', 'ordered']
             },
             emoji: {
-              
+
             },
             image: {
               icon: imageIcon,

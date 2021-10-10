@@ -26,7 +26,7 @@ function NoticeBoard() {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  
+
 
   const RealTime = CentrifugoConnection()
   useEffect(() => {
@@ -68,7 +68,7 @@ function NoticeBoard() {
           <UserIntro />
         </Route>
 
-        {/* <Route path="/"> 
+        {/* <Route path="/">
       this component should be created in the NoticeBoard/noticeBoard folder  remember to create a link for the View Notice Button that routes to admin-notice above <UserNotice />
     </Route> */}
       </Switch>

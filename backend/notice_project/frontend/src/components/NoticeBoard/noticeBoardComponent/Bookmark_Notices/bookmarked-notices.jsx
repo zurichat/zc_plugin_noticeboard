@@ -18,7 +18,7 @@ const BookmarkedNotices = (props) => {
     setIsError,
     searchText,
     filteredNotice,
-    bookmark, 
+    bookmark,
     setBookmark
   } = useContext(UserContext);
 
@@ -27,7 +27,7 @@ const BookmarkedNotices = (props) => {
 
 
   useEffect(() => {
-   
+
   let user = JSON.parse(sessionStorage.getItem("user"));
     fetch(
       `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/${user.id}/bookmark`
@@ -77,18 +77,18 @@ const BookmarkedNotices = (props) => {
     );
   }
 
-  
+
 
 
 
   if (bookmark == null) {
     return (
-      
+
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
             <p className="text">Bookmarked Notices</p>
-            
+
           </div>
           <Button
             className="header-button"
@@ -104,13 +104,13 @@ const BookmarkedNotices = (props) => {
         <img src={noNotice} alt='no-notice' className='no-notice-img' />
         <h1
           className="no-new-notices"
-          
+
         >
-          
+
             Hey there, You have no bookmarked notices, they would appear here when bookmarked
         </h1>
-        <div className='notice-btn-div'>      
-          
+        <div className='notice-btn-div'>
+
 
           <Link to="/noticeboard/old-notices">
             <div className="older-notices">
@@ -152,7 +152,7 @@ const BookmarkedNotices = (props) => {
             })}
       </section>
 
-     
+
 
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
