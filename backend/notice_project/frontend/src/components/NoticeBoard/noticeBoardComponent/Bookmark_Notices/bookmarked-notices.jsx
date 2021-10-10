@@ -10,6 +10,8 @@ import { UserInfoContext } from "../../../../App";
 import { UserContext } from "../../../../Data-fetcing";
 import { DataContext } from "../../../../App";
 
+import { BookmarkContext } from "../BookmarkContext";
+
 const BookmarkedNotices = (props) => {
   const {
     loading,
@@ -18,39 +20,85 @@ const BookmarkedNotices = (props) => {
     setIsError,
     searchText,
     filteredNotice,
-    bookmark, 
-    setBookmark
   } = useContext(UserContext);
 
+  const _globalData = useContext(DataContext);
+  const org_id = _globalData.Organizations[0];
+  let user = JSON.parse(sessionStorage.getItem("user"));
   const userData = useContext(UserInfoContext);
+  // const { notice } = useContext(BookmarkContext);
+  const [result, setResult] = useState();
+  const [bookmarked, setBookmarked] = useState();
+  const [notice, setNotice] = useState();
 
-
+  const fetchBookmarked = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "success") {
+          setBookmarked(data);
+        } else {
+          setLoading(false);
+          setIsError(true);
+        }
+      });
+  };
 
   useEffect(() => {
-   
-  let user = JSON.parse(sessionStorage.getItem("user"));
+    // let user = JSON.parse(sessionStorage.getItem("user"));
+    // fetch(
+    //   `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/${user.id}/bookmark`
+    // )
+    //   .then((res) => {
+    //     if (res.status >= 200 && res.status <= 299) {
+    //       return res.json();
+    //     } else {
+    //       setLoading(false);
+    //       setIsError(true);
+    //     }
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     setLoading(false);
+    //     setBookmark(data.data.notice_data);
+    //     console.log(userData);
+    //   })
+    //   .catch((error) => console.log(error));
+    fetchBookmarked();
+
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/${user.id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
         } else {
-          setLoading(false);
-          setIsError(true);
+          return;
         }
       })
       .then((data) => {
-        console.log(data);
-        setLoading(false);
-        setBookmark(
-          data.data.notice_data
-        )
-        console.log(userData)
+        // setLoading(false);
+        setNotice(data.data);
       })
       .catch((error) => console.log(error));
   }, []);
 
+  useEffect(() => {
+    if (notice && bookmarked) {
+      setLoading(false);
+      const filteredBookmark = notice?.filter((elem) => {
+        return bookmarked?.data.some((f) => {
+          return elem?._id === f?.notice_id;
+        });
+      });
+
+      if (filteredBookmark) {
+        setResult(filteredBookmark);
+      }
+    }
+  });
 
   if (loading) {
     return (
@@ -77,47 +125,38 @@ const BookmarkedNotices = (props) => {
     );
   }
 
-  
-
-
-
-  if (bookmark == null) {
+  if (result == null) {
     return (
-      
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
             <p className="text">Bookmarked Notices</p>
-            
           </div>
           <Button
             className="header-button"
             color="primary"
-            onClick={() => {props.history.goBack()}}
+            onClick={() => {
+              props.history.goBack();
+            }}
             variant="contained"
             disableRipple
           >
             Back <img src={notice} alt="Admin notice" />
           </Button>
         </div>
-        <div className='no-notice'>
-        <img src={noNotice} alt='no-notice' className='no-notice-img' />
-        <h1
-          className="no-new-notices"
-          
-        >
-          
-            Hey there, You have no bookmarked notices, they would appear here when bookmarked
-        </h1>
-        <div className='notice-btn-div'>      
-          
-
-          <Link to="/noticeboard/old-notices">
-            <div className="older-notices">
-              <p className="older-notices-text">View older notices</p>
-            </div>
-          </Link>
-        </div>
+        <div className="no-notice">
+          <img src={noNotice} alt="no-notice" className="no-notice-img" />
+          <h1 className="no-new-notices">
+            Hey there, You have no bookmarked notices, they would appear here
+            when bookmarked
+          </h1>
+          <div className="notice-btn-div">
+            <Link to="/noticeboard/old-notices">
+              <div className="older-notices">
+                <p className="older-notices-text">View older notices</p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -131,28 +170,30 @@ const BookmarkedNotices = (props) => {
         </div>
         <Button
           className="header-button"
-          onClick={() => props.history.push(userData?.role === "owner"
-          ? "/noticeboard/admin-notice"
-          : "/noticeboard/user-notice")}
+          onClick={() =>
+            props.history.push(
+              userData?.role === "owner"
+                ? "/noticeboard/admin-notice"
+                : "/noticeboard/user-notice"
+            )
+          }
           variant="contained"
           disableRipple
         >
-          Back <img src={notice} alt="Admin notice" />
+          Back
         </Button>
       </div>
       {/* the is the beginning of the section where the card for each notice starts from */}
 
       <section className="adminNotice-section">
-      {searchText
+        {searchText
           ? filteredNotice?.map((person) => {
               return <CardComponent person={person} key={person._id} />;
             })
-          : bookmark?.map((person) => {
+          : result?.map((person) => {
               return <CardComponent person={person} key={person._id} />;
             })}
       </section>
-
-     
 
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
