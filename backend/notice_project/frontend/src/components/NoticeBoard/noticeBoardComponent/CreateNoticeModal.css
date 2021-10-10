@@ -223,6 +223,7 @@
        justify-content: center;
        align-items: center; 
        flex-direction: column;
+       gap: 20px;
        width: 300px;
        height: 400px;
        background-color: white;
@@ -237,72 +238,73 @@
     flex-direction: column;
     position: absolute;
     text-align: left;
+    top: 20px;
     left: 20px;
-    top: -100px;
     width: 250px;
     line-height: 1.5;
-}
+    }
 
-.schedule-notice> h5{
-    font-size: 16px;
-}
+    .schedule-notice> h5{
+        font-size: 16px;
+    }
 
-.calender{
-    width: 270px;
-    height: 35px;
-    background-color: white;
-    border: 1px solid hsla(0, 0%, 90%, 1);
-    position: relative;
-    left: 175px;
-    bottom: 70px;
-    border-radius: 3px;
-}
+    .box-bars{
+        margin-top: 15px;
+    }
 
-.calender>.dropdown{
-    position: relative;
-   left: 230px;
-    top: -5px;
-    width: 14px;
-    height: 14px;
-}
+    .calender{
+        width: 270px;
+        height: 35px;
+        background-color: white;
+        border: 1px solid hsla(0, 0%, 90%, 1);
+        position: relative;
+        left: 175px;
+        bottom: 70px;
+        border-radius: 3px;
+    }
 
-.gmt{
-    visibility: hidden;
-}
+    .calender>.dropdown{
+        position: relative;
+        left: 78%;
+    }
 
-.time-zone{
-    visibility: hidden;
-}
+    .gmt{
+        visibility: hidden;
+    }
 
-.time{
-    width: 270px;
-    height: 35px;
-    background-color: white;
-    position: relative;
-    left: -95px;
-    align-items: center;
-    border: 1px solid hsla(0, 0%, 90%, 1);
-    border-radius: 3px;
-}
+    .time-zone{
+        visibility: hidden;
+    }
 
-.last-bar{
-    display: flex;
-    position: relative;
-    left: 20px;
-    top: 45px;
-    font-size: 10px;
-    color: white;
-}
+    .time{
+        width: 270px;
+        height: 35px;
+        background-color: white;
+        position: relative;
+        left: -95px;
+        align-items: center;
+        border: 1px solid hsla(0, 0%, 90%, 1);
+        border-radius: 3px;
+    }
 
-.cancel{
-    width: 100px;
-    height: 40px;
-}
+    .last-bar{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap-reverse;
+        position: relative;
+        left: 20px;
+        top: 45px;
+        font-size: 10px;
+        color: white;
+    }
 
-.schedule-notice2{
-    width: 100px;
-    height: 40px;
+    .cancel{
+        padding: 10px 20px;
+    }
 
-}
+    .schedule-notice2{
+        padding: 10px 20px;
+
+    }
 
 }
