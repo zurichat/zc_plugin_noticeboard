@@ -33,7 +33,7 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers, setAllUser
   const [search, setSearch] = useState();
   const [filteredUsers, setFilterUsers] = useState(allUsers);
 
-    
+
     useEffect(() => {
       const filterUser = allUsers?.filter(name => name.user_name.toLowerCase().includes(search?.toLowerCase()))
       setFilterUsers(filterUser)
@@ -76,7 +76,7 @@ export const Noticeboard = ({ setShowAddUser, setOpenModal, allUsers, setAllUser
           Img={user.image_url}
           Username={user.user_name}
           Job={user.role}
-        /> 
+        />
       }): (allUsers?.map((user, id) => {
         return <ListMemberContainer
           key={id}
@@ -401,7 +401,7 @@ const Remove = styled.h3`
 `;
 
 const MemberName = styled.h3`
-  font-weight: 600; 
+  font-weight: 600;
   font-size: 14px;
   line-height: 1.2;
   text-transform: capitalize;

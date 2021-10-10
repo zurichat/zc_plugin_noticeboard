@@ -35,7 +35,7 @@ const EmailSubscription = (props) => {
       email: emailValue,
       agreement: agreementValue,
     });
-    
+
   };
 
   const clearHandler = () => {
@@ -47,14 +47,14 @@ const EmailSubscription = (props) => {
 
 
   const submitEmail = () => {
-    
+
     axios
       .post(
         `https://noticeboard.zuri.chat/api/v1/organisation/email-subscription?org=${orgID}&user=${userID}`,
         {
           email:emailValue
         }
-        
+
       )
       .then((res) => {
         if (res.status === "You have successfully Subscribed") {
@@ -64,16 +64,16 @@ const EmailSubscription = (props) => {
           setMessage(res);
           console.log(res, "looking for response")
         }
-        
+
       })
       .catch((err) => console.log(err));
-      
-      
-      
-      
+
+
+
+
   };
 
-  
+
 
   return (
     <Modal closeHandler={closeHandler}>
@@ -88,7 +88,7 @@ const EmailSubscription = (props) => {
           <div className="form content  successContent ">
             <p className="successMessage">
               You have successfully subscribed <em>{emailValue}</em> to Zuri
-              Chat 
+              Chat
             </p>
             <Button type="button" className="successClose" onClick={closeHandler}>
               CLOSE
@@ -97,9 +97,9 @@ const EmailSubscription = (props) => {
         ) : (
           <fieldset onClick={closeHandler} className="fieldset">
             <label >
-              
+
               <input
-                
+
                 className="email-input"
                 required
                 value={emailValue}

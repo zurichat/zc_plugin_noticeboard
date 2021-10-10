@@ -3,11 +3,11 @@ export const BookmarkContex = createContext();
 const UserBookmarkContextProvider = (props) => {
  const [bookmarkDetails,setBookmarkDetails] = useState();
  const [toggleBookmark,setToggleBookmark] = useState(false)
- return (  
+ return (
   <BookmarkContex.Provider value={bookmarkDetails,setToggleBookmark,setBookmarkDetails,toggleBookmark}>
    {this.props.children}
   <BookmarkContex.Provider>
  );
 }
- 
+
 export default UserBookmarkContextProvider;

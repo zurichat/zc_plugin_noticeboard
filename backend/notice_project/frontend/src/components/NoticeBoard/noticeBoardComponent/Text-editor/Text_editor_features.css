@@ -57,12 +57,9 @@
 /* makes the tools of the toolbar invisible by default */
 .rdw-invisible{
     display: none !important;
-} 
+}
 
 /* makes the tools of the toolbar visible */
 .rdw-visible{
     display: inline-block !important;
 }
-
-
-

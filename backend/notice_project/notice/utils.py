@@ -10,15 +10,17 @@ def user_rooms(org_id, user_id):
 
     if response["status"] == 200:
         room = response["data"][0]
-        user_rooms.append({"room_name": room["title"], "room_url": "/noticeboard", "room_image": room["icon"]})
+        user_rooms.append(
+            {
+                "room_name": room["title"],
+                "room_url": "/noticeboard",
+                "room_image": room["icon"],
+            }
+        )
         return user_rooms
 
 
-
-
-
-
-'''
+"""
 def user_rooms(org_id, user_id):
     user_rooms = []
     response = db.read("test_noticeboard_room", org_id)
@@ -32,5 +34,5 @@ def user_rooms(org_id, user_id):
             return user_rooms
         return user_rooms
 
-'''
+"""
 # /{room['_id']

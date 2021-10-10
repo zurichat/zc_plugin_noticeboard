@@ -33,7 +33,7 @@ const PinnedNotices = (props) => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
 
-  
+
   useEffect(() => {
     fetch(
       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
@@ -58,7 +58,7 @@ const PinnedNotices = (props) => {
       .catch((error) => console.log(error));
   }, []);
 
-  
+
   //Bookmark
   const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
     useContext(BookmarkContext);

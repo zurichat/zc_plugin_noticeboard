@@ -2,7 +2,7 @@ import React from 'react'
 import './CreateNoticeModal.css'
 import calender from "../../../../assets/svgbx_bx-calendar.svg"
 import dropdown from "../../../../assets/svgzuridropdown.svg"
-import Clock from "../../../../assets/svgclock.svg" 
+import Clock from "../../../../assets/svgclock.svg"
 
 
 
@@ -50,7 +50,7 @@ const CreateNoticeModal = ({showModal, setShowModal})  => {
                     <p>Schedule Notice</p>
                 </div>
             </div>
-        
+
     </div>
     </div>
     </div> : null }

@@ -14,7 +14,7 @@ on:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
          directory: backend/notice_project/
