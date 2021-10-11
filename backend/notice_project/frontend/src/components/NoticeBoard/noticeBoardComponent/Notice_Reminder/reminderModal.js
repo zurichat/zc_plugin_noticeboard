@@ -24,7 +24,8 @@ const formatDate = (dateArray) => {
   return newFormattedDate;
 };
 
-const ReminderModal = ({ setReminderModal, noticeID }) => {
+
+const ReminderModal = ({ setReminderModal, setSuccessMessage, noticeID }) => {
   const hours = rangeOfNumbers(0, 23);
   const minutes = rangeOfNumbers(0, 59);
   const UserData = useContext(UserInfoContext);
@@ -67,10 +68,11 @@ const ReminderModal = ({ setReminderModal, noticeID }) => {
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
+          setSuccessMessage(true);
           console.log("SUCCESSFUL POST");
         }
       })
-      .catch((err) => {
+      .then((err) => {
         console.log(err.statusText);
       });
   };
