@@ -72,7 +72,7 @@ const ReminderModal = ({ setReminderModal, setSuccessMessage, noticeID }) => {
           console.log("SUCCESSFUL POST");
         }
       })
-      .then((err) => {
+      .catch((err) => {
         console.log(err.statusText);
       });
   };
