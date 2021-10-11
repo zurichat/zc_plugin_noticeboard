@@ -31,7 +31,7 @@ export const UserProvider = (props) => {
 				setSearchText,
 				filteredNotice,
 				setFilteredNotice,
-				notices, 
+				notices,
 				setNotices,
 				oldnotices,
 				setOldnotices,

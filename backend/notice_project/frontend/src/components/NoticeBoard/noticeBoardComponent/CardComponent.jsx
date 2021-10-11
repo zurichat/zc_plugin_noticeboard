@@ -101,7 +101,7 @@ const CardComponent = ({ person, people }) => {
       <CardHeader
         avatar={
           <Avatar className={classes.avatar} variant='square' src={person.author_img_url !== 'null' ? person.author_img_url : imgPlaceholder } />
-           
+
         }
         action={
           <AdminMenu noticeID={person._id} />
@@ -143,8 +143,8 @@ const CardComponent = ({ person, people }) => {
     </Card>
       </Box>
       </>
-     
-    
+
+
   );
 };
 
