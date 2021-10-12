@@ -85,13 +85,33 @@ jobs:
               python3 manage.py migrate
               yarn
 
+       - name: Use cached node_modules
+         uses: c-hive/gha-yarn-cache@v2
+         with:
+            directory: test_root_config
+
+       - name: install Dependencies
+         run: |          
+          cd test_root_config
+          yarn build
+          
+       - name: Use cached node_modules for root dir
+         uses: c-hive/gha-yarn-cache@v2
+         with:
+            directory: backend/notice_project/frontend
+     
+       - name: install Dependencies
+         run: |
+          cd backend/notice_project/frontend/
+          yarn build
+
        - name: copy build to server
          uses: Creepios/sftp-action@v1.0.1
          with:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.USERNAME }}
             password: ${{ secrets.PASSWORD }}
-            localPath: '~/test_root_config/dist'
+            localPath: './test_root_config/dist'
             remotePath: '/var/www/zc_plugin_noticeboard/test_root_config/dist'
 
        - name: copy build to server
@@ -100,7 +120,7 @@ jobs:
               host: ${{ secrets.HOST }}
               username: ${{ secrets.USERNAME }}
               password: ${{ secrets.PASSWORD }}
-              localPath: '~/backend/notice_project/frontend/dist'
+              localPath: './backend/notice_project/frontend/dist'
               remotePath: '/var/www/zc_plugin_noticeboard/backend/notice_project/frontend/dist'
 
        - name: collect static and restart gunicorn
