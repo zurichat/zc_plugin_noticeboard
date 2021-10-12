@@ -110,6 +110,12 @@ h6 {
     width: 100%;
 }
 
+.adminNotice-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+}
+
 .adminNotice-section .card-adminNotice {
     border-radius: 3px;
     box-shadow: 0 0 0 2px hsla(0, 0%, 86%, 0.2);

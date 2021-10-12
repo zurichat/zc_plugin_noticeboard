@@ -6,11 +6,12 @@ import CancelNoticeBtn from "./BookmarkCancelNoticeBtn";
 import dot from "../../../assets/Ellipse135.svg";
 import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 import "./BookmarkViewNotice.css";
+// import { UserInfoContext } from "../../../App";
 
 import BookmarkIcon from "../../../assets/bookmark-icon.svg";
 import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
 
-const BookmarkViewNoticeModal = ({ persons, closeModal }) => {
+const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
   const cancelBtn = () => {
     const modalCard = document.getElementById("modal");
     const contain = document.getElementById("contain");
@@ -25,6 +26,9 @@ const BookmarkViewNoticeModal = ({ persons, closeModal }) => {
     }
   });
 
+  const deleteBookmark = () => {
+    unBookmarkNotice(noticeID);
+  }
   const getMonthName = (month) => {
     const d = new Date();
     d.setMonth(month - 1);
@@ -32,6 +36,41 @@ const BookmarkViewNoticeModal = ({ persons, closeModal }) => {
     return monthName;
   };
 
+  // function to unbookmark a notice
+  const unBookmarkNotice = (noticeID) => {
+      // const UserData = useContext(UserInfoContext);
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/bookmark/${noticeID}/delete`,
+      options
+    )
+      .then((response) => {
+        console.log(response);
+        setLoader(false);
+        console.log(noticeID);
+      })
+      .then((response) => {
+        setToast(true);
+
+        setTimeout(() => {
+          setToast(false);
+        }, 2000);
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+    handleClose();
+  };
+
+  
+  
   return (
     <div className="contain" id="contain">
       {persons.map((person) => {
@@ -65,7 +104,7 @@ const BookmarkViewNoticeModal = ({ persons, closeModal }) => {
               <div className="admin-menu-container">
                 <img
                   style={{ cursor: "pointer" }}
-                  onClick={() => console.log("clikcked")}
+                  onClick={() => unBookmarkNotice}
                   src={BookmarkIconActive}
                   alt="bookmark icon"
                 />

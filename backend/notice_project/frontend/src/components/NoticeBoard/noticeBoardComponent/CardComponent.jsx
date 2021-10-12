@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import axios from "axios";
 
@@ -12,6 +12,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import { UserInfoContext } from "../../../App";
 
 import dot from "../../../assets/Ellipse135.svg";
 import see from "../../../assets/Seen.svg";
@@ -22,13 +23,25 @@ import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "250px",
-    padding: "10px",
+    height: "300px",
+    marginBottom: "50px"
   },
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9
   },
+  btnviews: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  views: {
+    display: "flex"
+  },
+  number: {
+    marginLeft: '5px'
+  }
 }));
+
 
 const CardComponent = ({ person, people }) => {
   const classes = useStyles();
@@ -43,35 +56,23 @@ const CardComponent = ({ person, people }) => {
     setOpenModal(true);
   };
 
-  // const noticeViews = (noticeID) => {
-  //   setLoading(true);
-  //   axios
-  //     .get(
-  //       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${noticeID}`
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
 
-  // useEffect(() => {
-  //   const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${person._id}`;
-  //   fetch(apiCall)
-  //     .then((result) => result.json())
-  //     .then((data) => {
-  //       setCount(data.views);
-  //     });
-  // }, []);
-
-  // const viewNumber = (count) => {
-  //   const viewss = count.split(" ").length + 1;
-  //   return viewss;
-  // };
+   // Functinality for the number of views
+  const UserData = useContext(UserInfoContext);
+  const updateView = (noticeID) => {
+    const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
+    fetch(apiCall)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log("View count data", data);
+      });
+    console.log(UserData.org_id);
+  };
+  // function converting the views from strings to numbers
+  const viewNumber = (count) => {
+    const viewss = count.split(" ").length + 1;
+    return viewss;
+  };
 
   const months = [
     "Jan",
@@ -92,7 +93,7 @@ const CardComponent = ({ person, people }) => {
 
   return (
     <>
-      <Box display="flex" justifyContent="center" pb="30px">
+      <Box className={classes.box}>
         <Card className={classes.root}>
           <CardHeader
             avatar={
@@ -115,7 +116,7 @@ const CardComponent = ({ person, people }) => {
               )
             }
             subheader={moment(person.created).fromNow()}
-            action={<div style={{ marginTop: "25px" }}>hi</div>}
+            action={<div style={{ marginTop: "25px" }}></div>}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
@@ -125,19 +126,20 @@ const CardComponent = ({ person, people }) => {
               {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
             </Typography>
           </CardContent>
-          <Box display="flex" justifyContent="flex-end" pr="10px">
-            <CardActions disableSpacing>
-              <div>
-                {/* <img src={see} alt="" /> */}
-                {/* <p className="number">{viewNumber(count)}</p> */}
+          <Box>
+            <CardActions className={classes.btnviews}>
+              <div className={classes.views}>
+                <img src={see} alt="views" />
+                <p className={classes.number}>{viewNumber(person.views)}</p>
               </div>
               <button
                 className="card-button-adminNotice"
                 onClick={() => {
                   filterUsers(person._id);
+                  updateView(person._id);
                 }}
               >
-                {loading ? "Loading..." : "View Notice"}
+                View Notice
               </button>
             </CardActions>
           </Box>
