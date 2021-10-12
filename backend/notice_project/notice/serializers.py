@@ -10,12 +10,20 @@ current_date = f"{time.month}-{time.day}-{time.year}"
 
 
 class NoticeboardRoom(serializers.Serializer):
+    """
+    Serializer for noticeboard room
+    """
+
     title = serializers.CharField()
     icon = serializers.URLField()
     action = serializers.CharField()
 
 
 class CreateNoticeSerializer(serializers.Serializer):
+    """
+    Serializer for Create notice serializer
+    """
+
     title = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now)
     author_name = serializers.CharField()
@@ -30,16 +38,28 @@ class CreateNoticeSerializer(serializers.Serializer):
 
 
 class SubscribeSerializer(serializers.Serializer):
+    """
+    Serializer for the Subscribe option
+    """
+
     email = serializers.CharField()
 
 
 class UnsubscribeSerializer(serializers.Serializer):
+    """
+    Serializer for the Unsubscribe option
+    """
+
     email = serializers.CharField(max_length=30)
     user_id = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now)
 
 
 class NoticeReminderSerializer(serializers.Serializer):
+    """
+    Serializer for the NoticeReminder option
+    """
+
     title = serializers.CharField(max_length=255)
     time_created = serializers.TimeField(default=current_date)
     date_created = serializers.DateField(default=current_time)
@@ -51,17 +71,32 @@ class NoticeReminderSerializer(serializers.Serializer):
 
 
 class BookmarkNoticeSerializer(serializers.Serializer):
+    """
+    Serializer for the Bookmark notice option
+    """
+
     notice_id = serializers.CharField()
     user_id = serializers.CharField()
 
 
+# me
+
+
 class DraftSerializer(serializers.Serializer):
+    """
+    Serializer for the Draft
+    """
+
     title = serializers.CharField(max_length=255)
     time = serializers.TimeField(default=timezone.now)
     date = serializers.DateField()
 
 
 class SchedulesSerializer(serializers.Serializer):
+    """
+    Serializer for the Schedule Notice option
+    """
+
     title = serializers.CharField(max_length=255)
     created = serializers.DateTimeField(default=timezone.now)
     author_name = serializers.CharField()
