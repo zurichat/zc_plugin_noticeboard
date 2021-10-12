@@ -86,29 +86,29 @@ jobs:
               python3 manage.py migrate
               yarn
 
-       - name: Use cached node_modules
-         uses: c-hive/gha-yarn-cache@v2
-         with:
-            directory: test_root_config
+       #- name: Use cached node_modules
+        # uses: c-hive/gha-yarn-cache@v2
+         #with:
+          #  directory: test_root_config
 
-       - name: install Dependencies
-         run: | 
-          yarn install
-          cd test_root_config
-          yarn install
-          yarn build
+       #- name: install Dependencies
+        # run: | 
+         # yarn install
+          #cd test_root_config
+          #yarn install
+          #yarn build
           
-       - name: Use cached node_modules for root dir
-         uses: c-hive/gha-yarn-cache@v2
-         with:
-            directory: backend/notice_project/frontend
+       #- name: Use cached node_modules for root dir
+        # uses: c-hive/gha-yarn-cache@v2
+         #with:
+          #  directory: backend/notice_project/frontend
      
-       - name: install Dependencies
-         run: |
-          yarn install
-          cd backend/notice_project/frontend/
-          yarn
-          yarn build
+       #- name: install Dependencies
+        # run: |
+         # yarn install
+          #cd backend/notice_project/frontend/
+          #yarn
+          #yarn build
 
        - name: copy build to server
          uses: Creepios/sftp-action@v1.0.1
