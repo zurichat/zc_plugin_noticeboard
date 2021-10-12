@@ -91,8 +91,10 @@ jobs:
             directory: test_root_config
 
        - name: install Dependencies
-         run: |          
+         run: | 
+          yarn install
           cd test_root_config
+          yarn install
           yarn build
           
        - name: Use cached node_modules for root dir
@@ -102,7 +104,9 @@ jobs:
      
        - name: install Dependencies
          run: |
+          yarn install
           cd backend/notice_project/frontend/
+          yarn
           yarn build
 
        - name: copy build to server
