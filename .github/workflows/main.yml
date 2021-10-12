@@ -68,6 +68,7 @@ jobs:
        runs-on: ubuntu-latest
        
        steps:
+       - uses: actions/checkout@v2
        - name: Pull Repo on Server
          uses: appleboy/ssh-action@master
          with:
