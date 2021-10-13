@@ -27,9 +27,9 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, deleteBookmarkID }) => {
     }
   });
 
-  const deleteBookmark = () => {
-    unBookmarkNotice();
-  };
+  // const deleteBookmark = () => {
+  //   unBookmarkNotice();
+  // };
   const getMonthName = (month) => {
     const d = new Date();
     d.setMonth(month - 1);
