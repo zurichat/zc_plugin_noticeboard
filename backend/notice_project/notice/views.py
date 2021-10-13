@@ -1,4 +1,5 @@
 import requests
+import json
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
@@ -15,6 +16,8 @@ from .serializers import (
     NoticeReminderSerializer,
     SchedulesSerializer,
     SubscribeSerializer,
+    InstallSerializer,
+    UninstallSerializer    
     # UnsubscribeSerializer,
 )
 from .storage import db
@@ -75,6 +78,62 @@ def sidebar_info(request):
         {"message": "org id or user id is None"}, status=status.HTTP_400_BAD_REQUEST
     )
 
+@api_view(["POST"])
+def install(request):
+    """This endpoint is called when an organisation wants to install the
+    Noticeboard plugin for their workspace."""
+    serializer = InstallSerializer(data=request.data)
+    if serializer.is_valid():    
+        install_payload= serializer.data
+        org_id=install_payload["org_id"]
+        user_id=install_payload["user_id"]
+        print(org_id,user_id)
+
+        new_token= db.token()
+        print(new_token) 
+
+        url=f"https://api.zuri.chat/organizations/{org_id}/plugins"
+        print(url)
+        payload = {"plugin_id": "613fc3ea6173056af01b4b3e","user_id":user_id}
+        v2load=json.dumps(payload).encode("utf-8")
+        headers = {'Authorization':f'Bearer {new_token}'}
+        response = requests.request("POST", url, headers=headers, data=v2load)
+        installed=json.loads(response.text)
+        print(installed)
+        if installed["status"] == 200:
+            return Response({"success": True,"data": {"redirect_url":"/noticeboard"},
+                        "message": "sucessfully retrieved",},status=status.HTTP_200_OK,)
+        return Response({"Plugin has already been added"},status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+
+@api_view(["DELETE"])    
+def uninstall(request):
+    """This endpoint is called when an organisation wants to uinstall the
+    Noticeboard plugin for their workspace."""
+    serializer = UninstallSerializer(data=request.data)
+    if serializer.is_valid():    
+        uninstall_payload= serializer.data
+        org_id=uninstall_payload["org_id"]
+        user_id=uninstall_payload["user_id"]
+        print(user_id)
+
+        new_token= db.token()
+        print(new_token) 
+
+        url=f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
+        print(url)
+        payload = {"user_id":user_id}
+        v2load=json.dumps(payload).encode("utf-8")
+        headers = {'Authorization':f'Bearer {new_token}'}
+        response = requests.request("DELETE", url, headers=headers, data=v2load)
+        uninstalled=json.loads(response.text)
+        print(uninstalled)
+        if uninstalled["status"] == 200:
+            return Response(uninstalled,status=status.HTTP_200_OK,)
+        return Response({"message":"Plugin does not exist"},status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+
+
 
 @api_view(["POST"])
 def create_room(request, org_id):
@@ -100,18 +159,6 @@ def get_room(request, org_id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(["GET"])
-def install(request):
-    """This endpoint is called when an organisation wants to install the
-    Noticeboard plugin for their workspace."""
-    if request.method == "GET":
-        install = {
-            "name": "Noticeboard Plugin",
-            "description": "Creates Notice",
-            "plugin_id": settings.PLUGIN_ID,
-        }
-        return Response(install)
-    return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(["POST"])

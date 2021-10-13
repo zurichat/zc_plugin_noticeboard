@@ -107,6 +107,13 @@ class SchedulesSerializer(serializers.Serializer):
     views = serializers.CharField(default=0)
     org_id = serializers.CharField()
 
+class InstallSerializer(serializers.Serializer):
+    org_id=serializers.CharField()
+    user_id=serializers.CharField()
+
+class UninstallSerializer(serializers.Serializer):
+    org_id=serializers.CharField()
+    user_id=serializers.CharField()
 
 # class AddMemberToRoom(serializers.Serializer):
 #     member_id = serializers.CharField(max_length=24)

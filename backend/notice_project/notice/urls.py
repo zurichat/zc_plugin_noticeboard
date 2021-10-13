@@ -23,6 +23,7 @@ from .views import (
     email_subscription,
     get_room,
     install,
+    uninstall,
     sidebar_info,
 )
 
@@ -38,6 +39,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("sidebar", sidebar_info, name="sidebar"),  # changed sidebar to sidebar_info
     path("install", install, name="install"),
+    path("uninstall", uninstall, name="uinstall"),
     path("organisation/<str:org_id>/create-room", create_room),
     path("organisation/<str:org_id>/create", create_notice_view),
     path(
