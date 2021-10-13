@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "250px",
     height: "300px",
-    marginBottom: "50px"
+    marginBottom: "50px",
   },
   media: {
     height: 0,
@@ -32,18 +32,17 @@ const useStyles = makeStyles((theme) => ({
   },
   btnviews: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   views: {
-    display: "flex"
+    display: "flex",
   },
   number: {
-    marginLeft: '5px'
-  }
+    marginLeft: "5px",
+  },
 }));
 
-
-const CardComponent = ({ person, people }) => {
+const CardComponent = ({ person, people, bookmarkID }) => {
   const classes = useStyles();
   const [openModal, setOpenModal] = React.useState(false);
   const [persons, setPersons] = React.useState([person]);
@@ -56,8 +55,11 @@ const CardComponent = ({ person, people }) => {
     setOpenModal(true);
   };
 
+  const deleteBookmarkID = bookmarkID?.filter(
+    (bookmark) => bookmark?.notice_id === person?._id
+  )[0]?._id;
 
-   // Functinality for the number of views
+  // Functinality for the number of views
   const UserData = useContext(UserInfoContext);
   const updateView = (noticeID) => {
     const apiCall = `https://noticeboard.zuri.chat/api/v1/organisation/${UserData?.org_id}/notices/${noticeID}?query=${UserData?.email}`;
@@ -148,6 +150,7 @@ const CardComponent = ({ person, people }) => {
             <BookmarkViewNoticeModal
               persons={persons}
               closeModal={setOpenModal}
+              deleteBookmarkID={deleteBookmarkID}
             />
           )}
         </Card>
