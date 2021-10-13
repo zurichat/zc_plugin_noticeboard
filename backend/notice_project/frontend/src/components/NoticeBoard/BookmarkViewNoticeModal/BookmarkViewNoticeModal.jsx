@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 
 import CancelNoticeBtn from "./BookmarkCancelNoticeBtn";
-// import AdminMenu from "../noticeBoardComponent/AdminNoticeMenu";
+
 import dot from "../../../assets/Ellipse135.svg";
 import noticePlaceholderImage from "../../../assets/noticePlaceholderImage.svg";
 import "./BookmarkViewNotice.css";
-// import { UserInfoContext } from "../../../App";
 
-import BookmarkIcon from "../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../assets/bookmark-icon-active.svg";
+import deleteBookmarkIcon from "../../../assets/delete-icon.svg";
+import { UserContext } from "../../../Data-fetcing";
 
-const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
+const BookmarkViewNoticeModal = ({ persons, closeModal, deleteBookmarkID }) => {
   const cancelBtn = () => {
     const modalCard = document.getElementById("modal");
     const contain = document.getElementById("contain");
@@ -19,6 +18,7 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
     contain.classList.add("none");
     closeModal(false);
   };
+  const { toggleBookmark, setToggleBookmark } = useContext(UserContext);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
@@ -27,8 +27,8 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
   });
 
   const deleteBookmark = () => {
-    unBookmarkNotice(noticeID);
-  }
+    unBookmarkNotice();
+  };
   const getMonthName = (month) => {
     const d = new Date();
     d.setMonth(month - 1);
@@ -37,8 +37,7 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
   };
 
   // function to unbookmark a notice
-  const unBookmarkNotice = (noticeID) => {
-      // const UserData = useContext(UserInfoContext);
+  const unBookmarkNotice = () => {
     const options = {
       method: "DELETE",
       headers: {
@@ -47,13 +46,14 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
     };
 
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/bookmark/${noticeID}/delete`,
+      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/bookmark/${deleteBookmarkID}/delete`,
       options
     )
       .then((response) => {
-        console.log(response);
-        setLoader(false);
-        console.log(noticeID);
+        if (response.ok) {
+          setToggleBookmark(!toggleBookmark);
+        }
+        // setLoader(false);
       })
       .then((response) => {
         setToast(true);
@@ -66,11 +66,9 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
       .catch((error) => {
         console.log(error);
       });
-    handleClose();
+    cancelBtn();
   };
 
-  
-  
   return (
     <div className="contain" id="contain">
       {persons.map((person) => {
@@ -104,8 +102,8 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, noticeID }) => {
               <div className="admin-menu-container">
                 <img
                   style={{ cursor: "pointer" }}
-                  onClick={() => unBookmarkNotice}
-                  src={BookmarkIconActive}
+                  onClick={unBookmarkNotice}
+                  src={deleteBookmarkIcon}
                   alt="bookmark icon"
                 />
               </div>

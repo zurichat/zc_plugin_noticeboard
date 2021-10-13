@@ -20,6 +20,7 @@ const BookmarkedNotices = (props) => {
     setIsError,
     searchText,
     filteredNotice,
+    toggleBookmark,
   } = useContext(UserContext);
 
   const _globalData = useContext(DataContext);
@@ -30,6 +31,7 @@ const BookmarkedNotices = (props) => {
   const [result, setResult] = useState();
   const [bookmarked, setBookmarked] = useState();
   const [notice, setNotice] = useState();
+  const [bookmarkID, setBookmarkID] = useState();
 
   const fetchBookmarked = () => {
     fetch(
@@ -47,25 +49,6 @@ const BookmarkedNotices = (props) => {
   };
 
   useEffect(() => {
-    // let user = JSON.parse(sessionStorage.getItem("user"));
-    // fetch(
-    //   `https://noticeboard.zuri.chat/api/v1/organisation/${userData?.currentWorkspace}/user/${user.id}/bookmark`
-    // )
-    //   .then((res) => {
-    //     if (res.status >= 200 && res.status <= 299) {
-    //       return res.json();
-    //     } else {
-    //       setLoading(false);
-    //       setIsError(true);
-    //     }
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     setLoading(false);
-    //     setBookmark(data.data.notice_data);
-    //     console.log(userData);
-    //   })
-    //   .catch((error) => console.log(error));
     fetchBookmarked();
 
     fetch(
@@ -83,7 +66,7 @@ const BookmarkedNotices = (props) => {
         setNotice(data.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [toggleBookmark]);
 
   useEffect(() => {
     if (notice && bookmarked) {
@@ -94,11 +77,18 @@ const BookmarkedNotices = (props) => {
         });
       });
 
+      const filteredID = bookmarked?.data?.filter((elem) => {
+        return notice?.some((f) => {
+          return elem?.notice_id === f?._id;
+        });
+      });
+
       if (filteredBookmark) {
         setResult(filteredBookmark);
+        setBookmarkID(filteredID);
       }
     }
-  });
+  }, [notice, bookmarked]);
 
   if (loading) {
     return (
@@ -188,10 +178,22 @@ const BookmarkedNotices = (props) => {
       <section className="adminNotice-section">
         {searchText
           ? filteredNotice?.map((person) => {
-              return <CardComponent person={person} key={person._id} />;
+              return (
+                <CardComponent
+                  bookmarkID={bookmarkID}
+                  person={person}
+                  key={person._id}
+                />
+              );
             })
           : result?.map((person) => {
-              return <CardComponent person={person} key={person._id} />;
+              return (
+                <CardComponent
+                  bookmarkID={bookmarkID}
+                  person={person}
+                  key={person._id}
+                />
+              );
             })}
       </section>
 
