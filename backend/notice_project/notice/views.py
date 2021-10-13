@@ -159,18 +159,6 @@ def get_room(request, org_id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(["GET"])
-def install(request):
-    """This endpoint is called when an organisation wants to install the
-    Noticeboard plugin for their workspace."""
-    if request.method == "GET":
-        install = {
-            "name": "Noticeboard Plugin",
-            "description": "Creates Notice",
-            "plugin_id": settings.PLUGIN_ID,
-        }
-        return Response(install)
-    return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(["POST"])
