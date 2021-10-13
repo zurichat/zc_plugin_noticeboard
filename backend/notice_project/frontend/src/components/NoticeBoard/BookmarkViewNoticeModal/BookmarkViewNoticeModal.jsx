@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import moment from "moment";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import CancelNoticeBtn from "./BookmarkCancelNoticeBtn";
 
@@ -100,12 +101,14 @@ const BookmarkViewNoticeModal = ({ persons, closeModal, deleteBookmarkID }) => {
               </div>
 
               <div className="admin-menu-container">
-                <img
+                <Tooltip title="Delete">
+                  <img
                   style={{ cursor: "pointer" }}
                   onClick={unBookmarkNotice}
                   src={deleteBookmarkIcon}
                   alt="bookmark icon"
                 />
+                </Tooltip>
               </div>
             </div>
 

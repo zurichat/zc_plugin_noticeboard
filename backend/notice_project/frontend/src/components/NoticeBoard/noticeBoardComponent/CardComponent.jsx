@@ -22,9 +22,12 @@ import imgPlaceholder from "../../../assets/noticePlaceholderImage.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "250px",
-    height: "300px",
+    width: "100%",
     marginBottom: "50px",
+  },
+  box: {
+    width: "250px",
+    height: "auto",
   },
   media: {
     height: 0,

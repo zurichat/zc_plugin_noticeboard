@@ -345,6 +345,15 @@ h6 {
     .older-notices-text {
         font-size: 12px !important;
     }
+    .adminNotice-section {
+        display: block;
+        width: 100%;
+        justify-content: center;
+    }
+    .adminnotice {
+        display: block;
+        justify-content: center;
+    }
 }
 
 .notice-btn-div {
