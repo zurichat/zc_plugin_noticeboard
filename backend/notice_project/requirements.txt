@@ -16,8 +16,12 @@ django-environ==0.4.5
 djangorestframework==3.12.4
 docformatter==1.4
 drf-yasg==1.20.0
+<<<<<<< HEAD
+Faker==9.2.0
+=======
 filelock==3.3.0
 flake8==3.9.2
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
 gunicorn==20.1.0
 identify==2.3.0
 idna==3.2
