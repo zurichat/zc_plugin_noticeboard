@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     width: "250px",
-    height: "auto",
+    height: "auto"
   },
   media: {
     height: 0,
@@ -98,7 +98,6 @@ const CardComponent = ({ person, people, bookmarkID }) => {
 
   return (
     <>
-<<<<<<< HEAD
       <Box className={classes.box}>
         <Card className={classes.root}>
           <CardHeader
@@ -112,45 +111,6 @@ const CardComponent = ({ person, people, bookmarkID }) => {
                     : imgPlaceholder
                 }
               />
-=======
-    <Box display='flex' justifyContent='center'pb='30px'>
-        <Card className={classes.root}  >
-      <CardHeader
-        avatar={
-          <Avatar className={classes.avatar} variant='square' src={person.author_img_url !== 'null' ? person.author_img_url : imgPlaceholder } />
-
-        }
-        action={
-          <AdminMenu noticeID={person._id} />
-        }
-        title={person.author_name !== 'null' ? <Box fontWeight="fontWeightBold">{person.author_name}</Box> : <Box fontWeight="fontWeightBold">{person.author_username} </Box>}
-        subheader={ moment(person.created).fromNow()}
-      />
-      <CardContent>
-      <Typography gutterBottom variant="h5" component="h2">
-      {person.title.replace(/<[^>]+>/g, "")}
-          </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-        {person.message.replace(/<[^>]+>/g, "").substring(0, 150)}...
-        </Typography>
-      </CardContent>
-      <Box display='flex' justifyContent='flex-end' pr='10px'>
-      <CardActions disableSpacing>
-            <div>
-              <img src={see} alt="" />
-              <p className="number"
-              >{viewNumber(count)}</p>
-            </div>
-          <button
-            className="card-button-adminNotice"
-            onClick={() => {
-              filterUsers(person._id);
-              noticeViews(person._id);
-            }}
-          >
-            {
-              loading ? "Loading..." : "View Notice"
->>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
             }
             // action={<AdminMenu noticeID={person._id} />}
             title={
@@ -198,13 +158,7 @@ const CardComponent = ({ person, people, bookmarkID }) => {
           )}
         </Card>
       </Box>
-<<<<<<< HEAD
     </>
-=======
-      </>
-
-
->>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
   );
 };
 
