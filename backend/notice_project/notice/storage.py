@@ -89,7 +89,8 @@ class Dbnoticeboard:
             return error
 
     def update(self, collection_name, org_id, notice_data, object_id):
-        """This method updates noticeboard related data as json to the Db.
+        """
+        This method updates noticeboard related data as json to the Db.
 
         It does this using the collection name and the serialized json
         """

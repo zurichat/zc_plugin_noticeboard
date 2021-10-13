@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from rest_framework import serializers
 
@@ -14,9 +15,14 @@ class NoticeboardRoom(serializers.Serializer):
     Serializer for noticeboard room
     """
 
-    title = serializers.CharField()
-    icon = serializers.URLField()
-    action = serializers.CharField()
+    room_id = serializers.CharField(default=uuid.uuid1().hex, read_only=True)
+    room_name = serializers.CharField(max_length=100)
+    is_admin = serializers.CharField(max_length=50, allow_blank=True)
+    private = serializers.BooleanField(default=False)
+    room_member_id = serializers.ListField(
+        child=serializers.CharField(max_length=50, allow_blank=True)
+    )
+    created_at = serializers.DateTimeField(default=timezone.now)
 
 
 class CreateNoticeSerializer(serializers.Serializer):
@@ -109,4 +115,7 @@ class SchedulesSerializer(serializers.Serializer):
 
 
 # class AddMemberToRoom(serializers.Serializer):
-#     member_id = serializers.CharField(max_length=24)
+#     """Serializer for adding a member to a room"""
+
+#     room_id = serializers.CharField(max_length=50)
+#     member_id = serializers.CharField(max_length=50)

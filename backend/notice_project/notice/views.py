@@ -18,7 +18,7 @@ from .serializers import (
     # UnsubscribeSerializer,
 )
 from .storage import db
-from .utils import user_rooms
+from .utils import user_rooms, members_of_a_room
 
 # this is a comment
 
@@ -30,33 +30,33 @@ def sidebar_info(request):
     org_id = request.GET.get("org")
     user_id = request.GET.get("user")
 
-    data = {
-        "title": "Noticeboard",
-        "icon": (
-            "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-"
-            "trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h="
-            "DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c="
-        ),
-        "action": "open",
-    }
+    # data = {
+    #     "title": "Noticeboard",
+    #     "icon": (
+    #         "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-"
+    #         "trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h="
+    #         "DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c="
+    #     ),
+    #     "action": "open",
+    # }
 
-    room = db.read("noticeboard_room", org_id)
+    # room = db.read("noticeboard_room", org_id)
 
-    if room["status"] == 200:
-        if room["data"]:
-            room = room["data"][0]
-        else:
-            requests.post(
-                f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-                data=data,
-            )
-            # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-    else:
-        requests.post(
-            f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-            data=data,
-        )
-        # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
+    # if room["status"] == 200:
+    #     if room["data"]:
+    #         room = room["data"][0]
+    #     else:
+    #         requests.post(
+    #             f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
+    #             data=data,
+    #         )
+    # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
+    # else:
+    #     requests.post(
+    #         f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
+    #         data=data,
+    #     )
+    # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
 
     if org_id and user_id:
         sidebar = {
@@ -77,7 +77,7 @@ def sidebar_info(request):
 
 
 @api_view(["POST"])
-def create_room(request, org_id):
+def create_room(request, org_id, user_id):
     """Creates a room for the organisation under Noticeboard plugin."""
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
@@ -332,10 +332,6 @@ class NoticeReminder(views.APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self):
-        """A dummy public method to get past pylint."""
-        ...
 
 
 @api_view(["GET"])
@@ -612,3 +608,33 @@ def email_subscription(request):
             {"status": "no action taken, check org and/or user parameter values"}
         )
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+def add_user_to_room(request, org_id, room_id, user_id):
+    """
+    This endpoint enables a user to be added to a room
+    """
+    if request.method == "POST":
+        members_of_a_room(request, org_id, room_id, user_id)
+        return Response(
+            {"message": "successfully added the user"}, status=status.HTTP_201_CREATED
+        )
+    return Response(
+        {"message": "could not add the user"}, status=status.HTTP_400_BAD_REQUEST
+    )
+
+
+@api_view(["PATCH"])
+def remove_user_from_room(request, org_id, room_id, user_id):
+    """
+    This endpoint enables a user to be removed from a room
+    """
+    if request.method == "PATCH":
+        members_of_a_room(request, org_id, room_id, user_id)
+        return Response(
+            {"message": "successfully removed the user"}, status=status.HTTP_200_OK
+        )
+    return Response(
+        {"message": "could not remove the user"}, status=status.HTTP_400_BAD_REQUEST
+    )
