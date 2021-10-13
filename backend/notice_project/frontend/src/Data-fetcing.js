@@ -14,6 +14,7 @@ export const UserProvider = (props) => {
   const [notices, setNotices] = useState([]);
   const [toggleBookmark, setToggleBookmark] = useState(false);
 
+<<<<<<< HEAD
   return (
     <UserContext.Provider
       value={{
@@ -42,4 +43,33 @@ export const UserProvider = (props) => {
       {props.children}
     </UserContext.Provider>
   );
+=======
+	return (
+		<UserContext.Provider
+			value={{
+				people,
+				setPeople,
+				allUsers,
+				setAllUsers,
+				loading,
+				setLoading,
+				isError,
+				setIsError,
+				selectedNotice,
+				setSelectedNotice,
+				searchText,
+				setSearchText,
+				filteredNotice,
+				setFilteredNotice,
+				notices,
+				setNotices,
+				oldnotices,
+				setOldnotices,
+				bookmark,
+				setBookmark
+			}}>
+			{props.children}
+		</UserContext.Provider>
+	);
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
 };

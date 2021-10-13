@@ -20,7 +20,12 @@ const BookmarkedNotices = (props) => {
     setIsError,
     searchText,
     filteredNotice,
+<<<<<<< HEAD
     toggleBookmark,
+=======
+    bookmark,
+    setBookmark
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
   } = useContext(UserContext);
 
   const _globalData = useContext(DataContext);
@@ -49,8 +54,13 @@ const BookmarkedNotices = (props) => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     fetchBookmarked();
 
+=======
+
+  let user = JSON.parse(sessionStorage.getItem("user"));
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
     fetch(
       `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
     )
@@ -115,12 +125,26 @@ const BookmarkedNotices = (props) => {
     );
   }
 
+<<<<<<< HEAD
   if (result == null) {
     return (
+=======
+
+
+
+
+  if (bookmark == null) {
+    return (
+
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
       <div className="adminnotice">
         <div className="pinned-button-container">
           <div className="pin-text">
             <p className="text">Bookmarked Notices</p>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
           </div>
           <Button
             className="header-button"
@@ -134,6 +158,7 @@ const BookmarkedNotices = (props) => {
             Back <img src={notice} alt="Admin notice" />
           </Button>
         </div>
+<<<<<<< HEAD
         <div className="no-notice">
           <img src={noNotice} alt="no-notice" className="no-notice-img" />
           <h1 className="no-new-notices">
@@ -147,6 +172,26 @@ const BookmarkedNotices = (props) => {
               </div>
             </Link>
           </div>
+=======
+        <div className='no-notice'>
+        <img src={noNotice} alt='no-notice' className='no-notice-img' />
+        <h1
+          className="no-new-notices"
+
+        >
+
+            Hey there, You have no bookmarked notices, they would appear here when bookmarked
+        </h1>
+        <div className='notice-btn-div'>
+
+
+          <Link to="/noticeboard/old-notices">
+            <div className="older-notices">
+              <p className="older-notices-text">View older notices</p>
+            </div>
+          </Link>
+        </div>
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
         </div>
       </div>
     );
@@ -197,6 +242,11 @@ const BookmarkedNotices = (props) => {
             })}
       </section>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a
       <Link to="/noticeboard/old-notices">
         <div className="older-notices">
           <p className="older-notices-text">View older notices</p>

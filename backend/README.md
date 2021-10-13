@@ -16,6 +16,9 @@
 
 ### `pip install -r requirements.txt`
 
+- ADD PRE-COMMIT TO YOUR GIT FOLDER
+### `pre-commit install`
+
 - RUN THE APP IN THE DEVELOPMENT MODE WITH:
 
 ### `python manage.py runserver`

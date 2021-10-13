@@ -55,12 +55,12 @@ function OldNotices() {
     return filteredNotices.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, PageSize, oldnotices, prevDate]);
 
-  
+
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
-  
+
   //Bookmark
   const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
     useContext(BookmarkContext);

@@ -22,7 +22,7 @@ const UserBookmarkButton = ({ noticeID }) => {
   const _globalData = useContext(DataContext);
   const org_id = _globalData.Organizations[0];
   const [bookmarkedNoticeID, setBookmarkNoticeID] = useState();
-  
+
   useEffect(() => {
     if (bookmarkDetails) {
       const check = bookmarkDetails?.data.filter(

@@ -2,9 +2,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-class BookmarkTest(APITestCase):
 
+class BookmarkTest(APITestCase):
     def test_list_bookmark(self):
+<<<<<<< HEAD
         org_id = "1234567890"
         user_id = "1234567890"
         bookmark_list_url = reverse("list-bookmark", args=[org_id, user_id])
@@ -26,3 +27,6 @@ class BookmarkTest(APITestCase):
         bookmark_delete_url = reverse('delete-bookmark', args=[org_id, bookmark_id])
         response = self.client.delete(bookmark_delete_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+=======
+        pass
+>>>>>>> 77a1721949de43c67f872bde6a4d164ca8be056a

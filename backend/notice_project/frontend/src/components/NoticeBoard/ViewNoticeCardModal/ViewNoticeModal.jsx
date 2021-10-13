@@ -53,7 +53,7 @@ const ViewNoticeModal = ({ persons, closeModal }) => {
                   ? person.author_name
                   : person.author_username}
                   <div className="time-stamps">
-                    <p className="date-stamp stamp-one">{moment(person.created).fromNow()}</p> 
+                    <p className="date-stamp stamp-one">{moment(person.created).fromNow()}</p>
                   </div>
                 </div>
               </div>
