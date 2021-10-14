@@ -118,7 +118,7 @@ class InstallSerializer(serializers.Serializer):
     Serializer for Installing A Plugin
     """
 
-    org_id = serializers.CharField()
+    organisation_id = serializers.CharField()
     user_id = serializers.CharField()
 
 
@@ -127,7 +127,7 @@ class UninstallSerializer(serializers.Serializer):
     Serializer for Uninstalling A Plugin
     """
 
-    org_id = serializers.CharField()
+    organisation_id = serializers.CharField()
     user_id = serializers.CharField()
 
 
