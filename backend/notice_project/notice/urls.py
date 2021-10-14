@@ -25,6 +25,7 @@ from .views import (
     install,
     uninstall,
     sidebar_info,
+    MembersOfRoom,
 )
 
 schema_view = get_schema_view(
@@ -40,18 +41,19 @@ urlpatterns = [
     path("sidebar", sidebar_info, name="sidebar"),  # changed sidebar to sidebar_info
     path("install", install, name="install"),
     path("uninstall", uninstall, name="uinstall"),
-    path("organisation/<str:org_id>/create-room", create_room),
+    path("organisation/<str:org_id>/user/<str:user_id>/room", create_room),
     path("organisation/<str:org_id>/create", create_notice_view),
-    path(
-        "organisation/<str:org_id>/create-reminder",
-        NoticeReminder.as_view(),
-    ),
+    path("organisation/<str:org_id>/create-reminder", NoticeReminder.as_view()),
     path("organisation/<str:org_id>/view-reminder", view_notice_reminder),
     path("organisation/<str:org_id>/create_draft", notice_draft),
     path("organisation/<str:org_id>/create_schedule", schedule_notices),
     path("organisation/<str:org_id>/schedule", view_schedule),
     path("organisation/<str:org_id>/notices/<str:obj_id>/edit", update_notice_view),
     path("organisation/<str:org_id>/get-room", get_room),
+    path(
+        "organisation/<str:org_id>/room/<str:room_id>/members/<str:member_id>",
+        MembersOfRoom.as_view(),
+    ),
     path("organisation/<str:org_id>/notices", view_notice),
     path(
         "organisation/<str:org_id>/notices/<str:obj_id>",
