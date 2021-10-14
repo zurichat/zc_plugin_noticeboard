@@ -75,6 +75,19 @@ def install(request):
         installed = json.loads(response.text)
         print(installed)
         if installed["status"] == 200:
+
+            room = db.read("noticeboard_room", org_id)
+            if room["status"] == 200:
+                if room["data"] is not None:
+                    room = room["data"][0]
+                else:
+                    room = requests.post(
+                        f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/user/{user_id}/room",
+                        data={"room_name": "Noticeboard"},
+                    )
+            else:
+                room = {}
+
             return Response(
                 {
                     "success": True,
