@@ -88,7 +88,7 @@ def install(request):
     serializer = InstallSerializer(data=request.data)
     if serializer.is_valid():    
         install_payload= serializer.data
-        org_id=install_payload["org_id"]
+        org_id=install_payload["organisation_id"]
         user_id=install_payload["user_id"]
         # print(org_id,user_id)
 
@@ -116,7 +116,7 @@ def uninstall(request):
     serializer = UninstallSerializer(data=request.data)
     if serializer.is_valid():    
         uninstall_payload= serializer.data
-        org_id=uninstall_payload["org_id"]
+        org_id=uninstall_payload["organisation_id"]
         user_id=uninstall_payload["user_id"]
         # print(user_id)
 
