@@ -41,6 +41,7 @@ def sidebar_info(request):
             "plugin_id": settings.PLUGIN_ID,
             "organisation_id": f"{org_id}",
             "user_id": f"{user_id}",
+            "category": "productivity",
             "group_name": "Noticeboard",
             "show_group": False,
             "public_rooms": [],
