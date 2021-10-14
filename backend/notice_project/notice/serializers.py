@@ -108,11 +108,11 @@ class SchedulesSerializer(serializers.Serializer):
     org_id = serializers.CharField()
 
 class InstallSerializer(serializers.Serializer):
-    org_id=serializers.CharField()
+    organisation_id=serializers.CharField()
     user_id=serializers.CharField()
 
 class UninstallSerializer(serializers.Serializer):
-    org_id=serializers.CharField()
+    organisation_id=serializers.CharField()
     user_id=serializers.CharField()
 
 # class AddMemberToRoom(serializers.Serializer):
