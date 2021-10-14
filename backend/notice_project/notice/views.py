@@ -1,10 +1,13 @@
 import requests
+import re
+from django.core.paginator import Paginator
 import json
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .email import subscription_success_mail
 from .schedulestorage import schDb
@@ -87,10 +90,10 @@ def install(request):
         install_payload= serializer.data
         org_id=install_payload["org_id"]
         user_id=install_payload["user_id"]
-        print(org_id,user_id)
+        # print(org_id,user_id)
 
-        new_token= db.token()
-        print(new_token) 
+        # new_token= db.token()
+        # print(new_token) 
 
         url=f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
@@ -115,10 +118,10 @@ def uninstall(request):
         uninstall_payload= serializer.data
         org_id=uninstall_payload["org_id"]
         user_id=uninstall_payload["user_id"]
-        print(user_id)
+        # print(user_id)
 
-        new_token= db.token()
-        print(new_token) 
+        # new_token= db.token()
+        # print(new_token) 
 
         url=f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
         print(url)
@@ -127,7 +130,7 @@ def uninstall(request):
         headers = {'Authorization':f'Bearer {new_token}'}
         response = requests.request("DELETE", url, headers=headers, data=v2load)
         uninstalled=json.loads(response.text)
-        print(uninstalled)
+        # print(uninstalled)
         if uninstalled["status"] == 200:
             return Response(uninstalled,status=status.HTTP_200_OK,)
         return Response({"message":"Plugin does not exist"},status=status.HTTP_404_NOT_FOUND)
@@ -296,7 +299,7 @@ def view_notice(request, org_id):
         print(reversed_list)
         notice.update(data=reversed_list)
         if notice["status"] == 200:
-            print(notice)
+            #print(notice)
             return Response(notice, status=status.HTTP_200_OK)
         return Response(
             {"status": False, "message": "retrieved unsuccessfully"},
@@ -511,7 +514,7 @@ def view_schedule(request, org_id):
     organisation in the database."""
     if request.method == "GET":
         # org_id = "613a1a3b59842c7444fb0220"
-        print(org_id)
+       # print(org_id)
         notice = schDb.scheduleRead("schedules", " ")
         get_data = notice["data"]
         reversed_list = get_data[::-1]
@@ -539,7 +542,7 @@ def attach_file(request, org_id):
         notice = db.read("noticeboard", org_id)
         get_data = notice["data"]
         reversed_list = get_data[::-1]
-        print(reversed_list)
+        #print(reversed_list)
         notice.update(data=reversed_list)
         if notice["status"] == 200:
             print(notice)
@@ -659,3 +662,79 @@ def email_subscription(request):
             {"status": "no action taken, check org and/or user parameter values"}
         )
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+class NoticeboardSearchView(APIView):
+    def get(self, request, org_id, *args, **kwargs):
+        
+        # organization = "614679ee1a5607b13c00bcb7"
+        collection_name = "collection_name"
+    
+        key_word = request.query_params.get("key") or []
+        if key_word:
+            key_word = re.split("[;,\s]+", key_word)
+            
+        print('='*50)
+        print(len(search_result))
+
+        notices = db.read("noticeboard", org_id)["data"]
+        search_result = []
+
+        #print("something")
+        
+        
+        for notice in notices:
+            message = notice["message"].lower()
+            if all(word in message for word in key_word):
+                search_result.append(notice)
+            
+            
+        
+
+        # for word in key_word:
+        #     word = word.lower()
+        #     for notice in notices:
+        #         message = str(notice["message"]).lower()
+        #         if word in message and notice not in search_result:
+        #              #print(title)
+        #             search_result.append(notices)
+                    
+        # print(search_result)            
+                    
+                    
+        for item in search_result:
+            
+                item["author_image_url"] = ""
+                item["author_name"] = ""
+                item["created_at"] = item["time"]
+                item["author_username"] = ""
+                item["media"] = []
+                item["message"] = ""
+                item["title"] = ""
+                item["url"] = f"https://zuri.chat/noticeboard/"
+                # item["email"] = ([],)
+                # item["description"] = ([],)
+                # #item.pop("")
+                item.pop("time")
+
+        paginate_by = request.query_params.get("paginate_by", 20)
+        paginator = Paginator(search_result, paginate_by)
+        page_num = request.query_params.get("page", 1)
+        page_obj = paginator.get_page(page_num)
+        Query = request.query_params.get("key") or []
+        paginated_data = {
+            "status": "ok",
+            "pagination": {
+                "total_count": paginator.count,
+                "current_page": page_obj.number,
+                "per_page": paginate_by,
+                "page_count": paginator.num_pages,
+                "first_page": 1,
+                "last_page": paginator.num_pages,
+            },
+            "plugin": "Noticeboard",
+            "Query": Query,
+            "data": list(page_obj),
+            "filter_sugestions": {"in": [], "from": []},
+        }
+
+        return Response({"data": paginated_data}, status=status.HTTP_200_OK)                
