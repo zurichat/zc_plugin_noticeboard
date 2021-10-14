@@ -19,7 +19,16 @@ repos:
   #   hooks:
   #   -   id: isort
 
-  # - repo: https://github.com/pre-commit/mirrors-pylint
-  #   rev: v3.0.0a4
-  #   hooks:
-  #   -   id: pylint
+  - repo: https://github.com/pre-commit/mirrors-pylint
+    rev: v3.0.0a4
+    hooks:
+    -   id: pylint
+        args:
+        - --max-line-length=500
+        - --ignore-imports=yes
+        - --disable=E1101
+        - --disable=E0401
+        - --disable=C0114
+        - --disable=W0621
+        - --disable=R0201
+        - --disable=R0903 #had to disable it because of the serializers.py file

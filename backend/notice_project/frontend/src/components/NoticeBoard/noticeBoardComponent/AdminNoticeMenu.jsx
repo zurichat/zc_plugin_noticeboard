@@ -11,7 +11,6 @@ import DeleteIcon from "../../../assets/delete-icon.svg";
 import MoreMessage from "../../../assets/more-messages-icon.svg";
 import "./AdminNoticeMenu.css";
 
-import SuccessMessage from "./Notice_Reminder/successMessage";
 import ReminderModal from "./Notice_Reminder/reminderModal";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -34,7 +33,6 @@ function AdminMenu({ noticeID }) {
   const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const [reminderModal, setReminderModal] = useState(false);
-  const [sucessMessage, setSucessMessage] = useState(false);
   const history = useHistory();
 
   console.log(noticeID);
@@ -330,11 +328,9 @@ function AdminMenu({ noticeID }) {
       {reminderModal && (
         <ReminderModal
           noticeID={noticeID}
-          setSucessMessage={setSucessMessage}
           setReminderModal={setReminderModal}
         />
       )}
-      {sucessMessage && <SuccessMessage />}
     </div>
   );
 }

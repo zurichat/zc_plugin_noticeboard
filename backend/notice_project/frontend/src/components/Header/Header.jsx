@@ -49,7 +49,7 @@ const Header = () => {
   return (
     <header className="header">
       <Link to="/bookmark">
-        <div className="bookmarked-notices-nav">Bookmarked notices</div>
+        <button className="bookmark-btn">Bookmarked notices</button>
       </Link>
 
       <div className="header__wraps">
