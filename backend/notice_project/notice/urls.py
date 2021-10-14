@@ -25,7 +25,7 @@ from .views import (
     install,
     uninstall,
     sidebar_info,
-    NoticeboardSearchView,
+   noticeboard_search_view,
 )
 
 schema_view = get_schema_view(
@@ -91,11 +91,7 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-        path(
-        "search/<str:org_id>/<str:member_id>",
-        NoticeboardSearchView.as_view(),
-        name="noticesearch",
-    ),
+        path("organisation/<str:org_id>/search", noticeboard_search_view),
 ]
 
 # newly added due to sidebar task -- start
