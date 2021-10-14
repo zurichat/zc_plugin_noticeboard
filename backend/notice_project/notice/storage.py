@@ -169,5 +169,16 @@ class Dbnoticeboard:
             print("OOps: There is a problem with the Request", error)
             return error
 
+    def token(self):
+        """This function is used to get a token"""
+        url = "https://api.zuri.chat/auth/login"
+        payload = {"email": "papajonatus10@zuri.chat", "password": "test123"}
+        newload = json.dumps(payload).encode("utf-8")
+        headers = {}
+        response = requests.request("POST", url, headers=headers, data=newload)
+        get_token = json.loads(response.text)
+        new_token = get_token["data"]["user"]["token"]
+        return new_token
+
 
 db = Dbnoticeboard()

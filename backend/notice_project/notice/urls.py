@@ -23,9 +23,9 @@ from .views import (
     email_subscription,
     get_room,
     install,
+    uninstall,
     sidebar_info,
-    add_user_to_room,
-    remove_user_from_room,
+    MembersOfRoom,
 )
 
 schema_view = get_schema_view(
@@ -40,12 +40,10 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("sidebar", sidebar_info, name="sidebar"),  # changed sidebar to sidebar_info
     path("install", install, name="install"),
+    path("uninstall", uninstall, name="uinstall"),
     path("organisation/<str:org_id>/user/<str:user_id>/room", create_room),
     path("organisation/<str:org_id>/create", create_notice_view),
-    path(
-        "organisation/<str:org_id>/create-reminder",
-        NoticeReminder.as_view(),
-    ),
+    path("organisation/<str:org_id>/create-reminder", NoticeReminder.as_view()),
     path("organisation/<str:org_id>/view-reminder", view_notice_reminder),
     path("organisation/<str:org_id>/create_draft", notice_draft),
     path("organisation/<str:org_id>/create_schedule", schedule_notices),
@@ -53,14 +51,8 @@ urlpatterns = [
     path("organisation/<str:org_id>/notices/<str:obj_id>/edit", update_notice_view),
     path("organisation/<str:org_id>/get-room", get_room),
     path(
-        "organisation/<str:org_id>/room/<str_room_id>/members/<str:member_id>",
-        add_user_to_room,
-        name="add-user-to-room",
-    ),
-    path(
-        "organisation/<str:org_id>/room/<str_room_id>/members/<str:member_id>",
-        remove_user_from_room,
-        name="remove-user-from-room",
+        "organisation/<str:org_id>/room/<str:room_id>/members/<str:member_id>",
+        MembersOfRoom.as_view(),
     ),
     path("organisation/<str:org_id>/notices", view_notice),
     path(

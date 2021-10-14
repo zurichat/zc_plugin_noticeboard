@@ -1,4 +1,17 @@
+import random
+import string
 from .storage import db
+
+
+# initializing size of string
+N = 32
+
+# using random.choices()
+# generating random strings
+def random_string():
+    """This function is used to generate random strings of 32 characters"""
+    res = "".join(random.choices(string.ascii_lowercase + string.digits, k=N))
+    return res
 
 
 def user_rooms(org_id, user_id):
@@ -21,18 +34,3 @@ def user_rooms(org_id, user_id):
             }
         )
         return user_rooms
-
-
-def members_of_a_room(request, org_id, room_id, user_id):
-    """Returns a list of members in a room"""
-    room_members = []
-
-    room = db.read("noticeboard_room", org_id, filter={"room_id": room_id})
-
-    if room["status"] == 200:
-        if request.method == "POST":
-            room_members.append(user_id)
-            return room_members
-        if request.method == "PATCH":
-            room_members.remove(user_id)
-            return room_members
