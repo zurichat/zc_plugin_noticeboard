@@ -89,7 +89,8 @@ class Dbnoticeboard:
             return error
 
     def update(self, collection_name, org_id, notice_data, object_id):
-        """This method updates noticeboard related data as json to the Db.
+        """
+        This method updates noticeboard related data as json to the Db.
 
         It does this using the collection name and the serialized json
         """
@@ -171,13 +172,13 @@ class Dbnoticeboard:
     def token(self):
         """This function is used to get a token"""
         url = "https://api.zuri.chat/auth/login"
-        payload = {"email": "papajonatus10@zuri.chat",
-                    "password": "test123"}
-        newload=json.dumps(payload).encode("utf-8")
+        payload = {"email": "papajonatus10@zuri.chat", "password": "test123"}
+        newload = json.dumps(payload).encode("utf-8")
         headers = {}
         response = requests.request("POST", url, headers=headers, data=newload)
-        get_token=json.loads(response.text)
-        new_token=get_token["data"]["user"]["token"]
+        get_token = json.loads(response.text)
+        new_token = get_token["data"]["user"]["token"]
         return new_token
-        
+
+
 db = Dbnoticeboard()

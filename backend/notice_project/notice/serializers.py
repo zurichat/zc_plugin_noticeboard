@@ -1,5 +1,6 @@
 from django.utils import timezone
 from rest_framework import serializers
+from notice.utils import random_string
 
 # Time Zone
 time = timezone.now()
@@ -14,9 +15,16 @@ class NoticeboardRoom(serializers.Serializer):
     Serializer for noticeboard room
     """
 
-    title = serializers.CharField()
-    icon = serializers.URLField()
-    action = serializers.CharField()
+    room_id = serializers.CharField(default=random_string, read_only=True)
+    is_admin = serializers.CharField(
+        max_length=25, allow_blank=True, allow_null=True, default="", read_only=True
+    )
+    room_name = serializers.CharField(max_length=100)
+    private = serializers.BooleanField(default=False)
+    room_member_id = serializers.ListField(
+        child=serializers.CharField(max_length=50), default=[]
+    )
+    created_at = serializers.DateTimeField(default=timezone.now)
 
 
 class CreateNoticeSerializer(serializers.Serializer):
@@ -79,9 +87,6 @@ class BookmarkNoticeSerializer(serializers.Serializer):
     user_id = serializers.CharField()
 
 
-# me
-
-
 class DraftSerializer(serializers.Serializer):
     """
     Serializer for the Draft
@@ -107,13 +112,27 @@ class SchedulesSerializer(serializers.Serializer):
     views = serializers.CharField(default=0)
     org_id = serializers.CharField()
 
+
 class InstallSerializer(serializers.Serializer):
-    organisation_id=serializers.CharField()
-    user_id=serializers.CharField()
+    """
+    Serializer for Installing A Plugin
+    """
+
+    organisation_id = serializers.CharField()
+    user_id = serializers.CharField()
+
 
 class UninstallSerializer(serializers.Serializer):
-    organisation_id=serializers.CharField()
-    user_id=serializers.CharField()
+    """
+    Serializer for Uninstalling A Plugin
+    """
 
-# class AddMemberToRoom(serializers.Serializer):
-#     member_id = serializers.CharField(max_length=24)
+    organisation_id = serializers.CharField()
+    user_id = serializers.CharField()
+
+
+class AddMemberToRoom(serializers.Serializer):
+    """Serializer for adding a member to a room"""
+
+    room_id = serializers.CharField(max_length=50)
+    member_ids = serializers.ListField(child=serializers.CharField(max_length=50))

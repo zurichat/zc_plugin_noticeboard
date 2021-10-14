@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import requests
 import re
 from django.core.paginator import Paginator
+=======
+>>>>>>> 0897d61eea32b94382576734279a5d756d6d327d
 import json
+import requests
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
@@ -20,7 +24,8 @@ from .serializers import (
     SchedulesSerializer,
     SubscribeSerializer,
     InstallSerializer,
-    UninstallSerializer    
+    UninstallSerializer,
+    AddMemberToRoom,
     # UnsubscribeSerializer,
 )
 from .storage import db
@@ -36,34 +41,6 @@ def sidebar_info(request):
     org_id = request.GET.get("org")
     user_id = request.GET.get("user")
 
-    data = {
-        "title": "Noticeboard",
-        "icon": (
-            "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-"
-            "trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h="
-            "DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c="
-        ),
-        "action": "open",
-    }
-
-    room = db.read("noticeboard_room", org_id)
-
-    if room["status"] == 200:
-        if room["data"]:
-            room = room["data"][0]
-        else:
-            requests.post(
-                f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-                data=data,
-            )
-            # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-    else:
-        requests.post(
-            f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-            data=data,
-        )
-        # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-
     if org_id and user_id:
         sidebar = {
             "name": "Noticeboard Plugin",
@@ -71,6 +48,7 @@ def sidebar_info(request):
             "plugin_id": settings.PLUGIN_ID,
             "organisation_id": f"{org_id}",
             "user_id": f"{user_id}",
+            "category": "productivity",
             "group_name": "Noticeboard",
             "show_group": False,
             "public_rooms": [],
@@ -81,11 +59,13 @@ def sidebar_info(request):
         {"message": "org id or user id is None"}, status=status.HTTP_400_BAD_REQUEST
     )
 
+
 @api_view(["POST"])
 def install(request):
     """This endpoint is called when an organisation wants to install the
     Noticeboard plugin for their workspace."""
     serializer = InstallSerializer(data=request.data)
+<<<<<<< HEAD
     if serializer.is_valid():    
         install_payload= serializer.data
         org_id=install_payload["org_id"]
@@ -94,26 +74,59 @@ def install(request):
 
         # new_token= db.token()
         # print(new_token) 
+=======
+    if serializer.is_valid():
+        install_payload = serializer.data
+        org_id = install_payload["organisation_id"]
+        user_id = install_payload["user_id"]
+        print(org_id, user_id)
 
-        url=f"https://api.zuri.chat/organizations/{org_id}/plugins"
+        new_token = db.token()
+        print(new_token)
+>>>>>>> 0897d61eea32b94382576734279a5d756d6d327d
+
+        url = f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
-        payload = {"plugin_id": "613fc3ea6173056af01b4b3e","user_id":user_id}
-        v2load=json.dumps(payload).encode("utf-8")
-        headers = {'Authorization':f'Bearer {new_token}'}
+        payload = {"plugin_id": "613fc3ea6173056af01b4b3e", "user_id": user_id}
+        v2load = json.dumps(payload).encode("utf-8")
+        headers = {"Authorization": f"Bearer {new_token}"}
         response = requests.request("POST", url, headers=headers, data=v2load)
-        installed=json.loads(response.text)
+        installed = json.loads(response.text)
         print(installed)
         if installed["status"] == 200:
-            return Response({"success": True,"data": {"redirect_url":"/noticeboard"},
-                        "message": "sucessfully retrieved",},status=status.HTTP_200_OK,)
-        return Response({"Plugin has already been added"},status=status.HTTP_404_NOT_FOUND)
-    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
-@api_view(["DELETE"])    
+            room = db.read("noticeboard_room", org_id)
+            if room["status"] == 200:
+                if room["data"] is not None:
+                    room = room["data"][0]
+                else:
+                    room = requests.post(
+                        f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/user/{user_id}/room",
+                        data={"room_name": "Noticeboard"},
+                    )
+            else:
+                room = {}
+
+            return Response(
+                {
+                    "success": True,
+                    "data": {"redirect_url": "/noticeboard"},
+                    "message": "sucessfully retrieved",
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"Plugin has already been added"}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["DELETE"])
 def uninstall(request):
     """This endpoint is called when an organisation wants to uinstall the
     Noticeboard plugin for their workspace."""
     serializer = UninstallSerializer(data=request.data)
+<<<<<<< HEAD
     if serializer.is_valid():    
         uninstall_payload= serializer.data
         org_id=uninstall_payload["org_id"]
@@ -122,31 +135,54 @@ def uninstall(request):
 
         # new_token= db.token()
         # print(new_token) 
+=======
+    if serializer.is_valid():
+        uninstall_payload = serializer.data
+        org_id = uninstall_payload["organisation_id"]
+        user_id = uninstall_payload["user_id"]
+        print(user_id)
 
-        url=f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
+        new_token = db.token()
+        print(new_token)
+>>>>>>> 0897d61eea32b94382576734279a5d756d6d327d
+
+        url = f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
         print(url)
-        payload = {"user_id":user_id}
-        v2load=json.dumps(payload).encode("utf-8")
-        headers = {'Authorization':f'Bearer {new_token}'}
+        payload = {"user_id": user_id}
+        v2load = json.dumps(payload).encode("utf-8")
+        headers = {"Authorization": f"Bearer {new_token}"}
         response = requests.request("DELETE", url, headers=headers, data=v2load)
+<<<<<<< HEAD
         uninstalled=json.loads(response.text)
         # print(uninstalled)
+=======
+        uninstalled = json.loads(response.text)
+        print(uninstalled)
+>>>>>>> 0897d61eea32b94382576734279a5d756d6d327d
         if uninstalled["status"] == 200:
-            return Response(uninstalled,status=status.HTTP_200_OK,)
-        return Response({"message":"Plugin does not exist"},status=status.HTTP_404_NOT_FOUND)
-    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
-
+            return Response(
+                uninstalled,
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "Plugin does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(["POST"])
-def create_room(request, org_id):
+def create_room(request, org_id, user_id):
     """Creates a room for the organisation under Noticeboard plugin."""
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
     serializer = NoticeboardRoom(data=request.data)
     if serializer.is_valid():
-        db.save("noticeboard_room", org_id, serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        room = serializer.data
+        room.update({"is_admin": user_id})
+        if user_id not in room["room_member_id"]:
+            room.update({"room_member_id": [user_id]})
+        db.save("noticeboard_room", org_id, notice_data=room)
+        return Response(room, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -160,8 +196,6 @@ def get_room(request, org_id):
         data = db.read("noticeboard_room", org_id)
         return Response(data)
     return Response(status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 @api_view(["POST"])
@@ -382,10 +416,6 @@ class NoticeReminder(views.APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self):
-        """A dummy public method to get past pylint."""
-        ...
 
 
 @api_view(["GET"])
@@ -663,6 +693,7 @@ def email_subscription(request):
         )
     return Response(status=status.HTTP_404_NOT_FOUND)
 
+<<<<<<< HEAD
 @api_view(['GET'])
 def noticeboard_search_view(request, org_id):
     '''
@@ -799,3 +830,76 @@ def noticeboard_search_view(request, org_id):
         # }
 
         # return Response({"data": paginated_data}, status=status.HTTP_200_OK)                
+=======
+
+class MembersOfRoom(views.APIView):
+    """This endpoint enables users to be added and removed from a room"""
+
+    def post(self, request, org_id, room_id, member_id):
+        """
+        This endpoint enables a user to be added to a room
+        """
+        serializer = AddMemberToRoom(data=request.data)
+
+        if serializer.is_valid():
+            room_id = serializer.data["room_id"]
+            member_ids = serializer.data["member_ids"]
+            room = db.read("noticeboard_room", org_id, filter={"room_id": room_id})
+            if room["status"] == 200:
+                user_room = room["data"][0]
+                room_members = user_room["room_member_id"]
+                for member_id in member_ids:
+                    if member_id not in room_members:
+                        room_members.append(member_id)
+                        user_room.update({"room_member_id": room_members})
+                        new_data = user_room
+                        db.update(
+                            "noticeboard_room",
+                            org_id,
+                            {"room_member_id": new_data["room_member_id"]},
+                            user_room["_id"],
+                        )
+
+                return Response(
+                    {"message": "successfully added", "data": user_room},
+                    status=status.HTTP_201_CREATED,
+                )
+            return Response(
+                {"message": "could not be added", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def patch(self, request, org_id, room_id, member_id):
+        """
+        This endpoint enables a user to be removed from a room
+        """
+        serializer = AddMemberToRoom(data=request.data)
+
+        if serializer.is_valid():
+            room_id = serializer.data["room_id"]
+            member_ids = serializer.data["member_ids"]
+            room = db.read("noticeboard_room", org_id, filter={"room_id": room_id})
+            if room["status"] == 200:
+                user_room = room["data"][0]
+                room_members = user_room["room_member_id"]
+                for member_id in member_ids:
+                    if member_id in room_members:
+                        room_members.remove(member_id)
+                        user_room.update({"room_member_id": room_members})
+                        new_data = user_room
+                        db.update(
+                            "noticeboard_room",
+                            org_id,
+                            {"room_member_id": new_data["room_member_id"]},
+                            user_room["_id"],
+                        )
+
+                return Response(
+                    {"message": "successfully removed", "data": user_room},
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"message": "could not be removed", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+>>>>>>> 0897d61eea32b94382576734279a5d756d6d327d
