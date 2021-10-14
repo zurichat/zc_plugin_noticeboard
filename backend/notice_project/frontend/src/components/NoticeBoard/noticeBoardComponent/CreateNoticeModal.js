@@ -1,8 +1,8 @@
 import React from 'react'
 import './CreateNoticeModal.css'
-import calender from "../../../../assets/svgbx_bx-calendar.svg"
-import dropdown from "../../../../assets/svgzuridropdown.svg"
-import Clock from "../../../../assets/svgclock.svg"
+import Calender from "../../../assets/svg/bx_bx-calendar.svg"
+import Dropdown from "../../../assets/svg/zuridropdown.svg"
+import Clock from "../../../assets/svg/clock.svg"
 
 
 
