@@ -90,17 +90,10 @@ def install(request):
         print(installed)
         if installed["status"] == 200:
 
-            room = db.read("noticeboard_room", org_id)
-            if room["status"] == 200:
-                if room["data"] is not None:
-                    room = room["data"][0]
-                else:
-                    room = requests.post(
-                        f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/user/{user_id}/room",
-                        data={"room_name": "Noticeboard"},
-                    )
-            else:
-                room = {}
+            requests.post(
+                f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/user/{user_id}/room",
+                data={"room_name": "Noticeboard"},
+            )
 
             return Response(
                 {
@@ -157,22 +150,40 @@ def uninstall(request):
 
 
 @swagger_auto_schema(
-    method="post", request_body=NoticeboardRoom, responses={201: "", 400: ""}
+    method="post",
+    request_body=NoticeboardRoom,
+    responses={
+        201: "successfully created your room",
+        400: "room couldn't be created",
+        200: "room already exists",
+    },
 )
 @api_view(["POST"])
 def create_room(request, org_id, user_id):
     """Creates a room for the organisation under Noticeboard plugin."""
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
-    serializer = NoticeboardRoom(data=request.data)
-    if serializer.is_valid():
-        room = serializer.data
-        room.update({"is_admin": user_id})
-        if user_id not in room["room_member_id"]:
-            room.update({"room_member_id": [user_id]})
-        db.save("noticeboard_room", org_id, notice_data=room)
-        return Response(room, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    room = db.read("noticeboard_room", org_id)
+    if room["status"] == 200:
+        if room["data"] is not None:
+            room = room["data"][0]
+        else:
+            serializer = NoticeboardRoom(data=request.data)
+            if serializer.is_valid():
+                room = serializer.data
+                room.update({"is_admin": user_id})
+                if user_id not in room["room_member_id"]:
+                    room.update({"room_member_id": [user_id]})
+                    db.save("noticeboard_room", org_id, notice_data=room)
+                return Response(
+                    {"message": "successfully created your room", "data": room},
+                    status=status.HTTP_201_CREATED,
+                )
+            return Response(
+                {"message": "room couldn't be created", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response({"message": "room already exists"}, status=status.HTTP_200_OK)
 
 
 @swagger_auto_schema(method="get", responses={200: "", 404: ""})

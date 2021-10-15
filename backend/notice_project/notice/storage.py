@@ -16,14 +16,16 @@ class Dbnoticeboard:
         base_url = "https://api.zuri.chat"
         self.read_endpoint = (
             base_url
-            + "/data/read/613fc3ea6173056af01b4b3e/{collec_name}/{org_id}?{query}"
+            + "/data/read/"
+            + f"{settings.PLUGIN_ID}"
+            + "/{collec_name}/{org_id}?{query}"
         )
         self.write_endpoint = base_url + "/data/write"
         self.delete_endpoint = base_url + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
-        self.upload_api = base_url + "/upload/file/613fc3ea6173056af01b4b3e"
-        self.upload_multiple_api = base_url + "/upload/files/613fc3ea6173056af01b4b3e"
-        self.delete_file_api = base_url + "/delete/file/613fc3ea6173056af01b4b3e"
+        self.upload_api = base_url + "/upload/file/" + f"{settings.PLUGIN_ID}"
+        self.upload_multiple_api = base_url + "/upload/files/" + f"{settings.PLUGIN_ID}"
+        self.delete_file_api = base_url + "/delete/file/" + f"{settings.PLUGIN_ID}"
 
     def post_to_centrifugo(self, channel_name: str, data: dict):
 
