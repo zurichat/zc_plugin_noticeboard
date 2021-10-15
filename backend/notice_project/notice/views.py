@@ -1,4 +1,6 @@
 import json
+import re
+from django.core.paginator import Paginator
 import requests
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
@@ -819,4 +821,65 @@ class MembersOfRoom(views.APIView):
             return Response(
                 {"message": "could not be removed", "data": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+@api_view(['GET'])
+def noticeboard_search_view(request, org_id):
+    '''
+    This view returns search results.
+    '''
+    if request.method == 'GET':
+        # user_id = request.query_params.get("user_id")
+
+        key_word = request.query_params.get("key") or []
+        if key_word:
+            key_word = re.split("[;,\s]+", key_word)
+
+        # search result notices
+        notices_response = db.read("noticeboard", org_id)
+        search_result_notices = []
+
+        if notices_response["status"] == 200 and notices_response["data"]:
+            notices = notices_response["data"]
+            for notice in notices:
+                message = notice["message"].lower()
+                if all(word.lower() in message for word in key_word):
+                    search_result_notices.append(notice)
+
+            # # searching through reminders
+            # reminders = db.read("reminders", org_id, {"user_id": user_id})["data"]
+            # search_result_reminder = []
+
+            # for reminder in reminders:
+            #     title = reminders["title"].lower()
+            #     if all(word.lower() in title for word in key_word):
+            #         search_result_reminder.append(reminder)
+
+            paginate_by = request.query_params.get("paginate_by", 20)
+            paginator = Paginator(search_result_notices, paginate_by)
+            page_num = request.query_params.get("page", 1)
+            page_obj = paginator.get_page(page_num)
+            Query = request.query_params.get("key") or []
+            paginated_data = {
+                "status": "ok",
+                "pagination": {
+                    "total_count": paginator.count,
+                    "current_page": page_obj.number,
+                    "per_page": paginate_by,
+                    "page_count": paginator.num_pages,
+                    "first_page": 1,
+                    "last_page": paginator.num_pages,
+                },
+                "plugin": "Noticeboard",
+                "Query": Query,
+                "data": list(page_obj),
+                "filter_sugestions": {"in": [], "from": []},
+            }
+
+            return Response(
+                {"data": paginated_data},
+                status=status.HTTP_200_OK
+            )
+        return Response(
+                {"error": notices_response["message"]},
+                status=notices_response["status"]
             )
