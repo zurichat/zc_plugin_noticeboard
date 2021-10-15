@@ -26,10 +26,8 @@ def user_rooms(org_id, user_id):
         user_rooms.append(
             {
                 "room_name": room["room_name"],
-                "room_url": "/noticeboard",
-                "room_image": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-\
-                                trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=\
-                                DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
+                "room_id": "/noticeboard",
+                "room_image": "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h=DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c=",
             }
         )
         return user_rooms
