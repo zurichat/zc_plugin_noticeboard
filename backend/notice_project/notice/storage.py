@@ -16,14 +16,16 @@ class Dbnoticeboard:
         base_url = "https://api.zuri.chat"
         self.read_endpoint = (
             base_url
-            + "/data/read/613fc3ea6173056af01b4b3e/{collec_name}/{org_id}?{query}"
+            + "/data/read/"
+            + f"{settings.PLUGIN_ID}"
+            + "/{collec_name}/{org_id}?{query}"
         )
         self.write_endpoint = base_url + "/data/write"
         self.delete_endpoint = base_url + "/data/delete"
         self.centrifugo_url = "https://realtime.zuri.chat/api"
-        self.upload_api = base_url + "/upload/file/613fc3ea6173056af01b4b3e"
-        self.upload_multiple_api = base_url + "/upload/files/613fc3ea6173056af01b4b3e"
-        self.delete_file_api = base_url + "/delete/file/613fc3ea6173056af01b4b3e"
+        self.upload_api = base_url + "/upload/file/" + f"{settings.PLUGIN_ID}"
+        self.upload_multiple_api = base_url + "/upload/files/" + f"{settings.PLUGIN_ID}"
+        self.delete_file_api = base_url + "/delete/file/" + f"{settings.PLUGIN_ID}"
 
     def post_to_centrifugo(self, channel_name: str, data: dict):
 
@@ -89,7 +91,8 @@ class Dbnoticeboard:
             return error
 
     def update(self, collection_name, org_id, notice_data, object_id):
-        """This method updates noticeboard related data as json to the Db.
+        """
+        This method updates noticeboard related data as json to the Db.
 
         It does this using the collection name and the serialized json
         """
@@ -171,13 +174,13 @@ class Dbnoticeboard:
     def token(self):
         """This function is used to get a token"""
         url = "https://api.zuri.chat/auth/login"
-        payload = {"email": "papajonatus10@zuri.chat",
-                    "password": "test123"}
-        newload=json.dumps(payload).encode("utf-8")
+        payload = {"email": "eosabiya@gmail.com", "password": "password"}
+        newload = json.dumps(payload).encode("utf-8")
         headers = {}
         response = requests.request("POST", url, headers=headers, data=newload)
-        get_token=json.loads(response.text)
-        new_token=get_token["data"]["user"]["token"]
+        get_token = json.loads(response.text)
+        new_token = get_token["data"]["user"]["token"]
         return new_token
-        
+
+
 db = Dbnoticeboard()
