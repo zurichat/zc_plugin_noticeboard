@@ -67,21 +67,24 @@ def sidebar_info(request):
 def install(request):
     """This endpoint is called when an organisation wants to install the
     Noticeboard plugin for their workspace."""
+    
     serializer = InstallSerializer(data=request.data)
+    nHeaders=request.headers["Authorization"]
     if serializer.is_valid():
         install_payload = serializer.data
         org_id = install_payload["organisation_id"]
         user_id = install_payload["user_id"]
         print(org_id, user_id)
 
-        new_token = db.token()
-        print(new_token)
+        # new_token = db.token()
+        # print(new_token)
 
         url = f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
         payload = {"plugin_id": settings.PLUGIN_ID, "user_id": user_id}
         v2load = json.dumps(payload).encode("utf-8")
-        headers = {"Authorization": f"Bearer {new_token}"}
+        headers = {"Authorization": f"{nHeaders}"}
+        print(headers)
         response = requests.request("POST", url, headers=headers, data=v2load)
         installed = json.loads(response.text)
         print(installed)
