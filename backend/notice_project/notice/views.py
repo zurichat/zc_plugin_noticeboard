@@ -663,6 +663,7 @@ def email_subscription(request):
 class MembersOfRoom(views.APIView):
     """This endpoint enables users to be added and removed from a room"""
 
+    @swagger_auto_schema(request_body=AddMemberToRoom)
     def post(self, request, org_id, room_id, member_id):
         """
         This endpoint enables a user to be added to a room
@@ -697,6 +698,7 @@ class MembersOfRoom(views.APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+    @swagger_auto_schema(request_body=AddMemberToRoom)
     def patch(self, request, org_id, room_id, member_id):
         """
         This endpoint enables a user to be removed from a room
