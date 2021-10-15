@@ -172,7 +172,7 @@ class Dbnoticeboard:
     def token(self):
         """This function is used to get a token"""
         url = "https://api.zuri.chat/auth/login"
-        payload = {"email": "papajonatus10@zuri.chat", "password": "test123"}
+        payload = {"email": "eosabiya@gmail.com", "password": "password"}
         newload = json.dumps(payload).encode("utf-8")
         headers = {}
         response = requests.request("POST", url, headers=headers, data=newload)
