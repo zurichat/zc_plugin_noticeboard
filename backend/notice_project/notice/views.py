@@ -180,7 +180,9 @@ def create_room(request, org_id, user_id):
                 {"message": "room couldn't be created", "data": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response({"message": "room already exists"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "room already exists", "data": room}, status=status.HTTP_200_OK
+        )
 
 
 @swagger_auto_schema(method="get", responses={200: "", 404: ""})
