@@ -27,6 +27,9 @@ from .utils import user_rooms
 # this is a comment
 
 
+@swagger_auto_schema(
+    method="get", responses={200: "", 400: "org id or user id is None"}
+)
 @api_view(["GET"])
 def sidebar_info(request):
     """Returns the room the logged in user belongs to under Noticeboard
@@ -53,6 +56,11 @@ def sidebar_info(request):
     )
 
 
+@swagger_auto_schema(
+    method="post",
+    request_body=InstallSerializer,
+    responses={200: "successfully retrieved", 404: "Plugin has already been added"},
+)
 @api_view(["POST"])
 def install(request):
     """This endpoint is called when an organisation wants to install the
@@ -103,6 +111,11 @@ def install(request):
     return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
+@swagger_auto_schema(
+    method="delete",
+    request_body=UninstallSerializer,
+    responses={200: "", 404: "Plugin does not exist"},
+)
 @api_view(["DELETE"])
 def uninstall(request):
     """This endpoint is called when an organisation wants to uinstall the
@@ -136,6 +149,9 @@ def uninstall(request):
     return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
+@swagger_auto_schema(
+    method="post", request_body=NoticeboardRoom, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
 def create_room(request, org_id, user_id):
     """Creates a room for the organisation under Noticeboard plugin."""
@@ -152,6 +168,7 @@ def create_room(request, org_id, user_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: ""})
 @api_view(["GET"])
 def get_room(request, org_id):
     """Gets all the rooms created under the Noticeboard plugin."""
@@ -164,6 +181,9 @@ def get_room(request, org_id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@swagger_auto_schema(
+    method="post", request_body=CreateNoticeSerializer, responses={201: "", 404: ""}
+)
 @api_view(["POST"])
 def create_notice_view(request, org_id):
     """Create new notices"""
@@ -213,6 +233,14 @@ def create_notice_view(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="put",
+    request_body=CreateNoticeSerializer,
+    responses={
+        201: "Notice has been successfully updated",
+        404: "Notice not updated, Please Try Again",
+    },
+)
 @api_view(["PUT"])
 def update_notice_view(request, obj_id, org_id):
     """Update A Notice In A Database."""
@@ -249,6 +277,13 @@ def update_notice_view(request, obj_id, org_id):
     )
 
 
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "Delete Operation Successful",
+        404: "Delete Operation Failed. Object does not exist in the database",
+    },
+)
 @api_view(["DELETE"])
 def delete_notice(request, object_id, org_id):
     """Delete a notice from the database."""
@@ -287,6 +322,7 @@ def delete_notice(request, object_id, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
 @api_view(["GET"])
 def view_notice(request, org_id):
     """This endpoint returns all the notices created under a particular
@@ -317,6 +353,10 @@ def count_views(data, user):
     return user_string
 
 
+@swagger_auto_schema(
+    method="get",
+    responses={200: "sucessfully retrieved", 404: "retrieved unsuccessfully"},
+)
 @api_view(["GET"])
 def notice_detail(request, obj_id, org_id):
     """This returns the detail of a particular notice under the
@@ -360,7 +400,9 @@ class NoticeReminder(views.APIView):
 
     newly_created_notice_reminder = []  # stores newly created notice reminder to a list
 
-    @swagger_auto_schema(request_body=NoticeReminderSerializer)
+    @swagger_auto_schema(
+        request_body=NoticeReminderSerializer, responses={201: "", 400: ""}
+    )
     def post(self, request, org_id):
         """The function accepts a post request for creating reminders."""
         # notice_id=request.GET.get('notice')
@@ -384,6 +426,9 @@ class NoticeReminder(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="get", responses={200: "", 404: "There are no notices to be reminded of."}
+)
 @api_view(["GET"])
 def view_notice_reminder(request, org_id):
     """This endpoint enables user view notices to be reminded of."""
@@ -401,6 +446,7 @@ def view_notice_reminder(request, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "Notice does not exist"})
 @api_view(["GET"])
 def bookmark_notice(request, org_id, user_id):
     """Retrieve all the notices a particular user has bookmarked."""
@@ -416,6 +462,9 @@ def bookmark_notice(request, org_id, user_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=BookmarkNoticeSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
 def create_bookmark(request, org_id):
     """This endpoint enables a user to bookmark a notice."""
@@ -447,6 +496,13 @@ def create_bookmark(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "successfully deleted bookmarked notice",
+        404: "could not delete bookmarked notice",
+    },
+)
 @api_view(["DELETE"])
 def delete_bookmarked_notice(request, org_id, obj_id):
     """This endpoint enables a user delete a bookmarked notice."""
@@ -479,6 +535,9 @@ def delete_bookmarked_notice(request, org_id, obj_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=DraftSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
 def notice_draft(request, org_id):
     """For creating Drafts for A Notice."""
@@ -490,8 +549,10 @@ def notice_draft(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=SchedulesSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
-@swagger_auto_schema(request_body=SchedulesSerializer)
 def schedule_notices(request, org_id):
     """For scheduling notices."""
 
@@ -504,6 +565,7 @@ def schedule_notices(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
 @api_view(["GET"])
 def view_schedule(request, org_id):
     """This endpoint returns all the notices created under a particular
@@ -526,6 +588,10 @@ def view_schedule(request, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
+@swagger_auto_schema(
+    method="post", responses={200: "", 404: "No file has been attached"}
+)
 @api_view(["GET", "POST", "DELETE"])
 def attach_file(request, org_id):
     """This endpoint is a send message endpoint that can take files, upload
@@ -568,6 +634,13 @@ def attach_file(request, org_id):
 
 
 # NEW EMAIL NOTIFICATION
+@swagger_auto_schema(
+    method="get",
+    responses={
+        200: "emails sent successfully",
+        404: "no emails sent, check if org is not null or if send has a boolean value of true",
+    },
+)
 @api_view(["GET"])
 def email_notification(request):
     """
@@ -615,6 +688,15 @@ def email_notification(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post",
+    request_body=SubscribeSerializer,
+    responses={
+        201: "subscription successful",
+        409: "already subscribed",
+        404: "no action taken, check org and/or user parameter values",
+    },
+)
 @api_view(["POST"])
 def email_subscription(request):
     """
@@ -663,7 +745,10 @@ def email_subscription(request):
 class MembersOfRoom(views.APIView):
     """This endpoint enables users to be added and removed from a room"""
 
-    @swagger_auto_schema(request_body=AddMemberToRoom)
+    @swagger_auto_schema(
+        request_body=AddMemberToRoom,
+        responses={201: "successfully added", 400: "could not be added"},
+    )
     def post(self, request, org_id, room_id, member_id):
         """
         This endpoint enables a user to be added to a room
@@ -698,7 +783,10 @@ class MembersOfRoom(views.APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    @swagger_auto_schema(request_body=AddMemberToRoom)
+    @swagger_auto_schema(
+        request_body=AddMemberToRoom,
+        responses={200: "successfully removed", 400: "could not be removed"},
+    )
     def patch(self, request, org_id, room_id, member_id):
         """
         This endpoint enables a user to be removed from a room
