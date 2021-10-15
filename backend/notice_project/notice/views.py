@@ -79,7 +79,7 @@ def install(request):
 
         url = f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
-        payload = {"plugin_id": "61694eea9ea5d3be97df2973", "user_id": user_id}
+        payload = {"plugin_id": settings.PLUGIN_ID, "user_id": user_id}
         v2load = json.dumps(payload).encode("utf-8")
         headers = {"Authorization": f"Bearer {new_token}"}
         response = requests.request("POST", url, headers=headers, data=v2load)
@@ -132,7 +132,9 @@ def uninstall(request):
         new_token = db.token()
         print(new_token)
 
-        url = f"https://api.zuri.chat/organizations/{org_id}/plugins/61694eea9ea5d3be97df2973"
+        url = (
+            f"https://api.zuri.chat/organizations/{org_id}/plugins/{settings.PLUGIN_ID}"
+        )
         print(url)
         payload = {"user_id": user_id}
         v2load = json.dumps(payload).encode("utf-8")
