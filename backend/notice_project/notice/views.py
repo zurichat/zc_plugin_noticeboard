@@ -79,7 +79,7 @@ def install(request):
 
         url = f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
-        payload = {"plugin_id": "613fc3ea6173056af01b4b3e", "user_id": user_id}
+        payload = {"plugin_id": "61694eea9ea5d3be97df2973", "user_id": user_id}
         v2load = json.dumps(payload).encode("utf-8")
         headers = {"Authorization": f"Bearer {new_token}"}
         response = requests.request("POST", url, headers=headers, data=v2load)
@@ -132,7 +132,7 @@ def uninstall(request):
         new_token = db.token()
         print(new_token)
 
-        url = f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
+        url = f"https://api.zuri.chat/organizations/{org_id}/plugins/61694eea9ea5d3be97df2973"
         print(url)
         payload = {"user_id": user_id}
         v2load = json.dumps(payload).encode("utf-8")
@@ -179,6 +179,8 @@ def get_room(request, org_id):
         # org_id = "6145b49e285e4a18402073bc"
         # org_id = "614679ee1a5607b13c00bcb7"
         data = db.read("noticeboard_room", org_id)
+        if data["data"] is None:
+            data["data"] = {}
         return Response(data)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -332,10 +334,13 @@ def view_notice(request, org_id):
     if request.method == "GET":
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
-        get_data = notice["data"]
-        reversed_list = get_data[::-1]
-        print(reversed_list)
-        notice.update(data=reversed_list)
+        if notice["data"] is not None:
+            get_data = notice["data"]
+            reversed_list = get_data[::-1]
+            # print(reversed_list)
+            notice.update(data=reversed_list)
+        else:
+            notice["data"] = {}
         if notice["status"] == 200:
             print(notice)
             return Response(notice, status=status.HTTP_200_OK)
@@ -822,12 +827,14 @@ class MembersOfRoom(views.APIView):
                 {"message": "could not be removed", "data": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-@api_view(['GET'])
+
+
+@api_view(["GET"])
 def noticeboard_search_view(request, org_id):
-    '''
+    """
     This view returns search results.
-    '''
-    if request.method == 'GET':
+    """
+    if request.method == "GET":
         # user_id = request.query_params.get("user_id")
 
         key_word = request.query_params.get("key") or []
@@ -875,11 +882,7 @@ def noticeboard_search_view(request, org_id):
                 "filter_sugestions": {"in": [], "from": []},
             }
 
-            return Response(
-                {"data": paginated_data},
-                status=status.HTTP_200_OK
-            )
+            return Response({"data": paginated_data}, status=status.HTTP_200_OK)
         return Response(
-                {"error": notices_response["message"]},
-                status=notices_response["status"]
-            )
+            {"error": notices_response["message"]}, status=notices_response["status"]
+        )
