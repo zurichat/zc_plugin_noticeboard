@@ -95,10 +95,6 @@ def install(request):
         print(installed)
         if installed["status"] == 200:
 
-            requests.post(
-                f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/user/{user_id}/room",
-                data={"room_name": "Noticeboard"},
-            )
 
             return Response(
                 {
