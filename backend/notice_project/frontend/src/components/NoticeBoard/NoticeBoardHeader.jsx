@@ -9,6 +9,8 @@ import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
 import Parcel from "single-spa-react/parcel";
 import { pluginHeader } from "@zuri/plugin-header";
+import { GetUserInfo, GetWorkspaceUser } from "@zuri/control";
+
 import axios from "axios";
 
 function ZuriGlobalHeader() {
@@ -44,9 +46,7 @@ function ZuriGlobalHeader() {
     }
   };
 
-  useEffect(() => {
-    getRoomDetails();
-  }, []);
+  // console.log(userData, userData?.org_id);
 
   const [roomDetails, setRoomDetails] = useState([]);
 
@@ -56,8 +56,9 @@ function ZuriGlobalHeader() {
     baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
 
-  // const org_Id = "61699dff2173961b3d130a42";
-  const org_Id = userData?.org_id;
+  const org_Id = localStorage.getItem("currentWorkspace");
+
+  // console.log(org_Id);
 
   const getRoomDetails = async () => {
     try {
@@ -74,7 +75,11 @@ function ZuriGlobalHeader() {
     }
   };
 
-  console.log(roomDetails);
+  useEffect(() => {
+    getRoomDetails();
+  }, []);
+
+  // console.log(roomDetails);
 
   /* add member api*/
   // room object
@@ -99,9 +104,7 @@ function ZuriGlobalHeader() {
       email: member.email,
     }));
 
-  console.log(users, members, membersList);
-
-  // console.log(members, users);
+  // console.log(users, members, membersList);
 
   const headerConfig = {
     name: "NOTICEBOARD", //Name on header
@@ -116,6 +119,7 @@ function ZuriGlobalHeader() {
     roomInfo: {
       membersList: membersList,
       addmembersevent: (values) => {
+        // console.log(values);
         const member_ids = values.map((value) => value.value);
 
         const payload = {
@@ -139,6 +143,7 @@ function ZuriGlobalHeader() {
         addToRoom();
       },
       removememberevent: (id) => {
+        // console.log(id);
         const member_ids = [id];
 
         const payload = {
