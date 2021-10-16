@@ -852,43 +852,39 @@ class MembersOfRoom(views.APIView):
             )
 
 
-class SearchPagination(pagination.PageNumberPagination):
-    def get_last_page(self,count,size):
-        if size > count:
-            return 1
-        return count // size
+@api_view(["GET"])
+def search_suggestions(request, org_id):
     
+    if request.method == "GET":
+         notices = db.read("noticeboard", org_id)["data"]
     
-    def get_paginated_response(self, data, query, filters, request):
-        pagination_dict = OrderedDict([
-            ('total_results', self.page.paginator.count),
-            ('page_size', self.get_page_size(request)),
-            ('current_page', self.get_page_number(request, self.page.paginator)),
-            ('first_page', 1),
-            ('last_page',self.get_last_page(self.page.paginator.count, self.get_page_size(request))),
-            ('next', self.get_next_link()),
-            ('previous', self.get_previous_link()), 
-        ])
+         data = {}
         
-        search_parameters = OrderedDict([
-            ('query', query),
-            ('filters',filters),
-            ('plugin',"Noticeboard")
-        ])
-        
-        results = OrderedDict([
-            ("entity","message"),
-            ("data",(data))
-        ])
-        
-        return Response(OrderedDict([
-            ('status', "ok"),
-            ('title',"Noticeboard Search"),
-            ('description','Results for notices'),
-            ('pagination',pagination_dict), 
-            ('search_parameters',search_parameters),
-            ('results', results),            
-        ]))
+         for notice in notices:
+                data[notice["title"]] = notice["title"]
+                
+                
+    return Response(
+        {
+            "status": "ok",
+            "type": "suggestions",
+            "total_count": len(data),
+            "data": data,
+        },
+        status=status.HTTP_200_OK,
+    )
+
+    # except Exception as e:
+    #     print(e)
+    #     return Response(
+    #         {
+    #             "status": "ok",
+    #             "type": "suggestions",
+    #             "total_count": len(data),
+    #             "data": data,
+    #         },
+    #         status=status.HTTP_200_OK,
+    #     )
         
 
 @api_view(["GET"])
@@ -967,40 +963,45 @@ def noticeboard_search_view(request, org_id):
 
         
         
-@api_view(["GET"])
-def search_suggestions(request, org_id):
+
+
+class SearchPagination(pagination.PageNumberPagination):
+    def get_last_page(self,count,size):
+        if size > count:
+            return 1
+        return count // size
     
-    if request.method == "GET":
-         notices = db.read("noticeboard", org_id)["data"]
     
-         data = {}
+    def get_paginated_response(self, data, query, filters, request):
+        pagination_dict = OrderedDict([
+            ('total_results', self.page.paginator.count),
+            ('page_size', self.get_page_size(request)),
+            ('current_page', self.get_page_number(request, self.page.paginator)),
+            ('first_page', 1),
+            ('last_page',self.get_last_page(self.page.paginator.count, self.get_page_size(request))),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()), 
+        ])
         
-         for notice in notices:
-                data[notice["title"]] = notice["title"]
-                
-                
-    return Response(
-        {
-            "status": "ok",
-            "type": "suggestions",
-            "total_count": len(data),
-            "data": data,
-        },
-        status=status.HTTP_200_OK,
-    )
-
-    # except Exception as e:
-    #     print(e)
-    #     return Response(
-    #         {
-    #             "status": "ok",
-    #             "type": "suggestions",
-    #             "total_count": len(data),
-    #             "data": data,
-    #         },
-    #         status=status.HTTP_200_OK,
-    #     )
-
+        search_parameters = OrderedDict([
+            ('query', query),
+            ('filters',filters),
+            ('plugin',"Noticeboard")
+        ])
+        
+        results = OrderedDict([
+            ("entity","message"),
+            ("data",(data))
+        ])
+        
+        return Response(OrderedDict([
+            ('status', "ok"),
+            ('title',"Noticeboard Search"),
+            ('description','Results for notices'),
+            ('pagination',pagination_dict), 
+            ('search_parameters',search_parameters),
+            ('results', results),            
+        ]))
 
 
 
