@@ -94,10 +94,11 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
+    path("search/<str:org_id>/<str:member_id>", noticeboard_search_view),
+    path("search-suggestions/<str:org_id>/", search_suggestions),
+    # path("search/<str:org_id>/", noticeboard_search_view),
     
-    path("search/<str:org_id>/", noticeboard_search_view),
-    
-    path("search-suggestions/<str:org_id>/", search_suggestions)
+     
     
 ]
 
