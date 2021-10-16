@@ -26,7 +26,8 @@ from .views import (
     uninstall,
     sidebar_info,
     MembersOfRoom,
-    noticeboard_search_view
+    noticeboard_search_view,
+    search_suggestions
 )
 
 schema_view = get_schema_view(
@@ -93,7 +94,11 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("organisation/<str:org_id>/search", noticeboard_search_view),
+    
+    path("search/<str:org_id>/", noticeboard_search_view),
+    
+    path("search-suggestions/<str:org_id>/", search_suggestions)
+    
 ]
 
 # newly added due to sidebar task -- start

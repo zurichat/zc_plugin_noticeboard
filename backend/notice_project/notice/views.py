@@ -7,6 +7,11 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import pagination
+from typing import OrderedDict
+from requests import exceptions
+from django.http import Http404
+
 
 from .email import subscription_success_mail
 from .schedulestorage import schDb
@@ -848,14 +853,57 @@ class MembersOfRoom(views.APIView):
 
 
 @api_view(["GET"])
+def search_suggestions(request, org_id):
+    
+    if request.method == "GET":
+         notices = db.read("noticeboard", org_id)["data"]
+    
+         data = {}
+        
+         for notice in notices:
+                data[notice["title"]] = notice["title"]
+                
+                
+    return Response(
+        {
+            "status": "ok",
+            "type": "suggestions",
+            "total_count": len(data),
+            "data": data,
+        },
+        status=status.HTTP_200_OK,
+    )
+
+    # except Exception as e:
+    #     print(e)
+    #     return Response(
+    #         {
+    #             "status": "ok",
+    #             "type": "suggestions",
+    #             "total_count": len(data),
+    #             "data": data,
+    #         },
+    #         status=status.HTTP_200_OK,
+    #     )
+        
+
+@api_view(["GET"])
 def noticeboard_search_view(request, org_id):
     """
     This view returns search results.
     """
     if request.method == "GET":
         # user_id = request.query_params.get("user_id")
+        
+        
+        key = request.query_params.get("q") or []
+        filters = request.query_params.getlist("filter", [])
+        paginate_by = request.query_params.get("limit", 20)
+        paginator = SearchPagination()
+        paginator.page_size = paginate_by
 
-        key_word = request.query_params.get("key") or []
+        key_word = key
+        #key_word = request.query_params.get("key") or []
         if key_word:
             key_word = re.split("[;,\s]+", key_word)
 
@@ -879,28 +927,82 @@ def noticeboard_search_view(request, org_id):
             #     if all(word.lower() in title for word in key_word):
             #         search_result_reminder.append(reminder)
 
-            paginate_by = request.query_params.get("paginate_by", 20)
-            paginator = Paginator(search_result_notices, paginate_by)
-            page_num = request.query_params.get("page", 1)
-            page_obj = paginator.get_page(page_num)
-            Query = request.query_params.get("key") or []
-            paginated_data = {
-                "status": "ok",
-                "pagination": {
-                    "total_count": paginator.count,
-                    "current_page": page_obj.number,
-                    "per_page": paginate_by,
-                    "page_count": paginator.num_pages,
-                    "first_page": 1,
-                    "last_page": paginator.num_pages,
-                },
-                "plugin": "Noticeboard",
-                "Query": Query,
-                "data": list(page_obj),
-                "filter_sugestions": {"in": [], "from": []},
-            }
+        #     paginate_by = request.query_params.get("paginate_by", 20)
+        #     paginator = Paginator(search_result_notices, paginate_by)
+        #     page_num = request.query_params.get("page", 1)
+        #     page_obj = paginator.get_page(page_num)
+        #     Query = request.query_params.get("key") or []
+        #     paginated_data = {
+        #         "status": "ok",
+        #         "pagination": {
+        #             "total_count": paginator.count,
+        #             "current_page": page_obj.number,
+        #             "per_page": paginate_by,
+        #             "page_count": paginator.num_pages,
+        #             "first_page": 1,
+        #             "last_page": paginator.num_pages,
+        #         },
+        #         "plugin": "Noticeboard",
+        #         "Query": Query,
+        #         "data": list(page_obj),
+        #         "filter_sugestions": {"in": [], "from": []},
+        #     }
 
-            return Response({"data": paginated_data}, status=status.HTTP_200_OK)
-        return Response(
-            {"error": notices_response["message"]}, status=notices_response["status"]
-        )
+        #     return Response({"data": paginated_data}, status=status.HTTP_200_OK)
+        # return Response(
+        #     {"error": notices_response["message"]}, status=notices_response["status"]
+        # )
+        
+        result = paginator.paginate_queryset(search_result_notices, request)
+        #print(result)
+        return paginator.get_paginated_response(
+                result, key, filters, request
+            )
+        
+       
+
+        
+        
+
+
+class SearchPagination(pagination.PageNumberPagination):
+    def get_last_page(self,count,size):
+        if size > count:
+            return 1
+        return count // size
+    
+    
+    def get_paginated_response(self, data, query, filters, request):
+        pagination_dict = OrderedDict([
+            ('total_results', self.page.paginator.count),
+            ('page_size', self.get_page_size(request)),
+            ('current_page', self.get_page_number(request, self.page.paginator)),
+            ('first_page', 1),
+            ('last_page',self.get_last_page(self.page.paginator.count, self.get_page_size(request))),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()), 
+        ])
+        
+        search_parameters = OrderedDict([
+            ('query', query),
+            ('filters',filters),
+            ('plugin',"Noticeboard")
+        ])
+        
+        results = OrderedDict([
+            ("entity","message"),
+            ("data",(data))
+        ])
+        
+        return Response(OrderedDict([
+            ('status', "ok"),
+            ('title',"Noticeboard Search"),
+            ('description','Results for notices'),
+            ('pagination',pagination_dict), 
+            ('search_parameters',search_parameters),
+            ('results', results),            
+        ]))
+
+
+
+
