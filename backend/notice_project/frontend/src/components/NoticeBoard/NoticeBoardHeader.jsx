@@ -9,7 +9,6 @@ import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
 import Parcel from "single-spa-react/parcel";
 import { pluginHeader } from "@zuri/plugin-header";
-import { GetUserInfo, GetWorkspaceUser } from "@zuri/control";
 
 import axios from "axios";
 
