@@ -9,6 +9,7 @@ import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";
 import Parcel from "single-spa-react/parcel";
 import { pluginHeader } from "@zuri/plugin-header";
+import axios from "axios";
 
 function ZuriGlobalHeader() {
   const [openModal, setOpenModal] = useState(false);
@@ -19,6 +20,10 @@ function ZuriGlobalHeader() {
   const toggleNotificationTab = () => {
     setNotificationTab(!notificationTab);
   };
+
+  useEffect(() => {
+    getAllUsers();
+  }, [userData]);
 
   const getAllUsers = async () => {
     try {
@@ -33,10 +38,70 @@ function ZuriGlobalHeader() {
       );
       let data = await response.json();
       setAllUsers(data.data);
+      console.log(data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getRoomDetails();
+  }, []);
+
+  const [roomDetails, setRoomDetails] = useState([]);
+
+  /* Room Information api*/
+  //CREATE NOTICE API CALL STARTS
+  const api = axios.create({
+    baseURL: "https://noticeboard.zuri.chat/api/v1",
+  });
+
+  // const org_Id = "61699dff2173961b3d130a42";
+  const org_Id = userData?.org_id;
+
+  const getRoomDetails = async () => {
+    try {
+      const res = await api.get(`/organisation/${org_Id}/get-room`);
+
+      let data = await res.data;
+
+      let roomApi = data.data[0];
+
+      setRoomDetails(roomApi);
+      // console.log(roomApi, roomApi.room_id, roomApi.room_member_id[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(roomDetails);
+
+  /* add member api*/
+  // room object
+  const member_id = userData?._id;
+
+  const room_id = roomDetails.room_id;
+
+  const room_length = roomDetails.room_member_id?.length;
+
+  const users =
+    allUsers?.map((user) => ({
+      _id: user._id,
+      email: user.email,
+    })) ?? [];
+
+  const members = roomDetails.room_member_id;
+
+  const membersList = users
+    .filter((user) => members.find((id) => id === user._id))
+    .map((member) => ({
+      _id: member._id,
+      email: member.email,
+    }));
+
+  console.log(users, members, membersList);
+
+  // console.log(members, users);
 
   const headerConfig = {
     name: "NOTICEBOARD", //Name on header
@@ -46,21 +111,58 @@ function ZuriGlobalHeader() {
       "https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg",
       "https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png",
     ], //Replace with images of users
-    userCount: allUsers?.length, //User count on header
-    eventTitle: () => {
-      //Block of code to be triggered on title click
-    },
-    eventThumbnail: () => {
-      //Block of code to be triggered on thumbnail click
-      setOpenModal(true);
-      console.log(allUsers[0].image_url);
-    },
+    userCount: room_length, //User count on header
     hasThumbnail: true, //set false if you don't want thumbnail on the header
-  };
+    roomInfo: {
+      membersList: membersList,
+      addmembersevent: (values) => {
+        const member_ids = values.map((value) => value.value);
 
-  useEffect(() => {
-    getAllUsers();
-  }, [userData]);
+        const payload = {
+          room_id,
+          member_ids,
+        };
+
+        const addToRoom = async () => {
+          try {
+            const res = await api.post(
+              `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
+              payload
+            );
+            // console.log(res);
+            return res;
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        addToRoom();
+      },
+      removememberevent: (id) => {
+        const member_ids = [id];
+
+        const payload = {
+          room_id,
+          member_ids,
+        };
+
+        const removeFromRoom = async () => {
+          try {
+            const res = await api.patch(
+              `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
+              payload
+            );
+            // console.log(res);
+            return res;
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        removeFromRoom();
+      },
+    },
+  };
 
   return (
     <div className="zuriMain-header">
@@ -71,16 +173,6 @@ function ZuriGlobalHeader() {
         headerConfig={headerConfig}
       />
 
-      {openModal ? (
-        <AddUsers
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-          notice={true}
-        />
-      ) : (
-        ""
-      )}
-
       <div className="noNotification-container">
         <img
           src={noNotification}
@@ -88,7 +180,6 @@ function ZuriGlobalHeader() {
           onClick={toggleNotificationTab}
         />
       </div>
-
       {notificationTab && <NotificationTab />}
     </div>
   );
@@ -114,64 +205,3 @@ const NotificationTab = () => {
 };
 
 export default ZuriGlobalHeader;
-
-// return (
-//   <div className="noticeboard-header">
-//     <div className="noticeboard-header-container">
-//       <div className="heading">Notice Board</div>
-//   {
-//      openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
-//   }
-
-//       <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
-//         {/* <AddIcon onClick={()=> setOpenModal(true)}/> */}
-//         <div className="avatar-wrap">
-//           <div className="avatar">
-//             <img src={Member4} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member3} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member2} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member1} alt="avatar" />
-//           </div>
-//         </div>
-
-//          <div className="member-total-count">{allUsers?.length}</div>
-//       </AvatarGroup>
-//     </div>
-//   </div>
-// );
-// }
-
-// export default NoticeBoardHeader;
-
-// const AddUserButton = styled.button`
-//   color: white;
-//   background-color: #00bb7c;
-//   padding: 1em;
-//   font-size: 16px;
-//   line-height: 24px;
-//   border-radius: 2px;
-//   margin-top: 1.5em;
-//   //width: 10em;
-//   outline: none;
-//   border: 0;
-
-//   @media (max-width: ${500}px) {
-//     //width: 100%;
-//   }
-// `;
-
-// const AvatarGroup = styled.div`
-// &:hover{
-//   cursor: pointer;
-//   opacity: 0.5
-// }
-// `;
