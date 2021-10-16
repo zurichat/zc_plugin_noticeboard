@@ -1,10 +1,17 @@
-import requests
 import json
+import re
+from django.core.paginator import Paginator
+import requests
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import pagination
+from typing import OrderedDict
+from requests import exceptions
+from django.http import Http404
+
 
 from .email import subscription_success_mail
 from .schedulestorage import schDb
@@ -17,7 +24,8 @@ from .serializers import (
     SchedulesSerializer,
     SubscribeSerializer,
     InstallSerializer,
-    UninstallSerializer    
+    UninstallSerializer,
+    AddMemberToRoom,
     # UnsubscribeSerializer,
 )
 from .storage import db
@@ -26,40 +34,15 @@ from .utils import user_rooms
 # this is a comment
 
 
+@swagger_auto_schema(
+    method="get", responses={200: "", 400: "org id or user id is None"}
+)
 @api_view(["GET"])
 def sidebar_info(request):
     """Returns the room the logged in user belongs to under Noticeboard
     plugin"""
     org_id = request.GET.get("org")
     user_id = request.GET.get("user")
-
-    data = {
-        "title": "Noticeboard",
-        "icon": (
-            "https://media.istockphoto.com/vectors/notice-paper-with-push-pin-icon-in-"
-            "trendy-flat-design-vector-id1219927783?k=20&m=1219927783&s=612x612&w=0&h="
-            "DJ9N_kyvpqh11qHOcD0EZVbM0NeBNC_08oViRjo7G7c="
-        ),
-        "action": "open",
-    }
-
-    room = db.read("noticeboard_room", org_id)
-
-    if room["status"] == 200:
-        if room["data"]:
-            room = room["data"][0]
-        else:
-            requests.post(
-                f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-                data=data,
-            )
-            # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
-    else:
-        requests.post(
-            f"https://noticeboard.zuri.chat/api/v1/organisation/{org_id}/create-room",
-            data=data,
-        )
-        # room = requests.post(f"http://localhost:8000/api/v1/organisation/{org_id}/create-room", data=data)
 
     if org_id and user_id:
         sidebar = {
@@ -68,6 +51,7 @@ def sidebar_info(request):
             "plugin_id": settings.PLUGIN_ID,
             "organisation_id": f"{org_id}",
             "user_id": f"{user_id}",
+            "category": "productivity",
             "group_name": "Noticeboard",
             "show_group": False,
             "public_rooms": [],
@@ -78,75 +62,134 @@ def sidebar_info(request):
         {"message": "org id or user id is None"}, status=status.HTTP_400_BAD_REQUEST
     )
 
+
+@swagger_auto_schema(
+    method="post",
+    request_body=InstallSerializer,
+    responses={200: "successfully retrieved", 404: "Plugin has already been added"},
+)
 @api_view(["POST"])
 def install(request):
     """This endpoint is called when an organisation wants to install the
     Noticeboard plugin for their workspace."""
+    
     serializer = InstallSerializer(data=request.data)
-    if serializer.is_valid():    
-        install_payload= serializer.data
-        org_id=install_payload["org_id"]
-        user_id=install_payload["user_id"]
-        print(org_id,user_id)
+    nHeaders=request.headers["Authorization"]
+    if serializer.is_valid():
+        install_payload = serializer.data
+        org_id = install_payload["organisation_id"]
+        user_id = install_payload["user_id"]
+        print(org_id, user_id)
 
-        new_token= db.token()
-        print(new_token) 
+        # new_token = db.token()
+        # print(new_token)
 
-        url=f"https://api.zuri.chat/organizations/{org_id}/plugins"
+        url = f"https://api.zuri.chat/organizations/{org_id}/plugins"
         print(url)
-        payload = {"plugin_id": "613fc3ea6173056af01b4b3e","user_id":user_id}
-        v2load=json.dumps(payload).encode("utf-8")
-        headers = {'Authorization':f'Bearer {new_token}'}
+        payload = {"plugin_id": settings.PLUGIN_ID, "user_id": user_id}
+        v2load = json.dumps(payload).encode("utf-8")
+        headers = {"Authorization": f"{nHeaders}"}
+        print(headers)
         response = requests.request("POST", url, headers=headers, data=v2load)
-        installed=json.loads(response.text)
+        installed = json.loads(response.text)
         print(installed)
         if installed["status"] == 200:
-            return Response({"success": True,"data": {"redirect_url":"/noticeboard"},
-                        "message": "sucessfully retrieved",},status=status.HTTP_200_OK,)
-        return Response({"Plugin has already been added"},status=status.HTTP_404_NOT_FOUND)
-    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
-@api_view(["DELETE"])    
+
+            return Response(
+                {
+                    "success": True,
+                    "data": {"redirect_url": "/noticeboard"},
+                    "message": "sucessfully retrieved",
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"Plugin has already been added"}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+@swagger_auto_schema(
+    method="delete",
+    request_body=UninstallSerializer,
+    responses={200: "", 404: "Plugin does not exist"},
+)
+@api_view(["DELETE"])
 def uninstall(request):
     """This endpoint is called when an organisation wants to uinstall the
     Noticeboard plugin for their workspace."""
     serializer = UninstallSerializer(data=request.data)
-    if serializer.is_valid():    
-        uninstall_payload= serializer.data
-        org_id=uninstall_payload["org_id"]
-        user_id=uninstall_payload["user_id"]
+    if serializer.is_valid():
+        uninstall_payload = serializer.data
+        org_id = uninstall_payload["organisation_id"]
+        user_id = uninstall_payload["user_id"]
         print(user_id)
 
-        new_token= db.token()
-        print(new_token) 
+        new_token = db.token()
+        print(new_token)
 
-        url=f"https://api.zuri.chat/organizations/{org_id}/plugins/613fc3ea6173056af01b4b3e"
+        url = (
+            f"https://api.zuri.chat/organizations/{org_id}/plugins/{settings.PLUGIN_ID}"
+        )
         print(url)
-        payload = {"user_id":user_id}
-        v2load=json.dumps(payload).encode("utf-8")
-        headers = {'Authorization':f'Bearer {new_token}'}
+        payload = {"user_id": user_id}
+        v2load = json.dumps(payload).encode("utf-8")
+        headers = {"Authorization": f"Bearer {new_token}"}
         response = requests.request("DELETE", url, headers=headers, data=v2load)
-        uninstalled=json.loads(response.text)
+        uninstalled = json.loads(response.text)
         print(uninstalled)
         if uninstalled["status"] == 200:
-            return Response(uninstalled,status=status.HTTP_200_OK,)
-        return Response({"message":"Plugin does not exist"},status=status.HTTP_404_NOT_FOUND)
-    return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                uninstalled,
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "Plugin does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
-
+@swagger_auto_schema(
+    method="post",
+    request_body=NoticeboardRoom,
+    responses={
+        201: "successfully created your room",
+        400: "room couldn't be created",
+        200: "room already exists",
+    },
+)
 @api_view(["POST"])
-def create_room(request, org_id):
+def create_room(request, org_id, user_id):
     """Creates a room for the organisation under Noticeboard plugin."""
     # org_id = "6145b49e285e4a18402073bc"
     # org_id = "614679ee1a5607b13c00bcb7"
-    serializer = NoticeboardRoom(data=request.data)
-    if serializer.is_valid():
-        db.save("noticeboard_room", org_id, serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    room = db.read("noticeboard_room", org_id)
+    if room["status"] == 200:
+        if room["data"] is not None:
+            room = room["data"][0]
+        else:
+            serializer = NoticeboardRoom(data=request.data)
+            if serializer.is_valid():
+                room = serializer.data
+                room.update({"is_admin": user_id})
+                if user_id not in room["room_member_id"]:
+                    room.update({"room_member_id": [user_id]})
+                    db.save("noticeboard_room", org_id, notice_data=room)
+                return Response(
+                    {"message": "successfully created your room", "data": room},
+                    status=status.HTTP_201_CREATED,
+                )
+            return Response(
+                {"message": "room couldn't be created", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(
+            {"message": "room already exists", "data": room}, status=status.HTTP_200_OK
+        )
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: ""})
 @api_view(["GET"])
 def get_room(request, org_id):
     """Gets all the rooms created under the Noticeboard plugin."""
@@ -155,12 +198,15 @@ def get_room(request, org_id):
         # org_id = "6145b49e285e4a18402073bc"
         # org_id = "614679ee1a5607b13c00bcb7"
         data = db.read("noticeboard_room", org_id)
+        if data["data"] is None:
+            data["data"] = {}
         return Response(data)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-
-
+@swagger_auto_schema(
+    method="post", request_body=CreateNoticeSerializer, responses={201: "", 404: ""}
+)
 @api_view(["POST"])
 def create_notice_view(request, org_id):
     """Create new notices"""
@@ -210,6 +256,14 @@ def create_notice_view(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="put",
+    request_body=CreateNoticeSerializer,
+    responses={
+        201: "Notice has been successfully updated",
+        404: "Notice not updated, Please Try Again",
+    },
+)
 @api_view(["PUT"])
 def update_notice_view(request, obj_id, org_id):
     """Update A Notice In A Database."""
@@ -246,6 +300,13 @@ def update_notice_view(request, obj_id, org_id):
     )
 
 
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "Delete Operation Successful",
+        404: "Delete Operation Failed. Object does not exist in the database",
+    },
+)
 @api_view(["DELETE"])
 def delete_notice(request, object_id, org_id):
     """Delete a notice from the database."""
@@ -284,6 +345,7 @@ def delete_notice(request, object_id, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
 @api_view(["GET"])
 def view_notice(request, org_id):
     """This endpoint returns all the notices created under a particular
@@ -291,10 +353,13 @@ def view_notice(request, org_id):
     if request.method == "GET":
         # org_id = "613a1a3b59842c7444fb0220"
         notice = db.read("noticeboard", org_id)
-        get_data = notice["data"]
-        reversed_list = get_data[::-1]
-        print(reversed_list)
-        notice.update(data=reversed_list)
+        if notice["data"] is not None:
+            get_data = notice["data"]
+            reversed_list = get_data[::-1]
+            # print(reversed_list)
+            notice.update(data=reversed_list)
+        else:
+            notice["data"] = {}
         if notice["status"] == 200:
             print(notice)
             return Response(notice, status=status.HTTP_200_OK)
@@ -314,6 +379,10 @@ def count_views(data, user):
     return user_string
 
 
+@swagger_auto_schema(
+    method="get",
+    responses={200: "sucessfully retrieved", 404: "retrieved unsuccessfully"},
+)
 @api_view(["GET"])
 def notice_detail(request, obj_id, org_id):
     """This returns the detail of a particular notice under the
@@ -357,7 +426,9 @@ class NoticeReminder(views.APIView):
 
     newly_created_notice_reminder = []  # stores newly created notice reminder to a list
 
-    @swagger_auto_schema(request_body=NoticeReminderSerializer)
+    @swagger_auto_schema(
+        request_body=NoticeReminderSerializer, responses={201: "", 400: ""}
+    )
     def post(self, request, org_id):
         """The function accepts a post request for creating reminders."""
         # notice_id=request.GET.get('notice')
@@ -380,11 +451,10 @@ class NoticeReminder(views.APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self):
-        """A dummy public method to get past pylint."""
-        ...
 
-
+@swagger_auto_schema(
+    method="get", responses={200: "", 404: "There are no notices to be reminded of."}
+)
 @api_view(["GET"])
 def view_notice_reminder(request, org_id):
     """This endpoint enables user view notices to be reminded of."""
@@ -402,6 +472,7 @@ def view_notice_reminder(request, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "Notice does not exist"})
 @api_view(["GET"])
 def bookmark_notice(request, org_id, user_id):
     """Retrieve all the notices a particular user has bookmarked."""
@@ -417,6 +488,9 @@ def bookmark_notice(request, org_id, user_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=BookmarkNoticeSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
 def create_bookmark(request, org_id):
     """This endpoint enables a user to bookmark a notice."""
@@ -448,6 +522,13 @@ def create_bookmark(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "successfully deleted bookmarked notice",
+        404: "could not delete bookmarked notice",
+    },
+)
 @api_view(["DELETE"])
 def delete_bookmarked_notice(request, org_id, obj_id):
     """This endpoint enables a user delete a bookmarked notice."""
@@ -480,6 +561,9 @@ def delete_bookmarked_notice(request, org_id, obj_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=DraftSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
 def notice_draft(request, org_id):
     """For creating Drafts for A Notice."""
@@ -491,8 +575,10 @@ def notice_draft(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post", request_body=SchedulesSerializer, responses={201: "", 400: ""}
+)
 @api_view(["POST"])
-@swagger_auto_schema(request_body=SchedulesSerializer)
 def schedule_notices(request, org_id):
     """For scheduling notices."""
 
@@ -505,6 +591,7 @@ def schedule_notices(request, org_id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
 @api_view(["GET"])
 def view_schedule(request, org_id):
     """This endpoint returns all the notices created under a particular
@@ -527,6 +614,10 @@ def view_schedule(request, org_id):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method="get", responses={200: "", 404: "retrieved unsuccessfully"})
+@swagger_auto_schema(
+    method="post", responses={200: "", 404: "No file has been attached"}
+)
 @api_view(["GET", "POST", "DELETE"])
 def attach_file(request, org_id):
     """This endpoint is a send message endpoint that can take files, upload
@@ -569,6 +660,13 @@ def attach_file(request, org_id):
 
 
 # NEW EMAIL NOTIFICATION
+@swagger_auto_schema(
+    method="get",
+    responses={
+        200: "emails sent successfully",
+        404: "no emails sent, check if org is not null or if send has a boolean value of true",
+    },
+)
 @api_view(["GET"])
 def email_notification(request):
     """
@@ -616,6 +714,15 @@ def email_notification(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method="post",
+    request_body=SubscribeSerializer,
+    responses={
+        201: "subscription successful",
+        409: "already subscribed",
+        404: "no action taken, check org and/or user parameter values",
+    },
+)
 @api_view(["POST"])
 def email_subscription(request):
     """
@@ -659,3 +766,239 @@ def email_subscription(request):
             {"status": "no action taken, check org and/or user parameter values"}
         )
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class MembersOfRoom(views.APIView):
+    """This endpoint enables users to be added and removed from a room"""
+
+    @swagger_auto_schema(
+        request_body=AddMemberToRoom,
+        responses={201: "successfully added", 400: "could not be added"},
+    )
+    def post(self, request, org_id, room_id, member_id):
+        """
+        This endpoint enables a user to be added to a room
+        """
+        serializer = AddMemberToRoom(data=request.data)
+
+        if serializer.is_valid():
+            room_id = serializer.data["room_id"]
+            member_ids = serializer.data["member_ids"]
+            room = db.read("noticeboard_room", org_id, filter={"room_id": room_id})
+            if room["status"] == 200:
+                user_room = room["data"][0]
+                room_members = user_room["room_member_id"]
+                for member_id in member_ids:
+                    if member_id not in room_members:
+                        room_members.append(member_id)
+                        user_room.update({"room_member_id": room_members})
+                        new_data = user_room
+                        db.update(
+                            "noticeboard_room",
+                            org_id,
+                            {"room_member_id": new_data["room_member_id"]},
+                            user_room["_id"],
+                        )
+
+                return Response(
+                    {"message": "successfully added", "data": user_room},
+                    status=status.HTTP_201_CREATED,
+                )
+            return Response(
+                {"message": "could not be added", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @swagger_auto_schema(
+        request_body=AddMemberToRoom,
+        responses={200: "successfully removed", 400: "could not be removed"},
+    )
+    def patch(self, request, org_id, room_id, member_id):
+        """
+        This endpoint enables a user to be removed from a room
+        """
+        serializer = AddMemberToRoom(data=request.data)
+
+        if serializer.is_valid():
+            room_id = serializer.data["room_id"]
+            member_ids = serializer.data["member_ids"]
+            room = db.read("noticeboard_room", org_id, filter={"room_id": room_id})
+            if room["status"] == 200:
+                user_room = room["data"][0]
+                room_members = user_room["room_member_id"]
+                for member_id in member_ids:
+                    if member_id in room_members:
+                        room_members.remove(member_id)
+                        user_room.update({"room_member_id": room_members})
+                        new_data = user_room
+                        db.update(
+                            "noticeboard_room",
+                            org_id,
+                            {"room_member_id": new_data["room_member_id"]},
+                            user_room["_id"],
+                        )
+
+                return Response(
+                    {"message": "successfully removed", "data": user_room},
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"message": "could not be removed", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+@api_view(["GET"])
+def search_suggestions(request, org_id):
+    
+    if request.method == "GET":
+         notices = db.read("noticeboard", org_id)["data"]
+    
+         data = {}
+        
+         for notice in notices:
+                data[notice["title"]] = notice["title"]
+                
+                
+    return Response(
+        {
+            "status": "ok",
+            "type": "suggestions",
+            "total_count": len(data),
+            "data": data,
+        },
+        status=status.HTTP_200_OK,
+    )
+
+    # except Exception as e:
+    #     print(e)
+    #     return Response(
+    #         {
+    #             "status": "ok",
+    #             "type": "suggestions",
+    #             "total_count": len(data),
+    #             "data": data,
+    #         },
+    #         status=status.HTTP_200_OK,
+    #     )
+        
+
+@api_view(["GET"])
+def noticeboard_search_view(request, org_id):
+    """
+    This view returns search results.
+    """
+    if request.method == "GET":
+        # user_id = request.query_params.get("user_id")
+        
+        
+        key = request.query_params.get("q") or []
+        filters = request.query_params.getlist("filter", [])
+        paginate_by = request.query_params.get("limit", 20)
+        paginator = SearchPagination()
+        paginator.page_size = paginate_by
+
+        key_word = key
+        #key_word = request.query_params.get("key") or []
+        if key_word:
+            key_word = re.split("[;,\s]+", key_word)
+
+        # search result notices
+        notices_response = db.read("noticeboard", org_id)
+        search_result_notices = []
+
+        if notices_response["status"] == 200 and notices_response["data"]:
+            notices = notices_response["data"]
+            for notice in notices:
+                message = notice["message"].lower()
+                if all(word.lower() in message for word in key_word):
+                    search_result_notices.append(notice)
+
+            # # searching through reminders
+            # reminders = db.read("reminders", org_id, {"user_id": user_id})["data"]
+            # search_result_reminder = []
+
+            # for reminder in reminders:
+            #     title = reminders["title"].lower()
+            #     if all(word.lower() in title for word in key_word):
+            #         search_result_reminder.append(reminder)
+
+        #     paginate_by = request.query_params.get("paginate_by", 20)
+        #     paginator = Paginator(search_result_notices, paginate_by)
+        #     page_num = request.query_params.get("page", 1)
+        #     page_obj = paginator.get_page(page_num)
+        #     Query = request.query_params.get("key") or []
+        #     paginated_data = {
+        #         "status": "ok",
+        #         "pagination": {
+        #             "total_count": paginator.count,
+        #             "current_page": page_obj.number,
+        #             "per_page": paginate_by,
+        #             "page_count": paginator.num_pages,
+        #             "first_page": 1,
+        #             "last_page": paginator.num_pages,
+        #         },
+        #         "plugin": "Noticeboard",
+        #         "Query": Query,
+        #         "data": list(page_obj),
+        #         "filter_sugestions": {"in": [], "from": []},
+        #     }
+
+        #     return Response({"data": paginated_data}, status=status.HTTP_200_OK)
+        # return Response(
+        #     {"error": notices_response["message"]}, status=notices_response["status"]
+        # )
+        
+        result = paginator.paginate_queryset(search_result_notices, request)
+        #print(result)
+        return paginator.get_paginated_response(
+                result, key, filters, request
+            )
+        
+       
+
+        
+        
+
+
+class SearchPagination(pagination.PageNumberPagination):
+    def get_last_page(self,count,size):
+        if size > count:
+            return 1
+        return count // size
+    
+    
+    def get_paginated_response(self, data, query, filters, request):
+        pagination_dict = OrderedDict([
+            ('total_results', self.page.paginator.count),
+            ('page_size', self.get_page_size(request)),
+            ('current_page', self.get_page_number(request, self.page.paginator)),
+            ('first_page', 1),
+            ('last_page',self.get_last_page(self.page.paginator.count, self.get_page_size(request))),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()), 
+        ])
+        
+        search_parameters = OrderedDict([
+            ('query', query),
+            ('filters',filters),
+            ('plugin',"Noticeboard")
+        ])
+        
+        results = OrderedDict([
+            ("entity","message"),
+            ("data",(data))
+        ])
+        
+        return Response(OrderedDict([
+            ('status', "ok"),
+            ('title',"Noticeboard Search"),
+            ('description','Results for notices'),
+            ('pagination',pagination_dict), 
+            ('search_parameters',search_parameters),
+            ('results', results),            
+        ]))
+
+
+
+

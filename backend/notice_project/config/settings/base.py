@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
-import sys
+
+# import sys
 
 import environ
 
@@ -137,7 +138,8 @@ STATIC_ROOT = os.path.join(NOTICE_PROJECT_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DEFAULT_FROM_EMAIL = "jeremiahchukwu@gmail.com"
-PLUGIN_ID = "613fc3ea6173056af01b4b3e"
+
+PLUGIN_ID = "61694eea9ea5d3be97df2973"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
