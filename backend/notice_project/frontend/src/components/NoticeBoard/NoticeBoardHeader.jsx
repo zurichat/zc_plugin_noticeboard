@@ -45,19 +45,14 @@ function ZuriGlobalHeader() {
     }
   };
 
-  // console.log(userData, userData?.org_id);
-
   const [roomDetails, setRoomDetails] = useState([]);
 
   /* Room Information api*/
-  //CREATE NOTICE API CALL STARTS
   const api = axios.create({
     baseURL: "https://noticeboard.zuri.chat/api/v1",
   });
 
   const org_Id = localStorage.getItem("currentWorkspace");
-
-  // console.log(org_Id);
 
   const getRoomDetails = async () => {
     try {
@@ -78,8 +73,6 @@ function ZuriGlobalHeader() {
     getRoomDetails();
   }, []);
 
-  // console.log(roomDetails);
-
   /* add member api*/
   // room object
   const member_id = userData?._id;
@@ -96,29 +89,33 @@ function ZuriGlobalHeader() {
 
   const members = roomDetails.room_member_id;
 
-  const membersList = users
-    .filter((user) => members.find((id) => id === user._id))
-    .map((member) => ({
-      _id: member._id,
-      email: member.email,
-    }));
+  const getRoomMembersById = (member_ids) => {
+    return users
+      .filter((user) => member_ids.includes(user._id))
+      .map((member) => ({
+        _id: member._id,
+        email: member.email,
+      }));
+  };
 
-  // console.log(users, members, membersList);
+  // const membersList = users
+  //   .filter((user) => members.find((id) => id === user._id))
+  //   .map((member) => ({
+  //     _id: member._id,
+  //     email: member.email,
+  //   }));
+
+  let membersList = getRoomMembersById(members);
 
   const headerConfig = {
     name: "NOTICEBOARD", //Name on header
     icon: NoticeboardIcon, //Image on header
-    thumbnailUrl: [
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-      "https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg",
-      "https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png",
-    ], //Replace with images of users
+    thumbnailUrl: [], //Replace with images of users
     userCount: room_length, //User count on header
     hasThumbnail: true, //set false if you don't want thumbnail on the header
     roomInfo: {
       membersList: membersList,
-      addmembersevent: (values) => {
-        // console.log(values);
+      addmembersevent(values) {
         const member_ids = values.map((value) => value.value);
 
         const payload = {
@@ -132,7 +129,13 @@ function ZuriGlobalHeader() {
               `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
               payload
             );
-            // console.log(res);
+
+            const newRoomMembers = getRoomMembersById(member_ids);
+            membersList = [...newRoomMembers, ...membersList];
+
+            headerConfig.userCount = membersList.length;
+            headerConfig.roomInfo.membersList = [...membersList];
+            console.log(membersList);
             return res;
           } catch (err) {
             console.log(err);
@@ -141,8 +144,7 @@ function ZuriGlobalHeader() {
 
         addToRoom();
       },
-      removememberevent: (id) => {
-        // console.log(id);
+      removememberevent(id) {
         const member_ids = [id];
 
         const payload = {
@@ -156,7 +158,15 @@ function ZuriGlobalHeader() {
               `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
               payload
             );
-            // console.log(res);
+            console.log(res);
+
+            membersList = membersList.filter(
+              (member) => !member_ids.includes(member._id)
+            );
+            headerConfig.userCount = membersList.length;
+            headerConfig.roomInfo.membersList = [...membersList];
+
+            console.log(membersList);
             return res;
           } catch (err) {
             console.log(err);
