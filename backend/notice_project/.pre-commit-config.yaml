@@ -40,4 +40,9 @@ repos:
         - --disable=C0412
         - --disable=C0103
         - --disable=W1401
+        - --disable=C0302
+        - --disable=W0404
+        - --disable=R0914
+        - --disable=W0703
+        - --disable=W0703
         - --disable=R0903 #had to disable it because of the serializers.py file

@@ -31,13 +31,10 @@ const PinnedNotices = (props) => {
 
   // Read Organization ID
   const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
-
+  const org_Id = localStorage.getItem("currentWorkspace");
 
   useEffect(() => {
-    fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-    )
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
@@ -58,14 +55,13 @@ const PinnedNotices = (props) => {
       .catch((error) => console.log(error));
   }, []);
 
-
   //Bookmark
   const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
     useContext(BookmarkContext);
   let user = JSON.parse(sessionStorage.getItem("user"));
   const fetchBookmarked = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/user/${user.id}/bookmark`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -78,7 +74,6 @@ const PinnedNotices = (props) => {
   useEffect(() => {
     fetchBookmarked();
   }, [toggleBookmark]);
-
 
   if (loading) {
     return (
@@ -137,7 +132,9 @@ const PinnedNotices = (props) => {
 
             <Link to="/noticeboard/old-notices">
               <div className="older-notices">
-                <p className="older-notices-text"><span>View older notices</span></p>
+                <p className="older-notices-text">
+                  <span>View older notices</span>
+                </p>
               </div>
             </Link>
           </div>

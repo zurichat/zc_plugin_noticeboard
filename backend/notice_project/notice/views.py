@@ -1,6 +1,9 @@
 import json
 import re
+from typing import OrderedDict
 from django.core.paginator import Paginator
+from rest_framework import pagination
+from rest_framework.response import Response
 import requests
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
@@ -8,9 +11,6 @@ from rest_framework import status, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import pagination
-from typing import OrderedDict
-from requests import exceptions
-from django.http import Http404
 
 
 from .email import subscription_success_mail
@@ -63,6 +63,22 @@ def sidebar_info(request):
     )
 
 
+def create_plugin_room(org_id, user_id):
+    """Function that creates a Noticeboard room"""
+    room = db.read("noticeboard_room", org_id)
+    if room["status"] == 200:
+        if room["data"] is not None:
+            room = room["data"][0]
+        else:
+            serializer = NoticeboardRoom(data={"room_name": "Noticeboard"})
+            if serializer.is_valid():
+                room = serializer.data
+                room.update({"is_admin": user_id})
+                if user_id not in room["room_member_id"]:
+                    room.update({"room_member_id": [user_id]})
+                    db.save("noticeboard_room", org_id, notice_data=room)
+
+
 @swagger_auto_schema(
     method="post",
     request_body=InstallSerializer,
@@ -72,9 +88,9 @@ def sidebar_info(request):
 def install(request):
     """This endpoint is called when an organisation wants to install the
     Noticeboard plugin for their workspace."""
-    
+
     serializer = InstallSerializer(data=request.data)
-    nHeaders=request.headers["Authorization"]
+    nHeaders = request.headers["Authorization"]
     if serializer.is_valid():
         install_payload = serializer.data
         org_id = install_payload["organisation_id"]
@@ -95,6 +111,7 @@ def install(request):
         print(installed)
         if installed["status"] == 200:
 
+            create_plugin_room(org_id, user_id)
 
             return Response(
                 {
@@ -202,6 +219,31 @@ def get_room(request, org_id):
             data["data"] = {}
         return Response(data)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "successfully deleted bookmarked notice",
+        404: "could not delete bookmarked notice",
+    },
+)
+@api_view(["DELETE"])
+def delete_room(request, org_id, obj_id):
+    """This endpoint enables a user delete a room."""
+    if request.method == "DELETE":
+        deleted_room = db.delete(org_id, "noticeboard_room", obj_id)
+
+        if deleted_room["status"] == 200:
+            return Response(
+                {"message": "successfully deleted room"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "could not delete room"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -849,62 +891,22 @@ class MembersOfRoom(views.APIView):
 
 
 @api_view(["GET"])
-def search_suggestions(request, org_id):
-    
-    if request.method == "GET":
-         notices = db.read("noticeboard", org_id)["data"]
-    
-         data = {}
-        
-         for notice in notices:
-                data[notice["title"]] = notice["title"]
-                
-                
-    return Response(
-        {
-            "status": "ok",
-            "type": "suggestions",
-            "total_count": len(data),
-            "data": data,
-        },
-        status=status.HTTP_200_OK,
-    )
-
-    # except Exception as e:
-    #     print(e)
-    #     return Response(
-    #         {
-    #             "status": "ok",
-    #             "type": "suggestions",
-    #             "total_count": len(data),
-    #             "data": data,
-    #         },
-    #         status=status.HTTP_200_OK,
-    #     )
-        
-
-@api_view(["GET"])
-def noticeboard_search_view(request, org_id):
+def noticeboard_search_view(request, org_id, member_id):
     """
     This view returns search results.
     """
     if request.method == "GET":
-        # user_id = request.query_params.get("user_id")
-        
-        
-        key = request.query_params.get("q") or []
-        filters = request.query_params.getlist("filter", [])
-        paginate_by = request.query_params.get("limit", 20)
-        paginator = SearchPagination()
-        paginator.page_size = paginate_by
+        search_filter = request.query_params.get("filter") or ""
+        page = request.query_params.get("page", 1)
+        paginate_by = request.query_params.get("paginate_by", 2)
+        search_query = request.query_params.get("q") or ""
 
-        key_word = key
-        #key_word = request.query_params.get("key") or []
-        if key_word:
-            key_word = re.split("[;,\s]+", key_word)
+        key_word = []
+        if search_query:
+            key_word = re.split("[;,\s]+", search_query)
 
         # search result notices
-        notices_response = db.read("noticeboard", org_id)
+        notices_response = db.read("noticeboard", org_id, {})
         search_result_notices = []
 
         if notices_response["status"] == 200 and notices_response["data"]:
@@ -914,91 +916,141 @@ def noticeboard_search_view(request, org_id):
                 if all(word.lower() in message for word in key_word):
                     search_result_notices.append(notice)
 
-            # # searching through reminders
-            # reminders = db.read("reminders", org_id, {"user_id": user_id})["data"]
-            # search_result_reminder = []
+            # pagination operations
+            paginator = Paginator(search_result_notices, paginate_by)
+            page_obj = paginator.get_page(page)
 
-            # for reminder in reminders:
-            #     title = reminders["title"].lower()
-            #     if all(word.lower() in title for word in key_word):
-            #         search_result_reminder.append(reminder)
-
-        #     paginate_by = request.query_params.get("paginate_by", 20)
-        #     paginator = Paginator(search_result_notices, paginate_by)
-        #     page_num = request.query_params.get("page", 1)
-        #     page_obj = paginator.get_page(page_num)
-        #     Query = request.query_params.get("key") or []
-        #     paginated_data = {
-        #         "status": "ok",
-        #         "pagination": {
-        #             "total_count": paginator.count,
-        #             "current_page": page_obj.number,
-        #             "per_page": paginate_by,
-        #             "page_count": paginator.num_pages,
-        #             "first_page": 1,
-        #             "last_page": paginator.num_pages,
-        #         },
-        #         "plugin": "Noticeboard",
-        #         "Query": Query,
-        #         "data": list(page_obj),
-        #         "filter_sugestions": {"in": [], "from": []},
-        #     }
-
-        #     return Response({"data": paginated_data}, status=status.HTTP_200_OK)
-        # return Response(
-        #     {"error": notices_response["message"]}, status=notices_response["status"]
-        # )
-        
-        result = paginator.paginate_queryset(search_result_notices, request)
-        #print(result)
-        return paginator.get_paginated_response(
-                result, key, filters, request
+            # response formatting operations
+            url_path = f"https://noticeboard.zuri.chat/api/v1/search/{org_id}/{member_id}?q={search_query}&filter={search_filter}&"
+            next_page_url = (
+                url_path + f"page={page_obj.next_page_number()}"
+                if page_obj.has_next()
+                else None
             )
-        
-       
+            previous_page_url = (
+                url_path + f"page={page_obj.previous_page_number()}"
+                if page_obj.has_previous()
+                else None
+            )
 
-        
-        
+            search_data = [
+                {
+                    "_id": obj["_id"],
+                    "title": obj["title"],
+                    "content": obj["message"],
+                    "created_by": obj["author_name"],
+                    "images_url": obj["media"],
+                    "created_at": obj["created"],
+                    "destination_url": "https://zuri.chat/noticeboard",
+                }
+                for obj in list(page_obj)
+            ]
+
+            paginated_data = {
+                "status": "ok",
+                "title": "Notice Search",
+                "description": "Results for notices",
+                "pagination": {
+                    "total_results": paginator.count,
+                    "page_size": paginate_by,
+                    "current_page": page_obj.number,
+                    "first_page": 1,
+                    "last_page": paginator.num_pages,
+                    "next": next_page_url,
+                    "previous": previous_page_url,
+                },
+                "search_parameters": {
+                    "query": search_query,
+                    "filters": [search_filter],
+                    "plugin": "Noticeboard",
+                },
+                "results": {"entity": "others", "data": search_data},
+            }
+
+            return Response({"data": paginated_data}, status=status.HTTP_200_OK)
+        return Response(
+            {"error": notices_response["message"]}, status=notices_response["status"]
+        )
+
+
+@api_view(["GET"])
+def search_suggestions(request, org_id):
+    """Returns search suggestion"""
+
+    if request.method == "GET":
+        notices = db.read("noticeboard", org_id)["data"]
+
+        data = {}
+
+    try:
+        for notice in notices:
+            data[notice["message"]] = notice["message"]
+
+        return Response(
+            {
+                "status": "ok",
+                "type": "suggestions",
+                "total_count": len(data),
+                "data": data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return Response(
+            {
+                "status": "ok",
+                "type": "suggestions",
+                "total_count": len(data),
+                "data": data,
+            }
+        )
 
 
 class SearchPagination(pagination.PageNumberPagination):
-    def get_last_page(self,count,size):
+    """Endpoint is used for search pagination"""
+
+    def get_last_page(self, count, size):
+        """Returns the last page"""
         if size > count:
             return 1
         return count // size
-    
-    
+
     def get_paginated_response(self, data, query, filters, request):
-        pagination_dict = OrderedDict([
-            ('total_results', self.page.paginator.count),
-            ('page_size', self.get_page_size(request)),
-            ('current_page', self.get_page_number(request, self.page.paginator)),
-            ('first_page', 1),
-            ('last_page',self.get_last_page(self.page.paginator.count, self.get_page_size(request))),
-            ('next', self.get_next_link()),
-            ('previous', self.get_previous_link()), 
-        ])
-        
-        search_parameters = OrderedDict([
-            ('query', query),
-            ('filters',filters),
-            ('plugin',"Noticeboard")
-        ])
-        
-        results = OrderedDict([
-            ("entity","message"),
-            ("data",(data))
-        ])
-        
-        return Response(OrderedDict([
-            ('status', "ok"),
-            ('title',"Noticeboard Search"),
-            ('description','Results for notices'),
-            ('pagination',pagination_dict), 
-            ('search_parameters',search_parameters),
-            ('results', results),            
-        ]))
+        """Returns pagination response"""
+        pagination_dict = OrderedDict(
+            [
+                ("total_results", self.page.paginator.count),
+                ("page_size", self.get_page_size(request)),
+                ("current_page", self.get_page_number(request, self.page.paginator)),
+                ("first_page", 1),
+                (
+                    "last_page",
+                    self.get_last_page(
+                        self.page.paginator.count, self.get_page_size(request)
+                    ),
+                ),
+                ("next", self.get_next_link()),
+                ("previous", self.get_previous_link()),
+            ]
+        )
 
+        search_parameters = OrderedDict(
+            [("query", ""), ("filters", filters), ("plugin", "Noticeboard")]
+        )
 
+        results = OrderedDict([("entity", "message"), ("data", ([]))])
 
-
+        return Response(
+            OrderedDict(
+                [
+                    ("status", "ok"),
+                    ("title", "Noticeboard Search"),
+                    ("description", "Results for notices"),
+                    ("pagination", pagination_dict),
+                    ("search_parameters", search_parameters),
+                    ("results", results),
+                ]
+            )
+        )

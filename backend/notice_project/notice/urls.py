@@ -27,7 +27,8 @@ from .views import (
     sidebar_info,
     MembersOfRoom,
     noticeboard_search_view,
-    search_suggestions
+    search_suggestions,
+    delete_room,
 )
 
 schema_view = get_schema_view(
@@ -44,6 +45,7 @@ urlpatterns = [
     path("install", install, name="install"),
     path("uninstall", uninstall, name="uinstall"),
     path("organisation/<str:org_id>/user/<str:user_id>/room", create_room),
+    path("organisation/<str:org_id>/room/<str:obj_id>/delete", delete_room),
     path("organisation/<str:org_id>/create", create_notice_view),
     path("organisation/<str:org_id>/create-reminder", NoticeReminder.as_view()),
     path("organisation/<str:org_id>/view-reminder", view_notice_reminder),
@@ -67,6 +69,8 @@ urlpatterns = [
         delete_notice,
         name="delete-notice",
     ),
+    path("search/<str:org_id>/<str:member_id>", noticeboard_search_view),
+    path("search-suggestions/<str:org_id>/", search_suggestions),
     path(
         "organisation/<str:org_id>/user/<str:user_id>/bookmark",
         bookmark_notice,
@@ -94,13 +98,9 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    
-    path("search/<str:org_id>/", noticeboard_search_view),
-    
-    path("search-suggestions/<str:org_id>/", search_suggestions)
-    
 ]
 
+# path("search/<str:org_id>/", noticeboard_search_view),
 # newly added due to sidebar task -- start
 # path('add_user', add_user, name='add_user'),
 

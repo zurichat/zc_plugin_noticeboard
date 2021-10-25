@@ -10,6 +10,8 @@ import { UserContext } from "../../Data-fetcing";
 import Parcel from "single-spa-react/parcel";
 import { pluginHeader } from "@zuri/plugin-header";
 
+import axios from "axios";
+
 function ZuriGlobalHeader() {
   const [openModal, setOpenModal] = useState(false);
   const { allUsers, setAllUsers } = useContext(UserContext);
@@ -19,6 +21,10 @@ function ZuriGlobalHeader() {
   const toggleNotificationTab = () => {
     setNotificationTab(!notificationTab);
   };
+
+  useEffect(() => {
+    getAllUsers();
+  }, [userData]);
 
   const getAllUsers = async () => {
     try {
@@ -33,34 +39,144 @@ function ZuriGlobalHeader() {
       );
       let data = await response.json();
       setAllUsers(data.data);
+      console.log(data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const headerConfig = {
-    name: "NOTICEBOARD", //Name on header
-    icon: NoticeboardIcon, //Image on header
-    thumbnailUrl: [
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-      "https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg",
-      "https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png",
-    ], //Replace with images of users
-    userCount: allUsers?.length, //User count on header
-    eventTitle: () => {
-      //Block of code to be triggered on title click
-    },
-    eventThumbnail: () => {
-      //Block of code to be triggered on thumbnail click
-      setOpenModal(true);
-      console.log(allUsers[0].image_url);
-    },
-    hasThumbnail: true, //set false if you don't want thumbnail on the header
+  const [roomDetails, setRoomDetails] = useState([]);
+
+  /* Room Information api*/
+  const api = axios.create({
+    baseURL: "https://noticeboard.zuri.chat/api/v1",
+  });
+
+  const org_Id = localStorage.getItem("currentWorkspace");
+
+  const getRoomDetails = async () => {
+    try {
+      const res = await api.get(`/organisation/${org_Id}/get-room`);
+
+      let data = await res.data;
+
+      let roomApi = data.data[0];
+
+      setRoomDetails(roomApi);
+      // console.log(roomApi, roomApi.room_id, roomApi.room_member_id[0]);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
-    getAllUsers();
-  }, [userData]);
+    getRoomDetails();
+  }, []);
+
+  /* add member api*/
+  // room object
+  const member_id = userData?._id;
+
+  const room_id = roomDetails.room_id;
+
+  const room_length = roomDetails.room_member_id?.length;
+
+  const users =
+    allUsers?.map((user) => ({
+      _id: user._id,
+      email: user.email,
+    })) ?? [];
+
+  const members = roomDetails.room_member_id;
+
+  const getRoomMembersById = (member_ids) => {
+    return users
+      .filter((user) => member_ids.includes(user._id))
+      .map((member) => ({
+        _id: member._id,
+        email: member.email,
+      }));
+  };
+
+  // const membersList = users
+  //   .filter((user) => members.find((id) => id === user._id))
+  //   .map((member) => ({
+  //     _id: member._id,
+  //     email: member.email,
+  //   }));
+
+  let membersList = getRoomMembersById(members);
+
+  const headerConfig = {
+    name: "NOTICEBOARD", //Name on header
+    icon: NoticeboardIcon, //Image on header
+    thumbnailUrl: [], //Replace with images of users
+    userCount: room_length, //User count on header
+    hasThumbnail: true, //set false if you don't want thumbnail on the header
+    roomInfo: {
+      membersList: membersList,
+      addmembersevent(values) {
+        const member_ids = values.map((value) => value.value);
+
+        const payload = {
+          room_id,
+          member_ids,
+        };
+
+        const addToRoom = async () => {
+          try {
+            const res = await api.post(
+              `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
+              payload
+            );
+
+            const newRoomMembers = getRoomMembersById(member_ids);
+            membersList = [...newRoomMembers, ...membersList];
+
+            headerConfig.userCount = membersList.length;
+            headerConfig.roomInfo.membersList = [...membersList];
+            console.log(membersList);
+            return res;
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        addToRoom();
+      },
+      removememberevent(id) {
+        const member_ids = [id];
+
+        const payload = {
+          room_id,
+          member_ids,
+        };
+
+        const removeFromRoom = async () => {
+          try {
+            const res = await api.patch(
+              `/organisation/${org_Id}/room/${room_id}/members/${member_id}`,
+              payload
+            );
+            console.log(res);
+
+            membersList = membersList.filter(
+              (member) => !member_ids.includes(member._id)
+            );
+            headerConfig.userCount = membersList.length;
+            headerConfig.roomInfo.membersList = [...membersList];
+
+            console.log(membersList);
+            return res;
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        removeFromRoom();
+      },
+    },
+  };
 
   return (
     <div className="zuriMain-header">
@@ -71,16 +187,6 @@ function ZuriGlobalHeader() {
         headerConfig={headerConfig}
       />
 
-      {openModal ? (
-        <AddUsers
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-          notice={true}
-        />
-      ) : (
-        ""
-      )}
-
       <div className="noNotification-container">
         <img
           src={noNotification}
@@ -88,7 +194,6 @@ function ZuriGlobalHeader() {
           onClick={toggleNotificationTab}
         />
       </div>
-
       {notificationTab && <NotificationTab />}
     </div>
   );
@@ -114,64 +219,3 @@ const NotificationTab = () => {
 };
 
 export default ZuriGlobalHeader;
-
-// return (
-//   <div className="noticeboard-header">
-//     <div className="noticeboard-header-container">
-//       <div className="heading">Notice Board</div>
-//   {
-//      openModal ? <AddUsers setOpenModal={setOpenModal} openModal={openModal} notice={true}/> : ""
-//   }
-
-//       <AvatarGroup className="members-avatars-grp" onClick={()=> setOpenModal(true)}>
-//         {/* <AddIcon onClick={()=> setOpenModal(true)}/> */}
-//         <div className="avatar-wrap">
-//           <div className="avatar">
-//             <img src={Member4} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member3} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member2} alt="avatar" />
-//           </div>
-
-//           <div className="avatar">
-//             <img src={Member1} alt="avatar" />
-//           </div>
-//         </div>
-
-//          <div className="member-total-count">{allUsers?.length}</div>
-//       </AvatarGroup>
-//     </div>
-//   </div>
-// );
-// }
-
-// export default NoticeBoardHeader;
-
-// const AddUserButton = styled.button`
-//   color: white;
-//   background-color: #00bb7c;
-//   padding: 1em;
-//   font-size: 16px;
-//   line-height: 24px;
-//   border-radius: 2px;
-//   margin-top: 1.5em;
-//   //width: 10em;
-//   outline: none;
-//   border: 0;
-
-//   @media (max-width: ${500}px) {
-//     //width: 100%;
-//   }
-// `;
-
-// const AvatarGroup = styled.div`
-// &:hover{
-//   cursor: pointer;
-//   opacity: 0.5
-// }
-// `;
