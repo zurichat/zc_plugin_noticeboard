@@ -63,6 +63,22 @@ def sidebar_info(request):
     )
 
 
+def create_plugin_room(org_id, user_id):
+    """Function that creates a Noticeboard room"""
+    room = db.read("noticeboard_room", org_id)
+    if room["status"] == 200:
+        if room["data"] is not None:
+            room = room["data"][0]
+        else:
+            serializer = NoticeboardRoom(data={"room_name": "Noticeboard"})
+            if serializer.is_valid():
+                room = serializer.data
+                room.update({"is_admin": user_id})
+                if user_id not in room["room_member_id"]:
+                    room.update({"room_member_id": [user_id]})
+                    db.save("noticeboard_room", org_id, notice_data=room)
+
+
 @swagger_auto_schema(
     method="post",
     request_body=InstallSerializer,
@@ -94,6 +110,8 @@ def install(request):
         installed = json.loads(response.text)
         print(installed)
         if installed["status"] == 200:
+
+            create_plugin_room(org_id, user_id)
 
             return Response(
                 {
@@ -201,6 +219,31 @@ def get_room(request, org_id):
             data["data"] = {}
         return Response(data)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200: "successfully deleted bookmarked notice",
+        404: "could not delete bookmarked notice",
+    },
+)
+@api_view(["DELETE"])
+def delete_room(request, org_id, obj_id):
+    """This endpoint enables a user delete a room."""
+    if request.method == "DELETE":
+        deleted_room = db.delete(org_id, "noticeboard_room", obj_id)
+
+        if deleted_room["status"] == 200:
+            return Response(
+                {"message": "successfully deleted room"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "could not delete room"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
