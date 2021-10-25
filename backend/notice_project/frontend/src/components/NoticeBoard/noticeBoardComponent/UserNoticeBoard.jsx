@@ -29,12 +29,12 @@ const UserNotice = () => {
     fetchNotices();
   }, []);
 
-  const org_ID = userData?.org_id;
+  const org_Id = localStorage.getItem("currentWorkspace");
 
-  console.log(org_ID, "Miss");
+  console.log(org_Id, "Miss");
 
   const fetchNotices = () => {
-    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_ID}/notices`)
+    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/notices`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           return res.json();
@@ -57,7 +57,7 @@ const UserNotice = () => {
   let user = JSON.parse(sessionStorage.getItem("user"));
   const fetchBookmarked = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/user/${user.id}/bookmark`
     )
       .then((res) => res.json())
       .then((data) => {
