@@ -1,16 +1,13 @@
-import React, { useEffect, useContext, useState } from "react";
-import notice from "../../../../assets/createNotice.svg";
-import noNotice from "../../../../assets/svg/no_notices.svg";
-import "./bookmark-notice.css";
-import CardComponent from "../../noticeBoardComponent/CardComponent";
-import { Button } from "@material-ui/core";
-import logo from "../../../../assets/svg/logo.svg";
-import { withRouter, Link, history } from "react-router-dom";
-import { UserInfoContext } from "../../../../App";
-import { UserContext } from "../../../../Data-fetcing";
-import { DataContext } from "../../../../App";
+import React, { useEffect, useContext, useState } from 'react';
+import { Button } from '@material-ui/core';
+import './bookmark-notice.css';
+import { withRouter, Link } from 'react-router-dom';
+import CardComponent from '../CardComponent';
+import logo from '../../../../assets/svg/logo.svg';
+import { UserInfoContext } from '../../../../App';
+import { UserContext } from '../../../../Data-fetcing';
 
-import { BookmarkContext } from "../BookmarkContext";
+import noNotice from '../../../../assets/svg/no_notices.svg';
 
 const BookmarkedNotices = (props) => {
   const {
@@ -23,9 +20,7 @@ const BookmarkedNotices = (props) => {
     toggleBookmark,
   } = useContext(UserContext);
 
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
-  let user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const userData = useContext(UserInfoContext);
   // const { notice } = useContext(BookmarkContext);
   const [result, setResult] = useState();
@@ -33,13 +28,15 @@ const BookmarkedNotices = (props) => {
   const [notice, setNotice] = useState();
   const [bookmarkID, setBookmarkID] = useState();
 
+  const currentWorkspace = localStorage.getItem('currentWorkspace');
+
   const fetchBookmarked = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_id}/user/${user.id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${currentWorkspace}/user/${user.id}/bookmark`,
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === "success") {
+        if (data.message === 'success') {
           setBookmarked(data);
         } else {
           setLoading(false);
@@ -52,36 +49,24 @@ const BookmarkedNotices = (props) => {
     fetchBookmarked();
 
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${currentWorkspace}/notices`,
     )
-      .then((res) => {
-        if (res.status >= 200 && res.status <= 299) {
-          return res.json();
-        } else {
-          return;
+      .then((data) => {
+        if (data.status >= 200 && data.status <= 299) {
+          setNotice(data.data);
         }
       })
-      .then((data) => {
-        // setLoading(false);
-        setNotice(data.data);
-      })
-      .catch((error) => console.log(error));
+      .catch((error) => error.statusText);
   }, [toggleBookmark]);
 
   useEffect(() => {
     if (notice && bookmarked) {
       setLoading(false);
-      const filteredBookmark = notice?.filter((elem) => {
-        return bookmarked?.data.some((f) => {
-          return elem?._id === f?.notice_id;
-        });
-      });
+      const filteredBookmark = notice
+        ?.filter((elem) => bookmarked?.data.some((f) => elem?._id === f?.notice_id));
 
-      const filteredID = bookmarked?.data?.filter((elem) => {
-        return notice?.some((f) => {
-          return elem?.notice_id === f?._id;
-        });
-      });
+      const filteredID = bookmarked
+        ?.data?.filter((elem) => notice?.some((f) => elem?.notice_id === f?._id));
 
       if (filteredBookmark) {
         setResult(filteredBookmark);
@@ -95,7 +80,7 @@ const BookmarkedNotices = (props) => {
       <div className="preloader">
         <img className="logo" src={logo} alt="logo" />
         <h1 className="isLoading">Loading...</h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -106,11 +91,15 @@ const BookmarkedNotices = (props) => {
         <img className="logo" src={logo} alt="logo" />
         <h1
           className="isError"
-          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
+          style={{
+            color: 'red',
+            fontSize: '1.5rem',
+            marginTop: '100px',
+          }}
         >
           Error. Try refreshing your browser
         </h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -131,7 +120,8 @@ const BookmarkedNotices = (props) => {
             variant="contained"
             disableRipple
           >
-            Back <img src={notice} alt="Admin notice" />
+            Back
+            <img src={notice} alt="Admin notice" />
           </Button>
         </div>
         <div className="no-notice">
@@ -160,13 +150,7 @@ const BookmarkedNotices = (props) => {
         </div>
         <Button
           className="header-button"
-          onClick={() =>
-            props.history.push(
-              userData?.role === "owner"
-                ? "/noticeboard/admin-notice"
-                : "/noticeboard/user-notice"
-            )
-          }
+          onClick={() => props.history.push(userData?.role === 'owner' ? '/noticeboard/admin-notice' : '/noticeboard/user-notice')}
           variant="contained"
           disableRipple
         >
@@ -177,24 +161,20 @@ const BookmarkedNotices = (props) => {
 
       <section className="adminNotice-section">
         {searchText
-          ? filteredNotice?.map((person) => {
-              return (
-                <CardComponent
-                  bookmarkID={bookmarkID}
-                  person={person}
-                  key={person._id}
-                />
-              );
-            })
-          : result?.map((person) => {
-              return (
-                <CardComponent
-                  bookmarkID={bookmarkID}
-                  person={person}
-                  key={person._id}
-                />
-              );
-            })}
+          ? filteredNotice?.map((person) => (
+            <CardComponent
+              bookmarkID={bookmarkID}
+              person={person}
+              key={person._id}
+            />
+          ))
+          : result?.map((person) => (
+            <CardComponent
+              bookmarkID={bookmarkID}
+              person={person}
+              key={person._id}
+            />
+          ))}
       </section>
 
       <Link to="/noticeboard/old-notices">
