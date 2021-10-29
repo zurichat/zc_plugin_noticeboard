@@ -16,7 +16,7 @@ module.exports = {
     'react/prop-types': 'off',
     'no-underscore-dangle': 'off',
     'import/no-cycle': 'off',
-    'linebreak-style': ['error', process.env.NODE_ENV === 'prod' ? 'unix' : 'windows'],
     'no-use-before-define': ['error', { functions: true, classes: true }],
+    'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
   },
 };

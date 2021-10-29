@@ -1,9 +1,9 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
-import DialogComponent from './DialogComponent'
-import SuccessIcon from './assets/success.svg'
+import DialogComponent from './DialogComponent';
+import SuccessIcon from './assets/success.svg';
 
 const useStyles = makeStyles({
   button: {
@@ -11,18 +11,18 @@ const useStyles = makeStyles({
     color: 'white',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor: '#00B87C'
-    }
-  }
-})
+      backgroundColor: '#00B87C',
+    },
+  },
+});
 
-export default function SuccessDialog ({ open, handleClose, type }) {
-  const classes = useStyles()
-  const { push } = useHistory()
+export default function SuccessDialog({ open, handleClose, type }) {
+  const classes = useStyles();
+  const { push } = useHistory();
 
   const handleOnClick = () => {
-    push('/noticeboard/admin-notice')
-  }
+    push('/noticeboard/admin-notice');
+  };
 
   return (
     <div>
@@ -33,8 +33,8 @@ export default function SuccessDialog ({ open, handleClose, type }) {
         imgIcon={SuccessIcon}
         text={!type ? 'Notice Created' : 'Notice Edited'}
         buttonStyles={classes.button}
-        buttonText='Go to notices'
+        buttonText="Go to notices"
       />
     </div>
-  )
+  );
 }
