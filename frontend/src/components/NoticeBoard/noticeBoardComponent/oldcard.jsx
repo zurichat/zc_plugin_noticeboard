@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
-import Pagination from "./pagination";
-import "./oldNotices.css";
-import Card from "../Card";
-import OldNoticeHeader from "./oldNoticeHeader";
-import { UserContext } from "../../../../Data-fetcing";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useContext,
+} from 'react';
+import Pagination from './Old_Notices/pagination';
+import './Old_Notices/oldNotices.css';
+import Card from './Card';
+import OldNoticeHeader from './Old_Notices/oldNoticeHeader';
+import { UserContext } from '../../../Data-fetcing';
 
 function OldNotices() {
-  // const [people, setPeople] = useState([]);
   const [loading, isLoading] = useState(true);
 
-  //setting state for pagination
-  const {oldnotices, setOldnotices} = useContext(UserContext);
-  const [filteredNotices, setFilteredNotices] = useState([]);
+  // setting state for pagination
+  const { oldnotices, setOldnotices } = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
-  let PageSize = 9;
+  const PageSize = 9;
 
   // filtering notices
   const date = new Date();
@@ -26,28 +29,28 @@ function OldNotices() {
     prevDate = 1;
   }
 
+  // retrieving notices
+  const getNotices = async () => {
+    const response = await fetch(
+      'https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices',
+    );
+    const data = await response.json();
+    setOldnotices(data.data);
+    // console.log(currentDate);
+  };
+
   useEffect(() => {
     // setPeople(notices);
     isLoading(false);
     getNotices();
   }, []);
 
-  //retrieving notices
-  const getNotices = async () => {
-    const response = await fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices`
-    );
-    const data = await response.json();
-    setOldnotices(data.data);
-    console.log(currentDate)
-  };
-
   const currentNoticeData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
 
     const filteredNotices = oldnotices.filter(
-      (notice) => prevDate <= notice.created.slice(8, 10)
+      (notice) => prevDate <= notice.created.slice(8, 10),
     );
 
     return filteredNotices.slice(firstPageIndex, lastPageIndex);
@@ -57,7 +60,7 @@ function OldNotices() {
     return (
       <div className="preloader">
         <h1 className="isLoading">Loading...</h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -67,15 +70,15 @@ function OldNotices() {
       <div className="old-notice-container">
         <OldNoticeHeader />
         <section className="adminNotice-section">
-          {currentNoticeData.map((notice, index) => {
-            return <Card person={notice} key={index} />;
-          })}
+          {currentNoticeData.map((notice) => (
+            <Card person={notice} key={notice._id} />
+          ))}
         </section>
         <Pagination
           totalCount={oldnotices.length}
           pageSize={PageSize}
           currentPage={currentPage}
-          onPageChange={(currentPage) => setCurrentPage(currentPage)}
+          onPageChange={() => setCurrentPage(currentPage)}
         />
       </div>
     </>
