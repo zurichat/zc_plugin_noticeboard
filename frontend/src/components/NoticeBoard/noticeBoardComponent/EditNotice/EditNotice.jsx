@@ -1,93 +1,79 @@
-import React, { useState, useEffect, useContext } from "react";
-
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-
-import draftToMarkdown from "draftjs-to-markdown";
+import React, { useState, useEffect, useContext } from 'react';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+import draftToMarkdown from 'draftjs-to-markdown';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   EditorState,
   convertToRaw,
-  convertFromRaw,
   ContentState,
-} from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-
-import { useFormik } from "formik";
-
+} from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { useFormik } from 'formik';
 import bold from '../Text-editor/icons/bold.svg';
-import italic from '../Text-editor/icons/italic.svg'
-import justify from '../Text-editor/icons/justify.svg'
-import left from '../Text-editor/icons/left.svg'
-import link from '../Text-editor/icons/link.svg'
-import middle from '../Text-editor/icons/middle.svg'
-import monospace from '../Text-editor/icons/monospace.svg'
-import ol from '../Text-editor/icons/ol.svg'
-import right from '../Text-editor/icons/right.svg'
-import smiley from '../Text-editor/icons/smiley.svg'
-import strikethrough from '../Text-editor/icons/strikethrough.svg'
-import subscript from '../Text-editor/icons/subscript.svg'
-import superscript from '../Text-editor/icons/superscript.svg'
-import ul from '../Text-editor/icons/ul.svg'
-import underline from '../Text-editor/icons/underline.svg'
-import indent from '../Text-editor/icons/indent.svg'
-import outdent from '../Text-editor/icons/outdent.svg'
-
-
-import imageIcon from "../Text-editor/icons/attachment.svg";
-import ErrorDialog from "../CreateNoticeDialogs/ErrorDialog";
-import SuccessDialog from "../CreateNoticeDialogs/SuccessDialog";
-import { DataContext } from "../../../../App";
-
-import {
-  MentionAdder,
-  ToggleToolbar,
-} from "../Text-editor/Text_editor_features";
-import "../../noticeBoardComponent/Text-editor/Text-editor.css";
-
-import logo from "../../../../assets/svg/logo.svg";
-
-import "../EditNotice/editNotice.css";
-import { useHistory } from "react-router";
-import { useParams } from "react-router-dom";
-import { UserContext } from "../../../../Data-fetcing";
+import italic from '../Text-editor/icons/italic.svg';
+import justify from '../Text-editor/icons/justify.svg';
+import left from '../Text-editor/icons/left.svg';
+import link from '../Text-editor/icons/link.svg';
+import middle from '../Text-editor/icons/middle.svg';
+import monospace from '../Text-editor/icons/monospace.svg';
+import ol from '../Text-editor/icons/ol.svg';
+import right from '../Text-editor/icons/right.svg';
+import smiley from '../Text-editor/icons/smiley.svg';
+import strikethrough from '../Text-editor/icons/strikethrough.svg';
+import subscript from '../Text-editor/icons/subscript.svg';
+import superscript from '../Text-editor/icons/superscript.svg';
+import ul from '../Text-editor/icons/ul.svg';
+import underline from '../Text-editor/icons/underline.svg';
+import indent from '../Text-editor/icons/indent.svg';
+import outdent from '../Text-editor/icons/outdent.svg';
+import imageIcon from '../Text-editor/icons/attachment.svg';
+import ErrorDialog from '../CreateNoticeDialogs/ErrorDialog';
+import SuccessDialog from '../CreateNoticeDialogs/SuccessDialog';
+// import { DataContext } from '../../../../App';
+// eslint-disable-next-line import/named
+import { MentionAdder, ToggleToolbar } from '../Text-editor/Text_editor_features';
+import '../Text-editor/Text-editor.css';
+import logo from '../../../../assets/svg/logo.svg';
+import './editNotice.css';
+import { UserContext } from '../../../../Data-fetcing';
 
 const useStyles = makeStyles((theme) => ({
   headerText: {
     flexGrow: 1,
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "30px",
-    [theme.breakpoints.down("md")]: {
-      display: "flex",
-      justifyContent: "flex-start",
-      fontSize: "30px",
+    alignItems: 'center',
+    fontWeight: 'bold',
+    fontSize: '30px',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      fontSize: '30px',
     },
   },
   header: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   page: {
-    backgroundColor: "white",
-    [theme.breakpoints.down("md")]: {
-      padding: "30px 20px 0px 20px",
+    backgroundColor: 'white',
+    [theme.breakpoints.down('md')]: {
+      padding: '30px 20px 0px 20px',
     },
   },
   form: {
     margin: theme.spacing(1),
   },
   formControl: {
-    width: "100%",
+    width: '100%',
   },
   button: {
-    color: "white",
+    color: 'white',
   },
   recipient: {
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
 }));
@@ -96,23 +82,19 @@ const maxChars = 1000;
 
 const EditNotice = () => {
   const history = useHistory();
-  let { currentNoticeID } = useParams();
+  const { currentNoticeID } = useParams();
   const classes = useStyles();
-  const [oldTitle, setOldTitle] = useState("");
-  const [errorTitle, setErrorTitle] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [oldTitle, setOldTitle] = useState('');
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState(false);
-  const [editorState, setEditorState] = useState(() => {
-    return EditorState.createEmpty();
-  });
-
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  // const _globalData = useContext(DataContext);
+  // const org_id = _globalData.Organizations[0];
   const { selectedNotice } = useContext(UserContext);
-
   const handleCloseErrorDialog = () => {
     setOpenErrorDialog(false);
   };
@@ -120,24 +102,26 @@ const EditNotice = () => {
   const handleCloseSuccessDialog = () => {
     setOpenSuccessDialog(false);
   };
-
-  const onEditorStateChange = (editorState) => {
+  const onEditorStateChange = () => {
     setEditorState(editorState);
-    setErrorMessage("");
-    document.getElementById("messageError").innerHTML = "";
+    setErrorMessage('');
+    document.getElementById('messageError').innerHTML = '';
   };
-  const orgId = "614679ee1a5607b13c00bcb7";
-  const onSubmitHandler = async (values, noticeID) => {
-    if (formik.values.title === "") {
+  // const orgId = '614679ee1a5607b13c00bcb7';
+  // eslint-disable-next-line consistent-return
+  const onSubmitHandler = async (values) => {
+    // eslint-disable-next-line no-use-before-define
+    if (formik.values.title === '') {
       return (
-        setErrorMessage("Field cannot be empty"),
-        setErrorTitle("Field cannot be empty")
+        setErrorMessage('Field cannot be empty'),
+        setErrorTitle('Field cannot be empty')
       );
     }
     setLoading(true);
     try {
+      // eslint-disable-next-line no-use-before-define
       formik.values.message = draftToMarkdown(
-        convertToRaw(editorState.getCurrentContent())
+        convertToRaw(editorState.getCurrentContent()),
       );
       const formValues = {
         title: values.title,
@@ -147,14 +131,14 @@ const EditNotice = () => {
       fetch(
         `https://noticeboard.zuri.chat/api/v1/organisation/614679ee1a5607b13c00bcb7/notices/${selectedNotice._id}/edit`,
         {
-          headers: { "Content-Type": "application/json" },
-          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          method: 'PUT',
           body: JSON.stringify(formValues),
-        }
+        },
       ).then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           setTimeout(() => {
-            history.push("/noticeboard/admin-notice");
+            history.push('/noticeboard/admin-notice');
           }, 2000);
           setLoading(false);
         }
@@ -166,10 +150,11 @@ const EditNotice = () => {
     }
   };
 
+  // eslint-disable-next-line consistent-return
   const _handleBeforeInput = (input) => {
     const inputLength = editorState.getCurrentContent().getPlainText().length;
     if (input && inputLength >= maxChars) {
-      return "handled";
+      return 'handled';
     }
   };
 
@@ -182,12 +167,12 @@ const EditNotice = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
+      title: '',
     },
     onSubmit: (values, actions) => {
       onSubmitHandler(values, currentNoticeID);
       actions.resetForm({
-        title: "",
+        title: '',
       });
     },
   });
@@ -197,7 +182,7 @@ const EditNotice = () => {
       <div className="preloader">
         <img className="logo" src={logo} alt="logo" />
         <h1 className="isLoading">Loading...</h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -248,7 +233,7 @@ const EditNotice = () => {
                 }}
                 // helperText="You can type 30 characters or less"
               />
-              <p id="titleError" style={{ color: "red", fontSize: "14px" }}>
+              <p id="titleError" style={{ color: 'red', fontSize: '14px' }}>
                 {errorTitle}
               </p>
             </Box>
@@ -257,73 +242,6 @@ const EditNotice = () => {
             <Box pb="10px">
               <Box fontWeight="fontWeightBold">Message:</Box>
             </Box>
-            {/* <Editor
-                            placeholder="Enter the content of your notice(Max 1000)"
-                            wrapperClassName="text-editor"
-                            editorClassName="textarea"
-                            toolbarClassName="toolbarClass"
-                            editorState={editorState}
-                            onEditorStateChange={onEditorStateChange}
-                            handleBeforeInput={_handleBeforeInput}
-                            // handlePastedText={handlePastedText}
-                            toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
-                            toolbar={{
-                                options: [
-                                    "fontSize",
-                                    "inline",
-                                    "list",
-                                    "textAlign",
-                                    "link",
-                                    "image",
-                                    "emoji",
-                                ],
-                                inline: {
-                                    options: ["bold", "italic", "underline", "strikethrough"],
-                                    className: "rdw-invisible",
-                                },
-                                fontSize: {
-                                    className: "rdw-invisible",
-                                },
-                                link: {
-                                    className: "rdw-invisible",
-                                    options: ["link"],
-                                },
-                                textAlign: {
-                                    className: "rdw-invisible",
-                                },
-                                list: {
-                                    className: "rdw-invisible",
-                                    options: ["unordered", "ordered"],
-                                },
-                                emoji: {},
-                                image: {
-                                    icon: imageIcon,
-                                    uploadEnabled: true,
-                                    urlEnabled: true,
-                                    // uploadCallback: this.uploadImageCallback,
-                                    inputAccept:
-                                        "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-                                },
-                            }}
-                            mention={{
-                                separator: " ",
-                                trigger: "@",
-                                suggestions: [
-                                    { text: "APPLE", value: "apple", url: "apple" },
-                                    { text: "BANANA", value: "banana", url: "banana" },
-                                    { text: "CHERRY", value: "cherry", url: "cherry" },
-                                    { text: "DURIAN", value: "durian", url: "durian" },
-                                    { text: "EGGFRUIT", value: "eggfruit", url: "eggfruit" },
-                                    { text: "FIG", value: "fig", url: "fig" },
-                                    {
-                                        text: "GRAPEFRUIT",
-                                        value: "grapefruit",
-                                        url: "grapefruit",
-                                    },
-                                    { text: "HONEYDEW", value: "honeydew", url: "honeydew" },
-                                ],
-                            }}
-                        /> */}
             <Editor
               placeholder="Enter the content of your notice(Max 1000)"
               wrapperClassName="text-editor"
@@ -336,16 +254,16 @@ const EditNotice = () => {
               toolbarCustomButtons={[<MentionAdder />, <ToggleToolbar />]}
               toolbar={{
                 options: [
-                  "fontSize",
-                  "inline",
-                  "list",
-                  "textAlign",
-                  "link",
-                  "image",
-                  "emoji",
+                  'fontSize',
+                  'inline',
+                  'list',
+                  'textAlign',
+                  'link',
+                  'image',
+                  'emoji',
                 ],
                 inline: {
-                  className: "rdw-invisible",
+                  className: 'rdw-invisible',
                   visible: true,
                   inDropdown: false,
                   bold: { visible: true, icon: bold },
@@ -357,18 +275,18 @@ const EditNotice = () => {
                   superscript: { visible: true, icon: superscript },
                 },
                 fontSize: {
-                  className: "rdw-invisible",
+                  className: 'rdw-invisible',
                 },
 
                 link: {
-                  className: "rdw-invisible",
-                  options: ["link"],
+                  className: 'rdw-invisible',
+                  options: ['link'],
                   visible: true,
                   inDropdown: false,
                   addLink: { visible: true, icon: link },
                 },
                 textAlign: {
-                  className: "rdw-invisible",
+                  className: 'rdw-invisible',
                   visible: true,
                   inDropdown: false,
                   left: { visible: true, icon: left },
@@ -377,7 +295,7 @@ const EditNotice = () => {
                   justify: { visible: true, icon: justify },
                 },
                 list: {
-                  className: "rdw-invisible",
+                  className: 'rdw-invisible',
                   visible: true,
                   inDropdown: false,
                   unordered: { visible: true, icon: ul },
@@ -395,29 +313,29 @@ const EditNotice = () => {
                   fileupload: true,
                   // uploadCallback: this.uploadImageCallback,
                   inputAccept:
-                    "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+                    'image/gif,image/jpeg,image/jpg,image/png,image/svg',
                 },
               }}
               mention={{
-                separator: " ",
-                trigger: "@",
+                separator: '',
+                trigger: '@',
                 suggestions: [
-                  { text: "APPLE", value: "apple", url: "apple" },
-                  { text: "BANANA", value: "banana", url: "banana" },
-                  { text: "CHERRY", value: "cherry", url: "cherry" },
-                  { text: "DURIAN", value: "durian", url: "durian" },
-                  { text: "EGGFRUIT", value: "eggfruit", url: "eggfruit" },
-                  { text: "FIG", value: "fig", url: "fig" },
+                  { text: 'APPLE', value: 'apple', url: 'apple' },
+                  { text: 'BANANA', value: 'banana', url: 'banana' },
+                  { text: 'CHERRY', value: 'cherry', url: 'cherry' },
+                  { text: 'DURIAN', value: 'durian', url: 'durian' },
+                  { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
+                  { text: 'FIG', value: 'fig', url: 'fig' },
                   {
-                    text: "GRAPEFRUIT",
-                    value: "grapefruit",
-                    url: "grapefruit",
+                    text: 'GRAPEFRUIT',
+                    value: 'grapefruit',
+                    url: 'grapefruit',
                   },
-                  { text: "HONEYDEW", value: "honeydew", url: "honeydew" },
+                  { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' },
                 ],
               }}
             />
-            <p id="messageError" style={{ color: "red", fontSize: "14px" }}>
+            <p id="messageError" style={{ color: 'red', fontSize: '14px' }}>
               {errorMessage}
             </p>
           </Box>
