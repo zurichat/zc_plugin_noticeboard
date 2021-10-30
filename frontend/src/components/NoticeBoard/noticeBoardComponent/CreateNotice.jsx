@@ -126,8 +126,6 @@ function CreateNotice() {
   };
 
   // Read Organization ID
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
   const should_send = true;
 
   //CREATE NOTICE API CALL STARTS

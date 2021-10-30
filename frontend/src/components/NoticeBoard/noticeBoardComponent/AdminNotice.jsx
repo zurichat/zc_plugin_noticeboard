@@ -30,7 +30,6 @@ const PinnedNotices = (props) => {
   const currentDate = date.getDate();
 
   // Read Organization ID
-  const _globalData = useContext(DataContext);
   const org_Id = localStorage.getItem("currentWorkspace");
 
   useEffect(() => {
@@ -141,8 +140,7 @@ const PinnedNotices = (props) => {
         </div>
       </div>
     );
-  }
-
+  }else{
   return (
     <div className="adminnotice">
       <div className="pinned-button-container">
@@ -177,6 +175,7 @@ const PinnedNotices = (props) => {
       </Link>
     </div>
   );
+}
 };
 
 export default withRouter(PinnedNotices);
