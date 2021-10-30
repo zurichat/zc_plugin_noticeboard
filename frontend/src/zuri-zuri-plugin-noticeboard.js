@@ -1,8 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import singleSpaReact from "single-spa-react";
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import singleSpaReact from 'single-spa-react';
 // import Root from "./root.component";
-import App from "./App";
+import App from './App';
 
 const lifecycles = singleSpaReact({
   React,

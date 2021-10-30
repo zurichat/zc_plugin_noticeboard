@@ -1,67 +1,72 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
-import CardNotice from "./CardNotice";
-import "./UserNoticeBoard.css";
-import UserNoticeModal from "./UserNoticeModal";
-import { DataContext } from "../../../App";
-import { UserContext } from "../../../Data-fetcing";
-import logo from "../../../assets/svg/logo.svg";
-import noNotice from "../../../assets/svg/no_notices.svg";
-import { Link } from "react-router-dom";
-import { UserInfoContext } from "../../../App";
-import Pagination from "./Old_Notices/pagination";
-import { UserBookmarkContext } from "./UserBookmarkContext";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+} from 'react';
+import { Link } from 'react-router-dom';
+import CardNotice from './CardNotice';
+import './UserNoticeBoard.css';
+import UserNoticeModal from './UserNoticeModal';
+import { UserContext } from '../../../Data-fetcing';
+import logo from '../../../assets/svg/logo.svg';
+import noNotice from '../../../assets/svg/no_notices.svg';
+import Pagination from './Old_Notices/pagination';
+import { UserBookmarkContext } from './UserBookmarkContext';
 
 const UserNotice = () => {
-  const { loading, setLoading, isError, setIsError, notices, setNotices } =
-    useContext(UserContext);
+  const {
+    loading,
+    setLoading,
+    isError,
+    setIsError,
+    notices,
+    setNotices,
+  } = useContext(UserContext);
 
-  const today = new Date();
-  const date = today.getDate();
+  const orgId = localStorage.getItem('currentWorkspace');
+  // console.log(orgId, 'Miss');
 
-  // const [notices, setNotices] = useState([]);
-
-  const userData = useContext(UserInfoContext);
   // Read Organization ID
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
+  const fetchNotices = () => {
+    fetch(
+      `https://noticeboard.zuri.chat/api/v1/organisation/${orgId}/notices`,
+    )
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          res.json();
+        }
+        setLoading(false);
+        setIsError(true);
+      })
+      .then((data) => {
+        setNotices(data.data);
+        setLoading(false);
+        // console.log(data.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     fetchNotices();
   }, []);
 
-  const org_Id = localStorage.getItem("currentWorkspace");
-
-  console.log(org_Id, "Miss");
-
-  const fetchNotices = () => {
-    fetch(`https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/notices`)
-      .then((res) => {
-        if (res.status >= 200 && res.status <= 299) {
-          return res.json();
-        } else {
-          setLoading(false);
-          setIsError(true);
-        }
-      })
-      .then((data) => {
-        setNotices(data.data);
-        console.log(data.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  //Bookmarks
-  const { bookmarkDetails, setBookmarkDetails, toggleBookmark } =
-    useContext(UserBookmarkContext);
-  let user = JSON.parse(sessionStorage.getItem("user"));
+  // Bookmarks
+  const { setBookmarkDetails, toggleBookmark } = useContext(
+    UserBookmarkContext,
+  );
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const fetchBookmarked = () => {
     fetch(
-      `https://noticeboard.zuri.chat/api/v1/organisation/${org_Id}/user/${user.id}/bookmark`
+      `https://noticeboard.zuri.chat/api/v1/organisation/${orgId}/user/${user.id}/bookmark`,
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === "success") {
+        if (data.message === 'success') {
           setBookmarkDetails(data);
         }
       });
@@ -73,13 +78,16 @@ const UserNotice = () => {
 
   // For User Notice Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  let PageSize = 12;
+  const PageSize = 12;
 
   const NoticeData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
 
-    const paginatedNotice = notices.slice(firstPageIndex, lastPageIndex);
+    const paginatedNotice = notices.slice(
+      firstPageIndex,
+      lastPageIndex,
+    );
 
     return paginatedNotice;
   }, [currentPage, PageSize, notices]);
@@ -90,7 +98,7 @@ const UserNotice = () => {
       <div className="preloader">
         <img className="logo" src={logo} alt="logo" />
         <h1 className="isLoading">Loading...</h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -101,11 +109,15 @@ const UserNotice = () => {
         <img className="logo" src={logo} alt="logo" />
         <h1
           className="isError"
-          style={{ color: "red", fontSize: "1.5rem", marginTop: "100px" }}
+          style={{
+            color: 'red',
+            fontSize: '1.5rem',
+            marginTop: '100px',
+          }}
         >
           Error. Try refreshing your browser
         </h1>
-        <i className="fas fa-spinner fa-spin"></i>
+        <i className="fas fa-spinner fa-spin" />
       </div>
     );
   }
@@ -118,18 +130,22 @@ const UserNotice = () => {
         </div>
 
         <div className="no-notice">
-          <img src={noNotice} alt="no-notice" className="no-notice-img" />
+          <img
+            src={noNotice}
+            alt="no-notice"
+            className="no-notice-img"
+          />
           <h1
             className="no-new-notices"
             style={{
-              fontSize: "1rem",
-              textAlign: "center",
-              color: "#000",
-              marginTop: "20px",
+              fontSize: '1rem',
+              textAlign: 'center',
+              color: '#000',
+              marginTop: '20px',
             }}
           >
-            Hey there, You have no notice for the day, they would appear here
-            when published
+            Hey there, You have no notice for the day, they would
+            appear here when published
           </h1>
           <div className="notice-btn-div">
             <Link to="/noticeboard">
@@ -162,7 +178,7 @@ const UserNotice = () => {
         totalCount={notices.length}
         pageSize={PageSize}
         currentPage={currentPage}
-        onPageChange={(currentPage) => setCurrentPage(currentPage)}
+        onPageChange={() => setCurrentPage(currentPage)}
       />
     </div>
   );

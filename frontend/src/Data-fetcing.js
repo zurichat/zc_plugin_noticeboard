@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+/* eslint-disable react/destructuring-assignment */
+import React, { createContext, useState } from 'react';
 
 export const UserContext = createContext();
 
@@ -16,6 +17,7 @@ export const UserProvider = (props) => {
   const [toggleBookmark, setToggleBookmark] = useState(false);
 
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <UserContext.Provider
       value={{
         people,

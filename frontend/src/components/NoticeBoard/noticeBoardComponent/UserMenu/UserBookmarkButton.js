@@ -1,32 +1,32 @@
-import { useState, useEffect, useContext } from "react";
-import BookmarkIcon from "../../../../assets/bookmark-icon.svg";
-import BookmarkIconActive from "../../../../assets/bookmark-icon-active.svg";
-import { UserBookmarkContext } from "../UserBookmarkContext";
-import { DataContext } from "../../../../App";
-import axios from "axios";
-import Box from "@material-ui/core/Box";
-import ListItemText from "@material-ui/core/ListItemText";
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import BookmarkIcon from '../../../../assets/bookmark-icon.svg';
+import BookmarkIconActive from '../../../../assets/bookmark-icon-active.svg';
+import { UserBookmarkContext } from '../UserBookmarkContext';
 
 const UserBookmarkButton = ({ noticeID }) => {
+  // eslint-disable-next-line operator-linebreak
   const { bookmarkDetails, setToggleBookmark, toggleBookmark } =
     useContext(UserBookmarkContext);
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
-  let user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   const UserMenuStyle = {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
   };
 
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
   const [bookmarkedNoticeID, setBookmarkNoticeID] = useState();
+  const orgId = localStorage.getItem('currentWorkspace');
 
   useEffect(() => {
     if (bookmarkDetails) {
       const check = bookmarkDetails?.data.filter(
-        (data) => data.notice_id === noticeID
+        (data) => data.notice_id === noticeID,
       );
       setBookmarkNoticeID(check[0]);
       if (check.length !== 0) {
@@ -40,37 +40,29 @@ const UserBookmarkButton = ({ noticeID }) => {
   const bookmarkNotice = () => {
     axios
       .post(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${_globalData.Organizations[0]}/bookmark`,
+        `https://noticeboard.zuri.chat/api/v1/organisation/${orgId}/bookmark`,
         {
           notice_id: noticeID,
           user_id: user.id,
-        }
+        },
       )
-      .then((data) => {
+      .then(() => {
         setBookmarkStatus(true);
         setToggleBookmark(!toggleBookmark);
       })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      .catch((err) => err);
   };
 
   const deleteBookmarkNotice = () => {
     axios
       .delete(
-        `https://noticeboard.zuri.chat/api/v1/organisation/${_globalData.Organizations[0]}/bookmark/${bookmarkedNoticeID?._id}/delete`
+        `https://noticeboard.zuri.chat/api/v1/organisation/${orgId}/bookmark/${bookmarkedNoticeID?._id}/delete`,
       )
-      .then((data) => {
+      .then(() => {
         setBookmarkStatus(false);
         setToggleBookmark(!toggleBookmark);
       })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      .catch((err) => err);
   };
 
   const bookmarkFunction = () => {
@@ -91,12 +83,12 @@ const UserBookmarkButton = ({ noticeID }) => {
       <img
         src={bookmarkStatus ? BookmarkIconActive : BookmarkIcon}
         alt="Bookmark"
-        style={{ paddingRight: "10px" }}
+        style={{ paddingRight: '10px' }}
       />
       <span
         style={{
-          color: "#999999",
-          width: "100%",
+          color: '#999999',
+          width: '100%',
         }}
       >
         Bookmark

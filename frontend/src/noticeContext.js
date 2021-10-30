@@ -1,14 +1,23 @@
-import React, { useState, createContext } from "react";
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable max-len */
+import React, { useState, createContext } from 'react';
 
 export const SearchContext = createContext();
 
 export const SearchProvider = (props) => {
-	const [searchSuggestions, setSearchSuggestions] = useState([]);
-	const [searchingNotice, setSearchingNotice] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [searchingNotice, setSearchingNotice] = useState(false);
 
-	return (
-		<SearchContext.Provider value={[searchSuggestions, setSearchSuggestions, searchingNotice, setSearchingNotice]}>
-			{props.children}
-		</SearchContext.Provider>
-	);
+  return (
+    <SearchContext.Provider
+      value={[
+        searchSuggestions,
+        setSearchSuggestions,
+        searchingNotice,
+        setSearchingNotice,
+      ]}
+    >
+      {props.children}
+    </SearchContext.Provider>
+  );
 };
