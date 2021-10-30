@@ -42,7 +42,7 @@ function UserMenu({ noticeID }) {
     setOpenModal(true);
   };
 
-  const _globalData = useContext(DataContext);
+  c
   const { selectedNotice, setSelectedNotice } = useContext(UserContext);
   const org_id = _globalData.Organizations[0];
 

@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import "./NoticeBoardHeader.css";
 import NoticeboardIcon from "../../assets/noticeboard.svg";
 import noNotification from "../../assets/noNotification.svg";
-import { AddUsers } from "../AddUsers/AddUsers";
+// import { AddUsers } from "../AddUsers/AddUsers";
 // import AddIcon from "@material-ui/icons/Add";
 import { UserInfoContext } from "../../App";
 import { UserContext } from "../../Data-fetcing";

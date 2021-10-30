@@ -8,13 +8,11 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import CreateNotice from "./noticeBoardComponent/CreateNotice";
 import UserIntro from "../NoticeBoard/noticeBoardComponent/UserIntro component/UserIntro";
 import UserNotice from "./noticeBoardComponent/UserNoticeBoard";
-import EmailUnsubscription from "./EmailUnsubscriptionPage/EmailUnsubscription";
-import SearchResult from "./noticeBoardComponent/SearchResult";
 // import { UserContext } from "../../Data-fetcing";
 import EditNotice from "./noticeBoardComponent/EditNotice/EditNotice";
-import { DataContext } from "../../App";
+// import { DataContext } from "../../App";
 import Snackbar from "@material-ui/core/Snackbar";
-import { CentrifugoConnection } from "./real-time-connection";
+import CentrifugoConnection from "./real-time-connection";
 import BookmarkedNotices from "./noticeBoardComponent/Bookmark_Notices/bookmarked-notices"
 
 function NoticeBoard() {
@@ -22,9 +20,6 @@ function NoticeBoard() {
   const [toast, setToast] = useState(false);
   const [loader, setLoader] = useState(false);
   const [cent, setCent] = useState(false);
-
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
 
 
 
@@ -37,9 +32,6 @@ function NoticeBoard() {
     <div className="notice">
       <Header/>
       <Switch>
-        <Route exact path="/noticeboard/search">
-          <SearchResult />
-        </Route>
         <Route exact path="/noticeboard/bookmark">
           <BookmarkedNotices />
         </Route>
@@ -58,10 +50,6 @@ function NoticeBoard() {
 
         <Route exact path="/noticeboard/old-notices">
           <OldNotices />
-        </Route>
-
-        <Route exact path="/noticeboard/unsubscribe-email/:userId/:orgId">
-          <EmailUnsubscription />
         </Route>
 
         <Route exact path="/noticeboard">

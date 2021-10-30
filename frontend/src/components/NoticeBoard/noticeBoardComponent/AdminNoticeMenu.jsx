@@ -41,9 +41,9 @@ function AdminMenu({ noticeID }) {
     setOpenModal(true);
   };
 
-  const _globalData = useContext(DataContext);
+
   const { selectedNotice, setSelectedNotice } = useContext(UserContext);
-  const org_id = _globalData.Organizations[0];
+ 
 
   const handleClose = () => {
     setOpenModal(false);

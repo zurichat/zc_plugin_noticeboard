@@ -2,9 +2,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import './CreateNoticeModal.css';
-import calender from '../../../../assets/svgbx_bx-calendar.svg';
-import dropdown from '../../../../assets/svgzuridropdown.svg';
-import Clock from '../../../../assets/svgclock.svg';
+import calender from '../../../assets/svg/bx_bx-calendar.svg';
+import dropdown from '../../../assets/svg/zuridropdown.svg';
+import Clock from '../../../assets/svg/clock.svg';
 
 const CreateNoticeModal = ({ showModal, setShowModal }) => (
   <div>

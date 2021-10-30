@@ -42,7 +42,7 @@ const UserNotice = () => {
       .then((data) => {
         setNotices(data.data);
         setLoading(false);
-        // console.log(data.data);
+        console.log(data.data);
       })
       .catch((error) => {
         setLoading(false);

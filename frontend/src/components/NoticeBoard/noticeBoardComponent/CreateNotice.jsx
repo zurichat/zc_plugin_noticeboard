@@ -30,6 +30,7 @@ import ul from "./Text-editor/icons/ul.svg";
 import underline from "./Text-editor/icons/underline.svg";
 import indent from "./Text-editor/icons/indent.svg";
 import outdent from "./Text-editor/icons/outdent.svg";
+import CreateNoticeModal from "./CreateNoticeModal";
 
 import ErrorDialog from "./CreateNoticeDialogs/ErrorDialog";
 import {
@@ -82,6 +83,11 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonSubmit: {
     color: "white",
+    backgroundColor:"pink"
+  },
+  buttonSchedule: {
+    backgroundColor: "grey",
+    color: "white"
   },
 }));
 
@@ -99,6 +105,7 @@ function CreateNotice() {
     useContext(UserContext);
   const classes = useStyles();
   const { push } = useHistory();
+  const [showModal, setShowModal] = useState(false);
   const [errorTitle, setErrorTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
@@ -119,8 +126,6 @@ function CreateNotice() {
   };
 
   // Read Organization ID
-  const _globalData = useContext(DataContext);
-  const org_id = _globalData.Organizations[0];
   const should_send = true;
 
   //CREATE NOTICE API CALL STARTS
@@ -237,6 +242,7 @@ function CreateNotice() {
                   justifyContent="center"
                 >
                   <Hidden mdDown>
+                    <div style="create-notice-buttons">
                     <Button
                       type="submit"
                       variant="contained"
@@ -250,6 +256,18 @@ function CreateNotice() {
                         "Publish Notice"
                       )}
                     </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      className={classes.buttonSchedule}
+                      color="primary"
+                      style={{backgroundColor:"rgb(114, 114, 114)",
+                        color: "#fff"}}
+                      disableRipple
+                    >
+                      Schedule Notice
+                    </Button>
+                    </div>
                     <br />
                     <p>
                       <input
@@ -403,6 +421,10 @@ function CreateNotice() {
                   {errorMessage}
                 </p>
               </Box>
+
+              <Box>
+                <CreateNoticeModal />
+              </Box>
               <Hidden lgUp>
                 <Box
                   pt="20px"
@@ -412,7 +434,9 @@ function CreateNotice() {
                   flexDirection="column"
                   width="fit-content"
                   justifyContent="center"
+                  alignItems="center"
                 >
+                  <div className="create-notice-buttons">
                   <Button
                     type="submit"
                     variant="contained"
@@ -426,6 +450,18 @@ function CreateNotice() {
                       "Publish Notice"
                     )}
                   </Button>
+                  <Button
+                    variant="contained"
+                    className={classes.buttonSchedule}
+                    color="primary"
+                    disableRipple
+                    onClick={()=>{
+                      document.querySelector(".main-container").style.display="block"
+                    }}
+                  >
+                      Schedule Notice
+                  </Button>
+                  </div>
                   <br />
                   <p>
                     <input
