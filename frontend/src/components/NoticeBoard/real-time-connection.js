@@ -1,51 +1,47 @@
-import {useContext, useState} from 'react';
+import { useContext } from 'react';
+// eslint-disable-next-line import/no-unresolved
 import { SubscribeToChannel } from '@zuri/control';
-import { UserContext } from "../../Data-fetcing";
+import { UserContext } from '../../Data-fetcing';
 
 // Performs subscribing to Noticeboard room on centrifugo
 
-export const CentrifugoConnection = async() =>{
+const CentrifugoConnection = async () => {
+  const { setPeople, setNotices, setOldnotices } = useContext(UserContext);
 
-    const { setPeople, setNotices, setOldnotices } = useContext(UserContext);
+  const date = new Date();
+  const currentDate = date.getDate();
 
-    const date = new Date();
-    const currentDate = date.getDate();
+  let prevDate = null;
+  if (currentDate > 1) {
+    prevDate = currentDate - 1;
+  } else {
+    prevDate = 1;
+  }
 
-    let prevDate = null;
-    if (currentDate > 1) {
-      prevDate = currentDate - 1;
-    } else {
-      prevDate = 1;
-    }
+  SubscribeToChannel('team-aquinas-zuri-challenge-007', (ctx) => {
+    const message = ctx.data.data;
+    // console.log(ctx);
+    // console.log(message);
 
-    SubscribeToChannel("team-aquinas-zuri-challenge-007", (ctx) => {
-      const message = ctx.data.data;
-      console.log(ctx);
-      console.log(message);
+    setPeople(
+      message
+        .reverse()
+        .filter((notice) => currentDate === notice.created.slice(8, 10)),
+    );
 
-      setPeople(
-        message
-          .reverse()
-          .filter(
-            (notice) => currentDate == notice.created.slice(8, 10)
-          )
-      )
+    setOldnotices(
+      message
+        .reverse()
+        .filter((notice) => prevDate >= notice.created.slice(8, 10)),
+    );
 
-      setOldnotices(
-        message
-          .reverse()
-          .filter(
-            (notice) => prevDate >= notice.created.slice(8, 10)
-          )
-      )
-
-      setNotices(
-        message
-          // .reverse()
-          // .filter(
-          //   (notice) => prevDate >= notice.created.slice(8, 10)
-          // )
-      )
-      }
-       );
-}
+    setNotices(
+      message,
+      // .reverse()
+      // .filter(
+      //   (notice) => prevDate >= notice.created.slice(8, 10)
+      // )
+    );
+  });
+};
+export default CentrifugoConnection;

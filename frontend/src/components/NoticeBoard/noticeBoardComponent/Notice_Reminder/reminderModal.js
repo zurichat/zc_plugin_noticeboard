@@ -1,12 +1,19 @@
-import React, { useContext } from "react";
-import "./reminderModal.css";
-import closeReminderModal from "../../../../assets/closeReminder.svg";
-import { UserInfoContext } from "../../../../App.js";
+/* eslint-disable consistent-return */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable import/extensions */
+/* eslint-disable camelcase */
+import React, { useContext } from 'react';
+import './reminderModal.css';
+import closeReminderModal from '../../../../assets/closeReminder.svg';
+import { UserInfoContext } from '../../../../App.js';
 
 const rangeOfNumbers = (min, max) => {
-  let range = [];
+  const range = [];
   for (let i = min; i <= max; i++) {
-    const items = i.toLocaleString("en-US", {
+    const items = i.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false,
     });
@@ -20,7 +27,7 @@ const formatDate = (dateArray) => {
   newFormattedDate.push(dateArray[2]);
   newFormattedDate.push(dateArray[0]);
   newFormattedDate.push(dateArray[1]);
-  newFormattedDate.join("-");
+  newFormattedDate.join('-');
   return newFormattedDate;
 };
 
@@ -30,22 +37,22 @@ const ReminderModal = ({ setReminderModal, noticeID }) => {
   const UserData = useContext(UserInfoContext);
 
   const setReminder = () => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem('user'));
     const dateObject = new Date();
 
     const time_created = dateObject.toLocaleTimeString().slice(0, 8);
-    const date_created_Array = dateObject.toLocaleDateString().split("/");
+    const date_created_Array = dateObject.toLocaleDateString().split('/');
     const date_created = formatDate(date_created_Array);
-    const title = document.getElementById("title").value;
-    const date = document.getElementById("date").value;
-    const hour = document.getElementById("hours").value;
-    const minute = document.getElementById("minute").value;
+    const title = document.getElementById('title').value;
+    const date = document.getElementById('date').value;
+    const hour = document.getElementById('hours').value;
+    const minute = document.getElementById('minute').value;
     const time = `${hour}:${minute}`;
 
     const data = {
-      title: title,
-      time_created: time_created,
-      date_created: date_created,
+      title,
+      time_created,
+      date_created,
       schedule_time: time,
       schedule_date: date,
       email: UserData?.email,
@@ -54,25 +61,23 @@ const ReminderModal = ({ setReminderModal, noticeID }) => {
     };
 
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     };
 
     fetch(
-      `https://noticeboard.zuri.chat/organisation/${userData?.org_id}/create-reminder/${userData?._id}`,
-      options
+      `https://noticeboard.zuri.chat/organisation/${UserData?.org_id}/create-reminder/${UserData?._id}`,
+      options,
     )
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
-          console.log("SUCCESSFUL POST");
+          return 'SUCCESSFUL POST';
         }
       })
-      .catch((err) => {
-        console.log(err.statusText);
-      });
+      .catch((err) => err.statusText);
   };
 
   return (
@@ -117,26 +122,22 @@ const ReminderModal = ({ setReminderModal, noticeID }) => {
           <div>
             <label className="reminder-label">Time</label>
             <div className="reminder-time-container">
-              <label htmlFor="hour"></label>
+              <label htmlFor="hour" />
               <select id="hour" className="reminder-time" required>
-                {hours.map((hour, index) => {
-                  return (
-                    <option key={index} value={hour}>
-                      {hour}
-                    </option>
-                  );
-                })}
+                {hours.map((hour, index) => (
+                  <option key={index} value={hour}>
+                    {hour}
+                  </option>
+                ))}
               </select>
 
-              <label htmlFor="minute"></label>
+              <label htmlFor="minute" />
               <select id="minute" className="reminder-time" required>
-                {minutes.map((minute, index) => {
-                  return (
-                    <option key={index} value={minute}>
-                      {minute}
-                    </option>
-                  );
-                })}
+                {minutes.map((minute, index) => (
+                  <option key={index} value={minute}>
+                    {minute}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
