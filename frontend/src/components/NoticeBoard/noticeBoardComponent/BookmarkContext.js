@@ -1,4 +1,7 @@
-import { createContext, useState } from "react";
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/react-in-jsx-scope */
+import { createContext, useState } from 'react';
+
 export const BookmarkContext = createContext();
 
 const BookmarkContextProvider = (props) => {

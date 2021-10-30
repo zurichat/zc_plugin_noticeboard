@@ -1,7 +1,10 @@
-import React from "react";
-import classnames from "classnames";
-import { usePagination, DOTS } from "./usePagination";
-import "./pagination.css";
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React from 'react';
+import classnames from 'classnames';
+import { usePagination, DOTS } from './usePagination';
+import './pagination.css';
 
 const Pagination = (props) => {
   const {
@@ -27,18 +30,18 @@ const Pagination = (props) => {
     onPageChange(currentPage - 1);
   };
 
-  let lastPage = paginationRange[paginationRange.length - 1];
+  const lastPage = paginationRange[paginationRange.length - 1];
 
   if (currentPage === 0 || paginationRange.length <= 2) {
     return null;
   }
 
   return (
-    <ul className={classnames("pagination-container")}>
+    <ul className={classnames('pagination-container')}>
       {/* Left navigation arrow */}
 
       <li
-        className={classnames("pagination-item", {
+        className={classnames('pagination-item', {
           disabled: currentPage === 1,
         })}
         onClick={onPrevious}
@@ -55,7 +58,7 @@ const Pagination = (props) => {
         }
         return (
           <li
-            className={classnames("pagination-item", {
+            className={classnames('pagination-item', {
               selected: pageNumber === currentPage,
             })}
             onClick={() => onPageChange(pageNumber)}
@@ -68,7 +71,7 @@ const Pagination = (props) => {
 
       {/*  Right Navigation arrow */}
       <li
-        className={classnames("pagination-item", {
+        className={classnames('pagination-item', {
           disabled: currentPage === lastPage,
         })}
         onClick={onNext}

@@ -16,6 +16,13 @@ module.exports = {
     'react/prop-types': 'off',
     'no-underscore-dangle': 'off',
     'import/no-cycle': 'off',
-    'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
+    'linebreak-style': [
+      'error',
+      process.platform === 'win32' ? 'windows' : 'unix',
+    ],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'import/no-unresolved': 0,
+    'no-plusplus': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };
