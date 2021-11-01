@@ -53,12 +53,12 @@ jobs:
       - name: Use cached node_modules for root dir
         uses: c-hive/gha-yarn-cache@v2
         with:
-         directory: backend/notice_project/frontend
+         directory: frontend
      
       - name: install Dependencies
         run: |
           yarn install
-          cd backend/notice_project/frontend/
+          cd frontend
           yarn
           yarn build
 
@@ -79,6 +79,7 @@ jobs:
               cd /var/www/zc_plugin_noticeboard/backend/notice_project
               source venv/bin/activate
               git stash
+              git clean -f
               git pull origin development
               git branch -r
               cd /var/www/zc_plugin_noticeboard/backend/notice_project
@@ -101,12 +102,12 @@ jobs:
        - name: Use cached node_modules for root dir
          uses: c-hive/gha-yarn-cache@v2
          with:
-            directory: backend/notice_project/frontend
+            directory: frontend
      
        - name: install Dependencies
          run: |
           yarn install
-          cd backend/notice_project/frontend/
+          cd frontend/
           yarn
           yarn build
 
@@ -125,8 +126,8 @@ jobs:
               host: ${{ secrets.HOST }}
               username: ${{ secrets.USERNAME }}
               password: ${{ secrets.PASSWORD }}
-              localPath: './backend/notice_project/frontend/dist'
-              remotePath: '/var/www/zc_plugin_noticeboard/backend/notice_project/frontend/dist'
+              localPath: './frontend/dist'
+              remotePath: '/var/www/zc_plugin_noticeboard/frontend/dist'
 
        - name: collect static and restart gunicorn
          uses: appleboy/ssh-action@master
