@@ -1,0 +1,307 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.schedule_notice_main_container{
+    width: 100%;
+    height: 100%;
+    background-color: hsla(252, 44%, 9%, 0.5);
+}
+
+.schedule-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 700px;
+    height: fit-content;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 24px;
+}
+
+.text-car{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: -20px;
+
+}
+.schedule-notice{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 8px;
+    width: 100vh;
+
+}
+
+.schedule-notice> h5{
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 0.5;
+}
+
+.schedule-notice> p{
+    font-size: 10px;
+    opacity: .5;
+}
+
+.time-zone{
+    display: flex;
+    position: relative;
+    position: relative;
+    left: 90px;
+}
+.time-zone>p{
+    padding-right: 30px;
+    font-size: 11px;
+    position: relative;
+    left: 10px;
+    top: 3px;
+}
+
+.gmt{
+    width: 160px;
+    height: 30px;
+    background-color: hsla(0, 0%, 98%, 1);
+    font-size: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -5px;
+    right: -5px;
+    border-radius: 3px;
+}
+
+.gmt>img{
+    width: 12px;
+    height: 12px;
+}
+.gmt>p{
+    padding-right: 20px;
+    font-size: 10px;
+}
+
+.box-bars{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+    left: -40px;
+    font-size: 12px;
+}
+
+.calender{
+    display: flex;
+    align-items: center;
+    width: 370px;
+    height: 48px;
+    background-color: white;
+    border: 1px solid hsla(0, 0%, 90%, 1);
+    position: relative;
+    left: 25px;
+    border-radius: 3px;
+}
+
+.calender>.calender2{
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 100%;
+}
+
+.calender>.dropdown{
+    position: relative;
+    left: 80%;
+    width: 14px;
+    height: 100%;
+}
+
+.calender>p{
+    position: relative;
+    left: 38px;
+    color: hsla(0, 0%, 60%, 1);
+}
+
+.time{
+    width: 260px;
+    height: 48px;
+    background-color: white;
+    position: relative;
+    left: 55px;
+    align-items: center;
+    border: 1px solid hsla(0, 0%, 90%, 1);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.time>p{
+    position: relative;
+    left: 38px;
+    color: hsla(0, 0%, 60%, 1);
+}
+
+.time>.clock{
+    position: absolute;
+    left: 12px;
+    width: 16px;
+    height: 100%;
+}
+
+.time>.dropdown2{
+    position: relative;
+    left: 80%;
+    width: 14px;
+    height: 100%;
+}
+
+
+.last-bar{
+    display: flex;
+    position: relative;
+    left: 190px;
+    top: 15px;
+    font-size: 10px;
+    color: white;
+}
+
+.cancel{
+    width: 130px;
+    height: 46px;
+    background-color:hsla(0, 0%, 97%, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    color: #999999;
+    position: relative;
+    right: 30px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.cancel:hover{
+    background-color:rgb(114, 114, 114);
+    color: #fff
+}
+
+.schedule-notice2{
+    width: 180px;
+    height: 46px;
+    background-color: hsla(160, 100%, 37%, 1);
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    position: relative;
+    right: 30px;
+    box-shadow: 0 3px 12px rgba(0, 187, 125, 0.068) ;
+    border-radius: 3px;
+}
+
+
+@media(max-width: 768px){
+    .schedule-container{
+        display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+       gap: 20px;
+       width: 300px;
+       height: 400px;
+       background-color: white;
+        position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+   }
+
+   .schedule-notice{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    text-align: left;
+    top: 20px;
+    left: 20px;
+    width: 250px;
+    line-height: 1.5;
+    }
+
+    .schedule-notice> h5{
+        font-size: 16px;
+    }
+
+    .box-bars{
+        margin-top: 15px;
+    }
+
+    .calender{
+        width: 270px;
+        height: 35px;
+        background-color: white;
+        border: 1px solid hsla(0, 0%, 90%, 1);
+        position: relative;
+        left: 175px;
+        bottom: 70px;
+        border-radius: 3px;
+    }
+
+    .calender>.dropdown{
+        position: relative;
+        left: 78%;
+    }
+
+    .gmt{
+        visibility: hidden;
+    }
+
+    .time-zone{
+        visibility: hidden;
+    }
+
+    .time{
+        width: 270px;
+        height: 35px;
+        background-color: white;
+        position: relative;
+        left: -95px;
+        align-items: center;
+        border: 1px solid hsla(0, 0%, 90%, 1);
+        border-radius: 3px;
+    }
+
+    .last-bar{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap-reverse;
+        position: relative;
+        left: 20px;
+        top: 45px;
+        font-size: 10px;
+        color: white;
+    }
+
+    .cancel{
+        padding: 10px 20px;
+    }
+
+    .schedule-notice2{
+        padding: 10px 20px;
+
+    }
+
+}

@@ -4,14 +4,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 // eslint-disable-next-line import/no-cycle
-import ZuriGlobalHeader from './components/NoticeBoard/NoticeBoardHeader';
+import ZuriGlobalHeader from './Noticeboard/NoticeBoardHeader';
 // eslint-disable-next-line import/no-cycle
-import NoticeBoard from './components/NoticeBoard/NoticeBoard';
+import NoticeBoard from './NoticeBoard/NoticeBoard';
 // import { GetUserInfo } from "@zuri/control";
-import { UserProvider } from './Data-fetcing';
-import { SearchProvider } from './noticeContext';
-import BookmarkContextProvider from './components/NoticeBoard/noticeBoardComponent/BookmarkContext';
-import UserBookmarkContextProvider from './components/NoticeBoard/noticeBoardComponent/UserBookmarkContext';
+import { UserProvider } from './Context/Data-fetcing'
+import BookmarkContextProvider from './Context/BookmarkContext';
+import UserBookmarkContextProvider from './Context/UserBookmarkContext';
 
 // For testing purposes
 
@@ -57,11 +56,10 @@ function App() {
     <Router basename="/noticeboard">
       <UserInfoContext.Provider value={userData}>
         <UserProvider>
-          <SearchProvider>
             <div className="App">
               <div className="app__body">
                 <span className="app__bodyFlex">
-                  <ZuriGlobalHeader />
+                    <ZuriGlobalHeader />
                   <BookmarkContextProvider>
                     <UserBookmarkContextProvider>
                       <NoticeBoard />
@@ -70,7 +68,6 @@ function App() {
                 </span>
               </div>
             </div>
-          </SearchProvider>
         </UserProvider>
       </UserInfoContext.Provider>
     </Router>
