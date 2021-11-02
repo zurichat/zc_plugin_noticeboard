@@ -6,9 +6,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 // eslint-disable-next-line import/no-cycle
 import ZuriGlobalHeader from './Noticeboard/NoticeBoardHeader';
 // eslint-disable-next-line import/no-cycle
-import NoticeBoard from './NoticeBoard/NoticeBoard';
+import NoticeBoard from './Noticeboard/NoticeBoardBody';
 // import { GetUserInfo } from "@zuri/control";
-import { UserProvider } from './Context/Data-fetcing'
+import { UserProvider } from './Context/Data-fetcing';
 import BookmarkContextProvider from './Context/BookmarkContext';
 import UserBookmarkContextProvider from './Context/UserBookmarkContext';
 
@@ -56,18 +56,18 @@ function App() {
     <Router basename="/noticeboard">
       <UserInfoContext.Provider value={userData}>
         <UserProvider>
-            <div className="App">
-              <div className="app__body">
-                <span className="app__bodyFlex">
-                    <ZuriGlobalHeader />
-                  <BookmarkContextProvider>
-                    <UserBookmarkContextProvider>
-                      <NoticeBoard />
-                    </UserBookmarkContextProvider>
-                  </BookmarkContextProvider>
-                </span>
-              </div>
+          <div className="App">
+            <div className="app__body">
+              <span className="app__bodyFlex">
+                <ZuriGlobalHeader />
+                <BookmarkContextProvider>
+                  <UserBookmarkContextProvider>
+                    <NoticeBoard />
+                  </UserBookmarkContextProvider>
+                </BookmarkContextProvider>
+              </span>
             </div>
+          </div>
         </UserProvider>
       </UserInfoContext.Provider>
     </Router>
