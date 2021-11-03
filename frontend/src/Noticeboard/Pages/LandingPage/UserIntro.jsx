@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import "./UserIntro.css";
-import defaultEdit from "./default.svg";
-import { IntroPMobileStyles } from "./styledComponents/IntroPMobileStyles";
-import Illustration from "../../../assets/Illustration.svg";
-import { UserInfoContext } from "../../../App";
+/* eslint-disable react/button-has-type */
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import './UserIntro.css';
+import defaultEdit from './default.svg';
+import { IntroPMobileStyles } from './styledComponents/IntroPMobileStyles';
+import Illustration from '../../../assets/Illustration.svg';
+import { UserInfoContext } from '../../../App';
 // import Subscription from '../../EmailSubscribe/Subscription'
 
 const UserIntro = () => {
@@ -26,11 +27,11 @@ const UserIntro = () => {
           </IntroPMobileStyles>
           <Link
             to={
-              userData?.role === "owner"
-                ? "/noticeboard/user-notice"
-                : "/noticeboard/user-notice"
+              userData?.role === 'owner'
+                ? '/noticeboard/admin-notice'
+                : '/noticeboard/user-notice'
             }
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: 'none' }}
           >
             <button className="view-notice-btn-userIntro" label="View Notice">
               <span className="view-notice-btn">View Notice</span>
