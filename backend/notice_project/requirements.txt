@@ -15,6 +15,7 @@ coreschema==0.0.4
 coverage==6.0.1
 distlib==0.3.3
 Django==3.2.6
+django-environ==0.8.1
 django-cors-headers==3.8.0
 django-environ==0.4.5
 djangorestframework==3.12.4
