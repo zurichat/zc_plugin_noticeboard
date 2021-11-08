@@ -15,6 +15,7 @@ import os
 # import sys
 
 import environ
+from django.core.management.commands.runserver import Command as runserver
 
 env = environ.Env(
     # set casting, default value
@@ -27,8 +28,8 @@ environ.Env.read_env()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 NOTICE_PROJECT_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ENV_PATH = os.path.join(NOTICE_PROJECT_DIR, '.env')
 
 print(BASE_DIR)
 
@@ -65,6 +66,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+runserver.default_port = "22670"
 
 ROOT_URLCONF = "noticeboard.urls"
 

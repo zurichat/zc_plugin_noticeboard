@@ -1,17 +1,20 @@
 from .base import *
+from django.core.management.commands.runserver import Command as runserver
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "159.65.123.65",
+    "178.63.43.138",
     "127.0.0.1",
     "localhost",
     "noticeboard.zuri.chat",
+    "staging.zuri.chat",
     "*",
 ]
 
+runserver.default_port = "22670"
 
 # installed app for development
 INSTALLED_APPS += []
