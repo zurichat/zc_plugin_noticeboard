@@ -1,27 +1,29 @@
 from .base import *
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost', 'noticeboard.zuri.chat']
-
-
-#installed app for development
-INSTALLED_APPS +=[
-    
+ALLOWED_HOSTS = [
+    "159.65.123.65",
+    "127.0.0.1",
+    "localhost",
+    "noticeboard.zuri.chat",
+    "*",
 ]
 
 
-#installed middleware for development
-MIDDLEWARE += [
+# installed app for development
+INSTALLED_APPS += []
 
-]
 
-#sqlite database for development
+# installed middleware for development
+MIDDLEWARE += []
+
+# sqlite database for development
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
