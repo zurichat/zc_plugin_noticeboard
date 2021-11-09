@@ -131,7 +131,7 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../../../test_root_config/dist"),
-    os.path.join(NOTICE_PROJECT_DIR, "frontend/dist"),
+    os.path.join(BASE_DIR, "../../../frontend/dist"),
 ]
 
 STATIC_ROOT = os.path.join(NOTICE_PROJECT_DIR, "static")
