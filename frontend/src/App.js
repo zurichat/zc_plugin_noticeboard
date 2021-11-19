@@ -7,7 +7,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import ZuriGlobalHeader from './Noticeboard/NoticeBoardHeader';
 // eslint-disable-next-line import/no-cycle
 import NoticeBoard from './Noticeboard/NoticeBoardBody';
-// import { GetUserInfo } from "@zuri/control";
 import { UserProvider } from './Context/Data-fetcing';
 import BookmarkContextProvider from './Context/BookmarkContext';
 import UserBookmarkContextProvider from './Context/UserBookmarkContext';

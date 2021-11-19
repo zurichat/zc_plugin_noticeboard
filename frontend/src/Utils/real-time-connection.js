@@ -1,6 +1,7 @@
+/* eslint-disable linebreak-style */
 import { useContext } from 'react';
 // eslint-disable-next-line import/no-unresolved
-import { SubscribeToChannel } from '@zuri/control';
+import { SubscribeToChannel } from '@zuri/utilities';
 import { UserContext } from '../Context/Data-fetcing';
 
 // Performs subscribing to Noticeboard room on centrifugo
@@ -21,19 +22,19 @@ const CentrifugoConnection = async () => {
   SubscribeToChannel('team-aquinas-zuri-challenge-007', (ctx) => {
     const message = ctx.data.data;
 
-      if(message === null){
-        setPeople([])
-      }else{
-        setPeople(
+    if (message === null) {
+      setPeople([]);
+    } else {
+      setPeople(
         message
           .reverse()
-          .filter((notice) => currentDate === notice.created.slice(8, 10))
-        )
-      }
-   
-    if(message === null){
-      setOldnotices([])
-    }else{
+          .filter((notice) => currentDate === notice.created.slice(8, 10)),
+      );
+    }
+
+    if (message === null) {
+      setOldnotices([]);
+    } else {
       setOldnotices(
         message
           .reverse()
